@@ -69,9 +69,7 @@ public sealed class VBStaminaComponent : Component, PlayerController.IEvents
 
 		_controller ??= Components.Get<PlayerController>();
 
-		bool wantsSprint = _controller is not null
-			&& _controller.Mode is MoveModeWalk
-			&& WantsSprint( _controller, Input.AnalogMove );
+		bool wantsSprint = IsSprintRequested();
 
 		IsSprinting = wantsSprint && CanSprint;
 
@@ -102,9 +100,7 @@ public sealed class VBStaminaComponent : Component, PlayerController.IEvents
 		if ( _controller.RunSpeed > _controller.WalkSpeed )
 			_nativeRunSpeed = MathF.Max( _nativeRunSpeed, _controller.RunSpeed );
 
-		bool blockSprint = _controller.Mode is MoveModeWalk
-			&& WantsSprint( _controller, Input.AnalogMove )
-			&& !CanSprint;
+		bool blockSprint = IsSprintRequested() && !CanSprint;
 
 		_controller.RunSpeed = blockSprint
 			? _controller.WalkSpeed
@@ -127,6 +123,19 @@ public sealed class VBStaminaComponent : Component, PlayerController.IEvents
 			&& Input.Down( controller.AltMoveButton );
 
 		return controller.RunByDefault ? !altMoveDown : altMoveDown;
+	}
+
+	/// <summary>
+	/// Indique si le joueur demande actuellement une course compatible avec son mode de mouvement.
+	/// La disponibilité de l'endurance reste exprimée séparément par CanSprint.
+	/// </summary>
+	public bool IsSprintRequested()
+	{
+		_controller ??= Components.Get<PlayerController>();
+
+		return _controller is not null
+			&& _controller.Mode is MoveModeWalk
+			&& WantsSprint( _controller, Input.AnalogMove );
 	}
 
 	public bool TrySpend( float amount )

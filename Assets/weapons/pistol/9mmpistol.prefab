@@ -23,6 +23,8 @@
         "EnableFirstPersonAimZoom": true,
         "EnableThirdPersonAimZoom": true,
         "FirstPersonAimFieldOfViewReduction": 3,
+        "FirstPersonAimPositionOffset": "0,0,0",
+        "FirstPersonAimRotationOffset": "0,0,0",
         "AimTransitionSpeed": 12,
         "ThirdPersonAimFieldOfViewReduction": 10,
         "AttackSound": "sounds/weapons/9mmpistol/fire.sound",

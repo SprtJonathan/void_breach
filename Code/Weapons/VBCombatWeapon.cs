@@ -24,6 +24,19 @@ public sealed class VBCombatWeapon : BaseCombatWeapon
 	public float FirstPersonAimFieldOfViewReduction { get; set; } = 3f;
 
 	/// <summary>
+	/// Correction locale appliquée au viewmodel pendant l'ADS.
+	/// X avance l'arme, Y la déplace vers la gauche et Z la monte à l'écran.
+	/// </summary>
+	[Property, Group( "Aim Down Sights - First Person" )]
+	public Vector3 FirstPersonAimPositionOffset { get; set; } = Vector3.Zero;
+
+	/// <summary>
+	/// Correction angulaire locale appliquée au viewmodel pendant l'ADS.
+	/// </summary>
+	[Property, Group( "Aim Down Sights - First Person" )]
+	public Angles FirstPersonAimRotationOffset { get; set; } = Angles.Zero;
+
+	/// <summary>
 	/// Active ou désactive indépendamment le zoom de caméra en vue TPS.
 	/// </summary>
 	[Property, Group( "Aim Down Sights - Third Person" )]
@@ -84,7 +97,10 @@ public sealed class VBCombatWeapon : BaseCombatWeapon
 	{
 		base.Think();
 
-		_wantsToAim = IsHeld && !IsReloading && Input.Down( "Attack2" );
+		_wantsToAim = IsHeld
+			&& !IsReloading
+			&& Input.Down( "Attack2" )
+			&& !IsOwnerSprinting();
 		var target = _wantsToAim ? 1f : 0f;
 		var transition = Math.Clamp( AimTransitionSpeed * Time.Delta, 0f, 1f );
 
@@ -156,6 +172,16 @@ public sealed class VBCombatWeapon : BaseCombatWeapon
 	protected override void PlaceViewModel( CameraComponent camera, in CameraView view )
 	{
 		base.PlaceViewModel( camera, in view );
+
+		if ( ViewModel.IsValid() && _aimAmount > 0f )
+		{
+			ViewModel.WorldPosition += camera.WorldRotation
+				* (FirstPersonAimPositionOffset * _aimAmount);
+
+			var aimRotation = Rotation.From( FirstPersonAimRotationOffset );
+			ViewModel.WorldRotation *= Rotation.Slerp( Rotation.Identity, aimRotation, _aimAmount );
+		}
+
 		UpdateViewModelAimParameters();
 	}
 
@@ -264,6 +290,19 @@ public sealed class VBCombatWeapon : BaseCombatWeapon
 		// Les armes first-person Facepunch utilisent cet enum public pour
 		// passer de la pose à la hanche (0) à la mire métallique (1).
 		renderer.Set( "ironsights", _wantsToAim ? 1 : 0 );
+	}
+
+	private bool IsOwnerSprinting()
+	{
+		if ( !Owner.IsValid() )
+			return false;
+
+		var stamina = Owner.Components.Get<VBStaminaComponent>();
+		if ( !stamina.IsValid() )
+			return false;
+
+		return stamina.IsSprinting
+			|| (stamina.CanSprint && stamina.IsSprintRequested());
 	}
 
 	private SkinnedModelRenderer GetFirstPersonWeaponRenderer()

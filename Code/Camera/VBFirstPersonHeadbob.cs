@@ -23,13 +23,13 @@ public sealed class VBFirstPersonHeadbob : Component, PlayerController.IEvents
 	/// Amplitude du balancement gauche/droite, en unités s&box.
 	/// </summary>
 	[Property, Group( "Position" ), Range( 0f, 3f ), Step( 0.05f )]
-	public float HorizontalAmplitude { get; set; } = 0.35f;
+	public float HorizontalAmplitude { get; set; } = 0.2f;
 
 	/// <summary>
 	/// Amplitude du déplacement haut/bas, en unités s&box.
 	/// </summary>
 	[Property, Group( "Position" ), Range( 0f, 3f ), Step( 0.05f )]
-	public float VerticalAmplitude { get; set; } = 0.6f;
+	public float VerticalAmplitude { get; set; } = 0.3f;
 
 	/// <summary>
 	/// Active les faibles rotations qui accompagnent chaque pas.
@@ -38,31 +38,37 @@ public sealed class VBFirstPersonHeadbob : Component, PlayerController.IEvents
 	public bool EnableRotationBob { get; set; } = true;
 
 	[Property, Group( "Rotation" ), Range( 0f, 2f ), Step( 0.05f )]
-	public float PitchAmplitude { get; set; } = 0.12f;
+	public float PitchAmplitude { get; set; } = 0.05f;
 
 	[Property, Group( "Rotation" ), Range( 0f, 2f ), Step( 0.05f )]
-	public float YawAmplitude { get; set; } = 0.1f;
+	public float YawAmplitude { get; set; } = 0.04f;
 
 	[Property, Group( "Rotation" ), Range( 0f, 2f ), Step( 0.05f )]
-	public float RollAmplitude { get; set; } = 0.2f;
+	public float RollAmplitude { get; set; } = 0.12f;
 
 	/// <summary>
 	/// Nombre de cycles de marche par seconde.
 	/// </summary>
 	[Property, Group( "Rhythm" ), Range( 0.25f, 4f ), Step( 0.05f )]
-	public float WalkFrequency { get; set; } = 1.7f;
+	public float WalkFrequency { get; set; } = 0.9f;
+
+	/// <summary>
+	/// Part du rythme de marche conservée aux vitesses très faibles.
+	/// </summary>
+	[Property, Group( "Rhythm" ), Range( 0.1f, 1f ), Step( 0.05f )]
+	public float LowSpeedFrequencyMultiplier { get; set; } = 0.55f;
 
 	/// <summary>
 	/// Accélération du rythme lorsque la vitesse approche celle de course.
 	/// </summary>
 	[Property, Group( "Rhythm" ), Range( 1f, 2.5f ), Step( 0.05f )]
-	public float RunFrequencyMultiplier { get; set; } = 1.3f;
+	public float RunFrequencyMultiplier { get; set; } = 1.6f;
 
 	/// <summary>
 	/// Renforcement du mouvement lorsque la vitesse approche celle de course.
 	/// </summary>
 	[Property, Group( "Rhythm" ), Range( 1f, 2.5f ), Step( 0.05f )]
-	public float RunAmplitudeMultiplier { get; set; } = 1.15f;
+	public float RunAmplitudeMultiplier { get; set; } = 2f;
 
 	/// <summary>
 	/// Vitesse horizontale minimale avant le début du headbob.
@@ -74,13 +80,13 @@ public sealed class VBFirstPersonHeadbob : Component, PlayerController.IEvents
 	/// Rapidité avec laquelle l'effet apparaît et revient au repos.
 	/// </summary>
 	[Property, Group( "Response" ), Range( 1f, 30f ), Step( 0.5f )]
-	public float BlendSpeed { get; set; } = 10f;
+	public float BlendSpeed { get; set; } = 8f;
 
 	/// <summary>
 	/// Part d'amplitude conservée lorsque l'arme atteint complètement l'ADS.
 	/// </summary>
 	[Property, Group( "Response" ), Range( 0f, 1f ), Step( 0.05f )]
-	public float AimAmplitudeScale { get; set; } = 0.3f;
+	public float AimAmplitudeScale { get; set; } = 0.2f;
 
 	private BaseInventoryComponent _inventory;
 	private float _phase;
@@ -125,7 +131,14 @@ public sealed class VBFirstPersonHeadbob : Component, PlayerController.IEvents
 			return;
 
 		var runAmount = InverseLerpClamped( walkSpeed, runSpeed, horizontalSpeed );
-		var frequency = WalkFrequency * MathX.Lerp( 1f, RunFrequencyMultiplier, runAmount );
+		var walkFrequencyScale = MathX.Lerp(
+			LowSpeedFrequencyMultiplier,
+			1f,
+			targetStrength
+		);
+		var frequency = WalkFrequency
+			* walkFrequencyScale
+			* MathX.Lerp( 1f, RunFrequencyMultiplier, runAmount );
 		_phase = WrapPhase( _phase + deltaTime * frequency * MathF.PI * 2f );
 
 		var aimScale = GetAimScale();
