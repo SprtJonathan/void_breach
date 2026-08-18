@@ -1,0 +1,194 @@
+@using System
+@using System.Linq
+@using Sandbox
+@using Sandbox.UI
+@inherits PanelComponent
+
+@{
+	var health = Health;
+	var armor = Armor;
+	var stamina = Stamina;
+	var isLocalHud = IsLocalHud;
+
+	float startingHealth = MathF.Max( 1f, health?.StartingHardMaxHealth ?? 100f );
+	float hardPercent = Percent( health?.HardMaxHealth ?? 0f, startingHealth );
+	float softPercent = Percent( health?.SoftMaxHealth ?? 0f, startingHealth );
+	float currentPercent = Percent( health?.CurrentHealth ?? 0f, startingHealth );
+	float armorPercent = Percent( armor?.CurrentArmor ?? 0f, armor?.MaxArmor ?? 0f );
+	float staminaPercent = Percent( stamina?.CurrentStamina ?? 0f, stamina?.MaxStamina ?? 0f );
+
+	bool isDowned = health?.IsDowned ?? false;
+	bool isDead = health?.IsDead ?? false;
+	bool isExhausted = stamina?.IsExhausted ?? false;
+	bool showStamina = stamina is not null && stamina.CurrentStamina < stamina.MaxStamina;
+	bool showArmor = armor is not null && armor.CurrentArmor > 0f;
+}
+
+<root class="@RootClass">
+	@if ( !isLocalHud )
+	{
+	}
+	else if ( health is null )
+	{
+		<div class="missing-player">
+			<label>#vb.hud.initializing</label>
+		</div>
+	}
+	else
+	{
+		<div class="vitals-block">
+			<div class="stamina-slot">
+				@if ( showStamina )
+				{
+					<div class="readout stamina-readout @(isExhausted ? "exhausted" : "")">
+						<div class="readout-header">
+							<label class="readout-icon">»</label>
+							<label class="readout-title">#vb.hud.stamina</label>
+							<label class="readout-value">@Whole( stamina.CurrentStamina )</label>
+						</div>
+						<div class="resource-track">
+							<div class="stamina-fill" style="width: @(staminaPercent)%;"></div>
+						</div>
+						@if ( isExhausted )
+						{
+							<label class="resource-warning">#vb.hud.exhausted</label>
+						}
+					</div>
+				}
+			</div>
+
+			<div class="bottom-row">
+				<div class="readout health-readout">
+					<div class="readout-header">
+						<label class="readout-icon">+</label>
+						<label class="readout-title">#vb.hud.health</label>
+						<label class="readout-value">@Whole( health.CurrentHealth )</label>
+					</div>
+					<div class="health-track">
+						<div class="hard-max" style="width: @(hardPercent)%;"></div>
+						<div class="soft-max" style="width: @(softPercent)%;"></div>
+						<div class="current-health" style="width: @(currentPercent)%;"></div>
+					</div>
+				</div>
+
+				@if ( showArmor )
+				{
+					<div class="readout armor-readout">
+						<div class="readout-header">
+							<label class="readout-icon">◇</label>
+							<label class="readout-title">#vb.hud.armor</label>
+							<label class="readout-value">@Whole( armor.CurrentArmor )</label>
+						</div>
+						<div class="resource-track">
+							<div class="armor-fill" style="width: @(armorPercent)%;"></div>
+						</div>
+					</div>
+				}
+			</div>
+		</div>
+
+		@if ( isDowned )
+		{
+			<div class="state-overlay downed-overlay">
+				<label class="state-title">#vb.hud.critical</label>
+				<label class="state-detail">#vb.hud.stabilization_required</label>
+				<div class="bleedout-track">
+					<div class="bleedout-fill" style="width: @(hardPercent)%;"></div>
+				</div>
+				<label class="state-value">@Whole( health.HardMaxHealth )</label>
+			</div>
+		}
+
+		@if ( isDead )
+		{
+			<div class="state-overlay dead-overlay">
+				<label class="state-title">#vb.hud.signal_lost</label>
+				<label class="state-detail">#vb.hud.subject_deceased</label>
+			</div>
+		}
+
+		<VBAmmoHud Player=@(LocalPlayer) IsSuppressed=@(isDowned || isDead) />
+	}
+</root>
+
+@code
+{
+	[Property]
+	public GameObject Player { get; set; }
+
+	private bool IsLocalHud => Player.IsValid() ? !Player.IsProxy : !IsProxy;
+
+	private GameObject LocalPlayer
+	{
+		get
+		{
+			if ( !IsLocalHud )
+				return null;
+
+			if ( Player.IsValid() )
+				return Player;
+
+			return Scene?
+				.GetAll<VBHealthComponent>()
+				.FirstOrDefault( component => !component.IsProxy )
+				?.GameObject;
+		}
+	}
+
+	private VBHealthComponent Health => LocalPlayer?.Components.Get<VBHealthComponent>();
+	private VBArmorComponent Armor => LocalPlayer?.Components.Get<VBArmorComponent>();
+	private VBStaminaComponent Stamina => LocalPlayer?.Components.Get<VBStaminaComponent>();
+
+	private string RootClass
+	{
+		get
+		{
+			if ( !IsLocalHud )
+				return "remote";
+
+			if ( Health?.IsDead ?? false )
+				return "dead";
+
+			if ( Health?.IsDowned ?? false )
+				return "downed";
+
+			return string.Empty;
+		}
+	}
+
+	private static float Percent( float value, float maximum )
+	{
+		if ( maximum <= 0f )
+			return 0f;
+
+		return Math.Clamp( value / maximum * 100f, 0f, 100f );
+	}
+
+	private static int Whole( float value ) => (int)MathF.Ceiling( MathF.Max( 0f, value ) );
+
+	protected override int BuildHash()
+	{
+		var hash = new HashCode();
+		var health = Health;
+		var armor = Armor;
+		var stamina = Stamina;
+		var weapon = LocalPlayer?
+			.Components.Get<BaseInventoryComponent>()?
+			.ActiveItem as BaseCombatWeapon;
+
+		hash.Add( Player?.Id ?? Guid.Empty );
+		hash.Add( IsLocalHud );
+		hash.Add( health?.CurrentHealth ?? -1f );
+		hash.Add( health?.SoftMaxHealth ?? -1f );
+		hash.Add( health?.HardMaxHealth ?? -1f );
+		hash.Add( health?.IsDowned ?? false );
+		hash.Add( health?.IsDead ?? false );
+		hash.Add( armor?.CurrentArmor ?? -1f );
+		hash.Add( armor?.MaxArmor ?? -1f );
+		hash.Add( stamina?.CurrentStamina ?? -1f );
+		hash.Add( stamina?.MaxStamina ?? -1f );
+		hash.Add( stamina?.IsExhausted ?? false );
+		hash.Add( weapon?.Id ?? Guid.Empty );
+		return hash.ToHashCode();
+	}
+}

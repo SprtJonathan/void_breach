@@ -1,0 +1,15 @@
+{
+  "vb.hud.initializing": "INITIALISATION BIOMÉTRIQUE",
+  "vb.hud.health": "INTÉGRITÉ",
+  "vb.hud.armor": "ARMURE",
+  "vb.hud.stamina": "ENDURANCE",
+  "vb.hud.ammunition": "MUNITIONS",
+  "vb.hud.reloading": "RECHARGEMENT",
+  "vb.hud.empty": "VIDE",
+  "vb.hud.low_ammo": "MUNITIONS FAIBLES",
+  "vb.hud.exhausted": "ÉPUISÉ",
+  "vb.hud.critical": "ÉTAT CRITIQUE",
+  "vb.hud.stabilization_required": "STABILISATION REQUISE",
+  "vb.hud.signal_lost": "SIGNAL PERDU",
+  "vb.hud.subject_deceased": "SUJET DÉCÉDÉ"
+}

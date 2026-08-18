@@ -1,0 +1,256 @@
+VBMasterHud {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	font-family: Roboto Mono;
+	color: #f3a43b;
+	pointer-events: none;
+
+	&.remote {
+		display: none;
+	}
+
+	.vitals-block {
+		position: absolute;
+		left: 44px;
+		bottom: 38px;
+		width: 480px;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.bottom-row {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		gap: 8px;
+	}
+
+	.stamina-slot {
+		width: 236px;
+		height: 76px;
+		display: flex;
+	}
+
+	.readout {
+		position: relative;
+		width: 236px;
+		height: 76px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		padding: 10px 12px;
+		background-color: rgba(10, 13, 12, 0.82);
+		border-left: 3px solid rgba(243, 164, 59, 0.9);
+		box-shadow: 0 0 18px rgba(0, 0, 0, 0.7);
+		opacity: 1;
+		transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+
+		&:intro {
+			opacity: 0;
+			transform: translateY( 8px );
+		}
+
+		&:outro {
+			opacity: 0;
+			transform: translateY( 8px );
+		}
+	}
+
+	.readout-header {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.readout-icon {
+		width: 24px;
+		font-size: 23px;
+		font-weight: 800;
+		text-align: center;
+		text-shadow: 0 0 8px rgba(243, 164, 59, 0.6);
+	}
+
+	.readout-title {
+		flex-grow: 1;
+		font-size: 13px;
+		font-weight: 700;
+		letter-spacing: 2px;
+		opacity: 0.82;
+	}
+
+	.readout-value {
+		min-width: 54px;
+		font-size: 27px;
+		font-weight: 800;
+		text-align: right;
+		text-shadow: 0 0 10px rgba(243, 164, 59, 0.45);
+	}
+
+	.health-track,
+	.resource-track,
+	.bleedout-track {
+		position: relative;
+		width: 100%;
+		height: 10px;
+		margin-top: 7px;
+		overflow: hidden;
+		background-color: rgba(0, 0, 0, 0.68);
+		border: 1px solid rgba(243, 164, 59, 0.28);
+	}
+
+	.health-track {
+		height: 14px;
+	}
+
+	.hard-max,
+	.soft-max,
+	.current-health,
+	.armor-fill,
+	.stamina-fill,
+	.bleedout-fill {
+		position: absolute;
+		left: 0;
+		top: 0;
+		height: 100%;
+		transition: width 0.16s ease-out;
+	}
+
+	.hard-max {
+		background-color: rgba(117, 45, 24, 0.9);
+	}
+
+	.soft-max {
+		background-color: rgba(204, 103, 36, 0.86);
+	}
+
+	.current-health {
+		background-color: #f3a43b;
+		box-shadow: 0 0 9px rgba(243, 164, 59, 0.72);
+	}
+
+	.armor-fill {
+		background-color: #e7c77d;
+		box-shadow: 0 0 8px rgba(231, 199, 125, 0.55);
+	}
+
+	.stamina-fill {
+		background-color: #b7c56a;
+		box-shadow: 0 0 8px rgba(183, 197, 106, 0.45);
+	}
+
+	.health-limits {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		margin-top: 4px;
+		font-size: 10px;
+		font-weight: 700;
+		letter-spacing: 1px;
+		opacity: 0.58;
+	}
+
+	.resource-warning {
+		position: absolute;
+		right: 12px;
+		bottom: 1px;
+		color: #ff7048;
+		font-size: 9px;
+		font-weight: 800;
+		letter-spacing: 1px;
+		text-align: right;
+	}
+
+	.exhausted {
+		border-left-color: #ff7048;
+
+		.stamina-fill {
+			background-color: #ff7048;
+		}
+	}
+
+	.state-overlay {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		width: 430px;
+		transform: translate( -50%, -50% );
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding: 22px 30px;
+		background-color: rgba(12, 8, 7, 0.88);
+		border: 1px solid rgba(255, 103, 62, 0.7);
+		box-shadow: 0 0 42px rgba(0, 0, 0, 0.88);
+	}
+
+	.state-title {
+		color: #ff7048;
+		font-size: 31px;
+		font-weight: 900;
+		letter-spacing: 5px;
+		text-shadow: 0 0 13px rgba(255, 65, 35, 0.72);
+	}
+
+	.state-detail {
+		margin-top: 5px;
+		color: #e9b49e;
+		font-size: 13px;
+		font-weight: 700;
+		letter-spacing: 3px;
+		opacity: 0.78;
+	}
+
+	.bleedout-track {
+		height: 8px;
+		margin-top: 18px;
+		border-color: rgba(255, 103, 62, 0.45);
+	}
+
+	.bleedout-fill {
+		background-color: #ff542f;
+		box-shadow: 0 0 10px rgba(255, 65, 35, 0.8);
+	}
+
+	.state-value {
+		margin-top: 7px;
+		color: #ff7048;
+		font-size: 20px;
+		font-weight: 800;
+	}
+
+	.dead-overlay {
+		border-color: rgba(203, 70, 45, 0.55);
+
+		.state-title {
+			color: #c94d35;
+		}
+	}
+
+	.missing-player {
+		position: absolute;
+		left: 44px;
+		bottom: 38px;
+		padding: 10px 14px;
+		background-color: rgba(10, 13, 12, 0.75);
+		color: rgba(243, 164, 59, 0.55);
+		font-size: 11px;
+		font-weight: 700;
+		letter-spacing: 2px;
+	}
+
+	&.downed {
+		.vitals-block {
+			opacity: 0.48;
+		}
+	}
+
+	&.dead {
+		.vitals-block {
+			opacity: 0;
+		}
+	}
+}

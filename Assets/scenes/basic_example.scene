@@ -1,0 +1,571 @@
+{
+  "__guid": "aa0d578d-c729-40fe-a8f3-788c71a3e2ef",
+  "GameObjects": [
+    {
+      "__guid": "633fa436-df01-42a2-8a30-6edbc7d3371b",
+      "__version": 2,
+      "Flags": 0,
+      "Name": "Main Camera",
+      "Position": "0,0,62.8654938",
+      "Rotation": "0,0,0,1",
+      "Scale": "1,1,1",
+      "Tags": "",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "NetworkFlags": 0,
+      "NetworkOrphaned": 0,
+      "NetworkTransmit": true,
+      "OwnerTransfer": 1,
+      "Components": [
+        {
+          "__type": "Sandbox.CameraComponent",
+          "__guid": "233da939-6378-40dd-af17-b2da0860f546",
+          "__enabled": true,
+          "Flags": 0,
+          "BackgroundColor": "1,1,1,1",
+          "ClearFlags": "All",
+          "EnablePostProcessing": true,
+          "FieldOfView": 60,
+          "FovAxis": "Horizontal",
+          "IsMainCamera": true,
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
+          "Orthographic": false,
+          "OrthographicHeight": 1204,
+          "PostProcessAnchor": null,
+          "Priority": 1,
+          "RenderExcludeTags": "",
+          "RenderTags": "",
+          "RenderTexture": null,
+          "TargetEye": "None",
+          "Viewport": "0,0,1,1",
+          "ZFar": 10000,
+          "ZNear": 5
+        }
+      ],
+      "Children": []
+    },
+    {
+      "__guid": "4596cad1-3b13-43ef-a5eb-356d9c28a499",
+      "__version": 2,
+      "__Prefab": "weapons/pistol/9mmpistol.prefab",
+      "__PrefabInstancePatch": {
+        "AddedObjects": [
+          {
+            "Id": {
+              "Type": "Component",
+              "IdValue": "c97b3bd1-abc8-4fa8-8a2d-48aad0f34431"
+            },
+            "Parent": {
+              "Type": "GameObject",
+              "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
+            },
+            "PreviousElement": {
+              "Type": "Component",
+              "IdValue": "f0a51a58-49be-4f08-ada2-0a2992dcf5d9"
+            },
+            "ContainerProperty": "Components",
+            "IsContainerArray": true,
+            "Data": {
+              "__type": "InventoryWorldRepresentation",
+              "__guid": "c97b3bd1-abc8-4fa8-8a2d-48aad0f34431",
+              "__enabled": true,
+              "Flags": 0,
+              "Item": null,
+              "OnComponentDestroy": null,
+              "OnComponentDisabled": null,
+              "OnComponentEnabled": null,
+              "OnComponentFixedUpdate": null,
+              "OnComponentStart": null,
+              "OnComponentUpdate": null,
+              "WorldCollider": {
+                "_type": "component",
+                "component_id": "b50293f9-b10e-40a1-9844-04aedc4ef73e",
+                "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
+                "component_type": "ModelCollider"
+              },
+              "WorldProp": {
+                "_type": "component",
+                "component_id": "18246af1-300a-4966-8342-4be67fadab6f",
+                "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
+                "component_type": "Prop"
+              },
+              "WorldRenderer": {
+                "_type": "component",
+                "component_id": "e93615aa-7e02-4913-a4be-431303184d5e",
+                "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
+                "component_type": "ModelRenderer"
+              },
+              "WorldRigidbody": {
+                "_type": "component",
+                "component_id": "f0a51a58-49be-4f08-ada2-0a2992dcf5d9",
+                "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
+                "component_type": "Rigidbody"
+              }
+            }
+          }
+        ],
+        "RemovedObjects": [],
+        "PropertyOverrides": [
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
+            },
+            "Property": "Name",
+            "Value": "9mmPistol"
+          },
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
+            },
+            "Property": "Position",
+            "Value": "76.5084,-6.0451217E-05,59.349144"
+          }
+        ],
+        "MovedObjects": [
+          {
+            "Id": {
+              "Type": "Component",
+              "IdValue": "18246af1-300a-4966-8342-4be67fadab6f"
+            },
+            "NewParent": {
+              "Type": "GameObject",
+              "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
+            },
+            "NewContainerProperty": "Components",
+            "IsNewContainerArray": true,
+            "NewPreviousElement": null
+          },
+          {
+            "Id": {
+              "Type": "Component",
+              "IdValue": "21a22041-4216-449a-a283-04ee78827ff0"
+            },
+            "NewParent": {
+              "Type": "GameObject",
+              "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
+            },
+            "NewContainerProperty": "Components",
+            "IsNewContainerArray": true,
+            "NewPreviousElement": {
+              "Type": "Component",
+              "IdValue": "c97b3bd1-abc8-4fa8-8a2d-48aad0f34431"
+            }
+          }
+        ]
+      },
+      "__PrefabIdToInstanceId": {
+        "c5ea8b74-89df-4205-b7f8-3e81b0b0249b": "4596cad1-3b13-43ef-a5eb-356d9c28a499",
+        "21a22041-4216-449a-a283-04ee78827ff0": "1dd66123-6333-8ae1-aadb-40381daced8d",
+        "18246af1-300a-4966-8342-4be67fadab6f": "2ce723a0-b825-42f1-9f72-d326d5fb9b5f",
+        "e93615aa-7e02-4913-a4be-431303184d5e": "ba8b54ff-f321-492b-8803-3542807226ee",
+        "b50293f9-b10e-40a1-9844-04aedc4ef73e": "43fad2ae-77c9-469e-8a3c-7c8a9fa793bb",
+        "f0a51a58-49be-4f08-ada2-0a2992dcf5d9": "9639e688-4fdb-4a20-9797-84423c9d30bd"
+      }
+    },
+    {
+      "__guid": "d25894a6-f426-4ae8-a84a-3a3be0946432",
+      "__version": 2,
+      "__Prefab": "weapons/pistol/9mmpistol.prefab",
+      "__PrefabInstancePatch": {
+        "AddedObjects": [
+          {
+            "Id": {
+              "Type": "Component",
+              "IdValue": "7300e5ef-13f5-46c6-98bb-2bef5092ccda"
+            },
+            "Parent": {
+              "Type": "GameObject",
+              "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
+            },
+            "PreviousElement": {
+              "Type": "Component",
+              "IdValue": "f0a51a58-49be-4f08-ada2-0a2992dcf5d9"
+            },
+            "ContainerProperty": "Components",
+            "IsContainerArray": true,
+            "Data": {
+              "__type": "InventoryWorldRepresentation",
+              "__guid": "7300e5ef-13f5-46c6-98bb-2bef5092ccda",
+              "__enabled": true,
+              "Flags": 0,
+              "Item": null,
+              "OnComponentDestroy": null,
+              "OnComponentDisabled": null,
+              "OnComponentEnabled": null,
+              "OnComponentFixedUpdate": null,
+              "OnComponentStart": null,
+              "OnComponentUpdate": null,
+              "WorldCollider": {
+                "_type": "component",
+                "component_id": "b50293f9-b10e-40a1-9844-04aedc4ef73e",
+                "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
+                "component_type": "ModelCollider"
+              },
+              "WorldProp": {
+                "_type": "component",
+                "component_id": "18246af1-300a-4966-8342-4be67fadab6f",
+                "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
+                "component_type": "Prop"
+              },
+              "WorldRenderer": {
+                "_type": "component",
+                "component_id": "e93615aa-7e02-4913-a4be-431303184d5e",
+                "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
+                "component_type": "ModelRenderer"
+              },
+              "WorldRigidbody": {
+                "_type": "component",
+                "component_id": "f0a51a58-49be-4f08-ada2-0a2992dcf5d9",
+                "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
+                "component_type": "Rigidbody"
+              }
+            }
+          }
+        ],
+        "RemovedObjects": [],
+        "PropertyOverrides": [
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
+            },
+            "Property": "Name",
+            "Value": "9mmPistol (1)"
+          },
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
+            },
+            "Property": "Position",
+            "Value": "387.453918,-351.106598,-0.0360183716"
+          }
+        ],
+        "MovedObjects": [
+          {
+            "Id": {
+              "Type": "Component",
+              "IdValue": "18246af1-300a-4966-8342-4be67fadab6f"
+            },
+            "NewParent": {
+              "Type": "GameObject",
+              "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
+            },
+            "NewContainerProperty": "Components",
+            "IsNewContainerArray": true,
+            "NewPreviousElement": null
+          },
+          {
+            "Id": {
+              "Type": "Component",
+              "IdValue": "21a22041-4216-449a-a283-04ee78827ff0"
+            },
+            "NewParent": {
+              "Type": "GameObject",
+              "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
+            },
+            "NewContainerProperty": "Components",
+            "IsNewContainerArray": true,
+            "NewPreviousElement": {
+              "Type": "Component",
+              "IdValue": "7300e5ef-13f5-46c6-98bb-2bef5092ccda"
+            }
+          }
+        ]
+      },
+      "__PrefabIdToInstanceId": {
+        "c5ea8b74-89df-4205-b7f8-3e81b0b0249b": "d25894a6-f426-4ae8-a84a-3a3be0946432",
+        "21a22041-4216-449a-a283-04ee78827ff0": "7c6f3362-4e72-4b0c-a41b-2fbcf38ba114",
+        "18246af1-300a-4966-8342-4be67fadab6f": "e46b3fa6-c2bd-4e93-b550-380d01f2c337",
+        "e93615aa-7e02-4913-a4be-431303184d5e": "af3e46b0-e16c-41c6-80e9-aad7f655f612",
+        "b50293f9-b10e-40a1-9844-04aedc4ef73e": "eed30651-fb50-455c-bdf2-d948e36e9292",
+        "f0a51a58-49be-4f08-ada2-0a2992dcf5d9": "c53cb6ba-2ce6-4c4f-a5c4-4ddb8562fcde"
+      }
+    },
+    {
+      "__guid": "22de2a48-760d-40cd-ae98-7dcfcac817c1",
+      "__version": 2,
+      "Flags": 0,
+      "Name": "SpawnPoint 2",
+      "Position": "-472.775452,700.301392,5.03508854",
+      "Rotation": "0,0,0,1",
+      "Scale": "1,1,1",
+      "Tags": "",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "NetworkFlags": 0,
+      "NetworkOrphaned": 0,
+      "NetworkTransmit": true,
+      "OwnerTransfer": 1,
+      "Components": [],
+      "Children": []
+    },
+    {
+      "__guid": "781c553f-67fd-41f6-be1c-4a4035d9c9c3",
+      "__version": 2,
+      "__Prefab": "weapons/pistol/9mmpistol.prefab",
+      "__PrefabInstancePatch": {
+        "AddedObjects": [
+          {
+            "Id": {
+              "Type": "Component",
+              "IdValue": "2153f129-8d34-42c8-a74a-32a701776527"
+            },
+            "Parent": {
+              "Type": "GameObject",
+              "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
+            },
+            "PreviousElement": {
+              "Type": "Component",
+              "IdValue": "f0a51a58-49be-4f08-ada2-0a2992dcf5d9"
+            },
+            "ContainerProperty": "Components",
+            "IsContainerArray": true,
+            "Data": {
+              "__type": "InventoryWorldRepresentation",
+              "__guid": "2153f129-8d34-42c8-a74a-32a701776527",
+              "__enabled": true,
+              "Flags": 0,
+              "Item": null,
+              "OnComponentDestroy": null,
+              "OnComponentDisabled": null,
+              "OnComponentEnabled": null,
+              "OnComponentFixedUpdate": null,
+              "OnComponentStart": null,
+              "OnComponentUpdate": null,
+              "WorldCollider": {
+                "_type": "component",
+                "component_id": "b50293f9-b10e-40a1-9844-04aedc4ef73e",
+                "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
+                "component_type": "ModelCollider"
+              },
+              "WorldProp": {
+                "_type": "component",
+                "component_id": "18246af1-300a-4966-8342-4be67fadab6f",
+                "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
+                "component_type": "Prop"
+              },
+              "WorldRenderer": {
+                "_type": "component",
+                "component_id": "e93615aa-7e02-4913-a4be-431303184d5e",
+                "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
+                "component_type": "ModelRenderer"
+              },
+              "WorldRigidbody": {
+                "_type": "component",
+                "component_id": "f0a51a58-49be-4f08-ada2-0a2992dcf5d9",
+                "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
+                "component_type": "Rigidbody"
+              }
+            }
+          }
+        ],
+        "RemovedObjects": [],
+        "PropertyOverrides": [
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
+            },
+            "Property": "Name",
+            "Value": "9mmPistol (2)"
+          },
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
+            },
+            "Property": "Position",
+            "Value": "-788.37207,135.047943,-0.035987854"
+          }
+        ],
+        "MovedObjects": [
+          {
+            "Id": {
+              "Type": "Component",
+              "IdValue": "18246af1-300a-4966-8342-4be67fadab6f"
+            },
+            "NewParent": {
+              "Type": "GameObject",
+              "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
+            },
+            "NewContainerProperty": "Components",
+            "IsNewContainerArray": true,
+            "NewPreviousElement": null
+          },
+          {
+            "Id": {
+              "Type": "Component",
+              "IdValue": "21a22041-4216-449a-a283-04ee78827ff0"
+            },
+            "NewParent": {
+              "Type": "GameObject",
+              "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
+            },
+            "NewContainerProperty": "Components",
+            "IsNewContainerArray": true,
+            "NewPreviousElement": {
+              "Type": "Component",
+              "IdValue": "2153f129-8d34-42c8-a74a-32a701776527"
+            }
+          }
+        ]
+      },
+      "__PrefabIdToInstanceId": {
+        "c5ea8b74-89df-4205-b7f8-3e81b0b0249b": "781c553f-67fd-41f6-be1c-4a4035d9c9c3",
+        "21a22041-4216-449a-a283-04ee78827ff0": "50afb70f-b25e-4d40-ba43-cbb2b36249cc",
+        "18246af1-300a-4966-8342-4be67fadab6f": "33a855c9-0723-45c9-a6a4-1fd17ae96681",
+        "e93615aa-7e02-4913-a4be-431303184d5e": "8154a36a-d283-442f-9c56-8ab4ec3b21aa",
+        "b50293f9-b10e-40a1-9844-04aedc4ef73e": "de189cc4-3fb2-425e-9fab-7b5dc9c90b87",
+        "f0a51a58-49be-4f08-ada2-0a2992dcf5d9": "4c377705-2977-46ae-8a22-18b6681ef112"
+      }
+    },
+    {
+      "__guid": "cc22eb06-3f65-453b-bb34-2a4203937674",
+      "__version": 2,
+      "Flags": 0,
+      "Name": "SpawnPoint 1",
+      "Position": "-151.368103,125.796661,5.03517151",
+      "Rotation": "0,0,0,1",
+      "Scale": "1,1,1",
+      "Tags": "",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "NetworkFlags": 0,
+      "NetworkOrphaned": 0,
+      "NetworkTransmit": true,
+      "OwnerTransfer": 1,
+      "Components": [],
+      "Children": []
+    },
+    {
+      "__guid": "460fbf70-a5ae-444e-bc73-2b607eb61bd0",
+      "__version": 2,
+      "Flags": 0,
+      "Name": "Network Manager",
+      "Position": "0,0,0",
+      "Rotation": "0,0,0,1",
+      "Scale": "1,1,1",
+      "Tags": "",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "NetworkFlags": 0,
+      "NetworkOrphaned": 0,
+      "NetworkTransmit": true,
+      "OwnerTransfer": 1,
+      "Components": [
+        {
+          "__type": "Sandbox.NetworkHelper",
+          "__guid": "41c968f4-f8f4-41c9-bd95-57cec5c8ac61",
+          "__enabled": true,
+          "Flags": 0,
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
+          "PlayerPrefab": {
+            "_type": "gameobject",
+            "prefab": "player/player controller.prefab"
+          },
+          "SpawnPoints": [
+            {
+              "_type": "gameobject",
+              "go": "cc22eb06-3f65-453b-bb34-2a4203937674"
+            },
+            {
+              "_type": "gameobject",
+              "go": "22de2a48-760d-40cd-ae98-7dcfcac817c1"
+            }
+          ],
+          "StartServer": true
+        }
+      ],
+      "Children": []
+    },
+    {
+      "__guid": "abf46745-dab0-4968-9b32-9399dbde65a1",
+      "__version": 2,
+      "Flags": 0,
+      "Name": "Map",
+      "Position": "0,0,0",
+      "Rotation": "0,0,0,1",
+      "Scale": "1,1,1",
+      "Tags": "",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "NetworkFlags": 0,
+      "NetworkOrphaned": 0,
+      "NetworkTransmit": true,
+      "OwnerTransfer": 1,
+      "Components": [
+        {
+          "__type": "Sandbox.MapInstance",
+          "__guid": "e8593c88-c59f-4a8c-a800-713d6b549f40",
+          "__enabled": true,
+          "Flags": 0,
+          "__version": 1,
+          "EnableCollision": true,
+          "MapName": "maps/test_map.vmap",
+          "NoOrigin": false,
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
+          "OnMapLoaded": null,
+          "OnMapUnloaded": null,
+          "UseMapFromLaunch": false
+        }
+      ],
+      "Children": []
+    }
+  ],
+  "SceneProperties": {
+    "NetworkInterpolation": true,
+    "TimeScale": 1,
+    "WantsSystemScene": true,
+    "Metadata": {},
+    "NavMesh": {
+      "Enabled": false,
+      "IncludeStaticBodies": true,
+      "IncludeKeyframedBodies": true,
+      "EditorAutoUpdate": false,
+      "AgentHeight": 64,
+      "AgentRadius": 16,
+      "AgentStepSize": 18,
+      "AgentMaxSlope": 40,
+      "ExcludedBodies": "",
+      "IncludedBodies": "",
+      "DeferGeneration": false,
+      "CustomBounds": false
+    },
+    "GameObjectSystems": {
+      "Sandbox.Clutter.ClutterGridSystem": {
+        "Storage": {
+          "$blob": "64db792e-5935-8fbc-8cfa-050cd49fa7fd",
+          "$refs": []
+        }
+      },
+      "Sandbox.SelectionSetsSystem": {
+        "Data": {
+          "SelectionSets": []
+        }
+      }
+    }
+  },
+  "ResourceVersion": 3,
+  "Title": null,
+  "Description": null,
+  "__references": [],
+  "__version": 3
+}

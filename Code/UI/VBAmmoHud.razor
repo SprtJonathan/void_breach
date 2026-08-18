@@ -1,0 +1,136 @@
+@using System
+@using Sandbox
+@using Sandbox.UI
+@inherits Panel
+
+@{
+	var weapon = ActiveWeapon;
+	var usesClip = weapon?.UsesPrimaryClip ?? false;
+	var loadedAmmo = usesClip ? weapon.Clip1 : weapon?.Ammo1 ?? 0;
+	var reserveAmmo = weapon?.Ammo1 ?? 0;
+	var clipCapacity = weapon?.PrimaryClipSize ?? 0;
+	var clipPercent = Percent( loadedAmmo, clipCapacity );
+	var hasBottomlessReserve = weapon is not null && weapon.PrimaryAmmoType is null;
+}
+
+<root class="@RootClass">
+	@if ( weapon is not null && weapon.UsesAmmo )
+	{
+		<div class="ammo-readout">
+			<div class="ammo-header">
+				<label class="ammo-icon">●</label>
+				<div class="ammo-identity">
+					<label class="ammo-title">#vb.hud.ammunition</label>
+					<label class="weapon-name">@weapon.DisplayName</label>
+				</div>
+				<div class="ammo-values">
+					<label class="loaded-ammo">@(hasBottomlessReserve && !usesClip ? "∞" : Math.Max( 0, loadedAmmo ).ToString())</label>
+					@if ( usesClip )
+					{
+						<label class="ammo-separator">/</label>
+						<label class="reserve-ammo">@(hasBottomlessReserve ? "∞" : Math.Max( 0, reserveAmmo ).ToString())</label>
+					}
+				</div>
+			</div>
+
+			@if ( usesClip )
+			{
+				<div class="ammo-track">
+					<div class="ammo-fill" style="width: @(clipPercent)%;"></div>
+				</div>
+			}
+
+			@if ( weapon.IsReloading )
+			{
+				<label class="ammo-status">#vb.hud.reloading</label>
+			}
+			else if ( loadedAmmo <= 0 && (usesClip || !hasBottomlessReserve) )
+			{
+				<label class="ammo-status">#vb.hud.empty</label>
+			}
+			else if ( IsLowAmmo( weapon, loadedAmmo ) )
+			{
+				<label class="ammo-status">#vb.hud.low_ammo</label>
+			}
+		</div>
+	}
+</root>
+
+@code
+{
+	public GameObject Player { get; set; }
+
+	public bool IsSuppressed { get; set; }
+
+	private BaseInventoryComponent Inventory => Player?.Components.Get<BaseInventoryComponent>();
+
+	private BaseCombatWeapon ActiveWeapon => Inventory?.ActiveItem as BaseCombatWeapon;
+
+	private string RootClass
+	{
+		get
+		{
+			var weapon = ActiveWeapon;
+
+			if ( IsSuppressed || weapon is null || !weapon.UsesAmmo )
+				return "hidden";
+
+			var loadedAmmo = weapon.UsesPrimaryClip ? weapon.Clip1 : weapon.Ammo1;
+
+			if ( weapon.IsReloading )
+				return "reloading";
+
+			if ( loadedAmmo <= 0 && (weapon.UsesPrimaryClip || weapon.PrimaryAmmoType is not null) )
+				return "empty";
+
+			if ( IsLowAmmo( weapon, loadedAmmo ) )
+				return "low-ammo";
+
+			return string.Empty;
+		}
+	}
+
+	private static bool IsLowAmmo( BaseCombatWeapon weapon, int loadedAmmo )
+	{
+		if ( !weapon.UsesPrimaryClip || weapon.PrimaryClipSize <= 1 )
+			return false;
+
+		var lowAmmoCount = weapon is VBCombatWeapon vbWeapon
+			? vbWeapon.LowAmmoCount
+			: Math.Clamp(
+				(int)MathF.Ceiling( weapon.PrimaryClipSize * 0.25f ),
+				1,
+				Math.Max( 1, weapon.PrimaryClipSize - 1 )
+			);
+
+		return lowAmmoCount > 0 && loadedAmmo <= lowAmmoCount;
+	}
+
+	private static float Percent( float value, float maximum )
+	{
+		if ( maximum <= 0f )
+			return 0f;
+
+		return Math.Clamp( value / maximum * 100f, 0f, 100f );
+	}
+
+	protected override int BuildHash()
+	{
+		var hash = new HashCode();
+		var weapon = ActiveWeapon;
+
+		hash.Add( Player?.Id ?? Guid.Empty );
+		hash.Add( IsSuppressed );
+		hash.Add( weapon?.Id ?? Guid.Empty );
+		hash.Add( weapon?.DisplayName );
+		hash.Add( weapon?.UsesAmmo ?? false );
+		hash.Add( weapon?.UsesPrimaryClip ?? false );
+		hash.Add( weapon?.Clip1 ?? -1 );
+		hash.Add( weapon?.Ammo1 ?? -1 );
+		hash.Add( weapon?.PrimaryClipSize ?? -1 );
+		hash.Add( weapon?.PrimaryAmmoType is null );
+		hash.Add( weapon?.IsReloading ?? false );
+		hash.Add( (weapon as VBCombatWeapon)?.LowAmmoThreshold ?? 0.25f );
+		return hash.ToHashCode();
+	}
+}

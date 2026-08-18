@@ -1,0 +1,189 @@
+VBAmmoHud {
+	position: absolute;
+	right: 44px;
+	bottom: 38px;
+	width: 310px;
+	font-family: Roboto Mono;
+	color: #f3a43b;
+	pointer-events: none;
+	opacity: 1;
+	transform: translateY( 0 );
+	transition: opacity 0.22s ease-out, transform 0.22s ease-out;
+
+	&.hidden {
+		display: none;
+	}
+
+	.ammo-readout {
+		position: relative;
+		width: 100%;
+		min-height: 88px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		padding: 11px 14px;
+		background-color: rgba(10, 13, 12, 0.86);
+		border-right: 3px solid rgba(243, 164, 59, 0.9);
+		box-shadow: 0 0 18px rgba(0, 0, 0, 0.72);
+	}
+
+	.ammo-header {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+
+	.ammo-icon {
+		width: 22px;
+		font-size: 15px;
+		font-weight: 900;
+		text-align: center;
+		text-shadow: 0 0 8px rgba(243, 164, 59, 0.7);
+	}
+
+	.ammo-identity {
+		min-width: 0;
+		flex-grow: 1;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.ammo-title {
+		font-size: 12px;
+		font-weight: 800;
+		letter-spacing: 2px;
+		opacity: 0.88;
+	}
+
+	.weapon-name {
+		margin-top: 1px;
+		max-width: 130px;
+		font-size: 9px;
+		font-weight: 700;
+		letter-spacing: 1px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		opacity: 0.48;
+	}
+
+	.ammo-values {
+		display: flex;
+		align-items: baseline;
+		justify-content: flex-end;
+		min-width: 112px;
+	}
+
+	.loaded-ammo {
+		font-size: 32px;
+		font-weight: 900;
+		line-height: 32px;
+		text-shadow: 0 0 10px rgba(243, 164, 59, 0.48);
+	}
+
+	.ammo-separator {
+		margin: 0 6px;
+		font-size: 17px;
+		font-weight: 600;
+		opacity: 0.38;
+	}
+
+	.reserve-ammo {
+		min-width: 34px;
+		font-size: 18px;
+		font-weight: 800;
+		opacity: 0.72;
+	}
+
+	.ammo-track {
+		position: relative;
+		width: 100%;
+		height: 8px;
+		margin-top: 8px;
+		overflow: hidden;
+		background-color: rgba(0, 0, 0, 0.68);
+		border: 1px solid rgba(243, 164, 59, 0.28);
+	}
+
+	.ammo-fill {
+		position: absolute;
+		left: 0;
+		top: 0;
+		height: 100%;
+		background-color: #f3a43b;
+		box-shadow: 0 0 9px rgba(243, 164, 59, 0.7);
+		transition: width 0.12s ease-out, background-color 0.15s ease-out;
+	}
+
+	.ammo-status {
+		position: absolute;
+		right: 14px;
+		bottom: 0;
+		font-size: 9px;
+		font-weight: 900;
+		letter-spacing: 1px;
+		text-align: right;
+	}
+
+	&.low-ammo {
+		.ammo-readout {
+			border-right-color: #ff8748;
+		}
+
+		.ammo-fill {
+			background-color: #ff8748;
+		}
+
+		.ammo-status {
+			color: #ff8748;
+		}
+	}
+
+	&.empty {
+		.ammo-readout {
+			border-right-color: #ff553d;
+		}
+
+		.loaded-ammo,
+		.ammo-status {
+			color: #ff553d;
+		}
+
+		.ammo-fill {
+			background-color: #ff553d;
+		}
+	}
+
+	&.reloading {
+		.ammo-status {
+			color: #e7c77d;
+		}
+
+		.ammo-fill {
+			animation-name: ammo-pulse;
+			animation-duration: 0.7s;
+			animation-iteration-count: infinite;
+			animation-timing-function: ease-in-out;
+		}
+	}
+
+	&:intro {
+		opacity: 0;
+		transform: translateY( 8px );
+	}
+}
+
+@keyframes ammo-pulse {
+	0% {
+		opacity: 0.4;
+	}
+
+	50% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0.4;
+	}
+}
