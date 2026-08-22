@@ -55,6 +55,74 @@ public sealed class VBCombatWeapon : BaseCombatWeapon
 	public float AimTransitionSpeed { get; set; } = 12f;
 
 	/// <summary>
+	/// Active le mouvement cosmétique du viewmodel en fonction de la locomotion.
+	/// Ce réglage ne modifie jamais la trajectoire des tirs.
+	/// </summary>
+	[Property, Group( "First Person Movement" )]
+	public bool EnableFirstPersonMovement { get; set; } = true;
+
+	/// <summary>
+	/// Amplitudes locales de position à la vitesse de marche.
+	/// X contrôle l'avant/arrière, Y le latéral et Z le vertical.
+	/// </summary>
+	[Property, Group( "First Person Movement" )]
+	public Vector3 FirstPersonWalkPositionAmplitude { get; set; } = new( 0.04f, 0.12f, 0.16f );
+
+	/// <summary>
+	/// Amplitudes angulaires à la vitesse de marche, exprimées en pitch, yaw et roll.
+	/// </summary>
+	[Property, Group( "First Person Movement" )]
+	public Vector3 FirstPersonWalkRotationAmplitude { get; set; } = new( 0.08f, 0.05f, 0.15f );
+
+	/// <summary>
+	/// Multiplicateur de mouvement lorsque le personnage atteint sa vitesse de course.
+	/// </summary>
+	[Property, Group( "First Person Movement" ), Range( 1f, 3f ), Step( 0.05f )]
+	public float FirstPersonRunMovementMultiplier { get; set; } = 1.8f;
+
+	/// <summary>
+	/// Part du mouvement conservée en ADS. À zéro, l'arme est parfaitement fixe.
+	/// </summary>
+	[Property, Group( "First Person Movement" ), Range( 0f, 0.25f ), Step( 0.01f )]
+	public float FirstPersonAdsMovementScale { get; set; } = 0.08f;
+
+	/// <summary>
+	/// Active le très léger retard visuel de l'arme lors des rotations de caméra.
+	/// </summary>
+	[Property, Group( "First Person Movement" )]
+	public bool EnableFirstPersonLookInertia { get; set; } = true;
+
+	/// <summary>
+	/// Fraction de la rotation de caméra conservée momentanément par le viewmodel.
+	/// </summary>
+	[Property, Group( "First Person Movement" ), Range( 0f, 0.25f ), Step( 0.01f )]
+	public float FirstPersonLookInertiaStrength { get; set; } = 0.08f;
+
+	/// <summary>
+	/// Décalage angulaire maximal autorisé, en degrés.
+	/// </summary>
+	[Property, Group( "First Person Movement" ), Range( 0.1f, 3f ), Step( 0.05f )]
+	public float FirstPersonLookInertiaMaxAngle { get; set; } = 0.75f;
+
+	/// <summary>
+	/// Rapidité du retour de l'arme vers son placement normal.
+	/// </summary>
+	[Property, Group( "First Person Movement" ), Range( 1f, 40f ), Step( 0.5f )]
+	public float FirstPersonLookInertiaReturnSpeed { get; set; } = 14f;
+
+	/// <summary>
+	/// Faible translation accompagnant le retard angulaire, en unités par degré.
+	/// </summary>
+	[Property, Group( "First Person Movement" ), Range( 0f, 0.2f ), Step( 0.005f )]
+	public float FirstPersonLookInertiaPositionScale { get; set; } = 0.025f;
+
+	/// <summary>
+	/// Part de l'inertie de regard conservée en ADS. Zéro stabilise totalement la mire.
+	/// </summary>
+	[Property, Group( "First Person Movement" ), Range( 0f, 0.25f ), Step( 0.01f )]
+	public float FirstPersonAdsLookInertiaScale { get; set; } = 0f;
+
+	/// <summary>
 	/// Progression visuelle de l'ADS, de 0 (hanche) à 1 (visée).
 	/// </summary>
 	public float AimAmount => _aimAmount;
@@ -84,6 +152,11 @@ public sealed class VBCombatWeapon : BaseCombatWeapon
 
 	private float _aimAmount;
 	private bool _wantsToAim;
+	private GameObject _lookInertiaViewModel;
+	private Rotation _previousCameraRotation;
+	private bool _hasPreviousCameraRotation;
+	private float _lookInertiaPitch;
+	private float _lookInertiaYaw;
 
 	/// <summary>
 	/// Nombre de cartouches correspondant au seuil configuré pour ce chargeur.
@@ -172,6 +245,8 @@ public sealed class VBCombatWeapon : BaseCombatWeapon
 	protected override void PlaceViewModel( CameraComponent camera, in CameraView view )
 	{
 		base.PlaceViewModel( camera, in view );
+		ApplyFirstPersonLookInertia( camera );
+		ApplyFirstPersonMovement( camera );
 
 		if ( ViewModel.IsValid() && _aimAmount > 0f )
 		{
@@ -183,6 +258,104 @@ public sealed class VBCombatWeapon : BaseCombatWeapon
 		}
 
 		UpdateViewModelAimParameters();
+	}
+
+	private void ApplyFirstPersonLookInertia( CameraComponent camera )
+	{
+		if ( !EnableFirstPersonLookInertia
+			|| !ViewModel.IsValid()
+			|| !Owner.IsValid()
+			|| Owner.ThirdPerson )
+		{
+			ResetFirstPersonLookInertia();
+			return;
+		}
+
+		if ( !_hasPreviousCameraRotation || _lookInertiaViewModel != ViewModel )
+		{
+			_lookInertiaViewModel = ViewModel;
+			_previousCameraRotation = camera.WorldRotation;
+			_hasPreviousCameraRotation = true;
+			_lookInertiaPitch = 0f;
+			_lookInertiaYaw = 0f;
+			return;
+		}
+
+		var cameraDelta = Rotation.Difference( _previousCameraRotation, camera.WorldRotation );
+		_previousCameraRotation = camera.WorldRotation;
+
+		var adsScale = MathX.Lerp( 1f, FirstPersonAdsLookInertiaScale, _aimAmount );
+		var maxAngle = MathF.Max( FirstPersonLookInertiaMaxAngle, 0f );
+		_lookInertiaPitch = Math.Clamp(
+			_lookInertiaPitch - cameraDelta.Pitch() * FirstPersonLookInertiaStrength,
+			-maxAngle,
+			maxAngle
+		);
+		_lookInertiaYaw = Math.Clamp(
+			_lookInertiaYaw - cameraDelta.Yaw() * FirstPersonLookInertiaStrength,
+			-maxAngle,
+			maxAngle
+		);
+
+		var deltaTime = Math.Clamp( Time.Delta, 0f, 0.1f );
+		var returnBlend = 1f - MathF.Exp(
+			-MathF.Max( FirstPersonLookInertiaReturnSpeed, 0.01f ) * deltaTime
+		);
+		_lookInertiaPitch = MathX.Lerp( _lookInertiaPitch, 0f, returnBlend );
+		_lookInertiaYaw = MathX.Lerp( _lookInertiaYaw, 0f, returnBlend );
+
+		var appliedPitch = _lookInertiaPitch * adsScale;
+		var appliedYaw = _lookInertiaYaw * adsScale;
+		var localPositionOffset = new Vector3(
+			0f,
+			-appliedYaw * FirstPersonLookInertiaPositionScale,
+			appliedPitch * FirstPersonLookInertiaPositionScale
+		);
+
+		ViewModel.WorldPosition += camera.WorldRotation * localPositionOffset;
+		ViewModel.WorldRotation *= Rotation.From( appliedPitch, appliedYaw, 0f );
+	}
+
+	private void ResetFirstPersonLookInertia()
+	{
+		_lookInertiaViewModel = null;
+		_hasPreviousCameraRotation = false;
+		_lookInertiaPitch = 0f;
+		_lookInertiaYaw = 0f;
+	}
+
+	private void ApplyFirstPersonMovement( CameraComponent camera )
+	{
+		if ( !EnableFirstPersonMovement || !ViewModel.IsValid() || !Owner.IsValid() || Owner.ThirdPerson )
+			return;
+
+		var locomotion = Owner.Components.Get<VBFirstPersonHeadbob>();
+		if ( !locomotion.IsValid() || locomotion.MovementStrength <= 0.0001f )
+			return;
+
+		var runScale = MathX.Lerp(
+			1f,
+			FirstPersonRunMovementMultiplier,
+			locomotion.RunAmount
+		);
+		var adsScale = MathX.Lerp( 1f, FirstPersonAdsMovementScale, _aimAmount );
+		var strength = locomotion.MovementStrength * runScale * adsScale;
+		var lateralWave = MathF.Sin( locomotion.MovementPhase );
+		var verticalWave = -MathF.Cos( locomotion.MovementPhase * 2f );
+
+		var localPositionOffset = new Vector3(
+			verticalWave * FirstPersonWalkPositionAmplitude.x,
+			lateralWave * FirstPersonWalkPositionAmplitude.y,
+			-verticalWave * FirstPersonWalkPositionAmplitude.z
+		);
+		ViewModel.WorldPosition += camera.WorldRotation * (localPositionOffset * strength);
+
+		var rotationOffset = Rotation.From(
+			verticalWave * FirstPersonWalkRotationAmplitude.x * strength,
+			lateralWave * FirstPersonWalkRotationAmplitude.y * strength,
+			-lateralWave * FirstPersonWalkRotationAmplitude.z * strength
+		);
+		ViewModel.WorldRotation *= rotationOffset;
 	}
 
 	/// <summary>

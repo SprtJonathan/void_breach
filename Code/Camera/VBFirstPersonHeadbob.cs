@@ -91,6 +91,22 @@ public sealed class VBFirstPersonHeadbob : Component, PlayerController.IEvents
 	private BaseInventoryComponent _inventory;
 	private float _phase;
 	private float _movementStrength;
+	private float _runAmount;
+
+	/// <summary>
+	/// Phase locomotrice partagée avec les effets visuels du viewmodel.
+	/// </summary>
+	public float MovementPhase => _phase;
+
+	/// <summary>
+	/// Intensité lissée du mouvement, de l'arrêt complet à la vitesse de marche.
+	/// </summary>
+	public float MovementStrength => _movementStrength;
+
+	/// <summary>
+	/// Progression actuelle entre la vitesse de marche et celle de course.
+	/// </summary>
+	public float RunAmount => _runAmount;
 
 	protected override void OnStart()
 	{
@@ -113,6 +129,7 @@ public sealed class VBFirstPersonHeadbob : Component, PlayerController.IEvents
 		if ( Controller.ThirdPerson )
 		{
 			_movementStrength = 0f;
+			_runAmount = 0f;
 			return;
 		}
 
@@ -126,11 +143,11 @@ public sealed class VBFirstPersonHeadbob : Component, PlayerController.IEvents
 			: 0f;
 		var blend = 1f - MathF.Exp( -MathF.Max( BlendSpeed, 0.01f ) * deltaTime );
 		_movementStrength = MathX.Lerp( _movementStrength, targetStrength, blend );
+		_runAmount = InverseLerpClamped( walkSpeed, runSpeed, horizontalSpeed );
 
 		if ( _movementStrength <= 0.0001f )
 			return;
 
-		var runAmount = InverseLerpClamped( walkSpeed, runSpeed, horizontalSpeed );
 		var walkFrequencyScale = MathX.Lerp(
 			LowSpeedFrequencyMultiplier,
 			1f,
@@ -138,11 +155,11 @@ public sealed class VBFirstPersonHeadbob : Component, PlayerController.IEvents
 		);
 		var frequency = WalkFrequency
 			* walkFrequencyScale
-			* MathX.Lerp( 1f, RunFrequencyMultiplier, runAmount );
+			* MathX.Lerp( 1f, RunFrequencyMultiplier, _runAmount );
 		_phase = WrapPhase( _phase + deltaTime * frequency * MathF.PI * 2f );
 
 		var aimScale = GetAimScale();
-		var speedScale = MathX.Lerp( 1f, RunAmplitudeMultiplier, runAmount );
+		var speedScale = MathX.Lerp( 1f, RunAmplitudeMultiplier, _runAmount );
 		var strength = _movementStrength * speedScale * aimScale;
 		var lateralWave = MathF.Sin( _phase );
 		var verticalWave = -MathF.Cos( _phase * 2f );
