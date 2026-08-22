@@ -4,7 +4,7 @@ using Sandbox;
 /// Modifie les tags exclus par la caméra selon que le joueur
 /// utilise la vue à la première ou à la troisième personne.
 /// </summary>
-public sealed class CameraPerspectiveTagFilter : Component
+public sealed class CameraPerspectiveTagFilter : Component, PlayerController.IEvents
 {
 	/// <summary>
 	/// PlayerController dont le mode de caméra doit être surveillé.
@@ -27,6 +27,24 @@ public sealed class CameraPerspectiveTagFilter : Component
 
 	private CameraComponent _lastCamera;
 	private bool? _lastThirdPerson;
+
+	/// <summary>
+	/// Conserve le corps local dans la passe d'ombres en première personne.
+	/// Tous les renderers rattachés au corps sont concernés afin d'inclure
+	/// les vêtements générés par le Dresser.
+	/// </summary>
+	void PlayerController.IEvents.PostCameraSetup( CameraComponent camera )
+	{
+		if ( !Player.IsValid() || Player.IsProxy )
+			return;
+
+		ApplyLocalBodyRenderType( Player.ThirdPerson );
+	}
+
+	protected override void OnDisabled()
+	{
+		ApplyLocalBodyRenderType( isThirdPerson: true );
+	}
 
 	protected override void OnUpdate()
 	{
@@ -90,6 +108,37 @@ public sealed class CameraPerspectiveTagFilter : Component
 				tag,
 				isThirdPerson
 			);
+		}
+	}
+
+	private void ApplyLocalBodyRenderType( bool isThirdPerson )
+	{
+		if ( !Player.Renderer.IsValid() )
+			return;
+
+		var hideBody = !isThirdPerson && Player.HideBodyInFirstPerson;
+		var bodyObject = Player.Renderer.GameObject;
+
+		// PlayerController masque normalement le corps avec le tag interne "viewer".
+		// La caméra exclut entièrement ce tag, y compris de la passe d'ombres.
+		// ShadowsOnly masque ensuite tous les modèles de la hiérarchie du corps,
+		// y compris l'arme à la troisième personne, tout en conservant leurs ombres.
+		if ( hideBody )
+			bodyObject.Tags.Remove( "viewer" );
+
+		var renderType = !hideBody
+			? ModelRenderer.ShadowRenderType.On
+			: ModelRenderer.ShadowRenderType.ShadowsOnly;
+
+		foreach ( var renderer in bodyObject.GetComponentsInChildren<ModelRenderer>(
+			includeDisabled: true,
+			includeSelf: true
+		) )
+		{
+			if ( !renderer.IsValid() )
+				continue;
+
+			renderer.RenderType = renderType;
 		}
 	}
 }

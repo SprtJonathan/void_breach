@@ -51,7 +51,7 @@
           "BloomLayer": false,
           "AfterUILayer": false
         },
-        "RenderType": "On",
+        "RenderType": "Off",
         "Sequence": {
           "Name": null,
           "Looping": true,
@@ -140,7 +140,7 @@
           "BloomLayer": false,
           "AfterUILayer": false
         },
-        "RenderType": "On",
+        "RenderType": "Off",
         "Sequence": {
           "Name": null,
           "Looping": true,
