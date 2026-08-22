@@ -123,6 +123,25 @@ public sealed class VBCombatWeapon : BaseCombatWeapon
 	public float FirstPersonAdsLookInertiaScale { get; set; } = 0f;
 
 	/// <summary>
+	/// Active le léger changement de profondeur du viewmodel selon l'inclinaison du regard.
+	/// </summary>
+	[Property, Group( "First Person Movement" )]
+	public bool EnableFirstPersonPitchDepth { get; set; } = true;
+
+	/// <summary>
+	/// Distance maximale ajoutée vers l'avant en regardant vers le haut,
+	/// et retirée en regardant vers le bas.
+	/// </summary>
+	[Property, Group( "First Person Movement" ), Range( 0f, 3f ), Step( 0.05f )]
+	public float FirstPersonPitchDepthOffset { get; set; } = 0.5f;
+
+	/// <summary>
+	/// Part du changement de profondeur conservée en ADS.
+	/// </summary>
+	[Property, Group( "First Person Movement" ), Range( 0f, 1f ), Step( 0.05f )]
+	public float FirstPersonAdsPitchDepthScale { get; set; } = 0f;
+
+	/// <summary>
 	/// Progression visuelle de l'ADS, de 0 (hanche) à 1 (visée).
 	/// </summary>
 	public float AimAmount => _aimAmount;
@@ -153,10 +172,8 @@ public sealed class VBCombatWeapon : BaseCombatWeapon
 	private float _aimAmount;
 	private bool _wantsToAim;
 	private GameObject _lookInertiaViewModel;
-	private Rotation _previousCameraRotation;
-	private bool _hasPreviousCameraRotation;
-	private float _lookInertiaPitch;
-	private float _lookInertiaYaw;
+	private Rotation _laggedCameraRotation;
+	private bool _hasLaggedCameraRotation;
 
 	/// <summary>
 	/// Nombre de cartouches correspondant au seuil configuré pour ce chargeur.
@@ -246,6 +263,7 @@ public sealed class VBCombatWeapon : BaseCombatWeapon
 	{
 		base.PlaceViewModel( camera, in view );
 		ApplyFirstPersonLookInertia( camera );
+		ApplyFirstPersonPitchDepth( camera );
 		ApplyFirstPersonMovement( camera );
 
 		if ( ViewModel.IsValid() && _aimAmount > 0f )
@@ -271,41 +289,35 @@ public sealed class VBCombatWeapon : BaseCombatWeapon
 			return;
 		}
 
-		if ( !_hasPreviousCameraRotation || _lookInertiaViewModel != ViewModel )
+		if ( !_hasLaggedCameraRotation || _lookInertiaViewModel != ViewModel )
 		{
 			_lookInertiaViewModel = ViewModel;
-			_previousCameraRotation = camera.WorldRotation;
-			_hasPreviousCameraRotation = true;
-			_lookInertiaPitch = 0f;
-			_lookInertiaYaw = 0f;
+			_laggedCameraRotation = camera.WorldRotation;
+			_hasLaggedCameraRotation = true;
 			return;
 		}
 
-		var cameraDelta = Rotation.Difference( _previousCameraRotation, camera.WorldRotation );
-		_previousCameraRotation = camera.WorldRotation;
-
-		var adsScale = MathX.Lerp( 1f, FirstPersonAdsLookInertiaScale, _aimAmount );
-		var maxAngle = MathF.Max( FirstPersonLookInertiaMaxAngle, 0f );
-		_lookInertiaPitch = Math.Clamp(
-			_lookInertiaPitch - cameraDelta.Pitch() * FirstPersonLookInertiaStrength,
-			-maxAngle,
-			maxAngle
-		);
-		_lookInertiaYaw = Math.Clamp(
-			_lookInertiaYaw - cameraDelta.Yaw() * FirstPersonLookInertiaStrength,
-			-maxAngle,
-			maxAngle
-		);
-
 		var deltaTime = Math.Clamp( Time.Delta, 0f, 0.1f );
-		var returnBlend = 1f - MathF.Exp(
+		var followBlend = 1f - MathF.Exp(
 			-MathF.Max( FirstPersonLookInertiaReturnSpeed, 0.01f ) * deltaTime
 		);
-		_lookInertiaPitch = MathX.Lerp( _lookInertiaPitch, 0f, returnBlend );
-		_lookInertiaYaw = MathX.Lerp( _lookInertiaYaw, 0f, returnBlend );
+		_laggedCameraRotation = Rotation.Slerp(
+			_laggedCameraRotation,
+			camera.WorldRotation,
+			followBlend
+		);
 
-		var appliedPitch = _lookInertiaPitch * adsScale;
-		var appliedYaw = _lookInertiaYaw * adsScale;
+		var cameraLag = Rotation.Difference( camera.WorldRotation, _laggedCameraRotation );
+		var adsScale = MathX.Lerp( 1f, FirstPersonAdsLookInertiaScale, _aimAmount );
+		var maxAngle = MathF.Max( FirstPersonLookInertiaMaxAngle, 0f );
+		var appliedPitch = SoftLimit(
+			cameraLag.Pitch() * FirstPersonLookInertiaStrength,
+			maxAngle
+		) * adsScale;
+		var appliedYaw = SoftLimit(
+			cameraLag.Yaw() * FirstPersonLookInertiaStrength,
+			maxAngle
+		) * adsScale;
 		var localPositionOffset = new Vector3(
 			0f,
 			-appliedYaw * FirstPersonLookInertiaPositionScale,
@@ -316,12 +328,33 @@ public sealed class VBCombatWeapon : BaseCombatWeapon
 		ViewModel.WorldRotation *= Rotation.From( appliedPitch, appliedYaw, 0f );
 	}
 
+	private void ApplyFirstPersonPitchDepth( CameraComponent camera )
+	{
+		if ( !EnableFirstPersonPitchDepth
+			|| !ViewModel.IsValid()
+			|| !Owner.IsValid()
+			|| Owner.ThirdPerson )
+			return;
+
+		var adsScale = MathX.Lerp( 1f, FirstPersonAdsPitchDepthScale, _aimAmount );
+		var verticalLook = Math.Clamp( camera.WorldRotation.Forward.z, -1f, 1f );
+		var depthOffset = verticalLook * FirstPersonPitchDepthOffset * adsScale;
+
+		ViewModel.WorldPosition += camera.WorldRotation.Forward * depthOffset;
+	}
+
 	private void ResetFirstPersonLookInertia()
 	{
 		_lookInertiaViewModel = null;
-		_hasPreviousCameraRotation = false;
-		_lookInertiaPitch = 0f;
-		_lookInertiaYaw = 0f;
+		_hasLaggedCameraRotation = false;
+	}
+
+	private static float SoftLimit( float value, float limit )
+	{
+		if ( limit <= 0f )
+			return 0f;
+
+		return limit * MathF.Tanh( value / limit );
 	}
 
 	private void ApplyFirstPersonMovement( CameraComponent camera )

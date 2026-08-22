@@ -11,5 +11,9 @@
   "vb.hud.critical": "CRITICAL CONDITION",
   "vb.hud.stabilization_required": "STABILIZATION REQUIRED",
   "vb.hud.signal_lost": "SIGNAL LOST",
-  "vb.hud.subject_deceased": "SUBJECT DECEASED"
+  "vb.hud.subject_deceased": "SUBJECT DECEASED",
+  "vb.interaction.use": "INTERACT",
+  "vb.interaction.pick_up": "PICK UP",
+  "vb.interaction.open": "OPEN",
+  "vb.interaction.close": "CLOSE"
 }

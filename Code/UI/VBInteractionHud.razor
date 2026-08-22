@@ -1,0 +1,163 @@
+@using System
+@using System.Collections.Generic
+@using Sandbox
+@using Sandbox.UI
+@inherits Panel
+
+<root class="@(IsSuppressed ? "suppressed" : "")">
+	@foreach ( var marker in Markers )
+	{
+		<div class="world-marker @(marker.IsInRange ? "in-range" : "nearby")"
+			 style="@MarkerStyle( marker )">
+			@if ( marker.ShowMarker )
+			{
+				<div class="marker-ring">
+					<div class="marker-dot"></div>
+				</div>
+			}
+
+			@if ( marker.IsInRange && (marker.ShowTitle || marker.ShowInputAction || marker.ShowText) )
+			{
+				<div class="interaction-card" style="@CardStyle( marker )">
+					@if ( marker.ShowTitle )
+					{
+						<label class="item-name">@marker.Title</label>
+					}
+
+					<div class="interaction-action">
+						@if ( marker.ShowInputAction )
+						{
+							<label class="input-key">@marker.InputOrigin</label>
+						}
+
+						@if ( marker.ShowText )
+						{
+							<label class="interaction-text">@marker.Text</label>
+						}
+					</div>
+				</div>
+			}
+		</div>
+	}
+</root>
+
+@code
+{
+	public GameObject Player { get; set; }
+
+	public bool IsSuppressed { get; set; }
+
+	private readonly List<MarkerView> Markers = new();
+
+	public override void Tick()
+	{
+		base.Tick();
+		RefreshMarkers();
+		StateHasChanged();
+	}
+
+	private void RefreshMarkers()
+	{
+		Markers.Clear();
+
+		if ( IsSuppressed || !Player.IsValid() || Player.IsProxy )
+			return;
+
+		var scene = Player.Scene;
+		var camera = scene?.Camera;
+		if ( camera is null )
+			return;
+
+		foreach ( var prompt in scene.GetAll<VBInteractionPrompt>() )
+		{
+			if ( !prompt.IsValid() || !prompt.Enabled )
+				continue;
+
+			var resolved = prompt.Resolve( Player );
+			if ( !resolved.IsAvailable )
+				continue;
+
+			var worldPosition = resolved.WorldPosition;
+			var toPrompt = worldPosition - camera.WorldPosition;
+			if ( camera.WorldRotation.Forward.Dot( toPrompt ) <= 0f )
+				continue;
+
+			var distance = Player.WorldPosition.Distance( worldPosition );
+			if ( distance > resolved.AppearanceDistance )
+				continue;
+
+			var screenPosition = camera.PointToScreenNormal( worldPosition );
+			if ( screenPosition.x < 0f || screenPosition.x > 1f ||
+				 screenPosition.y < 0f || screenPosition.y > 1f )
+				continue;
+
+			var inputAction = resolved.InputAction;
+			var inputOrigin = string.IsNullOrWhiteSpace( inputAction )
+				? string.Empty
+				: Input.GetButtonOrigin( inputAction ) ?? inputAction.ToUpperInvariant();
+			var text = Localize( resolved.TextToken );
+			var title = Localize( resolved.TitleText );
+			var alpha = 1f - Math.Clamp(
+				(distance - resolved.InteractionDistance) /
+					MathF.Max( 1f, resolved.AppearanceDistance - resolved.InteractionDistance ),
+				0f,
+				0.7f
+			);
+
+			Markers.Add( new MarkerView(
+				screenPosition,
+				distance,
+				distance <= resolved.InteractionDistance,
+				resolved.ShowMarker,
+				resolved.ShowTitle && !string.IsNullOrWhiteSpace( title ),
+				resolved.ShowInputAction && !string.IsNullOrWhiteSpace( inputOrigin ),
+				resolved.ShowInteractionText && !string.IsNullOrWhiteSpace( text ),
+				inputOrigin,
+				text,
+				title,
+				resolved.CardScreenOffset,
+				alpha
+			) );
+		}
+
+		Markers.Sort( ( left, right ) => right.Distance.CompareTo( left.Distance ) );
+	}
+
+	private static string Localize( string value )
+	{
+		if ( string.IsNullOrWhiteSpace( value ) )
+			return string.Empty;
+
+		return value.Length > 1 && value[0] == '#'
+			? Language.GetPhrase( value[1..] )
+			: value;
+	}
+
+	private static string MarkerStyle( MarkerView marker )
+	{
+		return $"left: {marker.ScreenPosition.x * 100f:0.###}%; " +
+			$"top: {marker.ScreenPosition.y * 100f:0.###}%; " +
+			$"opacity: {marker.Alpha:0.###};";
+	}
+
+	private static string CardStyle( MarkerView marker )
+	{
+		return $"margin-left: {marker.CardScreenOffset.x:0.###}px; " +
+			$"margin-top: {marker.CardScreenOffset.y:0.###}px;";
+	}
+
+	private readonly record struct MarkerView(
+		Vector2 ScreenPosition,
+		float Distance,
+		bool IsInRange,
+		bool ShowMarker,
+		bool ShowTitle,
+		bool ShowInputAction,
+		bool ShowText,
+		string InputOrigin,
+		string Text,
+		string Title,
+		Vector2 CardScreenOffset,
+		float Alpha
+	);
+}
