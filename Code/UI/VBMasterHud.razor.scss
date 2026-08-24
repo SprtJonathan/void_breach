@@ -230,6 +230,99 @@ VBMasterHud {
 		}
 	}
 
+	.death-menu {
+		width: 590px;
+		padding: 30px 38px 34px;
+		pointer-events: all;
+	}
+
+	.death-reason {
+		width: 100%;
+		margin-top: 24px;
+		padding: 14px 18px;
+		flex-direction: column;
+		align-items: center;
+		background-color: rgba(0, 0, 0, 0.36);
+		border-left: 2px solid rgba(201, 77, 53, 0.7);
+		border-right: 2px solid rgba(201, 77, 53, 0.7);
+	}
+
+	.death-reason-title {
+		color: rgba(233, 180, 158, 0.62);
+		font-size: 10px;
+		font-weight: 800;
+		letter-spacing: 3px;
+	}
+
+	.death-reason-value {
+		margin-top: 6px;
+		color: #e9b49e;
+		font-size: 18px;
+		font-weight: 800;
+		letter-spacing: 1px;
+		text-align: center;
+	}
+
+	.spectating-label {
+		margin-top: 16px;
+		color: #e7c77d;
+		font-size: 11px;
+		font-weight: 800;
+		letter-spacing: 2px;
+
+		&.unavailable {
+			color: rgba(233, 180, 158, 0.42);
+		}
+	}
+
+	.death-actions {
+		width: 100%;
+		margin-top: 22px;
+		gap: 12px;
+		justify-content: center;
+		pointer-events: all;
+	}
+
+	.death-button {
+		min-width: 210px;
+		height: 48px;
+		justify-content: center;
+		align-items: center;
+		gap: 9px;
+		padding: 0 18px;
+		background-color: rgba(31, 22, 20, 0.96);
+		border: 1px solid rgba(201, 77, 53, 0.7);
+		border-radius: 2px;
+		color: #e9b49e;
+		font-size: 12px;
+		font-weight: 900;
+		letter-spacing: 1.5px;
+		pointer-events: all;
+		transition: all 0.14s ease-out;
+
+		&:hover {
+			background-color: rgba(87, 38, 29, 0.98);
+			border-color: #ff7048;
+			color: white;
+			transform: translateY( -1px );
+		}
+
+		&:active {
+			transform: translateY( 1px );
+		}
+
+	}
+
+	.menu-button {
+		border-color: rgba(231, 199, 125, 0.5);
+		color: #e7c77d;
+
+		&:hover {
+			background-color: rgba(76, 62, 31, 0.96);
+			border-color: #e7c77d;
+		}
+	}
+
 	.missing-player {
 		position: absolute;
 		left: 44px;

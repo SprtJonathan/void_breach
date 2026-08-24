@@ -7,7 +7,7 @@
     "Position": "0,0,0",
     "Rotation": "0,0,0,1",
     "Scale": "1,1,1",
-    "Tags": "",
+    "Tags": "player",
     "Enabled": true,
     "NetworkMode": 2,
     "NetworkFlags": 0,
@@ -54,7 +54,7 @@
           "Id": "00000000-0000-0000-0000-000000000000"
         },
         "FootstepVolume": 1,
-        "HideBodyInFirstPerson": true,
+        "HideBodyInFirstPerson": false,
         "JumpSpeed": 300,
         "LookSensitivity": 1,
         "OnComponentDestroy": null,
@@ -78,7 +78,7 @@
         "RunSpeed": 320,
         "ShowColliderComponents": false,
         "ShowRigidbodyComponent": false,
-        "ThirdPerson": true,
+        "ThirdPerson": false,
         "ToggleCameraModeButton": "view",
         "UseAnimatorControls": true,
         "UseButton": "use",
@@ -280,6 +280,25 @@
         "SprintDrainPerSecond": 20
       },
       {
+        "__type": "VBPlayerLifeStateController",
+        "__guid": "ea902792-bd40-4a70-a6b4-2fe2d92bbc7e",
+        "__enabled": true,
+        "Flags": 0,
+        "DownedCameraHeight": 20,
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "RagdollPhysics": {
+          "_type": "component",
+          "component_id": "7aee257d-2417-4d77-9c97-a5eb7a395e63",
+          "go": "d01bf2bb-4495-4132-96b4-a5761fcdd441",
+          "component_type": "ModelPhysics"
+        }
+      },
+      {
         "__type": "VBArmorComponent",
         "__guid": "ec6e767d-e637-41d2-856c-b23868b05418",
         "__enabled": true,
@@ -300,6 +319,7 @@
         "Flags": 0,
         "ExcludedInFirstPerson": "",
         "ExcludedInThirdPerson": "firstperson",
+        "HideLocalBodyInFirstPerson": true,
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
         "OnComponentEnabled": null,
@@ -349,7 +369,7 @@
         "Position": "0,0,0",
         "Rotation": "0,0,0,1",
         "Scale": "1,1,1",
-        "Tags": "",
+        "Tags": "player_ragdoll",
         "Enabled": true,
         "NetworkMode": 2,
         "NetworkFlags": 0,
@@ -401,6 +421,27 @@
             },
             "Tint": "1,1,1,1",
             "UseAnimGraph": true
+          },
+          {
+            "__type": "Sandbox.ModelPhysics",
+            "__guid": "7aee257d-2417-4d77-9c97-a5eb7a395e63",
+            "__enabled": true,
+            "Flags": 0,
+            "IgnoreRoot": true,
+            "Model": "models/citizen_human/citizen_human_male.vmdl",
+            "MotionEnabled": false,
+            "OnComponentDestroy": null,
+            "OnComponentDisabled": null,
+            "OnComponentEnabled": null,
+            "OnComponentFixedUpdate": null,
+            "OnComponentStart": null,
+            "OnComponentUpdate": null,
+            "Renderer": {
+              "_type": "component",
+              "component_id": "256504cb-7033-4371-bf1f-1747c5b471b8",
+              "go": "d01bf2bb-4495-4132-96b4-a5761fcdd441",
+              "component_type": "SkinnedModelRenderer"
+            }
           }
         ],
         "Children": [
@@ -2185,7 +2226,7 @@
             ]
           },
           {
-            "__guid": "d1489a27-6e1b-4e57-9db0-ff0a48060477",
+            "__guid": "4ba87745-54ae-470e-80c0-621af3528e6b",
             "__version": 2,
             "Flags": 0,
             "Name": "Clothing - flannel_shirt",
@@ -2202,7 +2243,7 @@
             "Components": [
               {
                 "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "d86a50c5-584c-4a53-aa24-b9fa7b704de5",
+                "__guid": "115e1ecc-20eb-4b5e-a5f1-1c261dbda5d1",
                 "__enabled": true,
                 "Flags": 0,
                 "AnimationGraph": null,
@@ -2254,7 +2295,7 @@
             "Children": []
           },
           {
-            "__guid": "444b9916-6b49-4efe-8195-bda6e20a99cf",
+            "__guid": "9bd1d664-ffbe-4fbf-ac8b-d54aac3d64b4",
             "__version": 2,
             "Flags": 0,
             "Name": "Clothing - brown_cargo_pants",
@@ -2271,7 +2312,7 @@
             "Components": [
               {
                 "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "3515d7a7-25ad-4a8a-9e4f-422b3d85d194",
+                "__guid": "83bdf186-f3d3-4fbe-a187-0497b29ec500",
                 "__enabled": true,
                 "Flags": 0,
                 "AnimationGraph": null,
@@ -2323,7 +2364,7 @@
             "Children": []
           },
           {
-            "__guid": "fe8f5f82-7383-436d-9127-87f7a13f451d",
+            "__guid": "c9edeb98-000f-426d-9e34-cd400638c4be",
             "__version": 2,
             "Flags": 0,
             "Name": "Clothing - fingerless_gloves",
@@ -2340,7 +2381,7 @@
             "Components": [
               {
                 "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "64fc16df-3acc-4832-b5e1-31a148cc3d21",
+                "__guid": "9086fa1d-b5e8-4545-8c78-5117e4725e19",
                 "__enabled": true,
                 "Flags": 0,
                 "AnimationGraph": null,
@@ -2392,7 +2433,7 @@
             "Children": []
           },
           {
-            "__guid": "64e6c2a3-8707-4931-a789-3ad253cdaa92",
+            "__guid": "bdade6d0-18e0-408c-9cd2-f57fed853160",
             "__version": 2,
             "Flags": 0,
             "Name": "Clothing - black_boots",
@@ -2409,7 +2450,7 @@
             "Components": [
               {
                 "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "835f8dad-05a8-4467-82fc-6563b3b43c72",
+                "__guid": "cd2b6aad-ce2a-4f09-aa84-b5ab29b3bfdd",
                 "__enabled": true,
                 "Flags": 0,
                 "AnimationGraph": null,
@@ -2461,7 +2502,7 @@
             "Children": []
           },
           {
-            "__guid": "b41b36d2-e04e-47e2-8921-0b6a7c21fbe4",
+            "__guid": "99bb3449-6fe7-41f7-b030-dee00183967a",
             "__version": 2,
             "Flags": 0,
             "Name": "Clothing - flatcap",
@@ -2478,7 +2519,7 @@
             "Components": [
               {
                 "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "4692a613-e5b4-41c0-b097-51e688f070d0",
+                "__guid": "9b782f9a-b087-42c5-b754-205fb9dac539",
                 "__enabled": true,
                 "Flags": 0,
                 "AnimationGraph": null,
@@ -2530,7 +2571,7 @@
             "Children": []
           },
           {
-            "__guid": "154f7371-e86d-4cf6-b757-442b02f846ad",
+            "__guid": "54f1ecff-37ae-4ed1-aec8-dfd60acdb148",
             "__version": 2,
             "Flags": 0,
             "Name": "Clothing - bomber_jacket",
@@ -2547,7 +2588,7 @@
             "Components": [
               {
                 "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "64a53f85-92a8-4cec-907d-42f3357840b1",
+                "__guid": "48837f96-455f-426c-ac0a-32cbc17b66c8",
                 "__enabled": true,
                 "Flags": 0,
                 "AnimationGraph": null,

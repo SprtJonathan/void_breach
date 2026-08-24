@@ -252,7 +252,7 @@ While downed:
 - any other player can attempt a revive, regardless of team;
 - no alliance is created by the action.
 
-The downed camera behavior remains to be validated during implementation. A teammate spectator view may be used as a placeholder, with an appropriate fallback when no teammate is available.
+The downed camera follows the player's replicated in-place ragdoll. Normal control is disabled, but the owner can still rotate the camera around the body. The capsule remains at the down location and has no physical interaction while the player is incapacitated. The active inventory item is preserved: its first-person view model is hidden while its normal, collision-free world model remains attached to the physical hand. No ragdoll or weapon visual copy is created. On revive, the capsule is teleported to the ragdoll's final grounded position before animation and control are restored. On permanent death, the death screen can spectate another living player. Spectating prioritizes living teammates when a team provider is available and falls back to any living player otherwise.
 
 ### 4.2 Revive methods
 
@@ -430,13 +430,15 @@ Damage received
 - [x] Batteries are indivisible resources with no partial-charge bar.
 - [x] Battery/shield gameplay is optional for the minimum vertical slice.
 - [x] Self-revive is not supported.
+- [x] Downed and Dead share one owner-simulated, replicated ragdoll state; the authoritative health transition remains host-controlled.
+- [x] The downed player loses movement, weapons and ordinary interactions but retains camera look.
+- [x] Permanent death displays the downing reason and offers spectate/menu actions.
 
 ## 9. Open Questions
 
 - [ ] Exact HardMaxHealth drain rate and status multipliers.
 - [ ] Final carry counts and reservoir sizes for medical items.
 - [ ] Whether Health Vials refill the Personal Medkit in the first playable version.
-- [ ] Downed camera behavior and solo fallback.
 - [ ] Shield amount and HUD presentation if the battery feature is implemented.
 - [ ] Which devices can consume a battery in the first post-slice iteration.
 - [ ] Final integration strategy after reviewing the existing health code.

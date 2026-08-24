@@ -1,4 +1,5 @@
 @using System
+@using System.Collections.Generic
 @using System.Linq
 @using Sandbox
 @using Sandbox.UI
@@ -8,6 +9,7 @@
 	var health = Health;
 	var armor = Armor;
 	var stamina = Stamina;
+	var lifeState = LifeState;
 	var isLocalHud = IsLocalHud;
 
 	float startingHealth = MathF.Max( 1f, health?.StartingHardMaxHealth ?? 100f );
@@ -22,6 +24,8 @@
 	bool isExhausted = stamina?.IsExhausted ?? false;
 	bool showStamina = stamina is not null && stamina.CurrentStamina < stamina.MaxStamina;
 	bool showArmor = armor is not null && armor.CurrentArmor > 0f;
+	bool canSpectate = lifeState?.CanSpectate ?? false;
+	string spectatedPlayerName = lifeState?.SpectatedPlayerName;
 }
 
 <root class="@RootClass">
@@ -101,9 +105,35 @@
 
 		@if ( isDead )
 		{
-			<div class="state-overlay dead-overlay">
+			<div class="state-overlay dead-overlay death-menu">
 				<label class="state-title">#vb.hud.signal_lost</label>
 				<label class="state-detail">#vb.hud.subject_deceased</label>
+
+				<div class="death-reason">
+					<label class="death-reason-title">#vb.hud.cause_of_death</label>
+					<label class="death-reason-value">@DeathReason</label>
+				</div>
+
+				@if ( !string.IsNullOrWhiteSpace( spectatedPlayerName ) )
+				{
+					<label class="spectating-label">@Phrase( "vb.hud.spectating", "Name", spectatedPlayerName )</label>
+				}
+				else if ( !canSpectate )
+				{
+					<label class="spectating-label unavailable">#vb.hud.no_spectate_targets</label>
+				}
+
+				<div class="death-actions">
+					<Button class="death-button spectate-button"
+						Text="#vb.hud.spectate"
+						Icon="visibility"
+						Disabled=@(!canSpectate)
+						onclick=@SpectateNext />
+					<Button class="death-button menu-button"
+						Text="#vb.hud.return_to_menu"
+						Icon="logout"
+						onclick=@ReturnToMenu />
+				</div>
 			</div>
 		}
 
@@ -139,6 +169,26 @@
 	private VBHealthComponent Health => LocalPlayer?.Components.Get<VBHealthComponent>();
 	private VBArmorComponent Armor => LocalPlayer?.Components.Get<VBArmorComponent>();
 	private VBStaminaComponent Stamina => LocalPlayer?.Components.Get<VBStaminaComponent>();
+	private VBPlayerLifeStateController LifeState => LocalPlayer?.Components.Get<VBPlayerLifeStateController>();
+
+	private string DeathReason
+	{
+		get
+		{
+			var health = Health;
+			if ( health is null )
+				return Phrase( "vb.hud.death_unknown" );
+
+			if ( !string.IsNullOrWhiteSpace( health.DownedInstigatorName ) )
+				return Phrase( "vb.hud.death_by_player", "Name", health.DownedInstigatorName );
+
+			var token = string.IsNullOrWhiteSpace( health.DownedReasonToken )
+				? "vb.hud.death_unknown"
+				: health.DownedReasonToken.TrimStart( '#' );
+
+			return Phrase( token );
+		}
+	}
 
 	private string RootClass
 	{
@@ -167,6 +217,30 @@
 
 	private static int Whole( float value ) => (int)MathF.Ceiling( MathF.Max( 0f, value ) );
 
+	private static string Phrase( string token )
+	{
+		return Language.GetPhrase( token, new Dictionary<string, object>() );
+	}
+
+	private static string Phrase( string token, string key, object value )
+	{
+		return Language.GetPhrase(
+			token,
+			new Dictionary<string, object> { [key] = value }
+		);
+	}
+
+	private void SpectateNext()
+	{
+		LifeState?.SpectateNext();
+		StateHasChanged();
+	}
+
+	private void ReturnToMenu()
+	{
+		LifeState?.ReturnToMenu();
+	}
+
 	protected override int BuildHash()
 	{
 		var hash = new HashCode();
@@ -184,12 +258,16 @@
 		hash.Add( health?.HardMaxHealth ?? -1f );
 		hash.Add( health?.IsDowned ?? false );
 		hash.Add( health?.IsDead ?? false );
+		hash.Add( health?.DownedReasonToken ?? string.Empty );
+		hash.Add( health?.DownedInstigatorName ?? string.Empty );
 		hash.Add( armor?.CurrentArmor ?? -1f );
 		hash.Add( armor?.MaxArmor ?? -1f );
 		hash.Add( stamina?.CurrentStamina ?? -1f );
 		hash.Add( stamina?.MaxStamina ?? -1f );
 		hash.Add( stamina?.IsExhausted ?? false );
 		hash.Add( weapon?.Id ?? Guid.Empty );
+		hash.Add( LifeState?.SpectatedPlayer?.Id ?? Guid.Empty );
+		hash.Add( LifeState?.CanSpectate ?? false );
 		return hash.ToHashCode();
 	}
 }

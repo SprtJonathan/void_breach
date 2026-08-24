@@ -32,6 +32,7 @@ public struct VBDamageInfo
 	public Vector3 Position { get; set; }
 	public Vector3 Force { get; set; }
 	public bool IsHeadshot { get; set; }
+	public string DownedReasonToken { get; set; }
 
 	public static VBDamageInfo Create(
 		float amount,

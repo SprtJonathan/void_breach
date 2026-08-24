@@ -62,6 +62,9 @@ public sealed class VBHealthComponent : Component, Component.IDamageable
 	[Sync( SyncFlags.FromHost )] public bool IsDowned { get; private set; }
 	[Sync( SyncFlags.FromHost )] public bool IsDead { get; private set; }
 	[Sync( SyncFlags.FromHost )] public bool IsDrainPaused { get; private set; }
+	[Sync( SyncFlags.FromHost )] public VBDamageType DownedDamageType { get; private set; }
+	[Sync( SyncFlags.FromHost )] public string DownedReasonToken { get; private set; }
+	[Sync( SyncFlags.FromHost )] public string DownedInstigatorName { get; private set; }
 
 	public float HealthFraction => SoftMaxHealth > 0f
 		? CurrentHealth / SoftMaxHealth
@@ -130,6 +133,9 @@ public sealed class VBHealthComponent : Component, Component.IDamageable
 		IsDowned = false;
 		IsDead = false;
 		IsDrainPaused = false;
+		DownedDamageType = VBDamageType.None;
+		DownedReasonToken = string.Empty;
+		DownedInstigatorName = string.Empty;
 		_softMaxEffectActive = false;
 		_softMaxReductionRate = 0f;
 		_activeSoftMaxRecoveryRate = SoftMaxRecoveryRate;
@@ -181,7 +187,7 @@ public sealed class VBHealthComponent : Component, Component.IDamageable
 				ApplySoftMaxEffect( info.SoftMaxReductionRate, info.SoftMaxRecoveryRate );
 
 			if ( CurrentHealth <= 0f )
-				EnterDownedState();
+				EnterDownedState( info );
 		}
 
 		OnDamaged?.Invoke( info );
@@ -302,13 +308,48 @@ public sealed class VBHealthComponent : Component, Component.IDamageable
 		NotifyHealthChanged();
 	}
 
-	private void EnterDownedState()
+	private void EnterDownedState( VBDamageInfo info )
 	{
 		IsDowned = true;
 		IsDrainPaused = false;
 		CurrentHealth = 0f;
+		DownedDamageType = info.Type;
+		DownedReasonToken = string.IsNullOrWhiteSpace( info.DownedReasonToken )
+			? GetDefaultDownedReasonToken( info.Type )
+			: info.DownedReasonToken;
+		DownedInstigatorName = GetInstigatorName( info.Attacker );
 		PlayDownedSound();
 		OnDowned?.Invoke();
+	}
+
+	private string GetInstigatorName( GameObject attacker )
+	{
+		if ( !attacker.IsValid() || attacker == GameObject )
+			return string.Empty;
+
+		return attacker.Network.Owner?.DisplayName ?? string.Empty;
+	}
+
+	private static string GetDefaultDownedReasonToken( VBDamageType damageType )
+	{
+		if ( damageType.HasFlag( VBDamageType.Explosion ) )
+			return "vb.hud.death_explosion";
+		if ( damageType.HasFlag( VBDamageType.Fall ) )
+			return "vb.hud.death_fall";
+		if ( damageType.HasFlag( VBDamageType.Fire ) )
+			return "vb.hud.death_fire";
+		if ( damageType.HasFlag( VBDamageType.Poison ) )
+			return "vb.hud.death_poison";
+		if ( damageType.HasFlag( VBDamageType.Energy ) )
+			return "vb.hud.death_energy";
+		if ( damageType.HasFlag( VBDamageType.Freeze ) )
+			return "vb.hud.death_freeze";
+		if ( damageType.HasFlag( VBDamageType.Blunt ) )
+			return "vb.hud.death_blunt";
+		if ( damageType.HasFlag( VBDamageType.Bullet ) )
+			return "vb.hud.death_bullet";
+
+		return "vb.hud.death_unknown";
 	}
 
 	private bool CanDamageHardHealthWhileDowned( VBDamageType damageType )
