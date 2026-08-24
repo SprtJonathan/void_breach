@@ -30,5 +30,6 @@
 	"vb.interaction.use": "INTERACT",
   "vb.interaction.pick_up": "PICK UP",
   "vb.interaction.open": "OPEN",
-  "vb.interaction.close": "CLOSE"
+  "vb.interaction.close": "CLOSE",
+  "vb.interaction.locked": "LOCKED"
 }

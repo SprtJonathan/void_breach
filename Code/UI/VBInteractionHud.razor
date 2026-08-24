@@ -91,6 +91,9 @@
 				 screenPosition.y < 0f || screenPosition.y > 1f )
 				continue;
 
+			if ( !HasLineOfSight( scene, camera.WorldPosition, worldPosition, prompt ) )
+				continue;
+
 			var inputAction = resolved.InputAction;
 			var inputOrigin = string.IsNullOrWhiteSpace( inputAction )
 				? string.Empty
@@ -121,6 +124,28 @@
 		}
 
 		Markers.Sort( ( left, right ) => right.Distance.CompareTo( left.Distance ) );
+	}
+
+	private bool HasLineOfSight(
+		Scene scene,
+		Vector3 cameraPosition,
+		Vector3 promptPosition,
+		VBInteractionPrompt prompt
+	)
+	{
+		if ( !prompt.RequireLineOfSight )
+			return true;
+
+		var occlusionPosition = prompt.GetOcclusionTestPosition( promptPosition );
+		var trace = scene.Trace
+			.Ray( cameraPosition, occlusionPosition )
+			.IgnoreGameObjectHierarchy( Player );
+
+		var occlusionRoot = prompt.GetOcclusionRoot();
+		if ( occlusionRoot.IsValid() )
+			trace = trace.IgnoreGameObjectHierarchy( occlusionRoot );
+
+		return !trace.Run().Hit;
 	}
 
 	private static string Localize( string value )

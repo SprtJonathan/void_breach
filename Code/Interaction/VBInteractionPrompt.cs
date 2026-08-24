@@ -13,8 +13,7 @@ public readonly record struct VBInteractionPromptState(
 );
 
 /// <summary>
-/// Configuration finale d'un prompt apres application de son etat dynamique
-/// et, le cas echeant, de son override enfant.
+/// Configuration finale d'un prompt apres application de son etat dynamique.
 /// </summary>
 public readonly record struct VBResolvedInteractionPrompt(
 	bool IsAvailable,
@@ -48,8 +47,12 @@ public interface IVBInteractionPromptProvider
 [Title( "World Interaction Prompt" )]
 [Category( "Void Breach/Interaction" )]
 [Icon( "ads_click" )]
-public sealed class VBInteractionPrompt : Component
+public sealed class VBInteractionPrompt : Component, Component.ExecuteInEditor
 {
+	/// <summary>
+	/// Affiche la carte detaillee a portee d'interaction. Cette option ne
+	/// controle pas le rond, qui reste independant via ShowMarker.
+	/// </summary>
 	[Property, Group( "Display" )]
 	public bool ShowPrompt { get; set; } = true;
 
@@ -80,6 +83,9 @@ public sealed class VBInteractionPrompt : Component
 	[Property, Group( "Placement" )]
 	public Vector3 LocalOffset { get; set; } = Vector3.Zero;
 
+	[Property, Group( "Placement" )]
+	public bool ShowPlacementGizmo { get; set; } = true;
+
 	/// <summary>
 	/// Decalage du bloc texte en pixels d'interface par rapport au centre du rond.
 	/// Le rond reste toujours exactement sur la position 3D du prompt.
@@ -94,18 +100,26 @@ public sealed class VBInteractionPrompt : Component
 	public float InteractionDistance { get; set; } = 48f;
 
 	/// <summary>
+	/// Masque le prompt lorsqu'un collider se trouve entre la camera locale
+	/// et son point d'affichage.
+	/// </summary>
+	[Property, Group( "Visibility" )]
+	public bool RequireLineOfSight { get; set; } = true;
+
+	/// <summary>
+	/// Hierarchie ignoree par le test d'occlusion. Laisser vide pour utiliser
+	/// le GameObject du provider dynamique, ou celui du prompt sans provider.
+	/// </summary>
+	[Property, Group( "Visibility" )]
+	public GameObject OcclusionRoot { get; set; }
+
+	/// <summary>
 	/// Composant facultatif implementant IVBInteractionPromptProvider.
-	/// Laisser vide pour rechercher automatiquement un provider sur ce GameObject.
+	/// Laisser vide pour rechercher automatiquement un provider sur ce
+	/// GameObject puis sur ses parents.
 	/// </summary>
 	[Property, Group( "Dynamic State" )]
 	public Component StateProvider { get; set; }
-
-	/// <summary>
-	/// Override visuel facultatif. S'il n'est pas assigne, le premier override
-	/// enfant est utilise automatiquement.
-	/// </summary>
-	[Property, Group( "Override" )]
-	public VBInteractionPromptOverride PromptOverride { get; set; }
 
 	private IVBInteractionPromptProvider _cachedProvider;
 
@@ -136,9 +150,6 @@ public sealed class VBInteractionPrompt : Component
 
 	public VBInteractionPromptState GetState( GameObject viewer )
 	{
-		if ( !ShowPrompt )
-			return new VBInteractionPromptState( false );
-
 		var state = ResolveProvider()?.GetInteractionPromptState( viewer )
 			?? new VBInteractionPromptState( true );
 
@@ -160,72 +171,25 @@ public sealed class VBInteractionPrompt : Component
 	}
 
 	/// <summary>
-	/// Resout une seule representation a afficher. L'override n'est jamais une
-	/// seconde source de HUD : seuls les groupes coches remplacent la source.
+	/// Resout une seule representation a afficher.
 	/// </summary>
 	public VBResolvedInteractionPrompt Resolve( GameObject viewer )
 	{
 		var state = GetState( viewer );
-		var worldPosition = GetPromptWorldPosition();
-		var cardScreenOffset = CardScreenOffset;
-		var appearanceDistance = AppearanceDistance;
-		var interactionDistance = InteractionDistance;
-		var showMarker = ShowMarker;
-		var showInteractionText = ShowInteractionText;
-		var showInputAction = ShowInputAction;
-		var showTitle = ShowTitle;
-		var textToken = state.TextToken;
-		var inputAction = state.InputAction;
-		var titleText = state.TitleText;
-
-		var promptOverride = ResolveOverride();
-		if ( promptOverride.IsValid() && promptOverride.Enabled )
-		{
-			if ( promptOverride.OverridePosition )
-				worldPosition = promptOverride.GetPromptWorldPosition();
-
-			if ( promptOverride.OverrideCardPlacement )
-				cardScreenOffset = promptOverride.CardScreenOffset;
-
-			if ( promptOverride.OverrideContent )
-			{
-				textToken = promptOverride.InteractionText;
-				inputAction = promptOverride.InputAction;
-				titleText = promptOverride.TitleText;
-			}
-
-			if ( promptOverride.OverrideDisplay )
-			{
-				showMarker = promptOverride.ShowMarker;
-				showInteractionText = promptOverride.ShowInteractionText;
-				showInputAction = promptOverride.ShowInputAction;
-				showTitle = promptOverride.ShowTitle;
-			}
-
-			if ( promptOverride.OverrideDistances )
-			{
-				appearanceDistance = MathF.Max( 1f, promptOverride.AppearanceDistance );
-				interactionDistance = Math.Clamp(
-					promptOverride.InteractionDistance,
-					1f,
-					appearanceDistance
-				);
-			}
-		}
 
 		return new VBResolvedInteractionPrompt(
 			state.IsAvailable,
-			textToken,
-			inputAction,
-			titleText,
-			worldPosition,
-			cardScreenOffset,
-			appearanceDistance,
-			interactionDistance,
-			showMarker,
-			showInteractionText,
-			showInputAction,
-			showTitle
+			state.TextToken,
+			state.InputAction,
+			state.TitleText,
+			GetPromptWorldPosition(),
+			CardScreenOffset,
+			AppearanceDistance,
+			InteractionDistance,
+			ShowMarker,
+			ShowPrompt && ShowInteractionText,
+			ShowPrompt && ShowInputAction,
+			ShowPrompt && ShowTitle
 		);
 	}
 
@@ -235,15 +199,47 @@ public sealed class VBInteractionPrompt : Component
 		return anchor.WorldPosition + anchor.WorldRotation * LocalOffset;
 	}
 
-	private VBInteractionPromptOverride ResolveOverride()
+	public GameObject GetOcclusionRoot()
 	{
-		if ( PromptOverride.IsValid() )
-			return PromptOverride;
+		if ( OcclusionRoot.IsValid() )
+			return OcclusionRoot;
 
-		return GetComponentInChildren<VBInteractionPromptOverride>(
-			includeDisabled: true,
-			includeSelf: false
-		);
+		if ( ResolveProvider() is Component provider && provider.IsValid() )
+			return provider.GameObject;
+
+		return GameObject;
+	}
+
+	/// <summary>
+	/// Retourne un point situe dans le volume visible de l'objet. Le rond reste
+	/// sur sa position configuree, mais le rayon d'occlusion ne termine ainsi
+	/// pas dans le sol lorsque l'origine de l'item est au niveau du plancher.
+	/// </summary>
+	public Vector3 GetOcclusionTestPosition( Vector3 promptPosition )
+	{
+		var occlusionRoot = GetOcclusionRoot();
+		if ( occlusionRoot.IsValid() )
+		{
+			var bounds = occlusionRoot.GetBounds();
+			if ( bounds.Size.LengthSquared > 0.001f )
+				return bounds.Center;
+		}
+
+		return promptPosition + Vector3.Up * 4f;
+	}
+
+	protected override void DrawGizmos()
+	{
+		if ( !ShowPlacementGizmo )
+			return;
+
+		var position = GetPromptWorldPosition();
+		Gizmo.Draw.Color = new Color( 0.95f, 0.64f, 0.23f, 0.95f );
+		Gizmo.Draw.IgnoreDepth = true;
+		Gizmo.Draw.LineSphere( position, 4f );
+
+		if ( Anchor.IsValid() && Anchor != GameObject )
+			Gizmo.Draw.Line( WorldPosition, position );
 	}
 
 	private IVBInteractionPromptProvider ResolveProvider()
@@ -264,12 +260,15 @@ public sealed class VBInteractionPrompt : Component
 		if ( _cachedProvider is not null )
 			return;
 
-		foreach ( var component in Components.GetAll() )
+		for ( var current = GameObject; current.IsValid(); current = current.Parent )
 		{
-			if ( component is IVBInteractionPromptProvider provider )
+			foreach ( var component in current.Components.GetAll() )
 			{
-				_cachedProvider = provider;
-				return;
+				if ( component is IVBInteractionPromptProvider provider )
+				{
+					_cachedProvider = provider;
+					return;
+				}
 			}
 		}
 	}

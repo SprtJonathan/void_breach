@@ -30,5 +30,6 @@
 	"vb.interaction.use": "INTERAGIR",
   "vb.interaction.pick_up": "RAMASSER",
   "vb.interaction.open": "OUVRIR",
-  "vb.interaction.close": "FERMER"
+  "vb.interaction.close": "FERMER",
+  "vb.interaction.locked": "VERROUILLÉ"
 }

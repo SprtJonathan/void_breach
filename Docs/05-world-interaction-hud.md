@@ -16,45 +16,49 @@ l'objet n'appartient a aucun inventaire. Le groupe **Interaction Prompt** permet
 - la position locale du marqueur, relative a l'origine de l'item ;
 - la distance d'apparition et la distance d'interaction ;
 - l'affichage du rond, du nom de l'objet, de la touche et du texte.
+- la verification de visibilite entre la camera et l'item.
 
 Par defaut, le rond est place exactement a l'origine de l'item (`PromptLocalOffset = 0,0,0`).
 Le bloc texte est decale independamment de 24 pixels vers le haut avec
 `PromptCardScreenOffset = 0,-24` : son apparition ne deplace donc jamais le rond et ne change
 pas la zone que le joueur vise pour ramasser l'objet.
 
-Pour surcharger proprement le placement dans un prefab, creer un GameObject enfant a l'endroit
-voulu et lui ajouter `World Interaction Prompt Override`. Par defaut, son seul groupe actif est
-`OverridePosition` : il herite donc automatiquement du texte, de la touche, du nom de l'item,
-des options d'affichage, des distances et du decalage de carte definis sur l'item. L'origine de
-ce GameObject enfant devient uniquement la position du rond.
+Pour modifier le placement dans un prefab, creer un GameObject enfant vide a l'endroit voulu et
+l'assigner directement dans `PromptAnchor`. Cet enfant ne porte aucun composant de prompt : il
+sert uniquement d'ancre. Le texte, la touche, les distances et l'affichage restent configures sur
+`InventoryWorldRepresentation`, ce qui evite deux sources concurrentes.
 
-Chaque autre groupe peut etre remplace independamment :
-
-- `OverrideCardPlacement` pour le decalage en pixels du bloc texte ;
-- `OverrideContent` pour le texte, la touche et le titre ;
-- `OverrideDisplay` pour choisir les parties visibles ;
-- `OverrideDistances` pour les deux distances.
-
-Cela permet aussi l'inverse : desactiver `OverridePosition` et activer seulement les groupes de
-contenu ou d'affichage. `PromptOverride` sur `InventoryWorldRepresentation` permet de choisir
-explicitement l'override si le prefab en contient plusieurs ; sinon le premier enfant est trouve
-automatiquement. Un ancien composant `World Interaction Prompt` complet place sur un enfant est
-encore accepte comme ancre unique pour compatibilite, sans creer un second marqueur.
+`PromptRequiresLineOfSight` est actif par defaut. Le HUD local lance un rayon depuis la camera
+vers le centre des bounds visibles de l'item apres les tests de distance et de cadrage. Le rond
+reste bien a la position configuree : ce point de test distinct evite simplement qu'une origine
+posee dans le sol soit consideree comme occultee. La hierarchie du joueur et celle de l'item sont
+ignorees : l'item ne masque pas son propre prompt, tandis qu'un mur ou un autre collider le fait
+disparaitre. Desactiver cette option permet ponctuellement un marqueur visible a travers les
+obstacles.
 
 ## Autres objets interactibles
 
-Ajouter `World Interaction Prompt` au GameObject source. `Anchor` peut designer un enfant servant
-de point d'accroche precis. Sans ancre, `LocalOffset` part de l'origine de l'objet et vaut zero par
-defaut. `CardScreenOffset` deplace uniquement le bloc descriptif, jamais le rond. Le meme composant
-`World Interaction Prompt Override` peut etre ajoute sous une porte ou tout autre interactible :
-il surcharge les groupes coches et herite du reste, y compris du texte dynamique du provider.
+Ajouter `World Interaction Prompt` au GameObject source ou directement sur un enfant vide place
+au point d'accroche. Sans `Anchor`, le composant utilise toujours l'origine du GameObject qui le
+porte. Si `Anchor` est renseigne, sa position prend volontairement priorite. `LocalOffset` applique
+une correction locale et vaut zero par defaut. `ShowPlacementGizmo` affiche dans l'editeur le point
+orange reellement utilise. `CardScreenOffset` deplace uniquement le bloc descriptif, jamais le rond.
+
+Dans le groupe **Display**, `ShowMarker` controle uniquement le rond et `ShowPrompt` uniquement la
+carte detaillee affichee a portee. `ShowTitle`, `ShowInputAction` et `ShowInteractionText` permettent
+ensuite de choisir les lignes presentes dans cette carte.
 
 Le texte peut etre un token commencant par `#`, resolu dans le dossier `Localization`. Pour un
 texte dynamique, le composant qui porte l'etat de gameplay implemente
-`IVBInteractionPromptProvider`. Le marqueur le trouve automatiquement lorsqu'il est place sur
-le meme GameObject, ou il peut etre assigne dans `StateProvider`.
+`IVBInteractionPromptProvider`. Le marqueur le trouve automatiquement sur son GameObject ou ses
+parents, ou il peut etre assigne explicitement dans `StateProvider`.
 
-Exemple pour une porte dont `IsOpen` est deja synchronise par son composant de gameplay :
+Pour une porte native `Sandbox.Mapping.Door`, ajouter `Door Interaction Prompt Provider` sur le
+GameObject de la porte. Il lit son `State` synchronise et retourne automatiquement `OUVRIR`,
+`FERMER` ou `VERROUILLE`. Un prompt place sur un enfant-poignee trouve ce provider parent sans
+configuration supplementaire.
+
+Le principe reste identique pour une porte personnalisee :
 
 ```csharp
 public sealed class Door : Component, IVBInteractionPromptProvider

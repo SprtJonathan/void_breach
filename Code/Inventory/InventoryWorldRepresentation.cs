@@ -64,13 +64,6 @@ public sealed class InventoryWorldRepresentation : Component, IVBInteractionProm
 	[Property, Group( "Interaction Prompt" )]
 	public Vector2 PromptCardScreenOffset { get; set; } = new( 0f, -24f );
 
-	/// <summary>
-	/// Override enfant facultatif. Sans reference, le premier composant
-	/// World Interaction Prompt Override enfant est trouve automatiquement.
-	/// </summary>
-	[Property, Group( "Interaction Prompt" )]
-	public VBInteractionPromptOverride PromptOverride { get; set; }
-
 	[Property, Group( "Interaction Prompt" ), Range( 1f, 4096f ), Step( 1f )]
 	public float PromptAppearanceDistance { get; set; } = 240f;
 
@@ -88,6 +81,13 @@ public sealed class InventoryWorldRepresentation : Component, IVBInteractionProm
 
 	[Property, Group( "Interaction Prompt" )]
 	public bool PromptShowsItemName { get; set; } = true;
+
+	/// <summary>
+	/// Masque le repere si un mur ou un autre objet physique se trouve entre
+	/// la camera locale et l'item.
+	/// </summary>
+	[Property, Group( "Interaction Prompt" )]
+	public bool PromptRequiresLineOfSight { get; set; } = true;
 
 	private bool? _lastWorldState;
 
@@ -128,14 +128,9 @@ public sealed class InventoryWorldRepresentation : Component, IVBInteractionProm
 			includeSelf: false
 		);
 		var rootPrompt = GetComponent<VBInteractionPrompt>();
-		var hasStructuredOverride = PromptOverride.IsValid() ||
-			GetComponentInChildren<VBInteractionPromptOverride>(
-				includeDisabled: true,
-				includeSelf: false
-			).IsValid();
 
 		VBInteractionPrompt prompt;
-		if ( childPrompt.IsValid() && !hasStructuredOverride )
+		if ( childPrompt.IsValid() )
 		{
 			prompt = childPrompt;
 			if ( rootPrompt.IsValid() && rootPrompt != prompt )
@@ -147,11 +142,8 @@ public sealed class InventoryWorldRepresentation : Component, IVBInteractionProm
 				? rootPrompt
 				: GameObject.AddComponent<VBInteractionPrompt>();
 			prompt.Enabled = true;
-			if ( childPrompt.IsValid() && childPrompt != prompt )
-				childPrompt.Enabled = false;
 			prompt.Anchor = PromptAnchor;
 			prompt.LocalOffset = PromptLocalOffset;
-			prompt.PromptOverride = PromptOverride;
 		}
 
 		prompt.InteractionText = PickupText;
@@ -163,6 +155,8 @@ public sealed class InventoryWorldRepresentation : Component, IVBInteractionProm
 		prompt.ShowMarker = PromptShowsMarker;
 		prompt.ShowTitle = PromptShowsItemName;
 		prompt.CardScreenOffset = PromptCardScreenOffset;
+		prompt.RequireLineOfSight = PromptRequiresLineOfSight;
+		prompt.OcclusionRoot = GameObject;
 		prompt.SetProviderIfEmpty( this );
 	}
 
