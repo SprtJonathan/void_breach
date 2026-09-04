@@ -28,6 +28,9 @@ internal sealed class VBDrainModifier
 /// </summary>
 public sealed class VBHealthComponent : Component, Component.IDamageable
 {
+	[Property, Group( "Life Cycle" )]
+	public bool CanBeDowned { get; set; } = true;
+
 	[Property, Range( 1f, 500f )]
 	public float StartingHardMaxHealth { get; set; } = 100f;
 
@@ -187,7 +190,12 @@ public sealed class VBHealthComponent : Component, Component.IDamageable
 				ApplySoftMaxEffect( info.SoftMaxReductionRate, info.SoftMaxRecoveryRate );
 
 			if ( CurrentHealth <= 0f )
-				EnterDownedState( info );
+			{
+				if ( CanBeDowned )
+					EnterDownedState( info );
+				else
+					Die();
+			}
 		}
 
 		OnDamaged?.Invoke( info );

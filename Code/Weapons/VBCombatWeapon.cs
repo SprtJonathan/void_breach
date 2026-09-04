@@ -169,6 +169,13 @@ public sealed class VBCombatWeapon : BaseCombatWeapon, IVBIncapacitatedItemPrese
 	[Property, Group( "Ammo Feedback" ), Range( 0.05f, 0.95f ), Step( 0.05f )]
 	public float LowAmmoThreshold { get; set; } = 0.25f;
 
+	/// <summary>
+	/// Rayon de gameplay dans lequel un tir peut être entendu par l'IA.
+	/// Zéro désactive le stimulus sans couper le son audio du tir.
+	/// </summary>
+	[Property, Group( "AI Hearing" ), Range( 0f, 5000f ), Step( 50f )]
+	public float GunshotAiRadius { get; set; } = 1800f;
+
 	private float _aimAmount;
 	private bool _wantsToAim;
 	private GameObject _lookInertiaViewModel;
@@ -468,6 +475,8 @@ public sealed class VBCombatWeapon : BaseCombatWeapon, IVBIncapacitatedItemPrese
 		if ( !UsesPrimaryClip || previousClip <= Clip1 )
 			return;
 
+		ReportGunshotToHost();
+
 		if ( Clip1 <= 0 )
 		{
 			PlayLocalFeedback( MagazineDepletedSound );
@@ -480,6 +489,21 @@ public sealed class VBCombatWeapon : BaseCombatWeapon, IVBIncapacitatedItemPrese
 		{
 			PlayLocalFeedback( LowAmmoSound );
 		}
+	}
+
+	[Rpc.Host( NetFlags.OwnerOnly )]
+	private void ReportGunshotToHost()
+	{
+		if ( GunshotAiRadius <= 0f )
+			return;
+
+		var source = Owner.IsValid() ? Owner.GameObject.Root : GameObject.Root;
+		var position = GetMuzzleTransform().Position;
+
+		if ( source.IsValid() && Vector3.DistanceBetween( position, source.WorldPosition ) > 256f )
+			position = source.WorldPosition + Vector3.Up * 48f;
+
+		VBAiSoundStimulus.Emit( position, GunshotAiRadius, source, VBAiSoundKind.Gunshot );
 	}
 
 	private int GetLowAmmoCount()

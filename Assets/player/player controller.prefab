@@ -16,6 +16,27 @@
     "OwnerTransfer": 1,
     "Components": [
       {
+        "__type": "VBFactionComponent",
+        "__guid": "4a76ece7-a23d-4d98-a8e4-1f4a2a0fc924",
+        "__enabled": true,
+        "Flags": 0,
+        "FactionId": "player",
+        "HostileFactions": [
+          "cartel",
+          "xen"
+        ],
+        "HostileToOtherTeams": true,
+        "IgnoredFactions": [],
+        "IsTargetable": true,
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "TeamId": ""
+      },
+      {
         "__type": "Sandbox.PlayerController",
         "__guid": "c085fbe2-eed9-44b1-b1a3-0be503ea0f07",
         "__enabled": true,

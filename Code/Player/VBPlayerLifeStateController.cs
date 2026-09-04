@@ -366,6 +366,7 @@ public sealed class VBPlayerLifeStateController : Component, PlayerController.IE
 			.GetAll<VBHealthComponent>()
 			.Where( candidate => candidate.IsValid() )
 			.Where( candidate => candidate.GameObject != GameObject )
+			.Where( candidate => candidate.Components.Get<PlayerController>().IsValid() )
 			.Where( candidate => !candidate.IsDead && !candidate.IsDowned )
 			.Select( candidate => candidate.GameObject )
 			.OrderBy( GetPlayerName )
