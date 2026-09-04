@@ -8,7 +8,7 @@ using Sandbox.Rendering;
 /// </summary>
 [Title( "Void Breach Combat Weapon" )]
 [Category( "Void Breach/Weapons" )]
-public sealed class VBCombatWeapon : BaseCombatWeapon, IVBIncapacitatedItemPresentation
+public sealed class VBCombatWeapon : BaseCombatWeapon
 {
 	/// <summary>
 	/// Active ou désactive le zoom de caméra lorsque l'arme est utilisée en vue FPS.
@@ -181,7 +181,6 @@ public sealed class VBCombatWeapon : BaseCombatWeapon, IVBIncapacitatedItemPrese
 	private GameObject _lookInertiaViewModel;
 	private Rotation _laggedCameraRotation;
 	private bool _hasLaggedCameraRotation;
-	private bool _holderIncapacitated;
 
 	/// <summary>
 	/// Nombre de cartouches correspondant au seuil configuré pour ce chargeur.
@@ -189,8 +188,7 @@ public sealed class VBCombatWeapon : BaseCombatWeapon, IVBIncapacitatedItemPrese
 	public int LowAmmoCount => GetLowAmmoCount();
 
 	/// <summary>
-	/// Garantit le modèle 3PP sur chaque pair et maintient le viewmodel local
-	/// dans l'état correspondant à celui du porteur.
+	/// Garantit le modèle 3PP sur chaque pair.
 	/// </summary>
 	protected override void OnUpdate()
 	{
@@ -204,20 +202,6 @@ public sealed class VBCombatWeapon : BaseCombatWeapon, IVBIncapacitatedItemPrese
 		// tardive de l'ownership ou de l'ActiveItem au spawn.
 		if ( IsHeld && !WorldModel.IsValid() )
 			CreateWorldModel();
-
-		ApplyViewModelVisibility();
-	}
-
-	public void SetHolderIncapacitated( bool incapacitated )
-	{
-		_holderIncapacitated = incapacitated;
-		ApplyViewModelVisibility();
-	}
-
-	private void ApplyViewModelVisibility()
-	{
-		if ( ViewModel.IsValid() )
-			ViewModel.Enabled = !_holderIncapacitated;
 	}
 
 	/// <summary>
@@ -225,13 +209,6 @@ public sealed class VBCombatWeapon : BaseCombatWeapon, IVBIncapacitatedItemPrese
 	/// </summary>
 	protected override void Think()
 	{
-		if ( _holderIncapacitated )
-		{
-			_wantsToAim = false;
-			_aimAmount = 0f;
-			return;
-		}
-
 		base.Think();
 
 		_wantsToAim = IsHeld

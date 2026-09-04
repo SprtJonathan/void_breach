@@ -252,7 +252,7 @@ While downed:
 - any other player can attempt a revive, regardless of team;
 - no alliance is created by the action.
 
-The downed camera follows the player's replicated in-place ragdoll. Normal control is disabled, but the owner can still rotate the camera around the body. The capsule remains at the down location and has no physical interaction while the player is incapacitated. The active inventory item is preserved: its first-person view model is hidden while its normal, collision-free world model remains attached to the physical hand. No ragdoll or weapon visual copy is created. On revive, the capsule is teleported to the ragdoll's final grounded position before animation and control are restored. On permanent death, the death screen can spectate another living player. Spectating prioritizes living teammates when a team provider is available and falls back to any living player otherwise.
+The downed camera follows the player's replicated in-place ragdoll. Normal control is disabled, but the owner can still rotate the camera around the body. The capsule remains at the down location and has no physical interaction while the player is incapacitated. Inventory items are preserved: every first-person weapon view model is hidden centrally by the player's life-state controller, while normal collision-free world models remain available for third-person presentation. No ragdoll or weapon visual copy is created. On revive, the capsule is teleported to the ragdoll's final grounded position before animation and control are restored. On permanent death, the death screen can spectate another living player. Spectating prioritizes living teammates when a team provider is available and falls back to any living player otherwise.
 
 ### 4.2 Revive methods
 

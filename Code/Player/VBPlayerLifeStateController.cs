@@ -13,16 +13,6 @@ public interface IVBTeamMember
 }
 
 /// <summary>
-/// Présentation facultative d'un objet conservé en main pendant une mise à
-/// terre. Le world model reste attaché au squelette du joueur ; seule la
-/// présentation locale incompatible avec cet état (le viewmodel FPS) change.
-/// </summary>
-public interface IVBIncapacitatedItemPresentation
-{
-	void SetHolderIncapacitated( bool incapacitated );
-}
-
-/// <summary>
 /// Presents the authoritative health state as player control, an in-place
 /// replicated ragdoll and local downed/death cameras.
 /// </summary>
@@ -44,8 +34,6 @@ public sealed class VBPlayerLifeStateController : Component, PlayerController.IE
 	private PlayerController _controller;
 	private VBHealthComponent _health;
 	private BaseInventoryComponent _inventory;
-	private BaseInventoryItem _incapacitatedItem;
-	private IVBIncapacitatedItemPresentation _incapacitatedItemPresentation;
 	private GameObject _spectatedPlayer;
 	private bool _defaultsCaptured;
 	private bool _presentationIncapacitated;
@@ -104,6 +92,10 @@ public sealed class VBPlayerLifeStateController : Component, PlayerController.IE
 	{
 		if ( IsProxy || !camera.IsValid() || !_health.IsValid() )
 			return;
+
+		// Runs after component updates and immediately before rendering. This
+		// catches viewmodels created during the same frame as incapacitation.
+		SetFirstPersonPresentationEnabled( !IsIncapacitated );
 
 		if ( _health.IsDowned )
 		{
@@ -229,8 +221,7 @@ public sealed class VBPlayerLifeStateController : Component, PlayerController.IE
 
 	private void ApplyIncapacitatedPresentation()
 	{
-		CaptureIncapacitatedItem();
-		_incapacitatedItemPresentation?.SetHolderIncapacitated( true );
+		SetFirstPersonPresentationEnabled( false );
 		_controller.UseAnimatorControls = false;
 
 		if ( _controller.Renderer.IsValid() )
@@ -287,9 +278,7 @@ public sealed class VBPlayerLifeStateController : Component, PlayerController.IE
 		}
 
 		_controller.UseAnimatorControls = _defaultUseAnimatorControls;
-		_incapacitatedItemPresentation?.SetHolderIncapacitated( false );
-		_incapacitatedItem = null;
-		_incapacitatedItemPresentation = null;
+		SetFirstPersonPresentationEnabled( true );
 
 		if ( !IsProxy )
 			PlacePlayerAfterRevive( standPosition );
@@ -313,17 +302,21 @@ public sealed class VBPlayerLifeStateController : Component, PlayerController.IE
 		Mouse.Visibility = MouseVisibility.Auto;
 	}
 
-	private void CaptureIncapacitatedItem()
+	/// <summary>
+	/// Controls every first-person weapon presentation owned by this player.
+	/// World models are deliberately untouched so other players still see the
+	/// held item on the replicated character or ragdoll.
+	/// </summary>
+	private void SetFirstPersonPresentationEnabled( bool enabled )
 	{
-		if ( _incapacitatedItem.IsValid() )
+		if ( Application.IsDedicatedServer || !_inventory.IsValid() )
 			return;
 
-		var activeItem = _inventory.IsValid() ? _inventory.ActiveItem : null;
-		if ( !activeItem.IsValid() )
-			return;
-
-		_incapacitatedItem = activeItem;
-		_incapacitatedItemPresentation = activeItem as IVBIncapacitatedItemPresentation;
+		foreach ( var weapon in _inventory.Items.OfType<BaseCombatWeapon>() )
+		{
+			if ( weapon.ViewModel.IsValid() )
+				weapon.ViewModel.Enabled = enabled;
+		}
 	}
 
 	private void PlaceCameraAtRagdoll( CameraComponent camera )
