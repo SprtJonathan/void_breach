@@ -258,9 +258,24 @@
         "PickupRadius": 48,
         "StartingAmmo": [],
         "StartingItems": [
-          null
+          {
+            "_type": "gameobject",
+            "prefab": "weapons/fists/fists.prefab"
+          }
         ],
         "UsesLoadout": true
+      },
+      {
+        "__type": "VBWeaponSelectionController",
+        "__guid": "8dbcd5b2-7c5f-43dc-b779-af2d5a9e3475",
+        "__enabled": true,
+        "Flags": 0,
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null
       },
       {
         "__type": "VBHealthComponent",

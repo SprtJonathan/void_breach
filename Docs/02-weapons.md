@@ -309,6 +309,25 @@ Names and exact types are illustrative. The real implementation must extend or c
 
 ## 6. Melee
 
+### 6.0 Bare hands baseline
+
+The player starts with permanent fists in Weapon Slot A. This first melee
+implementation deliberately uses the native S&box weapon stack:
+
+- `BaseCombatWeapon` with ammunition disabled;
+- the official human first-person arms and their punching animation graph;
+- the native short-range melee trace, prediction and host validation;
+- `Slot1`, `Slot2`, `SlotNext` and `SlotPrev` for weapon selection;
+- `BaseInventoryComponent.Switch` for authoritative equipment changes.
+
+Fists cannot be dropped. Their first-pass values are an 80-unit reach, an
+8-unit trace radius, 20 blunt damage, 500 force and a 0.45-second attack delay.
+These values remain data-configurable on the prefab.
+
+The current HUD exposes Weapon Slots A and B. It uses the active input origin
+so the displayed control follows the player's keyboard or gamepad binding.
+Weapon names are localized (`Fists` / `Poings`).
+
 ### 6.1 Universal push
 
 While holding a firearm, the player may perform a short melee push.
@@ -389,6 +408,8 @@ The first milestone may contain only the sample pistol while the network, ViewMo
 - [x] No weapon degradation.
 - [x] Attachments are outside the vertical slice.
 - [x] Hitscan/projectile behavior is hybrid and data-driven.
+- [x] Permanent fists provide the native melee baseline and fallback weapon.
+- [x] Weapon Slots A/B can be selected through native slot and cycle inputs.
 
 ## 11. Open Questions
 

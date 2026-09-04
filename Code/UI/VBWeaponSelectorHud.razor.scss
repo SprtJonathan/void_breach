@@ -1,0 +1,85 @@
+VBWeaponSelectorHud {
+	position: absolute;
+	right: 44px;
+	bottom: 38px;
+	width: 310px;
+	font-family: Roboto Mono;
+	color: #f3a43b;
+	pointer-events: none;
+
+	&.hidden {
+		display: none;
+	}
+
+	.weapon-slots {
+		width: 100%;
+		display: flex;
+		gap: 7px;
+	}
+
+	.weapon-slot {
+		position: relative;
+		width: 151px;
+		height: 66px;
+		display: flex;
+		align-items: center;
+		gap: 9px;
+		padding: 8px 10px;
+		background-color: rgba(10, 13, 12, 0.72);
+		border-bottom: 2px solid rgba(243, 164, 59, 0.2);
+		opacity: 0.52;
+		transition: opacity 0.14s ease-out, border-color 0.14s ease-out, background-color 0.14s ease-out;
+
+		&.active {
+			background-color: rgba(18, 20, 16, 0.92);
+			border-bottom-color: #f3a43b;
+			box-shadow: 0 0 15px rgba(0, 0, 0, 0.62);
+			opacity: 1;
+		}
+
+		&.empty {
+			opacity: 0.26;
+		}
+	}
+
+	.slot-key {
+		width: 27px;
+		height: 27px;
+		align-items: center;
+		justify-content: center;
+		background-color: rgba(243, 164, 59, 0.08);
+		border: 1px solid rgba(243, 164, 59, 0.46);
+		font-size: 11px;
+		font-weight: 900;
+	}
+
+	.slot-identity {
+		min-width: 0;
+		flex-grow: 1;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.slot-name {
+		font-size: 8px;
+		font-weight: 700;
+		letter-spacing: 1px;
+		opacity: 0.55;
+	}
+
+	.weapon-name {
+		max-width: 96px;
+		margin-top: 3px;
+		font-size: 10px;
+		font-weight: 900;
+		letter-spacing: 0.6px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	&:intro {
+		opacity: 0;
+		transform: translateY( 8px );
+	}
+}

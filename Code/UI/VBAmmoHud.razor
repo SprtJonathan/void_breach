@@ -21,7 +21,7 @@
 				<label class="ammo-icon">●</label>
 				<div class="ammo-identity">
 					<label class="ammo-title">#vb.hud.ammunition</label>
-					<label class="weapon-name">@weapon.DisplayName</label>
+					<label class="weapon-name">@Localize( weapon.DisplayName )</label>
 				</div>
 				<div class="ammo-values">
 					<label class="loaded-ammo">@(hasBottomlessReserve && !usesClip ? "∞" : Math.Max( 0, loadedAmmo ).ToString())</label>
@@ -112,6 +112,16 @@
 			return 0f;
 
 		return Math.Clamp( value / maximum * 100f, 0f, 100f );
+	}
+
+	private static string Localize( string value )
+	{
+		if ( string.IsNullOrWhiteSpace( value ) )
+			return string.Empty;
+
+		return value.Length > 1 && value[0] == '#'
+			? Language.GetPhrase( value[1..] )
+			: value;
 	}
 
 	protected override int BuildHash()

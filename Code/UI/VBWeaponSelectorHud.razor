@@ -1,0 +1,97 @@
+@using System
+@using System.Linq
+@using Sandbox
+@using Sandbox.UI
+@inherits Panel
+
+@{
+	var slotA = WeaponInSlot( VBWeaponSelectionController.FirstWeaponSlot );
+	var slotB = WeaponInSlot( VBWeaponSelectionController.FirstWeaponSlot + 1 );
+}
+
+<root class="@RootClass">
+	<div class="weapon-slots">
+		@WeaponSlot( slotA, "Slot1", "A" )
+		@WeaponSlot( slotB, "Slot2", "B" )
+	</div>
+</root>
+
+@code
+{
+	public GameObject Player { get; set; }
+
+	public bool IsSuppressed { get; set; }
+
+	private BaseInventoryComponent Inventory => Player?.Components.Get<BaseInventoryComponent>();
+
+	private string RootClass => IsSuppressed || Inventory is null ? "hidden" : string.Empty;
+
+	private BaseCombatWeapon WeaponInSlot( int slot )
+	{
+		return Inventory?.Items
+			.OfType<BaseCombatWeapon>()
+			.Where( item => item.Slot == slot )
+			.OrderBy( item => item.SlotOrder )
+			.FirstOrDefault();
+	}
+
+	private RenderFragment WeaponSlot( BaseCombatWeapon weapon, string inputAction, string slotName ) => builder =>
+	{
+		var isActive = weapon.IsValid() && Inventory?.ActiveItem == weapon;
+		var cssClass = $"weapon-slot {(isActive ? "active" : "inactive")} {(weapon.IsValid() ? "occupied" : "empty")}";
+		var inputOrigin = Input.GetButtonOrigin( inputAction ) ?? inputAction.ToUpperInvariant();
+		var weaponName = weapon.IsValid() ? Localize( weapon.DisplayName ) : Language.GetPhrase( "vb.hud.empty_slot" );
+
+		builder.OpenElement( 0, "div" );
+		builder.AddAttribute( 1, "class", cssClass );
+		builder.OpenElement( 2, "label" );
+		builder.AddAttribute( 3, "class", "slot-key" );
+		builder.AddContent( 4, inputOrigin );
+		builder.CloseElement();
+		builder.OpenElement( 5, "div" );
+		builder.AddAttribute( 6, "class", "slot-identity" );
+		builder.OpenElement( 7, "label" );
+		builder.AddAttribute( 8, "class", "slot-name" );
+		builder.AddContent( 9, $"{Language.GetPhrase( "vb.hud.weapon_slot" )} {slotName}" );
+		builder.CloseElement();
+		builder.OpenElement( 10, "label" );
+		builder.AddAttribute( 11, "class", "weapon-name" );
+		builder.AddContent( 12, weaponName );
+		builder.CloseElement();
+		builder.CloseElement();
+		builder.CloseElement();
+	};
+
+	private static string Localize( string value )
+	{
+		if ( string.IsNullOrWhiteSpace( value ) )
+			return string.Empty;
+
+		return value.Length > 1 && value[0] == '#'
+			? Language.GetPhrase( value[1..] )
+			: value;
+	}
+
+	protected override int BuildHash()
+	{
+		var hash = new HashCode();
+		var inventory = Inventory;
+
+		hash.Add( Player?.Id ?? Guid.Empty );
+		hash.Add( IsSuppressed );
+		hash.Add( inventory?.ActiveItem?.Id ?? Guid.Empty );
+
+		if ( inventory is not null )
+		{
+			foreach ( var weapon in inventory.Items.OfType<BaseCombatWeapon>() )
+			{
+				hash.Add( weapon.Id );
+				hash.Add( weapon.Slot );
+				hash.Add( weapon.SlotOrder );
+				hash.Add( weapon.DisplayName );
+			}
+		}
+
+		return hash.ToHashCode();
+	}
+}
