@@ -10,9 +10,13 @@
 }
 
 <root class="@RootClass">
+	<div class="capacity-readout">
+		<label>#vb.hud.weapon_capacity</label>
+		<label class="capacity-value">@CurrentCarrySize / @MaximumCarrySize</label>
+	</div>
 	<div class="weapon-slots">
-		@WeaponSlot( slotA, "Slot1", "A" )
-		@WeaponSlot( slotB, "Slot2", "B" )
+		@WeaponSlot( slotA, VBWeaponSelectionController.FirstWeaponSlot, "Slot1", "A" )
+		@WeaponSlot( slotB, VBWeaponSelectionController.FirstWeaponSlot + 1, "Slot2", "B" )
 	</div>
 </root>
 
@@ -23,7 +27,10 @@
 	public bool IsSuppressed { get; set; }
 
 	private BaseInventoryComponent Inventory => Player?.Components.Get<BaseInventoryComponent>();
+	private VBWeaponInventoryComponent WeaponInventory => Inventory as VBWeaponInventoryComponent;
 	private VBWeaponSelectionController SelectionController => Player?.Components.Get<VBWeaponSelectionController>();
+	private int CurrentCarrySize => WeaponInventory?.CurrentWeaponCarrySize ?? 0;
+	private int MaximumCarrySize => WeaponInventory?.MaximumWeaponCarrySize ?? 5;
 
 	private string RootClass => IsSuppressed
 		|| Inventory is null
@@ -33,6 +40,9 @@
 
 	private BaseCombatWeapon WeaponInSlot( int slot )
 	{
+		if ( SelectionController.IsValid() )
+			return SelectionController.WeaponInSlot( slot );
+
 		return Inventory?.Items
 			.OfType<BaseCombatWeapon>()
 			.Where( item => item.Slot == slot )
@@ -40,12 +50,14 @@
 			.FirstOrDefault();
 	}
 
-	private RenderFragment WeaponSlot( BaseCombatWeapon weapon, string inputAction, string slotName ) => builder =>
+	private RenderFragment WeaponSlot( BaseCombatWeapon weapon, int slot, string inputAction, string slotName ) => builder =>
 	{
-		var isActive = weapon.IsValid() && Inventory?.ActiveItem == weapon;
-		var cssClass = $"weapon-slot {(isActive ? "active" : "inactive")} {(weapon.IsValid() ? "occupied" : "empty")}";
+		var isPlaceholder = SelectionController?.IsSlotPlaceholder( slot ) ?? !weapon.IsValid();
+		var isActive = SelectionController?.SelectedWeaponSlot == slot;
+		var cssClass = $"weapon-slot {(isActive ? "active" : "inactive")} {(isPlaceholder ? "placeholder" : "occupied")}";
 		var inputOrigin = Input.GetButtonOrigin( inputAction ) ?? inputAction.ToUpperInvariant();
 		var weaponName = weapon.IsValid() ? Localize( weapon.DisplayName ) : Language.GetPhrase( "vb.hud.empty_slot" );
+		var carrySize = VBWeaponInventoryComponent.GetCarrySize( weapon );
 
 		builder.OpenElement( 0, "div" );
 		builder.AddAttribute( 1, "class", cssClass );
@@ -63,6 +75,11 @@
 		builder.AddAttribute( 11, "class", "weapon-name" );
 		builder.AddContent( 12, weaponName );
 		builder.CloseElement();
+		builder.CloseElement();
+		builder.OpenElement( 13, "label" );
+		builder.AddAttribute( 14, "class", "slot-weight" );
+		builder.AddAttribute( 15, "title", Language.GetPhrase( "vb.hud.weapon_weight" ) );
+		builder.AddContent( 16, carrySize );
 		builder.CloseElement();
 		builder.CloseElement();
 	};
@@ -85,7 +102,10 @@
 		hash.Add( Player?.Id ?? Guid.Empty );
 		hash.Add( IsSuppressed );
 		hash.Add( SelectionController?.IsSelectionHudVisible ?? false );
+		hash.Add( SelectionController?.SelectedWeaponSlot ?? -1 );
 		hash.Add( inventory?.ActiveItem?.Id ?? Guid.Empty );
+		hash.Add( CurrentCarrySize );
+		hash.Add( MaximumCarrySize );
 
 		if ( inventory is not null )
 		{

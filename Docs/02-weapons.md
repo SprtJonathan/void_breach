@@ -23,6 +23,8 @@ There is no additional weapon storage during the raid.
 - The player may carry at most two weapons.
 - Each weapon has a configurable `CarrySize`.
 - The sum of both weapons must not exceed the configured maximum.
+- An empty weapon slot resolves to the permanent fists placeholder. Fists have
+  `CarrySize = 0` and do not count as one of the two carried weapons.
 - A weapon found on the ground can be taken only if it fits the remaining quota or if the player swaps out an equipped weapon.
 - The dropped weapon remains in the world and can be taken by another player.
 
@@ -311,8 +313,11 @@ Names and exact types are illustrative. The real implementation must extend or c
 
 ### 6.0 Bare hands baseline
 
-The player starts with permanent fists in Weapon Slot A. This first melee
-implementation deliberately uses the native S&box weapon stack:
+The player owns one permanent fists item shared by Weapon Slots A and B. Each
+empty logical slot resolves to this item, so selecting an empty slot always
+equips the fists without creating a third carried weapon. Fists have
+`CarrySize = 0` and never consume the weapon count or size budget. This first
+melee implementation deliberately uses the native S&box weapon stack:
 
 - `BaseCombatWeapon` with ammunition disabled;
 - the official human first-person arms and their punching animation graph;
@@ -328,7 +333,10 @@ The current HUD exposes Weapon Slots A and B in a Half-Life-style selector at
 the top of the screen. It appears when a direct slot or previous/next weapon
 input is triggered, then fades after 1.5 seconds without further selection.
 It uses the active input origin so the displayed control follows the player's
-keyboard or gamepad binding. Weapon names are localized (`Fists` / `Poings`).
+keyboard or gamepad binding. It also displays each weapon's carry size and the
+current total out of five. Weapon names are localized (`Fists` / `Poings`).
+Because fists have no ammunition, the ammunition HUD is hidden while they are
+equipped.
 
 ### 6.1 Universal push
 

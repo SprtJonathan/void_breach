@@ -8,8 +8,16 @@ using Sandbox.Rendering;
 /// </summary>
 [Title( "Void Breach Combat Weapon" )]
 [Category( "Void Breach/Weapons" )]
-public sealed class VBCombatWeapon : BaseCombatWeapon
+public sealed class VBCombatWeapon : BaseCombatWeapon, IVBWeaponCarryItem
 {
+	/// <summary>
+	/// Amount consumed from the shared five-point weapon carrying budget.
+	/// </summary>
+	[Property, Group( "Inventory" ), Range( 1, 5 )]
+	public int CarrySize { get; set; } = 1;
+
+	public bool IsWeaponSlotPlaceholder => false;
+
 	/// <summary>
 	/// Active ou désactive le zoom de caméra lorsque l'arme est utilisée en vue FPS.
 	/// </summary>
@@ -192,10 +200,20 @@ public sealed class VBCombatWeapon : BaseCombatWeapon
 	/// </summary>
 	protected override void OnUpdate()
 	{
-		base.OnUpdate();
-
 		if ( Application.IsDedicatedServer )
 			return;
+
+		// A carried item is not necessarily the deployed item. Calling the
+		// native update for holstered weapons would let them overwrite the
+		// active weapon's hold type, and recreating their world model would
+		// leave the wrong weapon in the character's hands.
+		if ( !IsActive )
+		{
+			DestroyWorldModel();
+			return;
+		}
+
+		base.OnUpdate();
 
 		// Le world model n'est pas un objet réseau : chaque pair doit posséder
 		// sa propre instance. Cette vérification couvre notamment l'arrivée

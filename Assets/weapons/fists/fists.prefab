@@ -68,7 +68,7 @@
         "UsableByNpcs": false,
         "UsesAmmo": false,
         "UsesClips": false,
-        "Value": 0,
+        "Value": -1,
         "ViewModelPrefab": {
           "_type": "gameobject",
           "prefab": "weapons/fists/v_fists.prefab"

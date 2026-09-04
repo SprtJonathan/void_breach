@@ -9,6 +9,8 @@
   "vb.hud.low_ammo": "MUNITIONS FAIBLES",
   "vb.hud.weapon_slot": "EMPLACEMENT D'ARME",
   "vb.hud.empty_slot": "VIDE",
+  "vb.hud.weapon_capacity": "CAPACITÉ ARMES",
+  "vb.hud.weapon_weight": "ENCOMBREMENT",
   "vb.hud.exhausted": "ÉPUISÉ",
   "vb.hud.critical": "ÉTAT CRITIQUE",
   "vb.hud.stabilization_required": "STABILISATION REQUISE",

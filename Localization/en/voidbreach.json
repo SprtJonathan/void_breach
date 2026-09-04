@@ -9,6 +9,8 @@
   "vb.hud.low_ammo": "LOW AMMO",
   "vb.hud.weapon_slot": "WEAPON SLOT",
   "vb.hud.empty_slot": "EMPTY",
+  "vb.hud.weapon_capacity": "WEAPON CAPACITY",
+  "vb.hud.weapon_weight": "CARRY SIZE",
   "vb.hud.exhausted": "EXHAUSTED",
   "vb.hud.critical": "CRITICAL CONDITION",
   "vb.hud.stabilization_required": "STABILIZATION REQUIRED",

@@ -238,7 +238,7 @@
         "WorkshopItems": []
       },
       {
-        "__type": "Sandbox.BaseInventoryComponent",
+        "__type": "VBWeaponInventoryComponent",
         "__guid": "071981b9-6183-41bf-9e2e-e2af002edda4",
         "__enabled": true,
         "Flags": 0,
@@ -247,6 +247,8 @@
         "Behaviour": "Buckets",
         "GiveOnStart": true,
         "ManualPumping": false,
+        "MaximumWeaponCarrySize": 5,
+        "MaximumWeaponCount": 2,
         "MaxSlots": 6,
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,

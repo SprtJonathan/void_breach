@@ -8,8 +8,11 @@ using Sandbox;
 [Title( "Void Breach Fists" )]
 [Category( "Void Breach/Weapons" )]
 [Icon( "sports_mma" )]
-public sealed class VBFistsWeapon : BaseCombatWeapon
+public sealed class VBFistsWeapon : BaseCombatWeapon, IVBWeaponCarryItem
 {
+	public int CarrySize => 0;
+	public bool IsWeaponSlotPlaceholder => true;
+
 	[Property, Group( "Melee" ), Range( 1f, 256f ), Step( 1f )]
 	public float MeleeDistance { get; set; } = 80f;
 
@@ -28,6 +31,17 @@ public sealed class VBFistsWeapon : BaseCombatWeapon
 	{
 		ShootEffects();
 		ShootBullet( MeleeDistance, MeleeRadius, MeleeDamage, MeleeForce, _damageTags );
+	}
+
+	protected override void OnUpdate()
+	{
+		// Only the deployed item is allowed to drive the shared character
+		// animgraph. This matters when the same fists item represents either
+		// empty logical weapon slot.
+		if ( !IsActive )
+			return;
+
+		base.OnUpdate();
 	}
 
 	protected override bool OnDrop() => false;
