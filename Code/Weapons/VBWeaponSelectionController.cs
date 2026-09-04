@@ -14,8 +14,17 @@ public sealed class VBWeaponSelectionController : Component
 	public const int FirstWeaponSlot = 0;
 	public const int WeaponSlotCount = 2;
 
+	[Property, Group( "HUD" ), Range( 0.25f, 5f ), Step( 0.05f )]
+	public float SelectionHudDuration { get; set; } = 1.5f;
+
+	public bool IsSelectionHudVisible => _hasSelectionInput
+		&& _timeSinceSelectionInput < SelectionHudDuration;
+
 	[RequireComponent]
 	private BaseInventoryComponent Inventory { get; set; }
+
+	private TimeSince _timeSinceSelectionInput;
+	private bool _hasSelectionInput;
 
 	protected override void OnUpdate()
 	{
@@ -24,24 +33,36 @@ public sealed class VBWeaponSelectionController : Component
 
 		if ( Input.Pressed( "Slot1" ) )
 		{
+			ShowSelectionHud();
 			SelectSlot( FirstWeaponSlot );
 			return;
 		}
 
 		if ( Input.Pressed( "Slot2" ) )
 		{
+			ShowSelectionHud();
 			SelectSlot( FirstWeaponSlot + 1 );
 			return;
 		}
 
 		if ( Input.Pressed( "SlotNext" ) )
 		{
+			ShowSelectionHud();
 			CycleWeapon( 1 );
 			return;
 		}
 
 		if ( Input.Pressed( "SlotPrev" ) )
+		{
+			ShowSelectionHud();
 			CycleWeapon( -1 );
+		}
+	}
+
+	private void ShowSelectionHud()
+	{
+		_hasSelectionInput = true;
+		_timeSinceSelectionInput = 0f;
 	}
 
 	private void SelectSlot( int slot )

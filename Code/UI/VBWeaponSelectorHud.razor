@@ -23,8 +23,13 @@
 	public bool IsSuppressed { get; set; }
 
 	private BaseInventoryComponent Inventory => Player?.Components.Get<BaseInventoryComponent>();
+	private VBWeaponSelectionController SelectionController => Player?.Components.Get<VBWeaponSelectionController>();
 
-	private string RootClass => IsSuppressed || Inventory is null ? "hidden" : string.Empty;
+	private string RootClass => IsSuppressed
+		|| Inventory is null
+		|| !(SelectionController?.IsSelectionHudVisible ?? false)
+			? "hidden"
+			: string.Empty;
 
 	private BaseCombatWeapon WeaponInSlot( int slot )
 	{
@@ -79,6 +84,7 @@
 
 		hash.Add( Player?.Id ?? Guid.Empty );
 		hash.Add( IsSuppressed );
+		hash.Add( SelectionController?.IsSelectionHudVisible ?? false );
 		hash.Add( inventory?.ActiveItem?.Id ?? Guid.Empty );
 
 		if ( inventory is not null )

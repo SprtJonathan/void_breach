@@ -1,14 +1,18 @@
 VBWeaponSelectorHud {
 	position: absolute;
-	right: 44px;
-	bottom: 38px;
-	width: 310px;
+	left: 50%;
+	top: 38px;
+	width: 420px;
 	font-family: Roboto Mono;
 	color: #f3a43b;
 	pointer-events: none;
+	opacity: 1;
+	transform: translate( -50%, 0 );
+	transition: opacity 0.18s ease-out, transform 0.18s ease-out;
 
 	&.hidden {
-		display: none;
+		opacity: 0;
+		transform: translate( -50%, -10px );
 	}
 
 	.weapon-slots {
@@ -19,7 +23,7 @@ VBWeaponSelectorHud {
 
 	.weapon-slot {
 		position: relative;
-		width: 151px;
+		width: 206px;
 		height: 66px;
 		display: flex;
 		align-items: center;
@@ -68,7 +72,7 @@ VBWeaponSelectorHud {
 	}
 
 	.weapon-name {
-		max-width: 96px;
+		max-width: 148px;
 		margin-top: 3px;
 		font-size: 10px;
 		font-weight: 900;
@@ -80,6 +84,6 @@ VBWeaponSelectorHud {
 
 	&:intro {
 		opacity: 0;
-		transform: translateY( 8px );
+		transform: translate( -50%, -10px );
 	}
 }

@@ -324,9 +324,11 @@ Fists cannot be dropped. Their first-pass values are an 80-unit reach, an
 8-unit trace radius, 20 blunt damage, 500 force and a 0.45-second attack delay.
 These values remain data-configurable on the prefab.
 
-The current HUD exposes Weapon Slots A and B. It uses the active input origin
-so the displayed control follows the player's keyboard or gamepad binding.
-Weapon names are localized (`Fists` / `Poings`).
+The current HUD exposes Weapon Slots A and B in a Half-Life-style selector at
+the top of the screen. It appears when a direct slot or previous/next weapon
+input is triggered, then fades after 1.5 seconds without further selection.
+It uses the active input origin so the displayed control follows the player's
+keyboard or gamepad binding. Weapon names are localized (`Fists` / `Poings`).
 
 ### 6.1 Universal push
 
