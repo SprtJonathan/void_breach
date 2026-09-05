@@ -95,19 +95,14 @@
 				continue;
 
 			var inputAction = resolved.InputAction;
-			var wideInteraction = Player.Components.Get<VBWideInteractionController>();
-			var interactionDistance = wideInteraction.IsValid()
-				? MathF.Max( resolved.InteractionDistance, wideInteraction.InteractionDistance )
-				: resolved.InteractionDistance;
-			interactionDistance = MathF.Min( interactionDistance, resolved.AppearanceDistance );
 			var inputOrigin = string.IsNullOrWhiteSpace( inputAction )
 				? string.Empty
 				: Input.GetButtonOrigin( inputAction ) ?? inputAction.ToUpperInvariant();
 			var text = Localize( resolved.TextToken );
 			var title = Localize( resolved.TitleText );
 			var alpha = 1f - Math.Clamp(
-				(distance - interactionDistance) /
-					MathF.Max( 1f, resolved.AppearanceDistance - interactionDistance ),
+				(distance - resolved.InteractionDistance) /
+					MathF.Max( 1f, resolved.AppearanceDistance - resolved.InteractionDistance ),
 				0f,
 				0.7f
 			);
@@ -115,7 +110,7 @@
 			Markers.Add( new MarkerView(
 				screenPosition,
 				distance,
-				distance <= interactionDistance,
+				distance <= resolved.InteractionDistance,
 				resolved.ShowMarker,
 				resolved.ShowTitle && !string.IsNullOrWhiteSpace( title ),
 				resolved.ShowInputAction && !string.IsNullOrWhiteSpace( inputOrigin ),

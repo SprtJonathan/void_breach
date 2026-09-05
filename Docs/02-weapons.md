@@ -332,15 +332,21 @@ melee implementation deliberately uses the native S&box weapon stack:
 - `Slot1`, `Slot2`, `Slot3`, `SlotNext` and `SlotPrev` for weapon selection;
 - `BaseInventoryComponent.Switch` for authoritative equipment changes.
 
-Fists cannot be dropped. Their first-pass values are an 80-unit reach, an
-8-unit trace radius, 20 blunt damage, 500 force and a 0.45-second attack delay.
+Fists cannot be dropped. Their first-pass values are a 96-unit reach, a
+10-unit trace radius, 20 blunt damage, 500 force and a 0.45-second attack delay.
 These values remain data-configurable on the prefab.
+
+First-person walk movement, pitch depth and look inertia belong to the player's
+`VBFirstPersonHeldItemMotion` component. Weapons and fists expose their active
+viewmodel through `IVBFirstPersonHeldItem`; the PDA can use the same contract
+without inheriting weapon behaviour.
 
 Real weapons can be dropped by holding the configurable `DropWeapon` input for
 0.85 seconds. Dropping is routed through the native inventory so the item
 returns to the world and the best remaining item, including fists, is deployed.
-The interaction controller uses a configurable 140-unit reach and an 18-unit
-sphere sweep instead of requiring the centre ray to touch a tiny target.
+World interaction remains routed through the native `PlayerController` pressing
+lifecycle. A wider interaction volume is deferred until it can be added without
+replacing native pickup and door behaviour.
 
 The current HUD exposes Weapon Slots A and B plus the dedicated Melee slot in a
 full-width Half-Life-style selector at the top of the screen, followed by the

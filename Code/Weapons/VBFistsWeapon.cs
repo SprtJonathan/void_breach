@@ -1,37 +1,56 @@
 using Sandbox;
 
 /// <summary>
-/// Bare-handed melee weapon built on the native s&amp;box combat weapon flow.
-/// The native short-range bullet trace provides prediction, host validation,
-/// damage delivery and impact effects while the official arms model animates it.
+/// Bare-handed placeholder built on the native s&amp;box combat weapon flow.
+/// This component only adds Void Breach inventory policy and blunt damage tags;
+/// animation, ballistics, networking and effects remain native.
 /// </summary>
 [Title( "Void Breach Fists" )]
 [Category( "Void Breach/Weapons" )]
 [Icon( "sports_mma" )]
-public sealed class VBFistsWeapon : BaseCombatWeapon, IVBWeaponCarryItem
+public sealed class VBFistsWeapon : BaseCombatWeapon, IVBWeaponCarryItem, IVBFirstPersonHeldItem
 {
 	public int CarrySize => 0;
 	public VBWeaponSlotCategory SlotCategory => VBWeaponSlotCategory.Melee;
 	public bool IsWeaponSlotPlaceholder => true;
-
-	[Property, Group( "Melee" ), Range( 1f, 256f ), Step( 1f )]
-	public float MeleeDistance { get; set; } = 80f;
-
-	[Property, Group( "Melee" ), Range( 0f, 32f ), Step( 1f )]
-	public float MeleeRadius { get; set; } = 8f;
-
-	[Property, Group( "Melee" ), Range( 0f, 100f ), Step( 1f )]
-	public float MeleeDamage { get; set; } = 20f;
-
-	[Property, Group( "Melee" ), Range( 0f, 2000f ), Step( 25f )]
-	public float MeleeForce { get; set; } = 500f;
+	public GameObject FirstPersonViewModel => ViewModel;
+	public float FirstPersonMotionAimAmount => 0f;
 
 	private readonly TagSet _damageTags = new( new[] { "melee", "blunt" } );
 
 	public override void PrimaryAttack()
 	{
-		ShootEffects();
-		ShootBullet( MeleeDistance, MeleeRadius, MeleeDamage, MeleeForce, _damageTags );
+		if ( IsHeld && !TakePrimaryAmmo( 1 ) )
+			return;
+
+		var traces = ShootBullets(
+			Ballistics.Pellets,
+			CurrentSpread,
+			Ballistics.Range,
+			Ballistics.Radius,
+			Ballistics.Damage,
+			Ballistics.Force,
+			_damageTags
+		);
+
+		TimeSinceShoot = 0f;
+		var effects = new ShotEffect[traces.Length];
+
+		for ( var index = 0; index < traces.Length; index++ )
+		{
+			var trace = traces[index];
+			effects[index] = new ShotEffect(
+				trace.EndPosition,
+				trace.Hit,
+				trace.Normal,
+				trace.GameObject,
+				trace.Surface,
+				null,
+				index > 0
+			);
+		}
+
+		ShootEffects( effects );
 	}
 
 	protected override void OnUpdate()

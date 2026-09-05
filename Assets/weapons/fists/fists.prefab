@@ -22,6 +22,16 @@
         "Flags": 0,
         "AttackSound": null,
         "AutoReload": false,
+        "Ballistics": {
+          "Damage": 20,
+          "Pellets": 1,
+          "Range": 96,
+          "Radius": 10,
+          "Force": 500,
+          "SpreadBase": "0,0",
+          "SpreadGrowth": "0,0",
+          "SpreadRecovery": 0.2
+        },
         "CanCancelReload": false,
         "ClipMaxSize": 0,
         "DeployTime": 0.2,
@@ -32,10 +42,6 @@
         "HoldBone": "hold_R",
         "HoldType": "melee_punch",
         "IncrementalReloading": false,
-        "MeleeDamage": 20,
-        "MeleeDistance": 80,
-        "MeleeForce": 500,
-        "MeleeRadius": 8,
         "Npc": {
           "MinRange": 0,
           "MaxRange": 80,

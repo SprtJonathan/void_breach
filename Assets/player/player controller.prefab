@@ -68,7 +68,7 @@
         "DuckedHeight": 36,
         "DuckedSpeed": 70,
         "EnableFootstepSounds": true,
-        "EnablePressing": false,
+        "EnablePressing": true,
         "EyeDistanceFromTop": 8,
         "FootstepMixer": {
           "Name": "unknown",
@@ -108,27 +108,6 @@
         "UseInputControls": true,
         "UseLookControls": true,
         "WalkSpeed": 110
-      },
-      {
-        "__type": "VBWideInteractionController",
-        "__guid": "44f6be20-635a-4f49-a72c-ec573fb83625",
-        "__enabled": true,
-        "Flags": 0,
-        "Controller": {
-          "_type": "component",
-          "component_id": "c085fbe2-eed9-44b1-b1a3-0be503ea0f07",
-          "go": "1f832bc9-bcab-42d6-ad2b-daac59f5c14d",
-          "component_type": "PlayerController"
-        },
-        "InteractionDistance": 140,
-        "InteractionRadius": 18,
-        "OnComponentDestroy": null,
-        "OnComponentDisabled": null,
-        "OnComponentEnabled": null,
-        "OnComponentFixedUpdate": null,
-        "OnComponentStart": null,
-        "OnComponentUpdate": null,
-        "UseInputAction": "use"
       },
       {
         "__type": "Sandbox.Rigidbody",
@@ -420,6 +399,44 @@
         "VerticalAmplitude": 0.3,
         "WalkFrequency": 0.9,
         "YawAmplitude": 0.04
+      },
+      {
+        "__type": "VBFirstPersonHeldItemMotion",
+        "__guid": "6be0fc4b-860f-4fe8-89de-9e59c201f8cf",
+        "__enabled": true,
+        "Flags": 0,
+        "AdsLookInertiaScale": 0.1,
+        "AdsMovementScale": 0.25,
+        "AdsPitchDepthScale": 0,
+        "Controller": {
+          "_type": "component",
+          "component_id": "c085fbe2-eed9-44b1-b1a3-0be503ea0f07",
+          "go": "1f832bc9-bcab-42d6-ad2b-daac59f5c14d",
+          "component_type": "PlayerController"
+        },
+        "EnableLookInertia": true,
+        "EnableMovement": true,
+        "EnablePitchDepth": true,
+        "Inventory": {
+          "_type": "component",
+          "component_id": "071981b9-6183-41bf-9e2e-e2af002edda4",
+          "go": "1f832bc9-bcab-42d6-ad2b-daac59f5c14d",
+          "component_type": "BaseInventoryComponent"
+        },
+        "LookInertiaMaxAngle": 0.75,
+        "LookInertiaPositionScale": 0.025,
+        "LookInertiaReturnSpeed": 14,
+        "LookInertiaStrength": 0.05,
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "PitchDepthOffset": 0.5,
+        "RunMovementMultiplier": 1.15,
+        "WalkPositionAmplitude": "0.08,0.12,0.12",
+        "WalkRotationAmplitude": "0.05,0.05,0.04"
       }
     ],
     "Children": [
