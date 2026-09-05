@@ -3,8 +3,8 @@ using System.Linq;
 using Sandbox;
 
 /// <summary>
-/// Maps the project's two weapon slots to the native s&amp;box inventory switch API.
-/// Slot ownership, deployment and network authority remain handled by
+/// Maps the project's complete six-slot loadout to the native s&amp;box inventory
+/// switch API. Slot ownership, deployment and network authority remain handled by
 /// <see cref="BaseInventoryComponent"/>.
 /// </summary>
 [Title( "Void Breach Weapon Selection" )]
@@ -14,6 +14,11 @@ public sealed class VBWeaponSelectionController : Component
 {
 	public const int FirstWeaponSlot = 0;
 	public const int WeaponSlotCount = 2;
+	public const int ThrowableSlot = 2;
+	public const int MedicalSlot = 3;
+	public const int UtilitySlot = 4;
+	public const int PdaSlot = 5;
+	public const int InventorySlotCount = 6;
 
 	[Property, Group( "HUD" ), Range( 0.25f, 5f ), Step( 0.05f )]
 	public float SelectionHudDuration { get; set; } = 1.5f;
@@ -22,10 +27,10 @@ public sealed class VBWeaponSelectionController : Component
 		&& _timeSinceSelectionInput < SelectionHudDuration;
 
 	/// <summary>
-	/// Logical weapon slot selected by the player. Empty slots resolve to the
-	/// shared fists placeholder.
+	/// Logical inventory slot selected by the player. Empty weapon slots resolve
+	/// to the shared fists placeholder.
 	/// </summary>
-	public int SelectedWeaponSlot { get; private set; } = FirstWeaponSlot;
+	public int SelectedSlot { get; private set; } = FirstWeaponSlot;
 
 	[RequireComponent]
 	private BaseInventoryComponent Inventory { get; set; }
@@ -54,17 +59,45 @@ public sealed class VBWeaponSelectionController : Component
 			return;
 		}
 
+		if ( Input.Pressed( "Slot3" ) )
+		{
+			ShowSelectionHud();
+			SelectSlot( ThrowableSlot );
+			return;
+		}
+
+		if ( Input.Pressed( "Slot4" ) )
+		{
+			ShowSelectionHud();
+			SelectSlot( MedicalSlot );
+			return;
+		}
+
+		if ( Input.Pressed( "Slot5" ) )
+		{
+			ShowSelectionHud();
+			SelectSlot( UtilitySlot );
+			return;
+		}
+
+		if ( Input.Pressed( "Slot6" ) )
+		{
+			ShowSelectionHud();
+			SelectSlot( PdaSlot );
+			return;
+		}
+
 		if ( Input.Pressed( "SlotNext" ) )
 		{
 			ShowSelectionHud();
-			CycleWeapon( 1 );
+			CycleItem( 1 );
 			return;
 		}
 
 		if ( Input.Pressed( "SlotPrev" ) )
 		{
 			ShowSelectionHud();
-			CycleWeapon( -1 );
+			CycleItem( -1 );
 		}
 	}
 
@@ -76,19 +109,43 @@ public sealed class VBWeaponSelectionController : Component
 
 	private void SelectSlot( int slot )
 	{
-		SelectedWeaponSlot = Math.Clamp(
+		SelectedSlot = Math.Clamp(
 			slot,
 			FirstWeaponSlot,
-			FirstWeaponSlot + WeaponSlotCount - 1
+			InventorySlotCount - 1
 		);
-		SwitchTo( WeaponInSlot( SelectedWeaponSlot ) );
+		SwitchTo( ItemInSlot( SelectedSlot ) );
 	}
 
-	private void CycleWeapon( int direction )
+	private void CycleItem( int direction )
 	{
-		var relativeSlot = SelectedWeaponSlot - FirstWeaponSlot;
-		var nextSlot = (relativeSlot + direction + WeaponSlotCount) % WeaponSlotCount;
-		SelectSlot( FirstWeaponSlot + nextSlot );
+		for ( var step = 1; step <= InventorySlotCount; step++ )
+		{
+			var nextSlot = (SelectedSlot + direction * step + InventorySlotCount)
+				% InventorySlotCount;
+			var item = ItemInSlot( nextSlot );
+
+			if ( !item.IsValid() || !item.CanSwitchTo() )
+				continue;
+
+			SelectSlot( nextSlot );
+			return;
+		}
+	}
+
+	/// <summary>
+	/// Resolves every slot exposed by the Void Breach selector. Weapon slots
+	/// use fists as their empty state; equipment slots remain empty until an
+	/// item of the corresponding category is present.
+	/// </summary>
+	public BaseInventoryItem ItemInSlot( int slot )
+	{
+		if ( slot >= FirstWeaponSlot && slot < FirstWeaponSlot + WeaponSlotCount )
+			return WeaponInSlot( slot );
+
+		return slot >= ThrowableSlot && slot < InventorySlotCount
+			? Inventory.GetSlot( slot )
+			: null;
 	}
 
 	/// <summary>
@@ -128,7 +185,7 @@ public sealed class VBWeaponSelectionController : Component
 
 		foreach ( var weapon in Inventory.Items.OfType<BaseCombatWeapon>() )
 		{
-			if ( VBWeaponInventoryComponent.IsPlaceholder( weapon ) )
+			if ( !VBWeaponInventoryComponent.IsCarriedWeapon( weapon ) )
 				continue;
 
 			if ( weapon.Slot == FirstWeaponSlot )
@@ -194,28 +251,38 @@ public sealed class VBWeaponSelectionController : Component
 
 	private void SynchronizeSelectedSlot()
 	{
-		if ( Inventory.ActiveItem is not BaseCombatWeapon active
-			|| VBWeaponInventoryComponent.IsPlaceholder( active ) )
+		if ( Inventory.ActiveItem is not BaseInventoryItem active )
 			return;
 
-		for ( var slot = FirstWeaponSlot; slot < FirstWeaponSlot + WeaponSlotCount; slot++ )
+		if ( active is BaseCombatWeapon activeWeapon )
 		{
-			if ( RealWeaponInSlot( slot ) != active )
-				continue;
+			if ( VBWeaponInventoryComponent.IsPlaceholder( activeWeapon ) )
+				return;
 
-			SelectedWeaponSlot = slot;
+			for ( var slot = FirstWeaponSlot; slot < FirstWeaponSlot + WeaponSlotCount; slot++ )
+			{
+				if ( RealWeaponInSlot( slot ) != activeWeapon )
+					continue;
+
+				SelectedSlot = slot;
+				return;
+			}
+
 			return;
 		}
+
+		if ( active.Slot >= ThrowableSlot && active.Slot < InventorySlotCount )
+			SelectedSlot = active.Slot;
 	}
 
-	private void SwitchTo( BaseCombatWeapon weapon )
+	private void SwitchTo( BaseInventoryItem item )
 	{
-		if ( !weapon.IsValid() || !weapon.CanSwitchTo() )
+		if ( !item.IsValid() || !item.CanSwitchTo() )
 			return;
 
-		if ( weapon == Inventory.ActiveItem )
+		if ( item == Inventory.ActiveItem )
 			return;
 
-		Inventory.Switch( weapon, allowHolster: false );
+		Inventory.Switch( item, allowHolster: false );
 	}
 }

@@ -7,6 +7,10 @@
 @{
 	var slotA = WeaponInSlot( VBWeaponSelectionController.FirstWeaponSlot );
 	var slotB = WeaponInSlot( VBWeaponSelectionController.FirstWeaponSlot + 1 );
+	var throwable = ItemInSlot( VBWeaponSelectionController.ThrowableSlot );
+	var medical = ItemInSlot( VBWeaponSelectionController.MedicalSlot );
+	var utility = ItemInSlot( VBWeaponSelectionController.UtilitySlot );
+	var pda = ItemInSlot( VBWeaponSelectionController.PdaSlot );
 }
 
 <root class="@RootClass">
@@ -17,6 +21,12 @@
 	<div class="weapon-slots">
 		@WeaponSlot( slotA, VBWeaponSelectionController.FirstWeaponSlot, "Slot1", "A" )
 		@WeaponSlot( slotB, VBWeaponSelectionController.FirstWeaponSlot + 1, "Slot2", "B" )
+	</div>
+	<div class="equipment-slots">
+		@EquipmentSlot( throwable, VBWeaponSelectionController.ThrowableSlot, "Slot3", "vb.hud.throwable_slot", "◉", false )
+		@EquipmentSlot( medical, VBWeaponSelectionController.MedicalSlot, "Slot4", "vb.hud.medical_slot", "+", false )
+		@EquipmentSlot( utility, VBWeaponSelectionController.UtilitySlot, "Slot5", "vb.hud.utility_slot", "◇", false )
+		@EquipmentSlot( pda, VBWeaponSelectionController.PdaSlot, "Slot6", "vb.hud.pda_slot", "▣", true )
 	</div>
 </root>
 
@@ -50,10 +60,18 @@
 			.FirstOrDefault();
 	}
 
+	private BaseInventoryItem ItemInSlot( int slot )
+	{
+		if ( SelectionController.IsValid() )
+			return SelectionController.ItemInSlot( slot );
+
+		return Inventory?.GetSlot( slot );
+	}
+
 	private RenderFragment WeaponSlot( BaseCombatWeapon weapon, int slot, string inputAction, string slotName ) => builder =>
 	{
 		var isPlaceholder = SelectionController?.IsSlotPlaceholder( slot ) ?? !weapon.IsValid();
-		var isActive = SelectionController?.SelectedWeaponSlot == slot;
+		var isActive = SelectionController?.SelectedSlot == slot;
 		var cssClass = $"weapon-slot {(isActive ? "active" : "inactive")} {(isPlaceholder ? "placeholder" : "occupied")}";
 		var inputOrigin = Input.GetButtonOrigin( inputAction ) ?? inputAction.ToUpperInvariant();
 		var weaponName = weapon.IsValid() ? Localize( weapon.DisplayName ) : Language.GetPhrase( "vb.hud.empty_slot" );
@@ -84,6 +102,47 @@
 		builder.CloseElement();
 	};
 
+	private RenderFragment EquipmentSlot(
+		BaseInventoryItem item,
+		int slot,
+		string inputAction,
+		string slotToken,
+		string icon,
+		bool isLocked
+	) => builder =>
+	{
+		var isActive = SelectionController?.SelectedSlot == slot;
+		var isOccupied = item.IsValid();
+		var cssClass = $"equipment-slot {(isActive ? "active" : "inactive")} {(isOccupied ? "occupied" : "empty")} {(isLocked ? "locked" : string.Empty)}";
+		var inputOrigin = Input.GetButtonOrigin( inputAction ) ?? inputAction.ToUpperInvariant();
+		var itemName = isOccupied
+			? Localize( item.DisplayName )
+			: Language.GetPhrase( "vb.hud.empty_slot" );
+
+		builder.OpenElement( 0, "div" );
+		builder.AddAttribute( 1, "class", cssClass );
+		builder.OpenElement( 2, "label" );
+		builder.AddAttribute( 3, "class", "equipment-key" );
+		builder.AddContent( 4, inputOrigin );
+		builder.CloseElement();
+		builder.OpenElement( 5, "label" );
+		builder.AddAttribute( 6, "class", "equipment-icon" );
+		builder.AddContent( 7, icon );
+		builder.CloseElement();
+		builder.OpenElement( 8, "div" );
+		builder.AddAttribute( 9, "class", "equipment-identity" );
+		builder.OpenElement( 10, "label" );
+		builder.AddAttribute( 11, "class", "equipment-name" );
+		builder.AddContent( 12, Language.GetPhrase( slotToken ) );
+		builder.CloseElement();
+		builder.OpenElement( 13, "label" );
+		builder.AddAttribute( 14, "class", "equipment-item" );
+		builder.AddContent( 15, itemName );
+		builder.CloseElement();
+		builder.CloseElement();
+		builder.CloseElement();
+	};
+
 	private static string Localize( string value )
 	{
 		if ( string.IsNullOrWhiteSpace( value ) )
@@ -102,19 +161,19 @@
 		hash.Add( Player?.Id ?? Guid.Empty );
 		hash.Add( IsSuppressed );
 		hash.Add( SelectionController?.IsSelectionHudVisible ?? false );
-		hash.Add( SelectionController?.SelectedWeaponSlot ?? -1 );
+		hash.Add( SelectionController?.SelectedSlot ?? -1 );
 		hash.Add( inventory?.ActiveItem?.Id ?? Guid.Empty );
 		hash.Add( CurrentCarrySize );
 		hash.Add( MaximumCarrySize );
 
 		if ( inventory is not null )
 		{
-			foreach ( var weapon in inventory.Items.OfType<BaseCombatWeapon>() )
+			foreach ( var item in inventory.Items )
 			{
-				hash.Add( weapon.Id );
-				hash.Add( weapon.Slot );
-				hash.Add( weapon.SlotOrder );
-				hash.Add( weapon.DisplayName );
+				hash.Add( item.Id );
+				hash.Add( item.Slot );
+				hash.Add( item.SlotOrder );
+				hash.Add( item.DisplayName );
 			}
 		}
 

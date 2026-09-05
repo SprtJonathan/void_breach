@@ -20,7 +20,7 @@ public sealed class VBWeaponInventoryComponent : BaseInventoryComponent
 
 	public IEnumerable<BaseCombatWeapon> CarriedWeapons => Items
 		.OfType<BaseCombatWeapon>()
-		.Where( weapon => !IsPlaceholder( weapon ) );
+		.Where( IsCarriedWeapon );
 
 	public int CurrentWeaponCarrySize => CarriedWeapons.Sum( GetCarrySize );
 
@@ -29,24 +29,31 @@ public sealed class VBWeaponInventoryComponent : BaseInventoryComponent
 		if ( !base.OnAdding( item, slot ) )
 			return false;
 
-		if ( item is not BaseCombatWeapon weapon )
+		if ( item is not BaseCombatWeapon weapon
+			|| weapon is not IVBWeaponCarryItem )
 			return true;
+
+		var existingWeapons = Items
+			.OfType<BaseCombatWeapon>()
+			.Where( existing => existing != weapon );
 
 		if ( IsPlaceholder( weapon ) )
 		{
-			return !Items
-				.OfType<BaseCombatWeapon>()
-				.Any( IsPlaceholder );
+			return !existingWeapons.Any( IsPlaceholder );
 		}
 
 		if ( slot < VBWeaponSelectionController.FirstWeaponSlot
 			|| slot >= VBWeaponSelectionController.FirstWeaponSlot + VBWeaponSelectionController.WeaponSlotCount )
 			return false;
 
-		if ( CarriedWeapons.Count() >= MaximumWeaponCount )
+		var existingCarriedWeapons = existingWeapons
+			.Where( IsCarriedWeapon );
+
+		if ( existingCarriedWeapons.Count() >= MaximumWeaponCount )
 			return false;
 
-		return CurrentWeaponCarrySize + GetCarrySize( weapon ) <= MaximumWeaponCarrySize;
+		var existingCarrySize = existingCarriedWeapons.Sum( GetCarrySize );
+		return existingCarrySize + GetCarrySize( weapon ) <= MaximumWeaponCarrySize;
 	}
 
 	public static int GetCarrySize( BaseCombatWeapon weapon )
@@ -56,7 +63,12 @@ public sealed class VBWeaponInventoryComponent : BaseInventoryComponent
 
 		return weapon is IVBWeaponCarryItem weighted
 			? Math.Max( 0, weighted.CarrySize )
-			: 1;
+			: 0;
+	}
+
+	public static bool IsCarriedWeapon( BaseCombatWeapon weapon )
+	{
+		return weapon is IVBWeaponCarryItem { IsWeaponSlotPlaceholder: false };
 	}
 
 	public static bool IsPlaceholder( BaseCombatWeapon weapon )

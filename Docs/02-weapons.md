@@ -78,6 +78,10 @@ Initial inventory layout:
 
 The PDA is permanent, cannot be discarded and does not consume weapon size.
 
+There is no dedicated melee slot in v0.3. Light and heavy melee weapons use
+Weapon Slot A or B and consume their configured carry size. Bare fists are the
+zero-size empty state of both weapon slots.
+
 ---
 
 ## 2. Weapon Categories and Variants
@@ -330,8 +334,9 @@ Fists cannot be dropped. Their first-pass values are an 80-unit reach, an
 These values remain data-configurable on the prefab.
 
 The current HUD exposes Weapon Slots A and B in a Half-Life-style selector at
-the top of the screen. It appears when a direct slot or previous/next weapon
-input is triggered, then fades after 1.5 seconds without further selection.
+the top of the screen, followed by the Throwable, Medical, Utility and locked
+PDA slots. It appears when a direct slot or previous/next item input is
+triggered, then fades after 1.5 seconds without further selection.
 It uses the active input origin so the displayed control follows the player's
 keyboard or gamepad binding. It also displays each weapon's carry size and the
 current total out of five. Weapon names are localized (`Fists` / `Poings`).
