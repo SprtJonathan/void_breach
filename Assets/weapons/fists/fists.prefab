@@ -30,7 +30,7 @@
         "FirstShellReloadTime": 0,
         "Handedness": "Both",
         "HoldBone": "hold_R",
-        "HoldType": "punch",
+        "HoldType": "melee_punch",
         "IncrementalReloading": false,
         "MeleeDamage": 20,
         "MeleeDistance": 80,

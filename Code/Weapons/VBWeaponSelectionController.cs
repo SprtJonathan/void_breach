@@ -3,7 +3,7 @@ using System.Linq;
 using Sandbox;
 
 /// <summary>
-/// Maps the project's complete six-slot loadout to the native s&amp;box inventory
+/// Maps the project's complete seven-slot loadout to the native s&amp;box inventory
 /// switch API. Slot ownership, deployment and network authority remain handled by
 /// <see cref="BaseInventoryComponent"/>.
 /// </summary>
@@ -13,18 +13,34 @@ using Sandbox;
 public sealed class VBWeaponSelectionController : Component
 {
 	public const int FirstWeaponSlot = 0;
-	public const int WeaponSlotCount = 2;
-	public const int ThrowableSlot = 2;
-	public const int MedicalSlot = 3;
-	public const int UtilitySlot = 4;
-	public const int PdaSlot = 5;
-	public const int InventorySlotCount = 6;
+	public const int PrimaryWeaponSlotCount = 2;
+	public const int MeleeWeaponSlot = 2;
+	public const int WeaponSlotCount = 3;
+	public const int ThrowableSlot = 3;
+	public const int MedicalSlot = 4;
+	public const int UtilitySlot = 5;
+	public const int PdaSlot = 6;
+	public const int InventorySlotCount = 7;
 
 	[Property, Group( "HUD" ), Range( 0.25f, 5f ), Step( 0.05f )]
 	public float SelectionHudDuration { get; set; } = 1.5f;
 
+	[Property, Group( "Drop" ), InputAction]
+	public string DropWeaponInputAction { get; set; } = "DropWeapon";
+
+	[Property, Group( "Drop" ), Range( 0.25f, 3f ), Step( 0.05f )]
+	public float DropWeaponHoldDuration { get; set; } = 0.85f;
+
 	public bool IsSelectionHudVisible => _hasSelectionInput
 		&& _timeSinceSelectionInput < SelectionHudDuration;
+
+	public bool IsDropHoldActive => _isHoldingDrop
+		&& Inventory?.ActiveItem is BaseCombatWeapon activeWeapon
+		&& VBWeaponInventoryComponent.IsCarriedWeapon( activeWeapon );
+
+	public float DropHoldProgress => IsDropHoldActive
+		? Math.Clamp( (float)_timeSinceDropPressed / MathF.Max( DropWeaponHoldDuration, 0.01f ), 0f, 1f )
+		: 0f;
 
 	/// <summary>
 	/// Logical inventory slot selected by the player. Empty weapon slots resolve
@@ -36,7 +52,9 @@ public sealed class VBWeaponSelectionController : Component
 	private BaseInventoryComponent Inventory { get; set; }
 
 	private TimeSince _timeSinceSelectionInput;
+	private TimeSince _timeSinceDropPressed;
 	private bool _hasSelectionInput;
+	private bool _isHoldingDrop;
 
 	protected override void OnUpdate()
 	{
@@ -44,6 +62,7 @@ public sealed class VBWeaponSelectionController : Component
 			return;
 
 		SynchronizeSelectedSlot();
+		UpdateDropInput();
 
 		if ( Input.Pressed( "Slot1" ) )
 		{
@@ -62,28 +81,28 @@ public sealed class VBWeaponSelectionController : Component
 		if ( Input.Pressed( "Slot3" ) )
 		{
 			ShowSelectionHud();
-			SelectSlot( ThrowableSlot );
+			SelectSlot( MeleeWeaponSlot );
 			return;
 		}
 
 		if ( Input.Pressed( "Slot4" ) )
 		{
 			ShowSelectionHud();
-			SelectSlot( MedicalSlot );
+			SelectSlot( ThrowableSlot );
 			return;
 		}
 
 		if ( Input.Pressed( "Slot5" ) )
 		{
 			ShowSelectionHud();
-			SelectSlot( UtilitySlot );
+			SelectSlot( MedicalSlot );
 			return;
 		}
 
 		if ( Input.Pressed( "Slot6" ) )
 		{
 			ShowSelectionHud();
-			SelectSlot( PdaSlot );
+			SelectSlot( UtilitySlot );
 			return;
 		}
 
@@ -98,6 +117,44 @@ public sealed class VBWeaponSelectionController : Component
 		{
 			ShowSelectionHud();
 			CycleItem( -1 );
+		}
+	}
+
+	private void UpdateDropInput()
+	{
+		if ( string.IsNullOrWhiteSpace( DropWeaponInputAction ) )
+		{
+			_isHoldingDrop = false;
+			return;
+		}
+
+		if ( Input.Pressed( DropWeaponInputAction ) )
+		{
+			_isHoldingDrop = true;
+			_timeSinceDropPressed = 0f;
+			ShowSelectionHud();
+		}
+
+		if ( !_isHoldingDrop )
+			return;
+
+		if ( !Input.Down( DropWeaponInputAction ) )
+		{
+			_isHoldingDrop = false;
+			return;
+		}
+
+		ShowSelectionHud();
+
+		if ( _timeSinceDropPressed < DropWeaponHoldDuration )
+			return;
+
+		_isHoldingDrop = false;
+
+		if ( Inventory.ActiveItem is BaseCombatWeapon weapon
+			&& VBWeaponInventoryComponent.IsCarriedWeapon( weapon ) )
+		{
+			Inventory.Drop( weapon );
 		}
 	}
 
@@ -164,83 +221,44 @@ public sealed class VBWeaponSelectionController : Component
 
 	private BaseCombatWeapon RealWeaponInSlot( int requestedSlot )
 	{
-		ResolveRealWeaponSlots( out var slotA, out var slotB );
+		var relativeSlot = requestedSlot - FirstWeaponSlot;
+		if ( relativeSlot < 0 || relativeSlot >= WeaponSlotCount )
+			return null;
 
-		return requestedSlot switch
-		{
-			FirstWeaponSlot => slotA,
-			FirstWeaponSlot + 1 => slotB,
-			_ => null
-		};
+		return ResolveRealWeaponSlots()[relativeSlot];
 	}
 
-	private void ResolveRealWeaponSlots(
-		out BaseCombatWeapon slotA,
-		out BaseCombatWeapon slotB
-	)
+	private BaseCombatWeapon[] ResolveRealWeaponSlots()
 	{
-		slotA = null;
-		slotB = null;
-		BaseCombatWeapon overflow = null;
+		var resolvedSlots = new BaseCombatWeapon[WeaponSlotCount];
+		var overflow = new System.Collections.Generic.List<BaseCombatWeapon>();
+		var weapons = Inventory.Items
+			.OfType<BaseCombatWeapon>()
+			.Where( VBWeaponInventoryComponent.IsCarriedWeapon )
+			.OrderBy( weapon => weapon.SlotOrder )
+			.ThenBy( weapon => weapon.Id );
 
-		foreach ( var weapon in Inventory.Items.OfType<BaseCombatWeapon>() )
+		foreach ( var weapon in weapons )
 		{
-			if ( !VBWeaponInventoryComponent.IsCarriedWeapon( weapon ) )
+			var relativeSlot = weapon.Slot - FirstWeaponSlot;
+			if ( relativeSlot >= 0
+				&& relativeSlot < WeaponSlotCount
+				&& !resolvedSlots[relativeSlot].IsValid() )
+				resolvedSlots[relativeSlot] = weapon;
+			else
+				overflow.Add( weapon );
+		}
+
+		var overflowIndex = 0;
+		for ( var slot = 0; slot < resolvedSlots.Length && overflowIndex < overflow.Count; slot++ )
+		{
+			if ( resolvedSlots[slot].IsValid() )
 				continue;
 
-			if ( weapon.Slot == FirstWeaponSlot )
-			{
-				AssignPreferred( ref slotA, ref overflow, weapon );
-			}
-			else if ( weapon.Slot == FirstWeaponSlot + 1 )
-			{
-				AssignPreferred( ref slotB, ref overflow, weapon );
-			}
-			else
-			{
-				overflow = EarlierWeapon( overflow, weapon );
-			}
+			resolvedSlots[slot] = overflow[overflowIndex++];
 		}
 
-		if ( slotA is null )
-		{
-			slotA = overflow;
-			overflow = null;
-		}
-
-		if ( slotB is null )
-			slotB = overflow;
-	}
-
-	private static void AssignPreferred(
-		ref BaseCombatWeapon slot,
-		ref BaseCombatWeapon overflow,
-		BaseCombatWeapon candidate
-	)
-	{
-		var earlier = EarlierWeapon( slot, candidate );
-		var displaced = earlier == candidate ? slot : candidate;
-		slot = earlier;
-
-		if ( displaced.IsValid() )
-			overflow = EarlierWeapon( overflow, displaced );
-	}
-
-	private static BaseCombatWeapon EarlierWeapon(
-		BaseCombatWeapon current,
-		BaseCombatWeapon candidate
-	)
-	{
-		if ( !current.IsValid() )
-			return candidate;
-
-		if ( !candidate.IsValid() )
-			return current;
-
-		if ( candidate.SlotOrder != current.SlotOrder )
-			return candidate.SlotOrder < current.SlotOrder ? candidate : current;
-
-		return candidate.Id.CompareTo( current.Id ) < 0 ? candidate : current;
+		return resolvedSlots;
 	}
 
 	public bool IsSlotPlaceholder( int slot )

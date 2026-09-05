@@ -11,6 +11,8 @@
   "vb.hud.empty_slot": "EMPTY",
   "vb.hud.weapon_capacity": "WEAPON CAPACITY",
   "vb.hud.weapon_weight": "CARRY SIZE",
+  "vb.hud.melee_slot": "MELEE WEAPON",
+  "vb.hud.drop_weapon_hold": "HOLD {Input} TO DROP WEAPON",
   "vb.hud.throwable_slot": "THROWABLE",
   "vb.hud.medical_slot": "MEDICAL",
   "vb.hud.utility_slot": "UTILITY",

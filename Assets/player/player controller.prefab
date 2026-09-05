@@ -68,7 +68,7 @@
         "DuckedHeight": 36,
         "DuckedSpeed": 70,
         "EnableFootstepSounds": true,
-        "EnablePressing": true,
+        "EnablePressing": false,
         "EyeDistanceFromTop": 8,
         "FootstepMixer": {
           "Name": "unknown",
@@ -108,6 +108,27 @@
         "UseInputControls": true,
         "UseLookControls": true,
         "WalkSpeed": 110
+      },
+      {
+        "__type": "VBWideInteractionController",
+        "__guid": "44f6be20-635a-4f49-a72c-ec573fb83625",
+        "__enabled": true,
+        "Flags": 0,
+        "Controller": {
+          "_type": "component",
+          "component_id": "c085fbe2-eed9-44b1-b1a3-0be503ea0f07",
+          "go": "1f832bc9-bcab-42d6-ad2b-daac59f5c14d",
+          "component_type": "PlayerController"
+        },
+        "InteractionDistance": 140,
+        "InteractionRadius": 18,
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "UseInputAction": "use"
       },
       {
         "__type": "Sandbox.Rigidbody",
@@ -248,8 +269,8 @@
         "GiveOnStart": true,
         "ManualPumping": false,
         "MaximumWeaponCarrySize": 5,
-        "MaximumWeaponCount": 2,
-        "MaxSlots": 6,
+        "MaximumWeaponCount": 3,
+        "MaxSlots": 7,
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
         "OnComponentEnabled": null,
@@ -272,12 +293,15 @@
         "__guid": "8dbcd5b2-7c5f-43dc-b779-af2d5a9e3475",
         "__enabled": true,
         "Flags": 0,
+        "DropWeaponHoldDuration": 0.85,
+        "DropWeaponInputAction": "DropWeapon",
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
         "OnComponentEnabled": null,
         "OnComponentFixedUpdate": null,
         "OnComponentStart": null,
-        "OnComponentUpdate": null
+        "OnComponentUpdate": null,
+        "SelectionHudDuration": 1.5
       },
       {
         "__type": "VBHealthComponent",

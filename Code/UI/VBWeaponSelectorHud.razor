@@ -7,6 +7,7 @@
 @{
 	var slotA = WeaponInSlot( VBWeaponSelectionController.FirstWeaponSlot );
 	var slotB = WeaponInSlot( VBWeaponSelectionController.FirstWeaponSlot + 1 );
+	var melee = WeaponInSlot( VBWeaponSelectionController.MeleeWeaponSlot );
 	var throwable = ItemInSlot( VBWeaponSelectionController.ThrowableSlot );
 	var medical = ItemInSlot( VBWeaponSelectionController.MedicalSlot );
 	var utility = ItemInSlot( VBWeaponSelectionController.UtilitySlot );
@@ -19,15 +20,25 @@
 		<label class="capacity-value">@CurrentCarrySize / @MaximumCarrySize</label>
 	</div>
 	<div class="weapon-slots">
-		@WeaponSlot( slotA, VBWeaponSelectionController.FirstWeaponSlot, "Slot1", "A" )
-		@WeaponSlot( slotB, VBWeaponSelectionController.FirstWeaponSlot + 1, "Slot2", "B" )
+		@WeaponSlot( slotA, VBWeaponSelectionController.FirstWeaponSlot, "Slot1", $"{Language.GetPhrase( "vb.hud.weapon_slot" )} A" )
+		@WeaponSlot( slotB, VBWeaponSelectionController.FirstWeaponSlot + 1, "Slot2", $"{Language.GetPhrase( "vb.hud.weapon_slot" )} B" )
+		@WeaponSlot( melee, VBWeaponSelectionController.MeleeWeaponSlot, "Slot3", Language.GetPhrase( "vb.hud.melee_slot" ) )
 	</div>
 	<div class="equipment-slots">
-		@EquipmentSlot( throwable, VBWeaponSelectionController.ThrowableSlot, "Slot3", "vb.hud.throwable_slot", "◉", false )
-		@EquipmentSlot( medical, VBWeaponSelectionController.MedicalSlot, "Slot4", "vb.hud.medical_slot", "+", false )
-		@EquipmentSlot( utility, VBWeaponSelectionController.UtilitySlot, "Slot5", "vb.hud.utility_slot", "◇", false )
-		@EquipmentSlot( pda, VBWeaponSelectionController.PdaSlot, "Slot6", "vb.hud.pda_slot", "▣", true )
+		@EquipmentSlot( throwable, VBWeaponSelectionController.ThrowableSlot, "Slot4", "vb.hud.throwable_slot", "◉", false )
+		@EquipmentSlot( medical, VBWeaponSelectionController.MedicalSlot, "Slot5", "vb.hud.medical_slot", "+", false )
+		@EquipmentSlot( utility, VBWeaponSelectionController.UtilitySlot, "Slot6", "vb.hud.utility_slot", "◇", false )
+		@EquipmentSlot( pda, VBWeaponSelectionController.PdaSlot, string.Empty, "vb.hud.pda_slot", "▣", true )
 	</div>
+	@if ( SelectionController?.IsDropHoldActive ?? false )
+	{
+		<div class="drop-progress">
+			<label>@DropPrompt</label>
+			<div class="drop-track">
+				<div class="drop-fill" style="width: @(SelectionController.DropHoldProgress * 100f)%;"></div>
+			</div>
+		</div>
+	}
 </root>
 
 @code
@@ -68,7 +79,23 @@
 		return Inventory?.GetSlot( slot );
 	}
 
-	private RenderFragment WeaponSlot( BaseCombatWeapon weapon, int slot, string inputAction, string slotName ) => builder =>
+	private string DropPrompt
+	{
+		get
+		{
+			var action = SelectionController?.DropWeaponInputAction;
+			var inputOrigin = string.IsNullOrWhiteSpace( action )
+				? string.Empty
+				: Input.GetButtonOrigin( action ) ?? action.ToUpperInvariant();
+
+			return Language.GetPhrase(
+				"vb.hud.drop_weapon_hold",
+				new System.Collections.Generic.Dictionary<string, object> { ["Input"] = inputOrigin }
+			);
+		}
+	}
+
+	private RenderFragment WeaponSlot( BaseCombatWeapon weapon, int slot, string inputAction, string slotTitle ) => builder =>
 	{
 		var isPlaceholder = SelectionController?.IsSlotPlaceholder( slot ) ?? !weapon.IsValid();
 		var isActive = SelectionController?.SelectedSlot == slot;
@@ -87,7 +114,7 @@
 		builder.AddAttribute( 6, "class", "slot-identity" );
 		builder.OpenElement( 7, "label" );
 		builder.AddAttribute( 8, "class", "slot-name" );
-		builder.AddContent( 9, $"{Language.GetPhrase( "vb.hud.weapon_slot" )} {slotName}" );
+		builder.AddContent( 9, slotTitle );
 		builder.CloseElement();
 		builder.OpenElement( 10, "label" );
 		builder.AddAttribute( 11, "class", "weapon-name" );
@@ -114,7 +141,9 @@
 		var isActive = SelectionController?.SelectedSlot == slot;
 		var isOccupied = item.IsValid();
 		var cssClass = $"equipment-slot {(isActive ? "active" : "inactive")} {(isOccupied ? "occupied" : "empty")} {(isLocked ? "locked" : string.Empty)}";
-		var inputOrigin = Input.GetButtonOrigin( inputAction ) ?? inputAction.ToUpperInvariant();
+		var inputOrigin = string.IsNullOrWhiteSpace( inputAction )
+			? "—"
+			: Input.GetButtonOrigin( inputAction ) ?? inputAction.ToUpperInvariant();
 		var itemName = isOccupied
 			? Localize( item.DisplayName )
 			: Language.GetPhrase( "vb.hud.empty_slot" );
@@ -162,6 +191,8 @@
 		hash.Add( IsSuppressed );
 		hash.Add( SelectionController?.IsSelectionHudVisible ?? false );
 		hash.Add( SelectionController?.SelectedSlot ?? -1 );
+		hash.Add( SelectionController?.IsDropHoldActive ?? false );
+		hash.Add( SelectionController?.DropHoldProgress ?? 0f );
 		hash.Add( inventory?.ActiveItem?.Id ?? Guid.Empty );
 		hash.Add( CurrentCarrySize );
 		hash.Add( MaximumCarrySize );

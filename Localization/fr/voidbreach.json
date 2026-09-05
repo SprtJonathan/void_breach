@@ -11,6 +11,8 @@
   "vb.hud.empty_slot": "VIDE",
   "vb.hud.weapon_capacity": "CAPACITÉ ARMES",
   "vb.hud.weapon_weight": "ENCOMBREMENT",
+  "vb.hud.melee_slot": "ARME AU CORPS À CORPS",
+  "vb.hud.drop_weapon_hold": "MAINTENIR {Input} POUR JETER L'ARME",
   "vb.hud.throwable_slot": "PROJECTILE",
   "vb.hud.medical_slot": "MÉDICAL",
   "vb.hud.utility_slot": "UTILITAIRE",

@@ -11,6 +11,7 @@ using Sandbox;
 public sealed class VBFistsWeapon : BaseCombatWeapon, IVBWeaponCarryItem
 {
 	public int CarrySize => 0;
+	public VBWeaponSlotCategory SlotCategory => VBWeaponSlotCategory.Melee;
 	public bool IsWeaponSlotPlaceholder => true;
 
 	[Property, Group( "Melee" ), Range( 1f, 256f ), Step( 1f )]

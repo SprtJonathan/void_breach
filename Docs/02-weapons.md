@@ -14,17 +14,19 @@ Adding a conventional weapon variant should require a new definition and assets,
 
 ## 1. Weapon Slots, Carry Size and Ground Swaps
 
-### 1.1 Two generic weapon slots
+### 1.1 Two main weapon slots and one melee slot
 
-The player has **two weapon slots**. The slots are not typed as primary and secondary: either slot may contain any weapon that respects the total carry-size quota.
+The player has **two main weapon slots** plus **one dedicated melee slot**.
+Either main slot may contain a ranged weapon that respects the total carry-size
+quota. The melee slot accepts melee weapons only.
 
 There is no additional weapon storage during the raid.
 
-- The player may carry at most two weapons.
+- The player may carry at most two main weapons and one melee weapon.
 - Each weapon has a configurable `CarrySize`.
-- The sum of both weapons must not exceed the configured maximum.
+- The sum of all carried weapons must not exceed the configured maximum.
 - An empty weapon slot resolves to the permanent fists placeholder. Fists have
-  `CarrySize = 0` and do not count as one of the two carried weapons.
+  `CarrySize = 0` and do not count as a carried weapon.
 - A weapon found on the ground can be taken only if it fits the remaining quota or if the player swaps out an equipped weapon.
 - The dropped weapon remains in the world and can be taken by another player.
 
@@ -60,7 +62,7 @@ Examples:
 | RPG alone | 5 | Yes |
 | RPG + pistol | 6 | No |
 
-All values are data-configurable and must be playtested. A future compact weapon may use a lower size without changing the two-slot architecture.
+All values are data-configurable and must be playtested. A future compact weapon may use a lower size without changing the slot architecture.
 
 ### 1.3 Separate equipment slots
 
@@ -70,6 +72,7 @@ Initial inventory layout:
 
 - Weapon Slot A;
 - Weapon Slot B;
+- dedicated Melee slot;
 - Throwable slot;
 - Medical slot;
 - Utility slot;
@@ -78,9 +81,9 @@ Initial inventory layout:
 
 The PDA is permanent, cannot be discarded and does not consume weapon size.
 
-There is no dedicated melee slot in v0.3. Light and heavy melee weapons use
-Weapon Slot A or B and consume their configured carry size. Bare fists are the
-zero-size empty state of both weapon slots.
+Light and heavy melee weapons use the dedicated melee slot and consume their
+configured carry size. Bare fists remain the zero-size empty state of every
+weapon slot.
 
 ---
 
@@ -317,25 +320,32 @@ Names and exact types are illustrative. The real implementation must extend or c
 
 ### 6.0 Bare hands baseline
 
-The player owns one permanent fists item shared by Weapon Slots A and B. Each
+The player owns one permanent fists item shared by Weapon Slots A, B and Melee. Each
 empty logical slot resolves to this item, so selecting an empty slot always
-equips the fists without creating a third carried weapon. Fists have
+equips the fists without creating another carried weapon. Fists have
 `CarrySize = 0` and never consume the weapon count or size budget. This first
 melee implementation deliberately uses the native S&box weapon stack:
 
 - `BaseCombatWeapon` with ammunition disabled;
 - the official human first-person arms and their punching animation graph;
 - the native short-range melee trace, prediction and host validation;
-- `Slot1`, `Slot2`, `SlotNext` and `SlotPrev` for weapon selection;
+- `Slot1`, `Slot2`, `Slot3`, `SlotNext` and `SlotPrev` for weapon selection;
 - `BaseInventoryComponent.Switch` for authoritative equipment changes.
 
 Fists cannot be dropped. Their first-pass values are an 80-unit reach, an
 8-unit trace radius, 20 blunt damage, 500 force and a 0.45-second attack delay.
 These values remain data-configurable on the prefab.
 
-The current HUD exposes Weapon Slots A and B in a Half-Life-style selector at
-the top of the screen, followed by the Throwable, Medical, Utility and locked
-PDA slots. It appears when a direct slot or previous/next item input is
+Real weapons can be dropped by holding the configurable `DropWeapon` input for
+0.85 seconds. Dropping is routed through the native inventory so the item
+returns to the world and the best remaining item, including fists, is deployed.
+The interaction controller uses a configurable 140-unit reach and an 18-unit
+sphere sweep instead of requiring the centre ray to touch a tiny target.
+
+The current HUD exposes Weapon Slots A and B plus the dedicated Melee slot in a
+full-width Half-Life-style selector at the top of the screen, followed by the
+Throwable, Medical, Utility and locked PDA slots. It appears when a direct slot
+or previous/next item input is
 triggered, then fades after 1.5 seconds without further selection.
 It uses the active input origin so the displayed control follows the player's
 keyboard or gamepad binding. It also displays each weapon's carry size and the
@@ -355,7 +365,7 @@ While holding a firearm, the player may perform a short melee push.
 
 ### 6.2 Dedicated melee weapons
 
-Melee weapons occupy one of the two generic weapon slots and have a carry size.
+Melee weapons occupy the dedicated melee slot and have a carry size.
 
 | Variant | Initial size | Notes |
 |---|---:|---|
@@ -424,7 +434,7 @@ The first milestone may contain only the sample pistol while the network, ViewMo
 - [x] Attachments are outside the vertical slice.
 - [x] Hitscan/projectile behavior is hybrid and data-driven.
 - [x] Permanent fists provide the native melee baseline and fallback weapon.
-- [x] Weapon Slots A/B can be selected through native slot and cycle inputs.
+- [x] Weapon Slots A/B and Melee can be selected through native slot and cycle inputs.
 
 ## 11. Open Questions
 

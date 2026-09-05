@@ -1,42 +1,42 @@
 VBWeaponSelectorHud {
 	position: absolute;
-	left: 50%;
-	top: 38px;
-	width: 540px;
+	left: 3vw;
+	right: 3vw;
+	top: 34px;
 	font-family: Roboto Mono;
 	color: #f3a43b;
 	pointer-events: none;
 	opacity: 1;
-	transform: translate( -50%, 0 );
+	transform: translate( 0, 0 );
 	transition: opacity 0.18s ease-out, transform 0.18s ease-out;
 
 	&.hidden {
 		opacity: 0;
-		transform: translate( -50%, -10px );
+		transform: translate( 0, -14px );
 	}
 
 	.weapon-slots {
 		width: 100%;
 		display: flex;
-		gap: 7px;
+		gap: 12px;
 	}
 
 	.equipment-slots {
 		width: 100%;
-		margin-top: 7px;
+		margin-top: 10px;
 		display: flex;
-		gap: 7px;
+		gap: 12px;
 	}
 
 	.capacity-readout {
-		height: 20px;
-		margin-bottom: 4px;
-		padding: 0 4px;
+		height: 28px;
+		margin-bottom: 7px;
+		padding: 0 8px;
 		display: flex;
 		align-items: center;
 		justify-content: flex-end;
-		gap: 7px;
-		font-size: 8px;
+		gap: 12px;
+		font-size: 13px;
 		font-weight: 700;
 		letter-spacing: 0.8px;
 		text-transform: uppercase;
@@ -44,7 +44,7 @@ VBWeaponSelectorHud {
 		opacity: 0.72;
 
 		.capacity-value {
-			font-size: 10px;
+			font-size: 16px;
 			font-weight: 900;
 			opacity: 1;
 		}
@@ -52,12 +52,13 @@ VBWeaponSelectorHud {
 
 	.weapon-slot {
 		position: relative;
-		width: 266px;
-		height: 66px;
+		min-width: 0;
+		flex-grow: 1;
+		height: 108px;
 		display: flex;
 		align-items: center;
-		gap: 9px;
-		padding: 8px 10px;
+		gap: 16px;
+		padding: 14px 18px;
 		background-color: rgba(10, 13, 12, 0.72);
 		border-bottom: 2px solid rgba(243, 164, 59, 0.2);
 		opacity: 0.52;
@@ -80,13 +81,13 @@ VBWeaponSelectorHud {
 	}
 
 	.slot-key {
-		width: 27px;
-		height: 27px;
+		width: 46px;
+		height: 46px;
 		align-items: center;
 		justify-content: center;
 		background-color: rgba(243, 164, 59, 0.08);
 		border: 1px solid rgba(243, 164, 59, 0.46);
-		font-size: 11px;
+		font-size: 18px;
 		font-weight: 900;
 	}
 
@@ -98,16 +99,16 @@ VBWeaponSelectorHud {
 	}
 
 	.slot-name {
-		font-size: 8px;
+		font-size: 13px;
 		font-weight: 700;
 		letter-spacing: 1px;
 		opacity: 0.55;
 	}
 
 	.weapon-name {
-		max-width: 148px;
-		margin-top: 3px;
-		font-size: 10px;
+		max-width: 100%;
+		margin-top: 6px;
+		font-size: 19px;
 		font-weight: 900;
 		letter-spacing: 0.6px;
 		white-space: nowrap;
@@ -116,24 +117,25 @@ VBWeaponSelectorHud {
 	}
 
 	.slot-weight {
-		width: 20px;
-		height: 20px;
+		width: 34px;
+		height: 34px;
 		align-items: center;
 		justify-content: center;
 		border: 1px solid rgba(243, 164, 59, 0.32);
-		font-size: 9px;
+		font-size: 15px;
 		font-weight: 900;
 		opacity: 0.7;
 	}
 
 	.equipment-slot {
 		position: relative;
-		width: 129px;
-		height: 52px;
+		min-width: 0;
+		flex-grow: 1;
+		height: 76px;
 		display: flex;
 		align-items: center;
-		gap: 6px;
-		padding: 7px 8px;
+		gap: 12px;
+		padding: 11px 14px;
 		background-color: rgba(10, 13, 12, 0.62);
 		border-bottom: 2px solid rgba(243, 164, 59, 0.16);
 		opacity: 0.48;
@@ -162,16 +164,16 @@ VBWeaponSelectorHud {
 		position: absolute;
 		top: 3px;
 		left: 4px;
-		font-size: 7px;
+		font-size: 11px;
 		font-weight: 900;
 		opacity: 0.58;
 	}
 
 	.equipment-icon {
-		width: 20px;
+		width: 34px;
 		align-items: center;
 		justify-content: center;
-		font-size: 15px;
+		font-size: 24px;
 		font-weight: 900;
 	}
 
@@ -182,24 +184,47 @@ VBWeaponSelectorHud {
 	}
 
 	.equipment-name {
-		font-size: 7px;
+		font-size: 12px;
 		font-weight: 800;
 		letter-spacing: 0.5px;
 		opacity: 0.68;
 	}
 
 	.equipment-item {
-		max-width: 82px;
-		margin-top: 2px;
-		font-size: 8px;
+		max-width: 100%;
+		margin-top: 4px;
+		font-size: 14px;
 		font-weight: 900;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
 
+	.drop-progress {
+		width: 100%;
+		margin-top: 10px;
+		padding: 8px 12px;
+		flex-direction: column;
+		background-color: rgba(10, 13, 12, 0.82);
+		font-size: 13px;
+		font-weight: 800;
+		letter-spacing: 0.8px;
+
+		.drop-track {
+			width: 100%;
+			height: 5px;
+			margin-top: 7px;
+			background-color: rgba(243, 164, 59, 0.15);
+		}
+
+		.drop-fill {
+			height: 100%;
+			background-color: #f3a43b;
+		}
+	}
+
 	&:intro {
 		opacity: 0;
-		transform: translate( -50%, -10px );
+		transform: translate( 0, -14px );
 	}
 }

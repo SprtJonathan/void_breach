@@ -16,6 +16,9 @@ public sealed class VBCombatWeapon : BaseCombatWeapon, IVBWeaponCarryItem
 	[Property, Group( "Inventory" ), Range( 1, 5 )]
 	public int CarrySize { get; set; } = 1;
 
+	[Property, Group( "Inventory" )]
+	public VBWeaponSlotCategory SlotCategory { get; set; } = VBWeaponSlotCategory.Main;
+
 	public bool IsWeaponSlotPlaceholder => false;
 
 	/// <summary>
