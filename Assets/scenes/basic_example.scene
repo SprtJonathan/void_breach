@@ -139,6 +139,22 @@
             },
             "Property": "Position",
             "Value": "76.5084,-6.0451217E-05,59.349144"
+          },
+          {
+            "Target": {
+              "Type": "Component",
+              "IdValue": "21a22041-4216-449a-a283-04ee78827ff0"
+            },
+            "Property": "DisplayName",
+            "Value": "9mm Pistol"
+          },
+          {
+            "Target": {
+              "Type": "Component",
+              "IdValue": "21a22041-4216-449a-a283-04ee78827ff0"
+            },
+            "Property": "PreferredSlot",
+            "Value": -1
           }
         ],
         "MovedObjects": [
@@ -272,6 +288,22 @@
             },
             "Property": "Position",
             "Value": "387.453918,-351.106598,-0.0360183716"
+          },
+          {
+            "Target": {
+              "Type": "Component",
+              "IdValue": "21a22041-4216-449a-a283-04ee78827ff0"
+            },
+            "Property": "DisplayName",
+            "Value": "9mm Pistol"
+          },
+          {
+            "Target": {
+              "Type": "Component",
+              "IdValue": "21a22041-4216-449a-a283-04ee78827ff0"
+            },
+            "Property": "PreferredSlot",
+            "Value": -1
           }
         ],
         "MovedObjects": [
@@ -423,6 +455,22 @@
             },
             "Property": "Position",
             "Value": "-788.37207,135.047943,-0.035987854"
+          },
+          {
+            "Target": {
+              "Type": "Component",
+              "IdValue": "21a22041-4216-449a-a283-04ee78827ff0"
+            },
+            "Property": "DisplayName",
+            "Value": "9mm Pistol"
+          },
+          {
+            "Target": {
+              "Type": "Component",
+              "IdValue": "21a22041-4216-449a-a283-04ee78827ff0"
+            },
+            "Property": "PreferredSlot",
+            "Value": -1
           }
         ],
         "MovedObjects": [
@@ -556,6 +604,22 @@
             },
             "Property": "Position",
             "Value": "-530.329773,709.44043,-0.0359873772"
+          },
+          {
+            "Target": {
+              "Type": "Component",
+              "IdValue": "21a22041-4216-449a-a283-04ee78827ff0"
+            },
+            "Property": "DisplayName",
+            "Value": "9mm Pistol"
+          },
+          {
+            "Target": {
+              "Type": "Component",
+              "IdValue": "21a22041-4216-449a-a283-04ee78827ff0"
+            },
+            "Property": "PreferredSlot",
+            "Value": -1
           }
         ],
         "MovedObjects": [
@@ -2037,7 +2101,7 @@
       "__version": 2,
       "Flags": 0,
       "Name": "NavLink",
-      "Position": "-959.063416,363.724213,28",
+      "Position": "-959.063416,425.248962,28",
       "Rotation": "0,0,0,1",
       "Scale": "1,1,1",
       "Tags": "",
@@ -2054,7 +2118,43 @@
           "__enabled": true,
           "Flags": 0,
           "Area": null,
-          "ConnectionRadius": 16,
+          "ConnectionRadius": 68.546684,
+          "IsBiDirectional": true,
+          "LocalEndPosition": "35.7269897,3.57717896,-24",
+          "LocalStartPosition": "-35.7269897,-3.57717896,24",
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null
+        }
+      ],
+      "Children": []
+    },
+    {
+      "__guid": "d9143443-0ba8-46a9-a54b-bc55b54b46f2",
+      "__version": 2,
+      "Flags": 0,
+      "Name": "NavLink (4)",
+      "Position": "-1121.64429,350.034912,27.9999619",
+      "Rotation": "0,0,-0.793352723,0.608762085",
+      "Scale": "1,1,1",
+      "Tags": "",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "NetworkFlags": 0,
+      "NetworkOrphaned": 0,
+      "NetworkTransmit": true,
+      "OwnerTransfer": 1,
+      "Components": [
+        {
+          "__type": "Sandbox.NavMeshLink",
+          "__guid": "e88c4948-a293-4ad6-b1b7-28d297960d25",
+          "__enabled": true,
+          "Flags": 0,
+          "Area": null,
+          "ConnectionRadius": 100.70664,
           "IsBiDirectional": true,
           "LocalEndPosition": "35.7269897,3.57717896,-24",
           "LocalStartPosition": "-35.7269897,-3.57717896,24",
