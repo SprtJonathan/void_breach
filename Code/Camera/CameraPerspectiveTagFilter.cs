@@ -37,6 +37,7 @@ public sealed class CameraPerspectiveTagFilter : Component, PlayerController.IEv
 	private bool? _lastThirdPerson;
 	private bool _localBodyVisibilityApplied;
 	private VBHealthComponent _health;
+	private VBTraversalHands _traversalHands;
 
 	/// <summary>
 	/// Conserve le corps local dans la passe d'ombres en première personne.
@@ -96,10 +97,13 @@ public sealed class CameraPerspectiveTagFilter : Component, PlayerController.IEv
 			return;
 
 		_health ??= Player.Components.Get<VBHealthComponent>();
+		if ( !_traversalHands.IsValid() ) _traversalHands = Player.Components.Get<VBTraversalHands>();
 		var showBody = Player.ThirdPerson
+			|| (_traversalHands.IsValid() && _traversalHands.IsShowingFirstPersonHands)
 			|| (_health.IsValid() && (_health.IsDowned || _health.IsDead));
 
 		ApplyLocalBodyVisibility( showBody );
+		if ( _traversalHands.IsValid() ) _traversalHands.UpdateFirstPersonHead();
 		_localBodyVisibilityApplied = true;
 	}
 
@@ -178,7 +182,8 @@ public sealed class CameraPerspectiveTagFilter : Component, PlayerController.IEv
 			if ( !sceneObject.IsValid() )
 				continue;
 
-			sceneObject.Flags.ExcludeGameLayer = hideBody;
+			sceneObject.Flags.ExcludeGameLayer = hideBody
+				|| (_traversalHands.IsValid() && _traversalHands.IsHeadClothing( renderer ));
 		}
 	}
 }

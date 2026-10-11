@@ -20,13 +20,13 @@ public sealed class VBFirstPersonHeadbob : Component, PlayerController.IEvents
 	public bool EnablePositionBob { get; set; } = true;
 
 	/// <summary>
-	/// Amplitude du balancement gauche/droite, en unités s&box.
+	/// Amplitude du balancement gauche/droite, en unités s&amp;box.
 	/// </summary>
 	[Property, Group( "Position" ), Range( 0f, 3f ), Step( 0.05f )]
 	public float HorizontalAmplitude { get; set; } = 0.2f;
 
 	/// <summary>
-	/// Amplitude du déplacement haut/bas, en unités s&box.
+	/// Amplitude du déplacement haut/bas, en unités s&amp;box.
 	/// </summary>
 	[Property, Group( "Position" ), Range( 0f, 3f ), Step( 0.05f )]
 	public float VerticalAmplitude { get; set; } = 0.3f;
@@ -89,6 +89,7 @@ public sealed class VBFirstPersonHeadbob : Component, PlayerController.IEvents
 	public float AimAmplitudeScale { get; set; } = 0.2f;
 
 	private BaseInventoryComponent _inventory;
+	private VBMoveModeWalk _movement;
 	private float _phase;
 	private float _movementStrength;
 	private float _runAmount;
@@ -138,7 +139,8 @@ public sealed class VBFirstPersonHeadbob : Component, PlayerController.IEvents
 		var walkSpeed = MathF.Max( Controller.WalkSpeed, MinimumMovementSpeed + 1f );
 		var runSpeed = MathF.Max( Controller.RunSpeed, walkSpeed + 1f );
 
-		var targetStrength = Controller.IsOnGround
+		if ( !_movement.IsValid() ) _movement = Components.Get<VBMoveModeWalk>();
+		var targetStrength = Controller.IsOnGround && !(_movement.IsValid() && _movement.IsSliding)
 			? InverseLerpClamped( MinimumMovementSpeed, walkSpeed, horizontalSpeed )
 			: 0f;
 		var blend = 1f - MathF.Exp( -MathF.Max( BlendSpeed, 0.01f ) * deltaTime );

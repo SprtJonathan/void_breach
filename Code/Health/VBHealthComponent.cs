@@ -26,7 +26,7 @@ internal sealed class VBDrainModifier
 /// Manages Void Breach's three-tier health model, downed state, bleed-out,
 /// revival and temporary SoftMax health effects.
 /// </summary>
-public sealed class VBHealthComponent : Component, Component.IDamageable
+public sealed partial class VBHealthComponent : Component, Component.IDamageable
 {
 	[Property, Group( "Life Cycle" )]
 	public bool CanBeDowned { get; set; } = true;
@@ -143,6 +143,7 @@ public sealed class VBHealthComponent : Component, Component.IDamageable
 		_softMaxReductionRate = 0f;
 		_activeSoftMaxRecoveryRate = SoftMaxRecoveryRate;
 		_drainModifiers.Clear();
+		ResetNativeImpacts();
 		NotifyHealthChanged();
 	}
 
@@ -200,11 +201,6 @@ public sealed class VBHealthComponent : Component, Component.IDamageable
 
 		OnDamaged?.Invoke( info );
 		NotifyHealthChanged();
-	}
-
-	public void OnDamage( in DamageInfo damage )
-	{
-		TakeDamage( VBDamageInfo.FromNative( damage ) );
 	}
 
 	public void Heal( float amount )

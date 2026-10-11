@@ -37,7 +37,7 @@ public sealed class VBStaminaComponent : Component, PlayerController.IEvents
 	public bool CanSprint =>
 		!IsExhausted
 		&& CurrentStamina > 0f
-		&& (_health is null || (!_health.IsDowned && !_health.IsDead));
+		&& (!_health.IsValid() || (!_health.IsDowned && !_health.IsDead));
 
 	public Action<float> OnStaminaSpent;
 	public Action<float> OnStaminaRestored;
@@ -47,6 +47,7 @@ public sealed class VBStaminaComponent : Component, PlayerController.IEvents
 
 	private PlayerController _controller;
 	private VBHealthComponent _health;
+	private VBMoveModeTraversal _traversal;
 	private TimeSince _timeSinceSpent;
 	private float _nativeRunSpeed;
 
@@ -54,6 +55,7 @@ public sealed class VBStaminaComponent : Component, PlayerController.IEvents
 	{
 		_controller = Components.Get<PlayerController>();
 		_health = Components.Get<VBHealthComponent>();
+		_traversal = Components.Get<VBMoveModeTraversal>();
 		_nativeRunSpeed = _controller?.RunSpeed ?? 0f;
 
 		if ( IsProxy )
@@ -67,7 +69,7 @@ public sealed class VBStaminaComponent : Component, PlayerController.IEvents
 		if ( IsProxy )
 			return;
 
-		_controller ??= Components.Get<PlayerController>();
+		if ( !_controller.IsValid() ) _controller = Components.Get<PlayerController>();
 
 		bool wantsSprint = IsSprintRequested();
 
@@ -81,7 +83,7 @@ public sealed class VBStaminaComponent : Component, PlayerController.IEvents
 
 	protected override void OnDisabled()
 	{
-		if ( !IsProxy && _controller is not null && _nativeRunSpeed > 0f )
+		if ( !IsProxy && _controller.IsValid() && _nativeRunSpeed > 0f )
 			_controller.RunSpeed = _nativeRunSpeed;
 	}
 
@@ -92,13 +94,14 @@ public sealed class VBStaminaComponent : Component, PlayerController.IEvents
 	/// </summary>
 	void PlayerController.IEvents.PreInput()
 	{
-		_controller ??= Components.Get<PlayerController>();
+		if ( IsProxy ) return;
+		if ( !_controller.IsValid() ) _controller = Components.Get<PlayerController>();
 
-		if ( _controller is null )
+		if ( !_controller.IsValid() )
 			return;
 
 		if ( _controller.RunSpeed > _controller.WalkSpeed )
-			_nativeRunSpeed = MathF.Max( _nativeRunSpeed, _controller.RunSpeed );
+			_nativeRunSpeed = _controller.RunSpeed;
 
 		bool blockSprint = IsSprintRequested() && !CanSprint;
 
@@ -113,7 +116,7 @@ public sealed class VBStaminaComponent : Component, PlayerController.IEvents
 	/// </summary>
 	public bool WantsSprint( PlayerController controller, Vector3 movementInput )
 	{
-		if ( controller is null || controller.IsDucking )
+		if ( IsProxy || !controller.IsValid() || controller.IsDucking )
 			return false;
 
 		if ( RequireMovementInput && movementInput.LengthSquared <= 0.0001f )
@@ -131,16 +134,20 @@ public sealed class VBStaminaComponent : Component, PlayerController.IEvents
 	/// </summary>
 	public bool IsSprintRequested()
 	{
-		_controller ??= Components.Get<PlayerController>();
+		if ( IsProxy ) return false;
+		if ( !_controller.IsValid() ) _controller = Components.Get<PlayerController>();
+		if ( !_traversal.IsValid() ) _traversal = Components.Get<VBMoveModeTraversal>();
 
-		return _controller is not null
+		return _controller.IsValid() && _controller.Enabled && _controller.UseInputControls
 			&& _controller.Mode is MoveModeWalk
+			// The native mode changes after physics; a new catch already owns the first walk-mode tick.
+			&& !(_traversal.IsValid() && _traversal.IsTraversing)
 			&& WantsSprint( _controller, Input.AnalogMove );
 	}
 
 	public bool TrySpend( float amount )
 	{
-		if ( IsProxy || amount < 0f )
+		if ( IsProxy || !float.IsFinite( amount ) || amount < 0f )
 			return false;
 
 		if ( amount == 0f )
@@ -155,7 +162,7 @@ public sealed class VBStaminaComponent : Component, PlayerController.IEvents
 
 	public float Restore( float amount )
 	{
-		if ( IsProxy || amount <= 0f )
+		if ( IsProxy || !float.IsFinite( amount ) || amount <= 0f )
 			return 0f;
 
 		float previousStamina = CurrentStamina;
@@ -205,7 +212,7 @@ public sealed class VBStaminaComponent : Component, PlayerController.IEvents
 
 	private void Regenerate( float deltaTime )
 	{
-		if ( _health is not null && (_health.IsDowned || _health.IsDead) )
+		if ( _health.IsValid() && (_health.IsDowned || _health.IsDead) )
 			return;
 
 		if ( _timeSinceSpent < RegenDelay || CurrentStamina >= MaxStamina )
@@ -248,6 +255,7 @@ public sealed class VBStaminaComponent : Component, PlayerController.IEvents
 	[Button( "Debug: Empty Stamina" )]
 	public void Debug_Empty()
 	{
+		if ( IsProxy ) return;
 		SpendInternal( CurrentStamina );
 	}
 }

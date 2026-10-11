@@ -136,7 +136,7 @@ public struct VBDamageInfo
 		{
 			if ( tags.HasAny( "bullet" ) )
 				type |= VBDamageType.Bullet;
-			if ( tags.HasAny( "blunt", "melee" ) )
+			if ( tags.HasAny( "blunt", "melee", "impact" ) )
 				type |= VBDamageType.Blunt;
 			if ( tags.HasAny( "explosion", "blast" ) )
 				type |= VBDamageType.Explosion;

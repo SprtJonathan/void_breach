@@ -1,0 +1,87 @@
+@using System
+@using Sandbox
+@using Sandbox.UI
+@inherits Panel
+
+<root>
+	@if ( Visible )
+	{
+		<div class="traversal-card @(IsHanging ? "hanging" : "") @(Remaining < 0.2f && IsHanging ? "warning" : "")">
+			<div class="status-row">
+				<label class="status-icon">@(IsHanging ? "✓" : "↑")</label>
+				<label class="status-title">@Language.GetPhrase( Traversal.FeedbackToken )</label>
+			</div>
+			@if ( IsHanging )
+			{
+				<div class="hang-actions">
+					<label class="input-key">@ButtonOrigin( "jump" )</label>
+					<label>#vb.traversal.climb_action</label>
+					<label class="input-key">@ButtonOrigin( "duck" )</label>
+					<label>#vb.traversal.release_action</label>
+				</div>
+				<div class="hold-track"><div class="hold-fill" style="width: @(Remaining * 100f)%;"></div></div>
+			}
+		</div>
+	}
+	@if ( DebugVisible )
+	{
+		<div class="traversal-debug">
+			<label class="debug-title">#vb.traversal.debug.title</label>
+			<label class="debug-outcome @(Traversal.DebugRejected ? "rejected" : "")">@Language.GetPhrase( Traversal.DebugOutcomeToken )</label>
+			@if ( !string.IsNullOrEmpty( Traversal.DebugDetail ) )
+			{
+				<label class="debug-detail">@Traversal.DebugDetail</label>
+			}
+			<label class="debug-detail">@Traversal.DebugInputSummary</label>
+			<label class="debug-detail">@Traversal.DebugMetrics</label>
+			@if ( !string.IsNullOrEmpty( Traversal.DebugLastMotion ) )
+			{
+				<label class="debug-detail">@Traversal.DebugLastMotion</label>
+			}
+			<div class="debug-legend">
+				<label class="passed">#vb.traversal.debug.legend_pass</label>
+				<label class="failed">#vb.traversal.debug.legend_fail</label>
+				<label class="range">#vb.traversal.debug.legend_range</label>
+			</div>
+			@if ( Traversal.DebugHasRecentAttempt )
+			{
+				@for ( int i = 0; i < Traversal.DebugTraces.Count; i++ )
+				{
+					var trace = Traversal.DebugTraces[i];
+					<label class="debug-trace @(trace.Passed ? "passed" : "failed")">@TraceText( i, trace )</label>
+				}
+			}
+		</div>
+	}
+</root>
+
+@code
+{
+	public GameObject Player { get; set; }
+	public bool IsSuppressed { get; set; }
+	private VBMoveModeTraversal Traversal => Player.IsValid() ? Player.Components.Get<VBMoveModeTraversal>() : null;
+	private bool Visible => !IsSuppressed && Player.IsValid() && !Player.IsProxy
+		&& Traversal is { Enabled: true, EnableTraversal: true, EnableTraversalDebug: true, ShowTraversalFeedback: true }
+		&& !string.IsNullOrEmpty( Traversal.FeedbackToken );
+	private bool DebugVisible => !IsSuppressed && Player.IsValid() && !Player.IsProxy
+		&& Traversal is { Enabled: true, EnableTraversalDebug: true };
+	private bool IsHanging => Traversal?.State == VBTraversalState.Hanging;
+	private float Remaining => Traversal?.HangRemainingFraction ?? 1f;
+	private static string ButtonOrigin( string action ) => Input.GetButtonOrigin( action ) ?? action.ToUpperInvariant();
+	private static string TraceText( int index, VBMoveModeTraversal.TraversalDebugTrace trace )
+		=> $"{index + 1}. {Language.GetPhrase( $"vb.traversal.debug.probe.{trace.Purpose}" )} {(trace.Passed ? "✓" : "×")} — {trace.HitName} {(trace.StartedSolid ? "[StartedSolid]" : "")}";
+	protected override int BuildHash()
+	{
+		var hash = new HashCode();
+		hash.Add( Visible ); hash.Add( DebugVisible ); hash.Add( Traversal?.State ); hash.Add( Traversal?.FeedbackToken );
+		hash.Add( (int)(Remaining * 100f) ); hash.Add( ButtonOrigin( "jump" ) ); hash.Add( ButtonOrigin( "duck" ) );
+		if ( DebugVisible )
+		{
+			hash.Add( Traversal.DebugOutcomeToken ); hash.Add( Traversal.DebugDetail ); hash.Add( Traversal.DebugMetrics );
+			hash.Add( Traversal.DebugInputSummary ); hash.Add( Traversal.DebugHasRecentAttempt );
+			hash.Add( Traversal.DebugLastMotion );
+			foreach ( var trace in Traversal.DebugTraces ) hash.Add( trace );
+		}
+		return hash.ToHashCode();
+	}
+}
