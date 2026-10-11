@@ -2,6 +2,8 @@
 
 Le prefab `Assets/player/player controller.prefab` conserve le `PlayerController`, son Rigidbody et les modes Swim/Ladder. `VBMoveModeWalk` dérive de Walk et garde ses collisions, marches, saut et accroupissement. Traversal prend la main uniquement pendant une action manuelle validée. Priorités : Walk 1, Traversal 2, Ladder 5, Swim 10.
 
+Le calcul d'inertie, de direction et de transition de sprint est regroupé dans `VBMoveModeWalk.Momentum.cs`. La détection, les réceptions et les trajets de traversal sont dans `VBMoveModeTraversal.Detection.cs`, avec un même type de snapshot pour surveiller le rebord et la réception. Les diagnostics restent dans `.Debug.cs`. Ces fichiers partiels constituent les mêmes composants ; les propriétés du prefab et les états répliqués restent sur leurs types existants.
+
 ## Inertie, sprint et slide
 
 Le prefab utilise marche 150, sprint 300 et accroupissement 70 unités/s. Le lissage de la cible native reste actif : `AccelerationTime=0.12`, `DeaccelerationTime=0.09`. `DirectionResponseTime=0.055` et `ReversalResponseTime=0.11` adoucissent les changements de direction sans retarder la visée.
@@ -103,5 +105,7 @@ Validation avec le MCP s&box, moteur 26.10.02 : 16 scénarios de franchissement/
 Le verrou de combat passe 33 assertions dans les quatre états de traversal : permissions natives, entrées, appels directs sur arme et poings, suppression de l'ADS, annulation d'un rechargement, refus du hook de validation des tirs et rétablissement après sortie. Ce banc local ne remplace pas un test réseau sous latence.
 
 Les rebords fins passent 12 scénarios supplémentaires : clôtures de 4/16/28 unités, confirmation manuelle vers Vaulting, maintien de Climbing sur un dessus large, relâchement définitif des mains, plafond, absence de réception, chute excessive, support retiré, obstacle ajouté, géométrie dynamique et option désactivée. Le mouvement passe 10 scénarios de physique réelle : arrêt progressif depuis 150, saut de sprint et deux sauts manuels à 300 conservés en l'air, saut de slide, air strafe, plafond de 420, impulsion externe de 500 conservée, collision murale, arrêt sur pente de 30° et marche native de 16 unités.
+
+Après le nettoyage des fichiers partiels et des snapshots de support, ces 22 scénarios sont rejoués avec succès dans le moteur. La compilation finale passe sans erreur et sans avertissement dans les composants de mouvement modifiés.
 
 Une session avec deux processus locaux vérifie propriétaire et proxy : état Hanging et prise répliqués, paramètres IK actifs sur les deux machines, impact envoyé par le propriétaire et santé confirmée sur l'hôte et le client. Deux rapports natifs de 60 au même instant ne retirent que 60. Les bancs et géométries temporaires sont retirés du code livré. Une validation sous forte latence et sur serveur dédié reste distincte de ces tests locaux.

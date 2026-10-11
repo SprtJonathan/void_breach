@@ -33,6 +33,20 @@ public sealed partial class VBMoveModeTraversal
 		Vector3 Start, Vector3 End, Vector3 HitPosition, Vector3 Normal,
 		string Purpose, string HitName, bool IsBody, bool Hit, bool StartedSolid, bool Passed, BBox BodyBounds, Capsule? BodyCapsule, Rotation BodyRotation );
 
+	private bool CheckBodyTrace( Vector3 start, Vector3 end, SceneTraceResult trace, string purpose, BBox bounds, Capsule? capsule = null )
+	{
+		bool clear = !trace.StartedSolid && !trace.Hit;
+		if ( !EnableTraversalDebug ) return clear;
+		bool ongoing = !_debugRecording && IsTraversing;
+		bool standalone = !_debugRecording && !ongoing && !clear;
+		if ( standalone ) BeginDebugAttempt();
+		if ( ongoing ) _debugRecording = true;
+		RecordDebugTrace( start, end, trace, purpose, true, clear, bounds, capsule );
+		if ( !clear ) RejectDebugAttempt( trace.StartedSolid ? "vb.traversal.debug.body_inside" : "vb.traversal.debug.path_blocked",
+			$"{purpose} | {(capsule.HasValue ? "capsule" : "feet")} | StartedSolid={trace.StartedSolid} | {DebugHitName( trace )}" );
+		if ( standalone || ongoing ) EndDebugAttempt();
+		return clear;
+	}
 	private void BeginDebugAttempt()
 	{
 		if ( !EnableTraversalDebug || IsProxy ) return;
