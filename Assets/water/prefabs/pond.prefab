@@ -1,0 +1,91 @@
+{
+  "RootObject": {
+    "__guid": "29736f70-f779-4194-a0a3-e11f91916820",
+    "__version": 2,
+    "Flags": 0,
+    "Name": "Natural pond",
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
+    "Tags": "",
+    "Enabled": true,
+    "NetworkMode": 1,
+    "NetworkFlags": 0,
+    "NetworkOrphaned": 0,
+    "NetworkTransmit": true,
+    "OwnerTransfer": 0,
+    "Components": [
+      {
+        "__type": "VoidBreach.Water.VBWaterBody",
+        "__guid": "b97f2dc4-b1e9-4298-a86a-aab54b8d3211",
+        "__enabled": true,
+        "Flags": 0,
+        "Depth": 240,
+        "WaveLength": 360,
+        "Resolution": 64,
+        "WaveSpeed": 0.55,
+        "SurfaceMaterial": "water/materials/natural_water.vmat",
+        "Shape": "Ellipse",
+        "WaveAmplitude": 2,
+        "Size": "1800,1200",
+        "CurrentSpeed": 3
+      }
+    ],
+    "Children": [
+{
+  "__guid": "311c9b50-f578-41a2-aeda-280f68096fd2",
+  "__version": 2,
+  "Flags": 0,
+  "Name": "Environment reflection",
+  "Position": "0,0,48",
+  "Rotation": "0,0,0,1",
+  "Scale": "1,1,1",
+  "Tags": "",
+  "Enabled": true,
+  "NetworkMode": 2,
+  "NetworkFlags": 0,
+  "NetworkOrphaned": 0,
+  "NetworkTransmit": true,
+  "OwnerTransfer": 1,
+  "Components": [
+    {
+      "__type": "Sandbox.EnvmapProbe",
+      "__guid": "04cfba82-482e-49e7-8265-d548dd0bd789",
+      "__enabled": true,
+      "Flags": 0,
+      "__version": 1,
+      "BakedTexture": null,
+      "Bounds": {
+        "Mins": "-1050,-750,-400",
+        "Maxs": "1050,750,1200"
+      },
+      "DelayBetweenUpdates": 1,
+      "Feathering": 64,
+      "FrameInterval": 5,
+      "MaxDistance": 20000,
+      "Mode": "Realtime",
+      "MultiBounce": false,
+      "OnComponentDestroy": null,
+      "OnComponentDisabled": null,
+      "OnComponentEnabled": null,
+      "OnComponentFixedUpdate": null,
+      "OnComponentStart": null,
+      "OnComponentUpdate": null,
+      "Priority": 10,
+      "Projection": "Box",
+      "RenderExcludeTags": "water_surface",
+      "Resolution": "Medium",
+      "Texture": null,
+      "TintColor": "1,1,1,1",
+      "UpdateStrategy": "TimeInterval",
+      "ZFar": 20000,
+      "ZNear": 4
+    }
+  ],
+  "Children": []
+}
+    ]
+  },
+  "__references": [],
+  "__version": 1
+}

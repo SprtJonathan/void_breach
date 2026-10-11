@@ -1,0 +1,356 @@
+VBPdaScreen {
+	width: 100%;
+	height: 100%;
+	font-family: Roboto Mono;
+	color: #f3a43b;
+	background-color: #070b09;
+	pointer-events: none;
+	overflow: hidden;
+
+	.screen-shell {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		flex-direction: column;
+		padding: 24px 28px 18px;
+		border: 5px solid #212b25;
+		background-color: #07100d;
+		box-shadow: inset 0 0 55px rgba(0, 0, 0, 0.92);
+	}
+
+	.top-bar,
+	.footer,
+	.panel-header,
+	.status-row,
+	.squad-row,
+	.coordinates,
+	.brand,
+	.connection,
+	.bearing {
+		display: flex;
+		align-items: center;
+	}
+
+	.top-bar {
+		height: 68px;
+		justify-content: space-between;
+		padding-bottom: 14px;
+		border-bottom: 2px solid rgba(243, 164, 59, 0.42);
+	}
+
+	.brand {
+		gap: 13px;
+	}
+
+	.brand-mark {
+		width: 52px;
+		height: 44px;
+		align-items: center;
+		justify-content: center;
+		background-color: #f3a43b;
+		color: #07100d;
+		font-size: 24px;
+		font-weight: 1000;
+		letter-spacing: -2px;
+	}
+
+	.brand-copy,
+	.connection-copy {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.brand-title {
+		font-size: 24px;
+		font-weight: 900;
+		letter-spacing: 3px;
+		text-shadow: 0 0 14px rgba(243, 164, 59, 0.36);
+	}
+
+	.brand-subtitle,
+	.connection-detail,
+	.muted {
+		font-size: 10px;
+		letter-spacing: 1.4px;
+		opacity: 0.55;
+	}
+
+	.connection {
+		gap: 13px;
+	}
+
+	.signal-bars {
+		height: 37px;
+		display: flex;
+		align-items: flex-end;
+		gap: 4px;
+	}
+
+	.signal-bar {
+		width: 6px;
+		background-color: #f3a43b;
+		box-shadow: 0 0 8px rgba(243, 164, 59, 0.55);
+	}
+
+	.signal-bar.low { height: 10px; }
+	.signal-bar.medium { height: 18px; }
+	.signal-bar.high { height: 27px; }
+	.signal-bar.peak { height: 36px; opacity: 0.22; }
+
+	.connection-state {
+		font-size: 14px;
+		font-weight: 900;
+		letter-spacing: 1px;
+	}
+
+	.content {
+		min-height: 0;
+		flex-grow: 1;
+		display: flex;
+		gap: 18px;
+		padding: 18px 0 14px;
+	}
+
+	.map-panel,
+	.status-panel,
+	.objective-panel,
+	.squad-panel {
+		display: flex;
+		flex-direction: column;
+		border: 1px solid rgba(243, 164, 59, 0.3);
+		background-color: rgba(10, 18, 14, 0.84);
+	}
+
+	.map-panel {
+		min-width: 0;
+		flex-grow: 1;
+		padding: 14px;
+	}
+
+	.side-column {
+		width: 330px;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.panel-header {
+		height: 30px;
+		justify-content: space-between;
+		font-size: 12px;
+		font-weight: 900;
+		letter-spacing: 1.6px;
+	}
+
+	.map-grid {
+		position: relative;
+		min-height: 0;
+		flex-grow: 1;
+		overflow: hidden;
+		border: 1px solid rgba(243, 164, 59, 0.2);
+		background-color: #08130f;
+		background-image: linear-gradient(rgba(243, 164, 59, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(243, 164, 59, 0.08) 1px, transparent 1px);
+		background-size: 36px 36px;
+	}
+
+	.scan-line {
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 63%;
+		height: 2px;
+		background-color: rgba(243, 164, 59, 0.23);
+		box-shadow: 0 0 12px rgba(243, 164, 59, 0.28);
+	}
+
+	.signal-ray {
+		position: absolute;
+		left: 49%;
+		top: 48%;
+		width: 188px;
+		height: 6px;
+		transform-origin: left center;
+		transform: rotate(-42deg);
+		background-color: rgba(243, 164, 59, 0.2);
+		border-right: 3px solid #f3a43b;
+	}
+
+	.operator-marker {
+		position: absolute;
+		left: 46%;
+		top: 44%;
+		width: 58px;
+		height: 58px;
+		align-items: center;
+		justify-content: center;
+		border: 2px solid #f3a43b;
+		border-radius: 50%;
+		box-shadow: 0 0 18px rgba(243, 164, 59, 0.5);
+	}
+
+	.operator-marker label {
+		position: absolute;
+		top: 59px;
+		font-size: 10px;
+		font-weight: 900;
+	}
+
+	.operator-arrow {
+		font-size: 27px;
+		text-shadow: 0 0 10px rgba(243, 164, 59, 0.75);
+	}
+
+	.zone {
+		position: absolute;
+		width: 112px;
+		height: 76px;
+		align-items: center;
+		justify-content: center;
+		border: 2px dashed rgba(255, 103, 62, 0.56);
+		border-radius: 50%;
+		color: #ff7048;
+		font-size: 9px;
+		font-weight: 800;
+	}
+
+	.zone-a { left: 13%; top: 16%; }
+	.zone-b { right: 12%; bottom: 14%; width: 142px; height: 92px; }
+
+	.extract {
+		position: absolute;
+		padding: 5px 8px;
+		font-size: 10px;
+		font-weight: 900;
+		letter-spacing: 1px;
+	}
+
+	.extract-open {
+		right: 12%;
+		top: 13%;
+		border: 1px solid #b7c56a;
+		color: #b7c56a;
+	}
+
+	.extract-locked {
+		left: 8%;
+		bottom: 12%;
+		border: 1px solid rgba(255, 112, 72, 0.6);
+		color: #ff7048;
+		opacity: 0.72;
+	}
+
+	.squad-marker {
+		position: absolute;
+		width: 25px;
+		height: 25px;
+		align-items: center;
+		justify-content: center;
+		border: 1px solid #e7c77d;
+		color: #e7c77d;
+		font-size: 11px;
+		font-weight: 900;
+	}
+
+	.squad-two { left: 36%; top: 69%; }
+	.squad-three { right: 25%; top: 31%; }
+
+	.coordinates {
+		height: 31px;
+		gap: 22px;
+		font-size: 10px;
+		font-weight: 800;
+		letter-spacing: 1px;
+	}
+
+	.coordinates .live {
+		margin-left: auto;
+		color: #b7c56a;
+	}
+
+	.status-panel,
+	.objective-panel,
+	.squad-panel {
+		padding: 10px 13px;
+	}
+
+	.status-panel { height: 193px; }
+	.objective-panel { flex-grow: 1; }
+	.squad-panel { height: 122px; }
+
+	.timer {
+		font-size: 40px;
+		font-weight: 900;
+		letter-spacing: 5px;
+		line-height: 46px;
+		text-shadow: 0 0 13px rgba(243, 164, 59, 0.35);
+	}
+
+	.status-active,
+	.value.open {
+		color: #b7c56a;
+	}
+
+	.status-row,
+	.squad-row {
+		justify-content: space-between;
+		min-height: 25px;
+		border-top: 1px solid rgba(243, 164, 59, 0.12);
+		font-size: 9px;
+		font-weight: 800;
+		letter-spacing: 0.7px;
+	}
+
+	.status-row .value { font-weight: 900; }
+	.value.locked { color: #ff7048; }
+
+	.objective-title {
+		margin-top: 8px;
+		font-size: 18px;
+		font-weight: 900;
+		letter-spacing: 1px;
+	}
+
+	.objective-detail {
+		margin-top: 8px;
+		color: #d6b987;
+		font-size: 10px;
+		line-height: 15px;
+		opacity: 0.7;
+	}
+
+	.bearing {
+		margin-top: auto;
+		justify-content: space-between;
+		padding-top: 10px;
+		border-top: 1px solid rgba(243, 164, 59, 0.2);
+		font-size: 10px;
+		font-weight: 800;
+	}
+
+	.bearing-value {
+		font-size: 17px;
+		font-weight: 900;
+	}
+
+	.squad-row.local {
+		color: #b7c56a;
+	}
+
+	.footer {
+		height: 24px;
+		justify-content: space-between;
+		border-top: 1px solid rgba(243, 164, 59, 0.24);
+		font-size: 9px;
+		font-weight: 800;
+		letter-spacing: 1.1px;
+		opacity: 0.52;
+	}
+
+	&.offline {
+		opacity: 0.62;
+
+		.screen-shell {
+			border-color: #4a241e;
+		}
+	}
+}

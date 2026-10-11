@@ -1,0 +1,99 @@
+{
+  "RootObject": {
+    "__guid": "e70bfabd-cc1b-4d8c-bd8c-0305f7f25a8b",
+    "__version": 2,
+    "Flags": 0,
+    "Name": "Flowing river",
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
+    "Tags": "",
+    "Enabled": true,
+    "NetworkMode": 1,
+    "NetworkFlags": 0,
+    "NetworkOrphaned": 0,
+    "NetworkTransmit": true,
+    "OwnerTransfer": 0,
+    "Components": [
+      {
+        "__type": "VoidBreach.Water.VBWaterBody",
+        "__guid": "765b21c4-30b6-414d-9d3c-a318968431f8",
+        "__enabled": true,
+        "Flags": 0,
+        "RiverWidth": 380,
+        "Depth": 240,
+        "RiverPoints": [
+          "-1200,0,0",
+          "-400,200,-12",
+          "400,-180,-24",
+          "1200,0,-36"
+        ],
+        "WaveSpeed": 0.85,
+        "SurfaceMaterial": "water/materials/natural_water.vmat",
+        "Shape": "River",
+        "WaveAmplitude": 5,
+        "RiverSubdivisions": 12,
+        "WaveLength": 260,
+        "CurrentSpeed": 70,
+        "NormalStrength": 0.4,
+        "TextureScale": 240
+      }
+    ],
+    "Children": [
+{
+  "__guid": "d93b6309-a9ec-4227-820f-1e923f82b346",
+  "__version": 2,
+  "Flags": 0,
+  "Name": "Environment reflection",
+  "Position": "0,0,64",
+  "Rotation": "0,0,0,1",
+  "Scale": "1,1,1",
+  "Tags": "",
+  "Enabled": true,
+  "NetworkMode": 2,
+  "NetworkFlags": 0,
+  "NetworkOrphaned": 0,
+  "NetworkTransmit": true,
+  "OwnerTransfer": 1,
+  "Components": [
+    {
+      "__type": "Sandbox.EnvmapProbe",
+      "__guid": "a1f66223-c578-4a97-952b-bcd8bd8080f9",
+      "__enabled": true,
+      "Flags": 0,
+      "__version": 1,
+      "BakedTexture": null,
+      "Bounds": {
+        "Mins": "-1550,-750,-500",
+        "Maxs": "1550,750,1400"
+      },
+      "DelayBetweenUpdates": 1,
+      "Feathering": 64,
+      "FrameInterval": 5,
+      "MaxDistance": 20000,
+      "Mode": "Realtime",
+      "MultiBounce": false,
+      "OnComponentDestroy": null,
+      "OnComponentDisabled": null,
+      "OnComponentEnabled": null,
+      "OnComponentFixedUpdate": null,
+      "OnComponentStart": null,
+      "OnComponentUpdate": null,
+      "Priority": 10,
+      "Projection": "Box",
+      "RenderExcludeTags": "water_surface",
+      "Resolution": "Medium",
+      "Texture": null,
+      "TintColor": "1,1,1,1",
+      "UpdateStrategy": "TimeInterval",
+      "ZFar": 20000,
+      "ZNear": 4
+    }
+  ],
+  "Children": []
+}
+    ]
+  },
+  "__references": [],
+  "__version": 1
+}

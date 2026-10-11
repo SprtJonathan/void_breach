@@ -154,9 +154,12 @@ public sealed partial class VBMoveModeWalk : MoveModeWalk, PlayerController.IEve
 			return Vector3.Zero;
 		}
 
+		// Quaternion yaw is unstable at vertical look. Use the original input yaw
+		// for both native speed smoothing and our horizontal steering.
+		var movementEyes = Rotation.FromYaw( Controller.EyeAngles.yaw );
 		// Keep native speed smoothing warm even during the slide, for a smooth exit.
-		var wish = UpdateCurvedSpeed( eyes, input, dt ).WithZ( 0f );
-		var steering = (Rotation.FromYaw( eyes.Yaw() ) * input.WithZ( 0f )).ClampLength( 1f );
+		var wish = UpdateCurvedSpeed( movementEyes, input, dt ).WithZ( 0f );
+		var steering = (movementEyes * input.WithZ( 0f )).ClampLength( 1f );
 		wish = SmoothDirection( wish, steering, dt );
 		_slideSteering = steering;
 		if ( EnableMomentumMovement )

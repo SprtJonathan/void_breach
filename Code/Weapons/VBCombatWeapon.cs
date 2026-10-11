@@ -21,6 +21,10 @@ public sealed class VBCombatWeapon : VBTraversalCombatWeapon, IVBWeaponCarryItem
 
 	public bool IsWeaponSlotPlaceholder => false;
 
+	/// <summary>Use the prefab muzzle when an animation donor has a different barrel.</summary>
+	[Property, Group( "Presentation" )]
+	public bool PreferMuzzleMarker { get; set; }
+
 	/// <summary>
 	/// Active ou désactive le zoom de caméra lorsque l'arme est utilisée en vue FPS.
 	/// </summary>
@@ -64,6 +68,23 @@ public sealed class VBCombatWeapon : VBTraversalCombatWeapon, IVBWeaponCarryItem
 	/// </summary>
 	[Property, Group( "Aim Down Sights" ), Range( 1f, 30f ), Step( 0.5f )]
 	public float AimTransitionSpeed { get; set; } = 12f;
+
+	/// <summary>Accuracy multiplier while aiming; one preserves the native spread.</summary>
+	[Property, Group( "Aim Down Sights" ), Range( 0.1f, 1f )]
+	public float AimSpreadMultiplier { get; set; } = 1f;
+
+	/// <summary>Owner's eye-angle kick per successful shot, in degrees.</summary>
+	[Property, Group( "Recoil" )]
+	public Vector2 RecoilPitch { get; set; } = Vector2.Zero;
+
+	[Property, Group( "Recoil" )]
+	public Vector2 RecoilYaw { get; set; } = Vector2.Zero;
+
+	[Property, Group( "Recoil" ), Range( 0f, 1f )]
+	public float AimRecoilMultiplier { get; set; } = 1f;
+
+	public override Vector2 CurrentSpread => base.CurrentSpread
+		* MathX.Lerp( 1f, AimSpreadMultiplier, _aimAmount );
 
 	/// <summary>
 	/// Progression visuelle de l'ADS, de 0 (hanche) à 1 (visée).
@@ -271,6 +292,7 @@ public sealed class VBCombatWeapon : VBTraversalCombatWeapon, IVBWeaponCarryItem
 		if ( !UsesPrimaryClip || previousClip <= Clip1 )
 			return;
 
+		ApplyShotRecoil();
 		ReportGunshotToHost();
 
 		if ( Clip1 <= 0 )
@@ -285,6 +307,41 @@ public sealed class VBCombatWeapon : VBTraversalCombatWeapon, IVBWeaponCarryItem
 		{
 			PlayLocalFeedback( LowAmmoSound );
 		}
+	}
+
+	/// <summary>
+	/// The shooter hears a dry 2D shot. Keep native world audio for other peers,
+	/// and let the native presentation pipeline handle impacts and tracers.
+	/// </summary>
+	protected override void OnShootEffects( ShotEffect shot )
+	{
+		if ( Application.IsDedicatedServer || shot.NoEvents
+			|| !IsHeld || !Owner.IsValid() || Owner.IsProxy )
+		{
+			base.OnShootEffects( shot );
+			return;
+		}
+
+		// Skip only the native event sound/gesture on the local shooter, so
+		// there is exactly one shot sound and one model event per shot.
+		base.OnShootEffects( shot with { NoEvents = true } );
+
+		if ( AttackSound is not null )
+		{
+			var sound = Sound.Play( AttackSound );
+			if ( sound.IsValid() )
+			{
+				sound.SpacialBlend = 0f;
+				sound.OcclusionEnabled = false;
+				sound.DistanceAttenuation = false;
+				sound.AirAbsorption = false;
+				sound.ReverbEnabled = false;
+			}
+		}
+
+		HolderRenderer?.Set( "b_attack", true );
+		Vector3? hitPoint = shot.Hit || shot.HitPosition != default ? shot.HitPosition : null;
+		WeaponModel?.OnAttack( hitPoint, shot.Origin );
 	}
 
 	[Rpc.Host( NetFlags.OwnerOnly )]
@@ -311,6 +368,21 @@ public sealed class VBCombatWeapon : VBTraversalCombatWeapon, IVBWeaponCarryItem
 		return Math.Clamp( count, 1, PrimaryClipSize - 1 );
 	}
 
+	private void ApplyShotRecoil()
+	{
+		if ( !Owner.IsValid() || Owner.IsProxy )
+			return;
+		if ( RecoilPitch == Vector2.Zero && RecoilYaw == Vector2.Zero )
+			return;
+
+		var scale = MathX.Lerp( 1f, AimRecoilMultiplier, _aimAmount );
+		var pitch = MathX.Lerp( RecoilPitch.x, RecoilPitch.y, Game.Random.NextSingle() );
+		var yaw = MathX.Lerp( RecoilYaw.x, RecoilYaw.y, Game.Random.NextSingle() );
+		var angles = Owner.EyeAngles + new Angles( pitch * scale, yaw * scale, 0f );
+		angles.pitch = Math.Clamp( angles.pitch, -89f, 89f );
+		Owner.EyeAngles = angles;
+	}
+
 	private void PlayLocalFeedback( SoundEvent sound )
 	{
 		if ( sound is null || !Owner.IsValid() || Owner.IsProxy )
@@ -323,6 +395,13 @@ public sealed class VBCombatWeapon : VBTraversalCombatWeapon, IVBWeaponCarryItem
 	{
 		muzzle = default;
 
+		var explicitMarker = WeaponModel?.MuzzleGameObject;
+		if ( PreferMuzzleMarker && explicitMarker.IsValid() )
+		{
+			muzzle = explicitMarker.WorldTransform;
+			return true;
+		}
+
 		var renderer = WeaponModel?.Renderer;
 		if ( !renderer.IsValid() )
 			return false;
@@ -331,7 +410,14 @@ public sealed class VBCombatWeapon : VBTraversalCombatWeapon, IVBWeaponCarryItem
 			?? renderer.GetAttachment( "barrel" );
 
 		if ( !attachment.HasValue )
-			return false;
+		{
+			// Imported props may have no model attachments. Their prefab still
+			// supplies the native weapon model's explicit muzzle marker.
+			var marker = WeaponModel?.MuzzleGameObject;
+			if ( !marker.IsValid() ) return false;
+			muzzle = marker.WorldTransform;
+			return true;
+		}
 
 		muzzle = attachment.Value;
 		return true;

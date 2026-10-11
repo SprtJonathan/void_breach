@@ -69,7 +69,7 @@
         "OnComponentFixedUpdate": null,
         "OnComponentStart": null,
         "OnComponentUpdate": null,
-        "PreferredSlot": 1,
+        "PreferredSlot": -1,
         "PrimaryAmmoType": "ammo/9mm.ammo",
         "PrimaryAutomatic": false,
         "PrimaryDelay": 0.25,
@@ -204,6 +204,42 @@
         "RigidbodyFlags": 0,
         "SleepThreshold": 2,
         "StartAsleep": false
+      },
+      {
+        "__type": "InventoryWorldRepresentation",
+        "__guid": "299b6b71-e8ef-4ed2-a001-40515718b287",
+        "__enabled": true,
+        "Flags": 0,
+        "Item": {
+          "_type": "component",
+          "component_id": "21a22041-4216-449a-a283-04ee78827ff0",
+          "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
+          "component_type": "VBCombatWeapon"
+        },
+        "WorldProp": {
+          "_type": "component",
+          "component_id": "18246af1-300a-4966-8342-4be67fadab6f",
+          "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
+          "component_type": "Prop"
+        },
+        "WorldRenderer": {
+          "_type": "component",
+          "component_id": "e93615aa-7e02-4913-a4be-431303184d5e",
+          "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
+          "component_type": "ModelRenderer"
+        },
+        "WorldCollider": {
+          "_type": "component",
+          "component_id": "b50293f9-b10e-40a1-9844-04aedc4ef73e",
+          "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
+          "component_type": "ModelCollider"
+        },
+        "WorldRigidbody": {
+          "_type": "component",
+          "component_id": "f0a51a58-49be-4f08-ada2-0a2992dcf5d9",
+          "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
+          "component_type": "Rigidbody"
+        }
       }
     ],
     "Children": [],

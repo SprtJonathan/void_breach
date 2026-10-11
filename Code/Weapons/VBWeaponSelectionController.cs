@@ -106,6 +106,13 @@ public sealed class VBWeaponSelectionController : Component
 			return;
 		}
 
+		if ( Input.Pressed( "Slot7" ) )
+		{
+			ShowSelectionHud();
+			SelectSlot( PdaSlot );
+			return;
+		}
+
 		if ( Input.Pressed( "SlotNext" ) )
 		{
 			ShowSelectionHud();

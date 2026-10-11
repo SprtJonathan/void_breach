@@ -1,0 +1,96 @@
+{
+  "RootObject": {
+    "__guid": "6a183a27-d434-46d6-9557-b887f6e79b69",
+    "__version": 2,
+    "Flags": 0,
+    "Name": "Coastal ocean",
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
+    "Tags": "",
+    "Enabled": true,
+    "NetworkMode": 1,
+    "NetworkFlags": 0,
+    "NetworkOrphaned": 0,
+    "NetworkTransmit": true,
+    "OwnerTransfer": 0,
+    "Components": [
+      {
+        "__type": "VoidBreach.Water.VBWaterBody",
+        "__guid": "8257e25d-c52c-47f1-88e4-b510ba767220",
+        "__enabled": true,
+        "Flags": 0,
+        "WaveSpeed": 0.8,
+        "WaveAmplitude": 70,
+        "Size": "10000,10000",
+        "Clarity": 280,
+        "Resolution": 160,
+        "DeepColor": "0.009,0.04,0.055,1",
+        "Depth": 2000,
+        "Shape": "Rectangle",
+        "Foam": 0.6,
+        "EdgeFade": 0,
+        "CurrentSpeed": 0,
+        "WaveLength": 3000,
+        "SurfaceMaterial": "water/materials/natural_water.vmat",
+        "ShallowColor": "0.07,0.2,0.19,1"
+      }
+    ],
+    "Children": [
+{
+  "__guid": "e01327a6-443c-44c8-9ae8-ef6573d94990",
+  "__version": 2,
+  "Flags": 0,
+  "Name": "Environment reflection",
+  "Position": "0,0,180",
+  "Rotation": "0,0,0,1",
+  "Scale": "1,1,1",
+  "Tags": "",
+  "Enabled": true,
+  "NetworkMode": 2,
+  "NetworkFlags": 0,
+  "NetworkOrphaned": 0,
+  "NetworkTransmit": true,
+  "OwnerTransfer": 1,
+  "Components": [
+    {
+      "__type": "Sandbox.EnvmapProbe",
+      "__guid": "ef63cf79-2b30-4522-b160-0474208ab6c2",
+      "__enabled": true,
+      "Flags": 0,
+      "__version": 1,
+      "BakedTexture": null,
+      "Bounds": {
+        "Mins": "-5500,-5500,-3000",
+        "Maxs": "5500,5500,4000"
+      },
+      "DelayBetweenUpdates": 2,
+      "Feathering": 64,
+      "FrameInterval": 5,
+      "MaxDistance": 30000,
+      "Mode": "Realtime",
+      "MultiBounce": false,
+      "OnComponentDestroy": null,
+      "OnComponentDisabled": null,
+      "OnComponentEnabled": null,
+      "OnComponentFixedUpdate": null,
+      "OnComponentStart": null,
+      "OnComponentUpdate": null,
+      "Priority": 0,
+      "Projection": "Sphere",
+      "RenderExcludeTags": "water_surface",
+      "Resolution": "Medium",
+      "Texture": null,
+      "TintColor": "1,1,1,1",
+      "UpdateStrategy": "TimeInterval",
+      "ZFar": 30000,
+      "ZNear": 4
+    }
+  ],
+  "Children": []
+}
+    ]
+  },
+  "__references": [],
+  "__version": 1
+}

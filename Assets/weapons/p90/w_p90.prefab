@@ -1,0 +1,171 @@
+{
+  "RootObject": {
+    "__guid": "f308af87-88c6-47e3-81df-31acaf190d2e",
+    "__version": 2,
+    "Flags": 0,
+    "Name": "w_p90",
+    "Position": "0,0,0",
+    "Rotation": "0.707106709,0,0,0.707106769",
+    "Scale": "1,1,1",
+    "Tags": "",
+    "Enabled": true,
+    "NetworkMode": 2,
+    "NetworkFlags": 0,
+    "NetworkOrphaned": 0,
+    "NetworkTransmit": true,
+    "OwnerTransfer": 1,
+    "Components": [
+      {
+        "__type": "Sandbox.BaseWeaponModel",
+        "__guid": "0d31651d-528b-465e-be1c-e4c03f75338c",
+        "__enabled": true,
+        "Flags": 0,
+        "DeploySound": null,
+        "EjectBrass": {
+          "_type": "gameobject",
+          "prefab": "prefabs/effects/default_brasseject.prefab"
+        },
+        "MuzzleEffect": {
+          "_type": "gameobject",
+          "prefab": "prefabs/effects/default_muzzleflash.prefab"
+        },
+        "MuzzleGameObject": {
+          "_type": "gameobject",
+          "go": "0628826b-6253-4bef-8f9d-521f747bea9d"
+        },
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "Renderer": null,
+        "ShellEjectGameObject": {
+          "_type": "gameobject",
+          "go": "62a365c8-2474-4e24-bf9f-3fbe6f2eff74"
+        },
+        "TracerEffect": {
+          "_type": "gameobject",
+          "prefab": "prefabs/effects/default_tracer.prefab"
+        }
+      }
+    ],
+    "Children": [
+      {
+        "__guid": "9b230dce-2e02-4b77-86ed-87ed8c90ecf0",
+        "__version": 2,
+        "Flags": 0,
+        "Name": "P90 Mesh",
+        "Position": "6,0,-2.79999995",
+        "Rotation": "0,0,-0.707106769,0.707106769",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkFlags": 0,
+        "NetworkOrphaned": 0,
+        "NetworkTransmit": true,
+        "OwnerTransfer": 1,
+        "Components": [
+          {
+            "__type": "Sandbox.ModelRenderer",
+            "__guid": "7896def8-40f5-400d-9e54-e098790708dc",
+            "__enabled": true,
+            "Flags": 0,
+            "BodyGroups": 257,
+            "CreateAttachments": false,
+            "LodOverride": null,
+            "MaterialGroup": null,
+            "MaterialOverride": null,
+            "Materials": null,
+            "Model": {
+              "Id": "efa5749a-e20b-48c6-baf9-1421e451e137",
+              "Path": "weapons/p90/mesh/p90.vmdl"
+            },
+            "OnComponentDestroy": null,
+            "OnComponentDisabled": null,
+            "OnComponentEnabled": null,
+            "OnComponentFixedUpdate": null,
+            "OnComponentStart": null,
+            "OnComponentUpdate": null,
+            "RenderOptions": {
+              "GameLayer": true,
+              "OverlayLayer": false,
+              "BloomLayer": false,
+              "AfterUILayer": false
+            },
+            "RenderType": "On",
+            "Tint": "1,1,1,1"
+          }
+        ],
+        "Children": [
+          {
+            "__guid": "0628826b-6253-4bef-8f9d-521f747bea9d",
+            "__version": 2,
+            "Flags": 0,
+            "Name": "muzzle",
+            "Position": "0,5.80000019,1.89999998",
+            "Rotation": "0,0,0.707106769,0.707106769",
+            "Scale": "1,1,1",
+            "Tags": "",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkFlags": 0,
+            "NetworkOrphaned": 0,
+            "NetworkTransmit": true,
+            "OwnerTransfer": 1,
+            "Components": [],
+            "Children": []
+          },
+          {
+            "__guid": "62a365c8-2474-4e24-bf9f-3fbe6f2eff74",
+            "__version": 2,
+            "Flags": 0,
+            "Name": "eject",
+            "Position": "0,-6,0",
+            "Rotation": "0,0.707106769,0,0.707106769",
+            "Scale": "1,1,1",
+            "Tags": "",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkFlags": 0,
+            "NetworkOrphaned": 0,
+            "NetworkTransmit": true,
+            "OwnerTransfer": 1,
+            "Components": [],
+            "Children": []
+          }
+        ]
+      }
+    ],
+    "__properties": {
+      "NetworkInterpolation": true,
+      "PhysicsMode": "Physics3D",
+      "TimeScale": 1,
+      "WantsSystemScene": true,
+      "Metadata": {},
+      "NavMesh": {
+        "Enabled": false,
+        "IncludeStaticBodies": true,
+        "IncludeKeyframedBodies": true,
+        "EditorAutoUpdate": false,
+        "AgentHeight": 64,
+        "AgentRadius": 16,
+        "AgentStepSize": 18,
+        "AgentMaxSlope": 40,
+        "ExcludedBodies": "",
+        "IncludedBodies": "",
+        "DeferGeneration": false,
+        "CustomBounds": false
+      }
+    },
+    "__variables": []
+  },
+  "ResourceVersion": 2,
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "DontBreakAsTemplate": false,
+  "__references": [],
+  "__version": 2
+}

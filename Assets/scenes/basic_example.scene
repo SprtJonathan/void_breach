@@ -6,7 +6,7 @@
       "__version": 2,
       "Flags": 0,
       "Name": "Main Camera",
-      "Position": "0,0,62.8654938",
+      "Position": "27.8110352,1.168396,62.6541672",
       "Rotation": "0,0,0,1",
       "Scale": "1,1,1",
       "Tags": "",
@@ -52,76 +52,12 @@
     {
       "__guid": "4596cad1-3b13-43ef-a5eb-356d9c28a499",
       "__version": 2,
-      "__Prefab": "weapons/pistol/9mmpistol.prefab",
+      "__Prefab": {
+        "Id": "668666c1-37eb-46b5-b0c3-e7776d947f3e",
+        "Path": "weapons/pistol/9mmpistol.prefab"
+      },
       "__PrefabInstancePatch": {
-        "AddedObjects": [
-          {
-            "Id": {
-              "Type": "Component",
-              "IdValue": "c97b3bd1-abc8-4fa8-8a2d-48aad0f34431"
-            },
-            "Parent": {
-              "Type": "GameObject",
-              "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
-            },
-            "PreviousElement": {
-              "Type": "Component",
-              "IdValue": "f0a51a58-49be-4f08-ada2-0a2992dcf5d9"
-            },
-            "ContainerProperty": "Components",
-            "IsContainerArray": true,
-            "Data": {
-              "__type": "InventoryWorldRepresentation",
-              "__guid": "c97b3bd1-abc8-4fa8-8a2d-48aad0f34431",
-              "__enabled": true,
-              "Flags": 0,
-              "Item": null,
-              "OnComponentDestroy": null,
-              "OnComponentDisabled": null,
-              "OnComponentEnabled": null,
-              "OnComponentFixedUpdate": null,
-              "OnComponentStart": null,
-              "OnComponentUpdate": null,
-              "PickupInputAction": "use",
-              "PickupText": "#vb.interaction.pick_up",
-              "PromptAnchor": null,
-              "PromptAppearanceDistance": 240,
-              "PromptCardScreenOffset": "0,-24",
-              "PromptInteractionDistance": 48,
-              "PromptLocalOffset": "0,0,0",
-              "PromptRequiresLineOfSight": true,
-              "PromptShowsInputAction": true,
-              "PromptShowsItemName": true,
-              "PromptShowsMarker": true,
-              "PromptShowsText": true,
-              "ShowInteractionPrompt": true,
-              "WorldCollider": {
-                "_type": "component",
-                "component_id": "b50293f9-b10e-40a1-9844-04aedc4ef73e",
-                "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
-                "component_type": "ModelCollider"
-              },
-              "WorldProp": {
-                "_type": "component",
-                "component_id": "18246af1-300a-4966-8342-4be67fadab6f",
-                "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
-                "component_type": "Prop"
-              },
-              "WorldRenderer": {
-                "_type": "component",
-                "component_id": "e93615aa-7e02-4913-a4be-431303184d5e",
-                "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
-                "component_type": "ModelRenderer"
-              },
-              "WorldRigidbody": {
-                "_type": "component",
-                "component_id": "f0a51a58-49be-4f08-ada2-0a2992dcf5d9",
-                "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
-                "component_type": "Rigidbody"
-              }
-            }
-          }
-        ],
+        "AddedObjects": [],
         "RemovedObjects": [],
         "PropertyOverrides": [
           {
@@ -138,7 +74,7 @@
               "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
             },
             "Property": "Position",
-            "Value": "76.5084,-6.0451217E-05,59.349144"
+            "Value": "104.319336,1.16833556,59.1378098"
           },
           {
             "Target": {
@@ -151,10 +87,34 @@
           {
             "Target": {
               "Type": "Component",
-              "IdValue": "21a22041-4216-449a-a283-04ee78827ff0"
+              "IdValue": "299b6b71-e8ef-4ed2-a001-40515718b287"
             },
-            "Property": "PreferredSlot",
-            "Value": -1
+            "Property": "WorldCollider",
+            "Value": null
+          },
+          {
+            "Target": {
+              "Type": "Component",
+              "IdValue": "299b6b71-e8ef-4ed2-a001-40515718b287"
+            },
+            "Property": "WorldProp",
+            "Value": null
+          },
+          {
+            "Target": {
+              "Type": "Component",
+              "IdValue": "299b6b71-e8ef-4ed2-a001-40515718b287"
+            },
+            "Property": "WorldRenderer",
+            "Value": null
+          },
+          {
+            "Target": {
+              "Type": "Component",
+              "IdValue": "299b6b71-e8ef-4ed2-a001-40515718b287"
+            },
+            "Property": "WorldRigidbody",
+            "Value": null
           }
         ],
         "MovedObjects": [
@@ -184,7 +144,23 @@
             "IsNewContainerArray": true,
             "NewPreviousElement": {
               "Type": "Component",
-              "IdValue": "c97b3bd1-abc8-4fa8-8a2d-48aad0f34431"
+              "IdValue": "f0a51a58-49be-4f08-ada2-0a2992dcf5d9"
+            }
+          },
+          {
+            "Id": {
+              "Type": "Component",
+              "IdValue": "299b6b71-e8ef-4ed2-a001-40515718b287"
+            },
+            "NewParent": {
+              "Type": "GameObject",
+              "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
+            },
+            "NewContainerProperty": "Components",
+            "IsNewContainerArray": true,
+            "NewPreviousElement": {
+              "Type": "Component",
+              "IdValue": "21a22041-4216-449a-a283-04ee78827ff0"
             }
           }
         ]
@@ -195,82 +171,145 @@
         "18246af1-300a-4966-8342-4be67fadab6f": "2ce723a0-b825-42f1-9f72-d326d5fb9b5f",
         "e93615aa-7e02-4913-a4be-431303184d5e": "ba8b54ff-f321-492b-8803-3542807226ee",
         "b50293f9-b10e-40a1-9844-04aedc4ef73e": "43fad2ae-77c9-469e-8a3c-7c8a9fa793bb",
-        "f0a51a58-49be-4f08-ada2-0a2992dcf5d9": "9639e688-4fdb-4a20-9797-84423c9d30bd"
+        "f0a51a58-49be-4f08-ada2-0a2992dcf5d9": "9639e688-4fdb-4a20-9797-84423c9d30bd",
+        "299b6b71-e8ef-4ed2-a001-40515718b287": "ed5a197e-140f-8f83-8203-55f073bd2eca"
+      }
+    },
+    {
+      "__guid": "72e08a72-74c9-4a2e-a3e9-52e37d0adc26",
+      "__version": 2,
+      "__Prefab": {
+        "Id": "668666c1-37eb-46b5-b0c3-e7776d947f3e",
+        "Path": "weapons/pistol/9mmpistol.prefab"
+      },
+      "__PrefabInstancePatch": {
+        "AddedObjects": [],
+        "RemovedObjects": [],
+        "PropertyOverrides": [
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
+            },
+            "Property": "Name",
+            "Value": "9mmPistol (4)"
+          },
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
+            },
+            "Property": "Position",
+            "Value": "-456,1.16830456,320"
+          },
+          {
+            "Target": {
+              "Type": "Component",
+              "IdValue": "21a22041-4216-449a-a283-04ee78827ff0"
+            },
+            "Property": "DisplayName",
+            "Value": "9mm Pistol"
+          },
+          {
+            "Target": {
+              "Type": "Component",
+              "IdValue": "299b6b71-e8ef-4ed2-a001-40515718b287"
+            },
+            "Property": "WorldCollider",
+            "Value": null
+          },
+          {
+            "Target": {
+              "Type": "Component",
+              "IdValue": "299b6b71-e8ef-4ed2-a001-40515718b287"
+            },
+            "Property": "WorldProp",
+            "Value": null
+          },
+          {
+            "Target": {
+              "Type": "Component",
+              "IdValue": "299b6b71-e8ef-4ed2-a001-40515718b287"
+            },
+            "Property": "WorldRenderer",
+            "Value": null
+          },
+          {
+            "Target": {
+              "Type": "Component",
+              "IdValue": "299b6b71-e8ef-4ed2-a001-40515718b287"
+            },
+            "Property": "WorldRigidbody",
+            "Value": null
+          }
+        ],
+        "MovedObjects": [
+          {
+            "Id": {
+              "Type": "Component",
+              "IdValue": "18246af1-300a-4966-8342-4be67fadab6f"
+            },
+            "NewParent": {
+              "Type": "GameObject",
+              "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
+            },
+            "NewContainerProperty": "Components",
+            "IsNewContainerArray": true,
+            "NewPreviousElement": null
+          },
+          {
+            "Id": {
+              "Type": "Component",
+              "IdValue": "21a22041-4216-449a-a283-04ee78827ff0"
+            },
+            "NewParent": {
+              "Type": "GameObject",
+              "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
+            },
+            "NewContainerProperty": "Components",
+            "IsNewContainerArray": true,
+            "NewPreviousElement": {
+              "Type": "Component",
+              "IdValue": "f0a51a58-49be-4f08-ada2-0a2992dcf5d9"
+            }
+          },
+          {
+            "Id": {
+              "Type": "Component",
+              "IdValue": "299b6b71-e8ef-4ed2-a001-40515718b287"
+            },
+            "NewParent": {
+              "Type": "GameObject",
+              "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
+            },
+            "NewContainerProperty": "Components",
+            "IsNewContainerArray": true,
+            "NewPreviousElement": {
+              "Type": "Component",
+              "IdValue": "21a22041-4216-449a-a283-04ee78827ff0"
+            }
+          }
+        ]
+      },
+      "__PrefabIdToInstanceId": {
+        "c5ea8b74-89df-4205-b7f8-3e81b0b0249b": "72e08a72-74c9-4a2e-a3e9-52e37d0adc26",
+        "21a22041-4216-449a-a283-04ee78827ff0": "2ac2c535-fa12-4023-a445-9520d22b3f9d",
+        "18246af1-300a-4966-8342-4be67fadab6f": "18c7c5d7-5d80-44b4-bd58-e36db0cae2e0",
+        "e93615aa-7e02-4913-a4be-431303184d5e": "e2c0fcad-5ee1-4f29-9d7a-529d527a60f2",
+        "b50293f9-b10e-40a1-9844-04aedc4ef73e": "abfe26a5-e15a-416d-bb7c-b3989904f923",
+        "f0a51a58-49be-4f08-ada2-0a2992dcf5d9": "72f9f317-b2de-446d-8ba6-1e7b25c9379f",
+        "299b6b71-e8ef-4ed2-a001-40515718b287": "4a0b0f60-02b0-8123-abfb-4185c155a28c"
       }
     },
     {
       "__guid": "d25894a6-f426-4ae8-a84a-3a3be0946432",
       "__version": 2,
-      "__Prefab": "weapons/pistol/9mmpistol.prefab",
+      "__Prefab": {
+        "Id": "668666c1-37eb-46b5-b0c3-e7776d947f3e",
+        "Path": "weapons/pistol/9mmpistol.prefab"
+      },
       "__PrefabInstancePatch": {
-        "AddedObjects": [
-          {
-            "Id": {
-              "Type": "Component",
-              "IdValue": "7300e5ef-13f5-46c6-98bb-2bef5092ccda"
-            },
-            "Parent": {
-              "Type": "GameObject",
-              "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
-            },
-            "PreviousElement": {
-              "Type": "Component",
-              "IdValue": "f0a51a58-49be-4f08-ada2-0a2992dcf5d9"
-            },
-            "ContainerProperty": "Components",
-            "IsContainerArray": true,
-            "Data": {
-              "__type": "InventoryWorldRepresentation",
-              "__guid": "7300e5ef-13f5-46c6-98bb-2bef5092ccda",
-              "__enabled": true,
-              "Flags": 0,
-              "Item": null,
-              "OnComponentDestroy": null,
-              "OnComponentDisabled": null,
-              "OnComponentEnabled": null,
-              "OnComponentFixedUpdate": null,
-              "OnComponentStart": null,
-              "OnComponentUpdate": null,
-              "PickupInputAction": "use",
-              "PickupText": "#vb.interaction.pick_up",
-              "PromptAnchor": null,
-              "PromptAppearanceDistance": 240,
-              "PromptCardScreenOffset": "0,-24",
-              "PromptInteractionDistance": 48,
-              "PromptLocalOffset": "0,0,0",
-              "PromptRequiresLineOfSight": true,
-              "PromptShowsInputAction": true,
-              "PromptShowsItemName": true,
-              "PromptShowsMarker": true,
-              "PromptShowsText": true,
-              "ShowInteractionPrompt": true,
-              "WorldCollider": {
-                "_type": "component",
-                "component_id": "b50293f9-b10e-40a1-9844-04aedc4ef73e",
-                "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
-                "component_type": "ModelCollider"
-              },
-              "WorldProp": {
-                "_type": "component",
-                "component_id": "18246af1-300a-4966-8342-4be67fadab6f",
-                "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
-                "component_type": "Prop"
-              },
-              "WorldRenderer": {
-                "_type": "component",
-                "component_id": "e93615aa-7e02-4913-a4be-431303184d5e",
-                "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
-                "component_type": "ModelRenderer"
-              },
-              "WorldRigidbody": {
-                "_type": "component",
-                "component_id": "f0a51a58-49be-4f08-ada2-0a2992dcf5d9",
-                "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
-                "component_type": "Rigidbody"
-              }
-            }
-          }
-        ],
+        "AddedObjects": [],
         "RemovedObjects": [],
         "PropertyOverrides": [
           {
@@ -287,7 +326,7 @@
               "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
             },
             "Property": "Position",
-            "Value": "387.453918,-351.106598,-0.0360183716"
+            "Value": "415.265137,-349.938202,-0.247322083"
           },
           {
             "Target": {
@@ -300,10 +339,34 @@
           {
             "Target": {
               "Type": "Component",
-              "IdValue": "21a22041-4216-449a-a283-04ee78827ff0"
+              "IdValue": "299b6b71-e8ef-4ed2-a001-40515718b287"
             },
-            "Property": "PreferredSlot",
-            "Value": -1
+            "Property": "WorldCollider",
+            "Value": null
+          },
+          {
+            "Target": {
+              "Type": "Component",
+              "IdValue": "299b6b71-e8ef-4ed2-a001-40515718b287"
+            },
+            "Property": "WorldProp",
+            "Value": null
+          },
+          {
+            "Target": {
+              "Type": "Component",
+              "IdValue": "299b6b71-e8ef-4ed2-a001-40515718b287"
+            },
+            "Property": "WorldRenderer",
+            "Value": null
+          },
+          {
+            "Target": {
+              "Type": "Component",
+              "IdValue": "299b6b71-e8ef-4ed2-a001-40515718b287"
+            },
+            "Property": "WorldRigidbody",
+            "Value": null
           }
         ],
         "MovedObjects": [
@@ -333,7 +396,23 @@
             "IsNewContainerArray": true,
             "NewPreviousElement": {
               "Type": "Component",
-              "IdValue": "7300e5ef-13f5-46c6-98bb-2bef5092ccda"
+              "IdValue": "f0a51a58-49be-4f08-ada2-0a2992dcf5d9"
+            }
+          },
+          {
+            "Id": {
+              "Type": "Component",
+              "IdValue": "299b6b71-e8ef-4ed2-a001-40515718b287"
+            },
+            "NewParent": {
+              "Type": "GameObject",
+              "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
+            },
+            "NewContainerProperty": "Components",
+            "IsNewContainerArray": true,
+            "NewPreviousElement": {
+              "Type": "Component",
+              "IdValue": "21a22041-4216-449a-a283-04ee78827ff0"
             }
           }
         ]
@@ -344,7 +423,8 @@
         "18246af1-300a-4966-8342-4be67fadab6f": "e46b3fa6-c2bd-4e93-b550-380d01f2c337",
         "e93615aa-7e02-4913-a4be-431303184d5e": "af3e46b0-e16c-41c6-80e9-aad7f655f612",
         "b50293f9-b10e-40a1-9844-04aedc4ef73e": "eed30651-fb50-455c-bdf2-d948e36e9292",
-        "f0a51a58-49be-4f08-ada2-0a2992dcf5d9": "c53cb6ba-2ce6-4c4f-a5c4-4ddb8562fcde"
+        "f0a51a58-49be-4f08-ada2-0a2992dcf5d9": "c53cb6ba-2ce6-4c4f-a5c4-4ddb8562fcde",
+        "299b6b71-e8ef-4ed2-a001-40515718b287": "b94ee45f-75a7-8d68-ba62-8fb81f311f3c"
       }
     },
     {
@@ -352,7 +432,7 @@
       "__version": 2,
       "Flags": 0,
       "Name": "SpawnPoint 2",
-      "Position": "-472.775421,528.740356,270.741669",
+      "Position": "-444.964355,529.908752,270.530334",
       "Rotation": "0,0,-1,-4.37113883E-08",
       "Scale": "1,1,1",
       "Tags": "",
@@ -368,76 +448,12 @@
     {
       "__guid": "781c553f-67fd-41f6-be1c-4a4035d9c9c3",
       "__version": 2,
-      "__Prefab": "weapons/pistol/9mmpistol.prefab",
+      "__Prefab": {
+        "Id": "668666c1-37eb-46b5-b0c3-e7776d947f3e",
+        "Path": "weapons/pistol/9mmpistol.prefab"
+      },
       "__PrefabInstancePatch": {
-        "AddedObjects": [
-          {
-            "Id": {
-              "Type": "Component",
-              "IdValue": "2153f129-8d34-42c8-a74a-32a701776527"
-            },
-            "Parent": {
-              "Type": "GameObject",
-              "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
-            },
-            "PreviousElement": {
-              "Type": "Component",
-              "IdValue": "f0a51a58-49be-4f08-ada2-0a2992dcf5d9"
-            },
-            "ContainerProperty": "Components",
-            "IsContainerArray": true,
-            "Data": {
-              "__type": "InventoryWorldRepresentation",
-              "__guid": "2153f129-8d34-42c8-a74a-32a701776527",
-              "__enabled": true,
-              "Flags": 0,
-              "Item": null,
-              "OnComponentDestroy": null,
-              "OnComponentDisabled": null,
-              "OnComponentEnabled": null,
-              "OnComponentFixedUpdate": null,
-              "OnComponentStart": null,
-              "OnComponentUpdate": null,
-              "PickupInputAction": "use",
-              "PickupText": "#vb.interaction.pick_up",
-              "PromptAnchor": null,
-              "PromptAppearanceDistance": 240,
-              "PromptCardScreenOffset": "0,-24",
-              "PromptInteractionDistance": 48,
-              "PromptLocalOffset": "0,0,0",
-              "PromptRequiresLineOfSight": true,
-              "PromptShowsInputAction": true,
-              "PromptShowsItemName": true,
-              "PromptShowsMarker": true,
-              "PromptShowsText": true,
-              "ShowInteractionPrompt": true,
-              "WorldCollider": {
-                "_type": "component",
-                "component_id": "b50293f9-b10e-40a1-9844-04aedc4ef73e",
-                "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
-                "component_type": "ModelCollider"
-              },
-              "WorldProp": {
-                "_type": "component",
-                "component_id": "18246af1-300a-4966-8342-4be67fadab6f",
-                "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
-                "component_type": "Prop"
-              },
-              "WorldRenderer": {
-                "_type": "component",
-                "component_id": "e93615aa-7e02-4913-a4be-431303184d5e",
-                "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
-                "component_type": "ModelRenderer"
-              },
-              "WorldRigidbody": {
-                "_type": "component",
-                "component_id": "f0a51a58-49be-4f08-ada2-0a2992dcf5d9",
-                "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
-                "component_type": "Rigidbody"
-              }
-            }
-          }
-        ],
+        "AddedObjects": [],
         "RemovedObjects": [],
         "PropertyOverrides": [
           {
@@ -454,7 +470,7 @@
               "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
             },
             "Property": "Position",
-            "Value": "-788.37207,135.047943,-0.035987854"
+            "Value": "-760.561035,136.216339,-0.247322083"
           },
           {
             "Target": {
@@ -467,10 +483,34 @@
           {
             "Target": {
               "Type": "Component",
-              "IdValue": "21a22041-4216-449a-a283-04ee78827ff0"
+              "IdValue": "299b6b71-e8ef-4ed2-a001-40515718b287"
             },
-            "Property": "PreferredSlot",
-            "Value": -1
+            "Property": "WorldCollider",
+            "Value": null
+          },
+          {
+            "Target": {
+              "Type": "Component",
+              "IdValue": "299b6b71-e8ef-4ed2-a001-40515718b287"
+            },
+            "Property": "WorldProp",
+            "Value": null
+          },
+          {
+            "Target": {
+              "Type": "Component",
+              "IdValue": "299b6b71-e8ef-4ed2-a001-40515718b287"
+            },
+            "Property": "WorldRenderer",
+            "Value": null
+          },
+          {
+            "Target": {
+              "Type": "Component",
+              "IdValue": "299b6b71-e8ef-4ed2-a001-40515718b287"
+            },
+            "Property": "WorldRigidbody",
+            "Value": null
           }
         ],
         "MovedObjects": [
@@ -500,7 +540,23 @@
             "IsNewContainerArray": true,
             "NewPreviousElement": {
               "Type": "Component",
-              "IdValue": "2153f129-8d34-42c8-a74a-32a701776527"
+              "IdValue": "f0a51a58-49be-4f08-ada2-0a2992dcf5d9"
+            }
+          },
+          {
+            "Id": {
+              "Type": "Component",
+              "IdValue": "299b6b71-e8ef-4ed2-a001-40515718b287"
+            },
+            "NewParent": {
+              "Type": "GameObject",
+              "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
+            },
+            "NewContainerProperty": "Components",
+            "IsNewContainerArray": true,
+            "NewPreviousElement": {
+              "Type": "Component",
+              "IdValue": "21a22041-4216-449a-a283-04ee78827ff0"
             }
           }
         ]
@@ -511,82 +567,19 @@
         "18246af1-300a-4966-8342-4be67fadab6f": "33a855c9-0723-45c9-a6a4-1fd17ae96681",
         "e93615aa-7e02-4913-a4be-431303184d5e": "8154a36a-d283-442f-9c56-8ab4ec3b21aa",
         "b50293f9-b10e-40a1-9844-04aedc4ef73e": "de189cc4-3fb2-425e-9fab-7b5dc9c90b87",
-        "f0a51a58-49be-4f08-ada2-0a2992dcf5d9": "4c377705-2977-46ae-8a22-18b6681ef112"
+        "f0a51a58-49be-4f08-ada2-0a2992dcf5d9": "4c377705-2977-46ae-8a22-18b6681ef112",
+        "299b6b71-e8ef-4ed2-a001-40515718b287": "75829bf9-deeb-8ab3-bb67-9f28862abe79"
       }
     },
     {
       "__guid": "a546e6e9-b0f7-4b33-bbd5-636ecc18e3a0",
       "__version": 2,
-      "__Prefab": "weapons/pistol/9mmpistol.prefab",
+      "__Prefab": {
+        "Id": "668666c1-37eb-46b5-b0c3-e7776d947f3e",
+        "Path": "weapons/pistol/9mmpistol.prefab"
+      },
       "__PrefabInstancePatch": {
-        "AddedObjects": [
-          {
-            "Id": {
-              "Type": "Component",
-              "IdValue": "7dd395a0-c2db-49ab-b60d-98eac2ba7b6d"
-            },
-            "Parent": {
-              "Type": "GameObject",
-              "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
-            },
-            "PreviousElement": {
-              "Type": "Component",
-              "IdValue": "f0a51a58-49be-4f08-ada2-0a2992dcf5d9"
-            },
-            "ContainerProperty": "Components",
-            "IsContainerArray": true,
-            "Data": {
-              "__type": "InventoryWorldRepresentation",
-              "__guid": "7dd395a0-c2db-49ab-b60d-98eac2ba7b6d",
-              "__enabled": true,
-              "Flags": 0,
-              "Item": null,
-              "OnComponentDestroy": null,
-              "OnComponentDisabled": null,
-              "OnComponentEnabled": null,
-              "OnComponentFixedUpdate": null,
-              "OnComponentStart": null,
-              "OnComponentUpdate": null,
-              "PickupInputAction": "use",
-              "PickupText": "#vb.interaction.pick_up",
-              "PromptAnchor": null,
-              "PromptAppearanceDistance": 240,
-              "PromptCardScreenOffset": "0,-24",
-              "PromptInteractionDistance": 48,
-              "PromptLocalOffset": "0,0,0",
-              "PromptRequiresLineOfSight": true,
-              "PromptShowsInputAction": true,
-              "PromptShowsItemName": true,
-              "PromptShowsMarker": true,
-              "PromptShowsText": true,
-              "ShowInteractionPrompt": true,
-              "WorldCollider": {
-                "_type": "component",
-                "component_id": "b50293f9-b10e-40a1-9844-04aedc4ef73e",
-                "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
-                "component_type": "ModelCollider"
-              },
-              "WorldProp": {
-                "_type": "component",
-                "component_id": "18246af1-300a-4966-8342-4be67fadab6f",
-                "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
-                "component_type": "Prop"
-              },
-              "WorldRenderer": {
-                "_type": "component",
-                "component_id": "e93615aa-7e02-4913-a4be-431303184d5e",
-                "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
-                "component_type": "ModelRenderer"
-              },
-              "WorldRigidbody": {
-                "_type": "component",
-                "component_id": "f0a51a58-49be-4f08-ada2-0a2992dcf5d9",
-                "go": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b",
-                "component_type": "Rigidbody"
-              }
-            }
-          }
-        ],
+        "AddedObjects": [],
         "RemovedObjects": [],
         "PropertyOverrides": [
           {
@@ -603,7 +596,7 @@
               "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
             },
             "Property": "Position",
-            "Value": "-530.329773,709.44043,-0.0359873772"
+            "Value": "-502.519043,710.608826,-0.247322083"
           },
           {
             "Target": {
@@ -616,10 +609,34 @@
           {
             "Target": {
               "Type": "Component",
-              "IdValue": "21a22041-4216-449a-a283-04ee78827ff0"
+              "IdValue": "299b6b71-e8ef-4ed2-a001-40515718b287"
             },
-            "Property": "PreferredSlot",
-            "Value": -1
+            "Property": "WorldCollider",
+            "Value": null
+          },
+          {
+            "Target": {
+              "Type": "Component",
+              "IdValue": "299b6b71-e8ef-4ed2-a001-40515718b287"
+            },
+            "Property": "WorldProp",
+            "Value": null
+          },
+          {
+            "Target": {
+              "Type": "Component",
+              "IdValue": "299b6b71-e8ef-4ed2-a001-40515718b287"
+            },
+            "Property": "WorldRenderer",
+            "Value": null
+          },
+          {
+            "Target": {
+              "Type": "Component",
+              "IdValue": "299b6b71-e8ef-4ed2-a001-40515718b287"
+            },
+            "Property": "WorldRigidbody",
+            "Value": null
           }
         ],
         "MovedObjects": [
@@ -649,7 +666,23 @@
             "IsNewContainerArray": true,
             "NewPreviousElement": {
               "Type": "Component",
-              "IdValue": "7dd395a0-c2db-49ab-b60d-98eac2ba7b6d"
+              "IdValue": "f0a51a58-49be-4f08-ada2-0a2992dcf5d9"
+            }
+          },
+          {
+            "Id": {
+              "Type": "Component",
+              "IdValue": "299b6b71-e8ef-4ed2-a001-40515718b287"
+            },
+            "NewParent": {
+              "Type": "GameObject",
+              "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
+            },
+            "NewContainerProperty": "Components",
+            "IsNewContainerArray": true,
+            "NewPreviousElement": {
+              "Type": "Component",
+              "IdValue": "21a22041-4216-449a-a283-04ee78827ff0"
             }
           }
         ]
@@ -660,7 +693,8 @@
         "18246af1-300a-4966-8342-4be67fadab6f": "3af32b7b-18c6-4388-8708-d10910f204bf",
         "e93615aa-7e02-4913-a4be-431303184d5e": "8f8c1494-0a84-4af3-b968-359ce17b85b7",
         "b50293f9-b10e-40a1-9844-04aedc4ef73e": "3cb11c8c-ea04-4775-9ffb-6c52a4020aa0",
-        "f0a51a58-49be-4f08-ada2-0a2992dcf5d9": "93265fba-c734-4a59-a716-6b07b80dcedb"
+        "f0a51a58-49be-4f08-ada2-0a2992dcf5d9": "93265fba-c734-4a59-a716-6b07b80dcedb",
+        "299b6b71-e8ef-4ed2-a001-40515718b287": "af432fe1-f56b-8d3a-b5c1-dc0dbd2f541a"
       }
     },
     {
@@ -668,7 +702,7 @@
       "__version": 2,
       "Flags": 0,
       "Name": "SpawnPoint 1",
-      "Position": "-428.050598,125.796661,313.268311",
+      "Position": "-400.239746,126.965057,313.057068",
       "Rotation": "0,0,0,1",
       "Scale": "1,1,1",
       "Tags": "",
@@ -686,7 +720,7 @@
       "__version": 2,
       "Flags": 0,
       "Name": "Network Manager",
-      "Position": "0,0,0",
+      "Position": "-551.57666,1.168396,53.1068039",
       "Rotation": "0,0,0,1",
       "Scale": "1,1,1",
       "Tags": "",
@@ -770,7 +804,7 @@
       "__version": 2,
       "Flags": 0,
       "Name": "metal_door_frame_single_02a",
-      "Position": "-672,679.93219,-7.33137131E-06",
+      "Position": "-644.188965,681.100586,-0.21131134",
       "Rotation": "0,0,0,1",
       "Scale": "1,1,1",
       "Tags": "",
@@ -790,7 +824,10 @@
           "Health": 0,
           "IsStatic": true,
           "MaterialGroup": null,
-          "Model": "models/props/trim_sheets/doors/metal_door_frame/metal_door_frame_single_02a.vmdl",
+          "Model": {
+            "Id": "7433a998-ec64-4ba5-91b7-2ab202d4276a",
+            "Path": "models/props/trim_sheets/doors/metal_door_frame/metal_door_frame_single_02a.vmdl"
+          },
           "OnComponentDestroy": null,
           "OnComponentDisabled": null,
           "OnComponentEnabled": null,
@@ -814,7 +851,10 @@
           "MaterialGroup": null,
           "MaterialOverride": null,
           "Materials": null,
-          "Model": "models/props/trim_sheets/doors/metal_door_frame/metal_door_frame_single_02a.vmdl",
+          "Model": {
+            "Id": "7433a998-ec64-4ba5-91b7-2ab202d4276a",
+            "Path": "models/props/trim_sheets/doors/metal_door_frame/metal_door_frame_single_02a.vmdl"
+          },
           "OnComponentDestroy": null,
           "OnComponentDisabled": null,
           "OnComponentEnabled": null,
@@ -839,7 +879,10 @@
           "Elasticity": null,
           "Friction": null,
           "IsTrigger": false,
-          "Model": "models/props/trim_sheets/doors/metal_door_frame/metal_door_frame_single_02a.vmdl",
+          "Model": {
+            "Id": "7433a998-ec64-4ba5-91b7-2ab202d4276a",
+            "Path": "models/props/trim_sheets/doors/metal_door_frame/metal_door_frame_single_02a.vmdl"
+          },
           "OnComponentDestroy": null,
           "OnComponentDisabled": null,
           "OnComponentEnabled": null,
@@ -882,7 +925,10 @@
               "Health": 0,
               "IsStatic": true,
               "MaterialGroup": null,
-              "Model": "models/dev/door/door_single_dev.vmdl",
+              "Model": {
+                "Id": "d04d8eb2-a55a-4b2b-a248-6abfd22db8a7",
+                "Path": "models/dev/door/door_single_dev.vmdl"
+              },
               "OnComponentDestroy": null,
               "OnComponentDisabled": null,
               "OnComponentEnabled": null,
@@ -984,7 +1030,10 @@
               "MaterialGroup": null,
               "MaterialOverride": null,
               "Materials": null,
-              "Model": "models/dev/door/door_single_dev.vmdl",
+              "Model": {
+                "Id": "d04d8eb2-a55a-4b2b-a248-6abfd22db8a7",
+                "Path": "models/dev/door/door_single_dev.vmdl"
+              },
               "OnComponentDestroy": null,
               "OnComponentDisabled": null,
               "OnComponentEnabled": null,
@@ -1009,7 +1058,10 @@
               "Elasticity": null,
               "Friction": null,
               "IsTrigger": false,
-              "Model": "models/dev/door/door_single_dev.vmdl",
+              "Model": {
+                "Id": "d04d8eb2-a55a-4b2b-a248-6abfd22db8a7",
+                "Path": "models/dev/door/door_single_dev.vmdl"
+              },
               "OnComponentDestroy": null,
               "OnComponentDisabled": null,
               "OnComponentEnabled": null,
@@ -1089,7 +1141,7 @@
       "__version": 2,
       "Flags": 0,
       "Name": "Cube",
-      "Position": "-1107.95056,425.442627,24.9999847",
+      "Position": "-1080.13916,426.611023,21.1068039",
       "Rotation": "0,0,0,1",
       "Scale": "5.45233822,4.81221867,1.0000006",
       "Tags": "",
@@ -1157,951 +1209,83 @@
       "Children": []
     },
     {
-      "__guid": "bee5b226-9ba1-4512-ba23-e1f294d1e8eb",
+      "__guid": "a34bfdc7-0f87-4a98-8a1e-59225997ed7c",
       "__version": 2,
-      "__Prefab": "creatures/zombie_classic/zombie_classic.prefab",
-      "__PrefabInstancePatch": {
-        "AddedObjects": [],
-        "RemovedObjects": [],
-        "PropertyOverrides": [
-          {
-            "Target": {
-              "Type": "GameObject",
-              "IdValue": "004db47a-fa9f-4c14-be56-c4bdcf7e8491"
-            },
-            "Property": "Position",
-            "Value": "-1134.67334,368.76944,54.8229675"
+      "Flags": 0,
+      "Name": "Cube (1)",
+      "Position": "-472,-32,273.65863",
+      "Rotation": "0,0,0,1",
+      "Scale": "5.45233822,4.81221867,1.0000006",
+      "Tags": "",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "NetworkFlags": 0,
+      "NetworkOrphaned": 0,
+      "NetworkTransmit": true,
+      "OwnerTransfer": 1,
+      "Components": [
+        {
+          "__type": "Sandbox.ModelRenderer",
+          "__guid": "86ebe146-866f-4808-b0b3-01261520e976",
+          "__enabled": true,
+          "Flags": 0,
+          "BodyGroups": 18446744073709551615,
+          "CreateAttachments": false,
+          "LodOverride": null,
+          "MaterialGroup": null,
+          "MaterialOverride": null,
+          "Materials": null,
+          "Model": "models/dev/box.vmdl",
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
+          "RenderOptions": {
+            "GameLayer": true,
+            "OverlayLayer": false,
+            "BloomLayer": false,
+            "AfterUILayer": false
           },
-          {
-            "Target": {
-              "Type": "GameObject",
-              "IdValue": "004db47a-fa9f-4c14-be56-c4bdcf7e8491"
-            },
-            "Property": "Rotation",
-            "Value": "0,0,-0.991444826,0.130526245"
-          },
-          {
-            "Target": {
-              "Type": "GameObject",
-              "IdValue": "30f25c9e-6b04-476e-be3d-351196bc26a0"
-            },
-            "Property": "Position",
-            "Value": "0,0,0"
-          },
-          {
-            "Target": {
-              "Type": "GameObject",
-              "IdValue": "78e45c59-9044-43b5-8b0b-3363c79dfd1d"
-            },
-            "Property": "Position",
-            "Value": "0,0,0"
-          },
-          {
-            "Target": {
-              "Type": "GameObject",
-              "IdValue": "7b5b39a9-390b-44e1-871a-93e9b33fc3bc"
-            },
-            "Property": "Position",
-            "Value": "0,0,0"
-          }
-        ],
-        "MovedObjects": []
-      },
-      "__PrefabIdToInstanceId": {
-        "004db47a-fa9f-4c14-be56-c4bdcf7e8491": "bee5b226-9ba1-4512-ba23-e1f294d1e8eb",
-        "e8b735ae-13dc-48f1-b65c-f0bfa95c2165": "8833f45a-b2d0-4763-90f0-555d72c0443d",
-        "8a168628-201c-4fe4-82b3-46ed54a0dcb8": "b7521d15-3d0b-4ff8-a448-1c458fd441a9",
-        "16e8f78c-7179-4090-a40c-d88d1b029647": "165103ba-7765-4f29-8502-4e48cb17d095",
-        "608b261b-3001-4833-882b-7787f48313db": "2de74b8e-cb88-44dd-a83b-89ed77d6333f",
-        "adb22ffd-3fad-485b-9a5e-0bd406d0f895": "0afa32c3-5135-4dc3-848c-140109dec181",
-        "272375e1-1ac4-401e-88d6-3e3c91dd6517": "68ce2b58-8aa7-490e-93cf-743cf79295d5",
-        "0c61b535-8712-4e2f-aa88-189f60683fd5": "5af1b638-bc40-4023-9454-7feb20611d0d",
-        "9effae08-81f8-46dd-a92a-2d41d40a11b4": "b4726662-10e0-45e8-9d35-7953aab342c6",
-        "86d1a3c8-feb6-4c32-9d7a-bd8650b4d5df": "7028295f-1cf4-4cd4-87df-fe8fc7218638",
-        "029ea075-4cef-416c-8346-ad9616160c1e": "11313044-07af-47b5-bb48-cd73f8ff1340",
-        "b5c674ad-c6c4-4e5e-894a-571154d16c55": "b20dca9d-ef27-4aec-a787-e52bc766a9bc",
-        "4c09827d-ebb3-461a-a0c9-dae06abf7420": "177f0e98-75cc-431f-a1bc-b85cc3ee12a5",
-        "cd2326ed-0b49-4fc2-b6c6-f61437e4181e": "f280dd89-6fec-4e7d-b51a-65c86e3b3b84",
-        "16e99edf-f7a2-4cab-b86f-5dd9265ea543": "3e20449b-e6e3-4225-a887-0361a7ae062f",
-        "59d564ba-739c-4a55-874d-59ced86a51d7": "6cc5e04e-8db7-442f-a3c0-11dcbf4f99fc",
-        "60dfe226-1839-4eec-996c-062df92fc9d0": "1809831c-09f6-4eeb-930a-38e058177754",
-        "26af2364-db9a-4389-9fa6-0f7f9b1eaced": "c01befdb-8891-40d1-afba-fd5a5fb33adc",
-        "4d411ee9-8a25-4e33-af58-2283d08d41d6": "cefe6935-d347-48b2-bc6d-88456bd1b313",
-        "48a4ddba-305f-4f62-a973-080fc014bd7d": "eb8990a7-e827-49d3-bc3d-08880e0b5ed2",
-        "e4c2a811-cb37-450e-a60a-993c3330d645": "f25063d3-15d0-4187-9f8a-66d0947a337b",
-        "0edb0443-0ed2-4a90-b5fc-f348cfb1b310": "e11d1e37-cf5b-421d-ac89-15b5e90d5d48",
-        "9c52daab-a048-4ada-b44a-94a1e5646fc3": "f8f589f2-5230-494f-b01d-94c711f01cd9",
-        "c9f378a1-f95f-42af-a48b-dff93f5de281": "4685e801-ca0a-48e3-844e-4eef3b96aad4",
-        "0985c4d2-bec3-46c6-a1cf-0de1768579db": "4b5b039f-6255-463b-a38b-0a4372d54152",
-        "50e65cfe-6438-4ef5-ad98-04b81fbafe79": "71d38595-e7c6-47fc-a161-ce83354bfe5e",
-        "318ba375-3f06-454e-9b04-098a63915859": "bdc13fee-fc39-4114-84ef-f5ca5649a16e",
-        "bd67b0a8-a6d3-4754-bf59-3049221415f5": "ee552188-21de-4d31-9099-e528b5e03ca5",
-        "cb00a216-27d7-48ff-935c-a8beb7f51a29": "eecaaa26-b383-4e1c-8423-5723c5d28812",
-        "2231d358-8cda-4065-9c0b-19bfb3c293f8": "1072356e-5997-490c-8405-09d6971b2911",
-        "ceedb06d-2dc5-486b-9a94-980af4e070d1": "e8a234db-cee1-4772-922f-1a6bf27e27ae",
-        "432c3c8a-70ac-4953-be13-5cc248bf17d2": "4aa687f9-d190-4544-9cc2-d753d64c7324",
-        "653e9f07-147a-4c71-899d-ce6645fe6228": "0f258cd7-f906-4b1a-a52b-c00200f7ed20",
-        "00e71f1e-ea75-4ef3-ae86-7fc3f62a80d7": "ab9be633-d994-41a0-b7f6-2481b79e93e3",
-        "76f412dc-78fb-4513-9ff9-d8b396dde02d": "6859a5c9-478e-4e9f-a348-30d4f61d6991",
-        "8dad3acf-1b83-48dd-9b97-1016a15d2943": "8f88120c-d929-459a-9d0a-cbe91f3573f1",
-        "0ecc28f9-9a0a-4c97-837b-a9b70311be02": "b81269fc-e5da-4149-a0ec-519573301945",
-        "fd5fc6a8-5f5d-4f0b-a599-f3191820ee05": "8c292a03-1d5e-4245-b169-1d12ba820e49",
-        "6892768f-f7e8-4554-b0d8-351a0b0e682f": "5aa63771-963c-4961-bc83-a8d71eaa34b5",
-        "2c48bb5d-269b-4424-a605-c4c5505668d7": "57e13d77-444e-4785-9f5f-e9f2289074cb",
-        "37e1c5c9-1545-4bca-9388-6787dcccc489": "4319be06-d4b1-4dc2-a1ab-89fe3d76db98",
-        "cc61b97e-04c3-4ab7-9579-bc077d2a0c3b": "edd9ea04-15e7-4ffc-a875-5f2b66b1d000",
-        "2849e6e2-d4fe-4a12-8703-7fde63645cac": "226fcb70-52c7-4aaf-bcc4-e863489d4cf8",
-        "36deb752-76f0-456b-9aae-6da2079373be": "9922272a-c65d-4555-b1da-4ebf0ea9477c",
-        "27c0ebf4-72df-4630-82b9-fad1cea79cda": "97a0d3fb-f6b3-4521-89e5-a2c180f9ac54",
-        "30948579-5274-45a6-b676-e98e51a6efa3": "074d17de-0f63-46fb-b0d4-65faee9ad092",
-        "88f9447c-92b9-477d-8934-e48636158885": "6e31e873-6683-4af7-b316-181b7b22142c",
-        "af451e0c-1802-4220-8bef-c5b261e0c651": "fa3f0982-362b-4954-a66b-64c0cf7b8c74",
-        "05bde6c2-edcf-4e8e-8a1e-488840cc4116": "5dbb2691-1da8-4cdc-83f7-a2d915744d8f",
-        "93abd840-760a-4a29-90a1-95e41b8158ab": "5314d1ca-79f8-4b60-9f32-81487caa3747",
-        "f521bc94-8821-46e2-9eef-2414d4cdc564": "4be32149-b7dc-439b-a525-7023728c56c3",
-        "008baacd-0787-4e83-a1c5-9add21791e0a": "969165d0-175c-4694-b302-8288efcc1b1c",
-        "cf2e027c-2bfe-41b6-bb41-0adba85bb5ef": "a9d52cbb-395a-4d39-8ce5-04499a0eac17",
-        "2dc3bf16-503e-4338-b176-663adfd0412b": "8698b484-909d-4f40-a469-2bf246f2df88",
-        "395601c2-5b0e-40bd-a384-f6f41ee14f1a": "cb0a5b4e-72aa-4fdd-8993-6321a20d90fd",
-        "a043f1fe-363b-4a6b-8268-89c219bea66b": "8bdbaa2f-641f-43b8-92d5-0871d7ff9687",
-        "7ad7a993-a151-496c-9d77-e2336746b141": "2e8ec102-3cbd-4aa7-87b6-b5f80982fa2a",
-        "5920e825-ef87-40d1-a730-43b10b928650": "2e5173a1-befb-4fb1-b7c3-5e83a00425e6",
-        "acfd3374-710c-4b86-8b4a-8903de5c9101": "b3f7e741-8be1-4d91-bf17-9f304aea64f4",
-        "d7227273-5dd2-417d-b2f6-f4f1f5ba6443": "97147304-5a9f-418a-a56f-fe3a7f027043",
-        "2967fc9c-6c6f-4c52-956a-5328c40640c9": "5f3e4f6b-0be8-4ac4-ace3-ef39214f49e0",
-        "a58ac046-878d-4702-b000-1981dee08f9f": "985b3276-68ef-4d25-872b-d49630be64a6",
-        "8677ab83-759e-40a1-9f63-662054843d8c": "7ef8201d-16d0-4fb8-ae43-ff2e695afd71",
-        "9e64312e-1f1d-41ea-937f-533f3557cb26": "03c46118-20f2-4e2d-bbc1-5fc8f24363f9",
-        "608a9031-9416-4eff-bb1f-66d2ce212dce": "c4195707-013a-437f-991e-1138a8c41604",
-        "2e3ec7d4-76a9-4ce7-a583-58141721844b": "c136024d-f1d0-41d8-87bb-86fef66a3f69",
-        "8c9da018-34cd-4f11-8338-463cd1fac1ed": "fd082217-91d1-4d89-8585-6a9e6b208131",
-        "886b9345-0761-408a-bde8-a4f4ef50ceb9": "11b33393-ad67-4765-b01e-fbabd42d029b",
-        "9de09b4b-241e-4d1a-a551-f2ca71b58bd4": "14132a3b-bc7c-430a-b9d1-de6b1d1c0890",
-        "11a912b6-5ffa-40dc-be10-e3e2c95aa6ad": "d568c75d-b635-4c16-b178-25012d7e47aa",
-        "23994def-8f0c-4551-9492-7edca7d3c14a": "3210c3ed-a634-4775-bfb2-1d8f36ee93b3",
-        "f83e74a7-1007-49eb-8b34-c9012d3ff05b": "d6666255-86b8-4e5f-a372-39a5035ba60d",
-        "e5d8c0a2-9b55-45c8-be63-bf00a2f1bdf4": "b6f5aff5-12e2-45ff-8586-8184ab89dc6a",
-        "d54625c9-a70d-468c-9517-d55f7d43406c": "0da78bbd-01cb-4890-97fa-940ab70e07ca",
-        "27d1b168-ccf1-4219-8308-3d0f0df9c8a8": "ef083e50-521c-4085-9ffa-86c3f9526be3",
-        "5c2f94b4-40ed-4000-b743-e0fc559ec37d": "df451552-9330-4c23-8d6f-8fa27c822d01",
-        "3a6219f7-0608-44cd-ab95-7b39f721d0e2": "87517897-1f90-4324-a503-81faeebfcda1",
-        "8e45d639-5247-4bf9-8040-78657bb1a4ac": "6ae5a88d-2e59-4e14-a01b-b71da96cf13b",
-        "3837ce32-ce9c-471a-af7c-df1da037baf2": "eadb4d47-2656-4a7a-9a49-4a46e29cd368",
-        "2541c214-7e6e-4575-b43b-abc2ca311e00": "eed0c011-3912-4438-83b1-083b89da7383",
-        "5240005d-ed85-4142-ae93-7a16de305c5f": "f92c2809-5f25-42a5-8162-33b910688200",
-        "64420ff3-fab9-4948-b1e2-b3661ef0dc51": "8b2c9fb5-0ad3-4269-9299-2ad8372f97db",
-        "8984928e-b9ab-4bdf-9c52-7790da2d318c": "964fcfff-7caf-40f3-a92d-9e11192e89e0",
-        "d33fd5e4-aba7-404e-9edb-763a66cba6f6": "c847d51c-118f-4f70-991d-0fa0652e9f62",
-        "a5bc42c5-fb80-4e15-81a0-4526ecb5f056": "0746e029-b28a-4d8d-beeb-6572736aaf0d",
-        "d984c9d5-d135-4376-92c8-64f560049ec6": "c78cd50a-0d8b-4057-8657-c7dec430ffa4",
-        "9cf95308-074d-42f0-abc4-2526fc8fcd34": "2c398f50-6794-4e06-9abc-ace3b03edcda",
-        "3c229608-0d07-4307-93cf-f3efc7dd73e9": "b85c136d-b6d6-45aa-ac7d-da7162c5a0dc",
-        "27c6b7ba-c4e5-4842-a9dc-a80a3896a473": "5c63fc7d-6b58-4b71-92a5-f1672dedd56f",
-        "f5f9d477-61ee-42b6-9058-b350bc608d80": "e09d01a1-84a2-4d93-90ce-e0687706162e",
-        "40d8516d-0f84-46af-a851-225f293b7a01": "ee4cbceb-cfee-45d7-8adc-1c5806fcd05c",
-        "d7a9a5cf-c99b-4739-9ead-1551de3daf90": "a23a607a-c912-4547-bf40-bfa1582ee1e8",
-        "92b11536-3110-4bfa-8b6f-c8fd71299ea3": "f150c834-3782-4a07-aa8e-af6706a17c55",
-        "1ab61de4-6fd7-4438-adb9-7cfad80a245b": "cd0d1a4f-2101-4d71-8e33-2a1dff7905eb",
-        "2b9cf162-aa3a-4120-8d56-b4747eb3c1fa": "84702d11-ff3d-41ca-9816-ffa1a562a611",
-        "8c2c253e-de83-46a9-8866-12dd3ec08700": "3c83920b-7205-48ff-ab13-77b91d95e1c2",
-        "4532d0e4-6e2e-4637-ae48-64e720238fcf": "574fefff-282c-49ef-a27c-49a4390fd5b4",
-        "c19be5da-fbb4-43e9-969e-55a46978c8dc": "7ee13ebd-78d8-41fc-8d61-56ed6bc2b6bc",
-        "65044dbe-54a0-44d1-8239-54062c195312": "b9d9777a-378c-4b67-8f17-c07ef2c8f3ce",
-        "c6fbdc08-8c3b-45f6-b402-0e2ff61210d6": "7804c11e-bac7-4cf0-84e6-c4e026bd8d6a",
-        "41facc0c-a746-4e64-8de9-a5b91cd0563a": "674172a9-51e9-48b9-a945-5bc0c57e3350",
-        "c2d95cd0-a03d-48c1-ac60-c0935a7bc85b": "c528d505-e3a9-4a3b-817e-282f917d46ee",
-        "d259d3f1-2c3a-4deb-af11-4370daa6bfaf": "40211e48-cf56-4fc0-927e-161ad11acf13",
-        "25c73e22-0399-40cc-afea-a75d7737bc0c": "81afa989-5e4b-42b2-84f0-c3b9dd04687c",
-        "81ec25d2-4a20-47f2-a184-6e4d5bfbf46e": "2d363e07-5cc5-404e-baad-09303b6ba624",
-        "3835ac5d-aee5-47a9-b837-8b10b81540e0": "fe23addb-6415-4e19-a7d6-0e232eabee00",
-        "5a909d0b-d0f9-4e80-b960-53136011c0a1": "62b66db6-3f20-45ba-8339-6fe54effa77d",
-        "8ade44f7-24af-49af-a4ac-f6d8ccb452a2": "cd498dce-044e-48d1-b3f8-1ce33131d971",
-        "4494bd01-6bc1-464b-b22e-28688b28af22": "d6fb1bd4-c6bf-43b6-9486-beeb2e53416a",
-        "a2c31ff0-6247-4bc5-89c5-a1cfda76ce99": "eb67515f-9519-4a4e-83ef-456cf30ed5cd",
-        "7cc0c081-4b25-4d03-baae-1e82cf06806d": "428c1640-770e-412d-81e3-fbb56d88db04",
-        "7da0f84f-ba16-4fda-9601-a7fc2ff0e454": "ca561f07-fcbe-48b8-b0b8-8ee2a6429553",
-        "e1b9e7e9-88aa-419d-b753-a8e50316ebbc": "ad3e227e-b0e8-4529-9089-29782d24cf02",
-        "995e84fd-4342-4c00-966c-aeedfc01e64e": "050b93ab-efec-4d22-a191-2e15fc66a66d",
-        "519df53b-571f-4088-a78d-ab8f00122d3b": "706f3879-b339-4a66-9a9b-1f016d453c0e",
-        "892928e9-f3c9-49cf-bcd8-a06f4e41cb1b": "438d8838-52a1-458f-ac71-9efaaf469726",
-        "971576fb-ff6f-4a62-8615-0ac2a6238373": "75b28400-6e49-416c-869f-6a140cd02255",
-        "30f25c9e-6b04-476e-be3d-351196bc26a0": "ff9710fa-22e0-4755-9840-31b6be0a5ff1",
-        "9c048289-b9df-49c0-84fb-43f4718f81f3": "83cd6bba-1876-42a4-94fb-ac5c7ea7557a",
-        "9065c804-ce44-4116-bb18-73072ccba59a": "06d6e00f-55e7-4226-9a4a-c3cd418a26fd",
-        "e6a2f25b-cba5-4dfb-870d-4088ffc13c78": "f60111d0-cf5c-4a32-9637-64a5822b40a4",
-        "63546057-cef5-431a-88ce-f342a30b7154": "4c1a873c-9daa-4faf-9ef0-1890cd59386b",
-        "ad00b1d8-cf5b-4872-9f70-f7d5b93b7020": "47479863-a8f1-49b5-a870-31fa8ae62729",
-        "4d682924-f645-4cc8-8f55-daf784cefe10": "cc142dbd-139b-4504-a269-82d05acffc5d",
-        "bcd42ab9-a42f-4872-9cc9-2fb84aca8990": "552efe1c-9339-4b20-8f93-376e908d45c0",
-        "5662f449-aec9-4adf-b244-8d43521d48a2": "5dc04215-1a31-47f5-941f-a0a086d5b6e7",
-        "bef26033-02ac-4b4b-a359-d5838b3652ce": "639794ef-57e4-4fc1-942e-73833eef2138",
-        "693be9cb-39de-4abe-96ea-67ea6fc0034b": "7249687e-4764-4938-bf40-55ef47fe6b93",
-        "f1625667-d95b-4e87-b075-3b8ea82980e1": "6f4dcfb5-c28c-4b8a-94db-06b532a96584",
-        "f6f22aa7-1d4e-4c3f-b89a-1fc6ef71f3ce": "82d1c9cc-da52-47cb-8294-252993ac4c23",
-        "afd4e481-3b9e-4ce5-b358-7e7089725d5b": "8388e9a0-c417-44ed-8a06-9a6886168283",
-        "beeb2b19-0426-4616-8594-c796f0d146cf": "a1ddca87-e01b-450e-bae0-8e3b47ffc5ad",
-        "66020797-d40b-4f53-a091-75c62b903928": "8d4c40be-9024-40cc-855c-a84e1e5a63fc",
-        "ca12d12a-ff38-4503-aaa6-983a2c08f8d0": "d4e340db-1615-4ce8-8e65-54f855d07d67",
-        "6721e749-febb-4ba3-9afb-621b6a8c4535": "8e460eff-879b-417e-97af-7d9254c6bfd9",
-        "f7d31105-57d6-493d-a165-e15e012776f8": "0503aaf6-98d1-4cc8-9ea3-856c139a858a",
-        "5e701a5f-1bf8-4c82-a457-4a68f1d9eada": "1079a18d-fbc2-4d25-b323-8b8e0fcbde2a",
-        "29116436-08ae-4437-8bf4-30c9d5142572": "7be40cfa-11d0-4a0f-901e-ff46ac37f83c",
-        "44c19cf2-9cd1-48a3-9fe1-cc2ac3ee77df": "97c78cc3-f130-41a5-aec6-decf1f1c4d81",
-        "60e762c2-15ac-4b96-bbb6-bd67c7a6043d": "19f3825a-b140-4a75-b5dc-6a96ba95dd97",
-        "2c5f5ef7-92f1-437e-8f28-0f2ef5d54032": "475b96e5-c7a0-4755-9566-b6ef921bb5ba",
-        "930881fa-e544-4c80-90fe-dc054fb4cd23": "f9611e10-8947-4920-acd1-648f82d2d700",
-        "49426d97-1dde-4d8c-8d4d-d47e3a32d58f": "6c3b658d-830d-4e34-a8fa-d444a87f367b",
-        "f3ca2d71-a7b4-412f-8642-b6c965d5c70c": "3beab222-d29b-45f2-a21d-e2672be1970b",
-        "965a9da1-1273-42a6-9dd5-20bd1a7efba6": "d204256c-edb1-4381-896e-a1f3e7489fee",
-        "f97d5237-62f7-4586-93b6-02a98cb19f51": "05f9a789-d5f8-4dd5-b395-df53437a49e8",
-        "be2e0066-6d77-4bbb-ae62-672e5af381ab": "c9e45fe6-c7e0-4fd7-a335-48909531442d",
-        "106fa0d3-13f4-4756-b495-f2f65f1dbc58": "f9978cd1-aa4c-411a-a69d-c01073afa0d2",
-        "c94c7eb2-7eb9-4439-98a3-80b20c4d1326": "9f7fe532-356b-40a5-ac6c-f0bcfa965cc7",
-        "5286e994-68f9-4f68-8661-b5d7dfebe9bf": "d5123b53-4cee-4995-8986-bbb7c5674980",
-        "954c7679-077a-49ef-9a2e-ddf8b0d2ca9b": "b35ede7e-847a-4029-9b1f-36b34b0638b3",
-        "78e45c59-9044-43b5-8b0b-3363c79dfd1d": "b9ea1641-0015-4338-9af4-5c68412ac56a",
-        "2d8870fc-868f-428f-a485-8ac4dcd826f6": "d6cffad0-2483-407f-83fe-ccaf07ab9a78",
-        "4ad2183f-2a6a-4329-8653-6eb5cda2e514": "9efceae7-ed63-49d1-a63c-7192ed09705e",
-        "9f80d6aa-77e5-4dda-9a3c-ea25b6abbe23": "3c4c4a30-c066-4315-9dc5-ef0036142389",
-        "38600e88-74af-457d-a02b-4cf6a3557077": "920a7d9b-b4e7-4456-9315-16329c790484",
-        "82656a9d-cb32-4645-b6b9-e6afb8d04425": "1a99a93a-bb18-4efc-ae83-e955f6894062",
-        "e3358ed2-bfc6-4a7b-8bf3-99443b9e1f05": "366af84d-7c94-403c-9ba0-be850f239f44",
-        "e8c2e4b8-78e5-4228-8536-906832b2e6c4": "d74f6852-2ad7-4e7a-ba92-547debca0899",
-        "b812e9a8-e3d3-49fb-8e67-33d00e144ce0": "98729ff8-017d-4078-b40b-7ef5bb3f7c9d",
-        "7b5b39a9-390b-44e1-871a-93e9b33fc3bc": "150862d7-3977-4aa7-9960-2210749bc4b7",
-        "22b3f50b-383c-4a19-aaf7-81f8139b4be3": "3a79034b-0484-4364-b0a4-f93b99bdef5f",
-        "1ddcd11f-d872-4a05-bcfd-7f95ec988c09": "5457a1e0-1a08-4f3d-89e5-75b0ba515240",
-        "0794ad24-f2d3-4f5b-9040-52c576ab5128": "6467dcaa-d779-4185-b4dc-16547c146db0",
-        "e13cdc22-0686-45f5-a22e-a375dfeb352a": "9e6b3edc-ec7c-4f9d-b06d-5183cfaad4d2",
-        "b38cec79-4052-4c76-9674-1659137c177e": "bcd29154-959d-4b40-b5ea-9ba739b9e61d",
-        "36da5118-cc0e-46f1-8a64-9389a1c560c7": "3698adfb-0342-4db1-a95c-9482c3f11f0d",
-        "2e4da31c-d856-4187-afa3-cae33d1d3644": "6df05e2a-5081-430d-afcb-01376c528e40",
-        "b9f96225-9182-4b2a-af19-995cdf9853c8": "a6ddea1a-3b66-42af-b5cc-eeac3a07561a",
-        "6945459d-7f9d-477b-993c-f8fe50be2f00": "e8a7af3c-7b54-462a-b240-8702ec922a5c",
-        "b19b8053-e3cf-4a7d-bf6a-937d1e1dfe34": "efa18b6e-9eb8-48be-8ddf-bee0fb14db3b",
-        "f931cfb3-4f78-49b6-9116-337b024016bf": "b1a62109-7a81-43c9-a025-2e40957bab10",
-        "791a3d32-d78f-413a-a3a9-dc43b2efd9b6": "620f4ac7-f962-4a90-bef7-1e7f165a65ef",
-        "ede5949c-128d-4273-8136-b1d4b86d54b0": "6e79a714-a122-4fe7-8a75-f0ee832276a7",
-        "bf3f7e8c-da37-4141-a144-800aaa8cd33b": "cbecfee7-216e-4d02-b242-b8bfbfbb602a"
-      }
-    },
-    {
-      "__guid": "c325f6e4-6dcf-4e48-9be1-f5189625db2e",
-      "__version": 2,
-      "__Prefab": "creatures/zombie_classic/zombie_classic.prefab",
-      "__PrefabInstancePatch": {
-        "AddedObjects": [],
-        "RemovedObjects": [],
-        "PropertyOverrides": [
-          {
-            "Target": {
-              "Type": "GameObject",
-              "IdValue": "004db47a-fa9f-4c14-be56-c4bdcf7e8491"
-            },
-            "Property": "Name",
-            "Value": "zombie_classic (5)"
-          },
-          {
-            "Target": {
-              "Type": "GameObject",
-              "IdValue": "004db47a-fa9f-4c14-be56-c4bdcf7e8491"
-            },
-            "Property": "Position",
-            "Value": "-1069.70581,496.964539,54.8229599"
-          },
-          {
-            "Target": {
-              "Type": "GameObject",
-              "IdValue": "004db47a-fa9f-4c14-be56-c4bdcf7e8491"
-            },
-            "Property": "Rotation",
-            "Value": "0,0,-0.923879564,-0.382683396"
-          },
-          {
-            "Target": {
-              "Type": "GameObject",
-              "IdValue": "30f25c9e-6b04-476e-be3d-351196bc26a0"
-            },
-            "Property": "Position",
-            "Value": "0,0,0"
-          },
-          {
-            "Target": {
-              "Type": "GameObject",
-              "IdValue": "78e45c59-9044-43b5-8b0b-3363c79dfd1d"
-            },
-            "Property": "Position",
-            "Value": "0,0,0"
-          },
-          {
-            "Target": {
-              "Type": "GameObject",
-              "IdValue": "7b5b39a9-390b-44e1-871a-93e9b33fc3bc"
-            },
-            "Property": "Position",
-            "Value": "0,0,0"
-          }
-        ],
-        "MovedObjects": []
-      },
-      "__PrefabIdToInstanceId": {
-        "004db47a-fa9f-4c14-be56-c4bdcf7e8491": "c325f6e4-6dcf-4e48-9be1-f5189625db2e",
-        "e8b735ae-13dc-48f1-b65c-f0bfa95c2165": "73a47a86-f23b-4dcf-a83a-d8d0aca53bcc",
-        "8a168628-201c-4fe4-82b3-46ed54a0dcb8": "6e75b731-f5f9-464a-9a76-e59e0721044b",
-        "16e8f78c-7179-4090-a40c-d88d1b029647": "7ce6695f-952b-437d-91c5-21bc00be54c1",
-        "608b261b-3001-4833-882b-7787f48313db": "6edf2421-bdac-49d7-b416-170c039572a2",
-        "adb22ffd-3fad-485b-9a5e-0bd406d0f895": "91a1a884-5705-46cf-9d96-f9a26a249276",
-        "272375e1-1ac4-401e-88d6-3e3c91dd6517": "225e3f9f-7f36-4419-b226-c725f96081c6",
-        "0c61b535-8712-4e2f-aa88-189f60683fd5": "1726207f-16db-4910-a105-f6b672981e19",
-        "9effae08-81f8-46dd-a92a-2d41d40a11b4": "c0202e83-fb0a-446b-8b1d-5291905679f4",
-        "86d1a3c8-feb6-4c32-9d7a-bd8650b4d5df": "7ba1a7fa-4384-41b7-b6e5-db0822f0e263",
-        "029ea075-4cef-416c-8346-ad9616160c1e": "50962728-90b8-4e83-bce7-5102f115bed1",
-        "b5c674ad-c6c4-4e5e-894a-571154d16c55": "0054edbe-fad5-4054-b1c0-aa93d5ddb055",
-        "4c09827d-ebb3-461a-a0c9-dae06abf7420": "800279f2-2ec0-4551-9e54-a6fb6926b3db",
-        "cd2326ed-0b49-4fc2-b6c6-f61437e4181e": "3167365d-381d-4ab9-9ef2-01f4db63aef3",
-        "16e99edf-f7a2-4cab-b86f-5dd9265ea543": "b81c263b-e1bf-4339-8fc9-78194dc1a638",
-        "59d564ba-739c-4a55-874d-59ced86a51d7": "284fe0a4-25d6-459c-8b4a-7561a841a8bc",
-        "60dfe226-1839-4eec-996c-062df92fc9d0": "e2d8990a-1665-413d-90fa-3e4a7b5e1582",
-        "26af2364-db9a-4389-9fa6-0f7f9b1eaced": "508825fe-76a9-4e35-9021-7e8fac6ba62a",
-        "4d411ee9-8a25-4e33-af58-2283d08d41d6": "14ef26d0-d0a3-4478-ad63-f3fe92c2810a",
-        "48a4ddba-305f-4f62-a973-080fc014bd7d": "50a884c5-aa77-49c9-b7a0-57cce8c1af0b",
-        "e4c2a811-cb37-450e-a60a-993c3330d645": "e1365f52-cb13-4c42-abf7-83400b3e76f6",
-        "0edb0443-0ed2-4a90-b5fc-f348cfb1b310": "8bd366db-2658-44bf-b35a-a808924757f1",
-        "9c52daab-a048-4ada-b44a-94a1e5646fc3": "a04a830e-100f-4f90-b212-62cfb198672f",
-        "c9f378a1-f95f-42af-a48b-dff93f5de281": "78540273-3c87-4c20-b8db-ba08e0ae6da9",
-        "0985c4d2-bec3-46c6-a1cf-0de1768579db": "ecac9ba2-2f5c-4ee1-b514-f646afdaa8ca",
-        "50e65cfe-6438-4ef5-ad98-04b81fbafe79": "4a6faea3-7065-4a73-8c93-f50909e177ad",
-        "318ba375-3f06-454e-9b04-098a63915859": "a8b5b61f-7f08-4295-ae95-5796c4a338b2",
-        "bd67b0a8-a6d3-4754-bf59-3049221415f5": "36b9340a-f780-4b36-af33-1387c403433e",
-        "cb00a216-27d7-48ff-935c-a8beb7f51a29": "39b0941e-e397-41c7-966b-56abbd632ba9",
-        "2231d358-8cda-4065-9c0b-19bfb3c293f8": "ac271a07-94c4-4003-8ab4-faaf7aec1375",
-        "ceedb06d-2dc5-486b-9a94-980af4e070d1": "908ba4d4-3ceb-425e-8080-5a743d15f414",
-        "432c3c8a-70ac-4953-be13-5cc248bf17d2": "3e7e7a38-5af1-4959-88ce-f6e7f5d502c4",
-        "653e9f07-147a-4c71-899d-ce6645fe6228": "6e6a7f98-83dc-4c05-8781-3b6b23056cd2",
-        "00e71f1e-ea75-4ef3-ae86-7fc3f62a80d7": "0e9d0651-4254-4a6e-b824-26bddf69f434",
-        "76f412dc-78fb-4513-9ff9-d8b396dde02d": "d705ecd7-deb4-47a2-8638-4aa6c4928ff6",
-        "8dad3acf-1b83-48dd-9b97-1016a15d2943": "db5ca5e6-4561-4644-8371-0c4b6e114369",
-        "0ecc28f9-9a0a-4c97-837b-a9b70311be02": "b66ed12b-b3c3-4843-99c9-7a18c5b75b45",
-        "fd5fc6a8-5f5d-4f0b-a599-f3191820ee05": "fbda2bd8-af9c-4c7f-b16c-015f1f1c0813",
-        "6892768f-f7e8-4554-b0d8-351a0b0e682f": "32f7b09c-8c51-453c-a2f7-658a922e1361",
-        "2c48bb5d-269b-4424-a605-c4c5505668d7": "a1e1f2f6-28a3-4bd9-98ae-79a1b9f52118",
-        "37e1c5c9-1545-4bca-9388-6787dcccc489": "50f39e09-6b02-49b4-8b08-1f30a3b61978",
-        "cc61b97e-04c3-4ab7-9579-bc077d2a0c3b": "f4c898bc-9cfe-4820-a3eb-2e6c4a3719a9",
-        "2849e6e2-d4fe-4a12-8703-7fde63645cac": "fb13b1fe-27c7-45c9-8841-6cdd6d71ec9e",
-        "36deb752-76f0-456b-9aae-6da2079373be": "8ae35c31-1b69-4df3-9e0f-ae1892cde578",
-        "27c0ebf4-72df-4630-82b9-fad1cea79cda": "02c2e9a8-8fd0-4304-a473-6bb19c90dccb",
-        "30948579-5274-45a6-b676-e98e51a6efa3": "93d4834b-dcec-4a3c-9496-841b49a4c460",
-        "88f9447c-92b9-477d-8934-e48636158885": "8fc6a0fd-5c3d-4259-b58d-6ea8e3d69b66",
-        "af451e0c-1802-4220-8bef-c5b261e0c651": "a6fedc4a-2151-4915-973d-2a5ffe4612c5",
-        "05bde6c2-edcf-4e8e-8a1e-488840cc4116": "93027327-7250-457b-b9c7-4d14b431ae33",
-        "93abd840-760a-4a29-90a1-95e41b8158ab": "a3537f5b-de3e-4575-9669-b075addd6c89",
-        "f521bc94-8821-46e2-9eef-2414d4cdc564": "bf9b2bd5-4505-4186-97da-d50d94bdbb09",
-        "008baacd-0787-4e83-a1c5-9add21791e0a": "4fa0b5be-8799-4d12-a02d-22ed3cc7a0ea",
-        "cf2e027c-2bfe-41b6-bb41-0adba85bb5ef": "d44567d9-4ca5-4c4a-ae5a-28df9388e292",
-        "2dc3bf16-503e-4338-b176-663adfd0412b": "53f7096a-0774-439a-a926-21a0aea21869",
-        "395601c2-5b0e-40bd-a384-f6f41ee14f1a": "aec1a83a-e8cb-485d-87c8-8396a097656d",
-        "a043f1fe-363b-4a6b-8268-89c219bea66b": "3128a625-8ea9-4948-8e27-331780114a38",
-        "7ad7a993-a151-496c-9d77-e2336746b141": "82c82690-467c-4800-95a9-40f8acfdb60d",
-        "5920e825-ef87-40d1-a730-43b10b928650": "637a8d42-3921-4a91-ab9a-a1a0557a52df",
-        "acfd3374-710c-4b86-8b4a-8903de5c9101": "d7a5ac73-b003-4b72-9e53-cdd373a9ed94",
-        "d7227273-5dd2-417d-b2f6-f4f1f5ba6443": "39bb8b42-af87-4d72-acd4-86a845f2a6f9",
-        "2967fc9c-6c6f-4c52-956a-5328c40640c9": "13efa343-76b1-46d3-bd4e-104debf1a1f0",
-        "a58ac046-878d-4702-b000-1981dee08f9f": "1c55b4ec-aa11-4855-b9e8-532267dfdabb",
-        "8677ab83-759e-40a1-9f63-662054843d8c": "b8967abf-9676-49af-ba9d-2e94c20d42fe",
-        "9e64312e-1f1d-41ea-937f-533f3557cb26": "2f1acfef-0282-4d81-b839-aa253419a1c4",
-        "608a9031-9416-4eff-bb1f-66d2ce212dce": "f4fa055b-55c4-4b83-9b07-e6ba18a504c8",
-        "2e3ec7d4-76a9-4ce7-a583-58141721844b": "bb5a44c5-ca60-460b-838c-ad764d4ac548",
-        "8c9da018-34cd-4f11-8338-463cd1fac1ed": "f7d6f047-a180-4bdf-bab1-59c4f0712665",
-        "886b9345-0761-408a-bde8-a4f4ef50ceb9": "9c69c4e8-e161-422e-b95b-a463838607f9",
-        "9de09b4b-241e-4d1a-a551-f2ca71b58bd4": "2e7aaacd-7b9e-4469-a993-d91920c9d66c",
-        "11a912b6-5ffa-40dc-be10-e3e2c95aa6ad": "c53c1477-3c0b-46cc-b3fe-bcd922464765",
-        "23994def-8f0c-4551-9492-7edca7d3c14a": "468a4e18-5526-4511-b052-4a93d17f27cf",
-        "f83e74a7-1007-49eb-8b34-c9012d3ff05b": "2ba32bcc-6164-4ee7-b463-d81aebca0af9",
-        "e5d8c0a2-9b55-45c8-be63-bf00a2f1bdf4": "d3466ec8-491d-483b-b7f6-6168d797cc38",
-        "d54625c9-a70d-468c-9517-d55f7d43406c": "d2e3180e-8625-4bb3-9647-c3df11416d22",
-        "27d1b168-ccf1-4219-8308-3d0f0df9c8a8": "acf18be5-1387-4a04-826e-924b0ffbcf81",
-        "5c2f94b4-40ed-4000-b743-e0fc559ec37d": "ae548579-c2e9-49d6-89fa-68fd0b7498a2",
-        "3a6219f7-0608-44cd-ab95-7b39f721d0e2": "bf2e563f-d7c3-42fe-827a-6411d659b376",
-        "8e45d639-5247-4bf9-8040-78657bb1a4ac": "ae0baf61-27e0-410b-a108-29f1f0e058d9",
-        "3837ce32-ce9c-471a-af7c-df1da037baf2": "6ef31b49-5288-42f9-b708-4378ff9c5dbb",
-        "2541c214-7e6e-4575-b43b-abc2ca311e00": "a1bfc10d-6ce0-4412-bd0e-7b371e5ef1d9",
-        "5240005d-ed85-4142-ae93-7a16de305c5f": "12f293fc-fc40-46cf-b0d2-0fab621b61f3",
-        "64420ff3-fab9-4948-b1e2-b3661ef0dc51": "1260ce7a-f897-45bf-876a-4061bdf92475",
-        "8984928e-b9ab-4bdf-9c52-7790da2d318c": "6caf30ea-6318-4b71-8045-7d6a4c007b7a",
-        "d33fd5e4-aba7-404e-9edb-763a66cba6f6": "c74a7ef9-d7b2-4696-a295-bae1dbe0d1b8",
-        "a5bc42c5-fb80-4e15-81a0-4526ecb5f056": "560e9159-76ae-4af1-af19-677fee277aab",
-        "d984c9d5-d135-4376-92c8-64f560049ec6": "2bb0b4be-687b-4d49-80f6-a85a2d6a11f7",
-        "9cf95308-074d-42f0-abc4-2526fc8fcd34": "4499d527-efcf-4a47-b4b0-93e123f8a0ac",
-        "3c229608-0d07-4307-93cf-f3efc7dd73e9": "ea53881a-db5e-457c-afc9-b6df42e67f4f",
-        "27c6b7ba-c4e5-4842-a9dc-a80a3896a473": "5e49a441-35a4-4e85-abf3-a8d1ad344538",
-        "f5f9d477-61ee-42b6-9058-b350bc608d80": "2966d831-0124-4f42-b22f-317e5a887a69",
-        "40d8516d-0f84-46af-a851-225f293b7a01": "b2c24b67-3cab-4109-af28-0bb2978fd634",
-        "d7a9a5cf-c99b-4739-9ead-1551de3daf90": "6f83157a-b94f-4a9c-ae74-9bc3f92ca375",
-        "92b11536-3110-4bfa-8b6f-c8fd71299ea3": "136bf81c-4d06-43cb-9f14-60b45a047687",
-        "1ab61de4-6fd7-4438-adb9-7cfad80a245b": "9df44841-1c41-4fa2-b291-f6fd36d3e6f2",
-        "2b9cf162-aa3a-4120-8d56-b4747eb3c1fa": "248d1eab-d0fe-4093-9812-b52c8db17d23",
-        "8c2c253e-de83-46a9-8866-12dd3ec08700": "6cc3be09-7ad1-4042-b95f-d35efd7beb22",
-        "4532d0e4-6e2e-4637-ae48-64e720238fcf": "dc7767c1-2432-4f42-a801-78926a8ef631",
-        "c19be5da-fbb4-43e9-969e-55a46978c8dc": "d224491b-72e3-4d67-929b-6f73db25269b",
-        "65044dbe-54a0-44d1-8239-54062c195312": "5501125f-6968-4b01-ba70-0b47c642904f",
-        "c6fbdc08-8c3b-45f6-b402-0e2ff61210d6": "8d303676-65f2-4f8f-8b5f-cd67ca152ca7",
-        "41facc0c-a746-4e64-8de9-a5b91cd0563a": "68c55ed1-856a-4cb7-b0f4-9a372e423423",
-        "c2d95cd0-a03d-48c1-ac60-c0935a7bc85b": "9580a4f2-a1c9-4bcb-87a3-f27425beb167",
-        "d259d3f1-2c3a-4deb-af11-4370daa6bfaf": "52229d84-799b-4299-b02e-aec11447980a",
-        "25c73e22-0399-40cc-afea-a75d7737bc0c": "51ec4f83-27ab-4c5a-8b4d-aa2629015270",
-        "81ec25d2-4a20-47f2-a184-6e4d5bfbf46e": "06115578-40e1-4a2c-9cb1-c55030a052c9",
-        "3835ac5d-aee5-47a9-b837-8b10b81540e0": "801712de-a1c8-4f91-977a-362e1df5ee77",
-        "5a909d0b-d0f9-4e80-b960-53136011c0a1": "b588e48b-34af-425f-b629-bc05bcaee95f",
-        "8ade44f7-24af-49af-a4ac-f6d8ccb452a2": "402f98f6-89f0-4955-92fa-19d615026320",
-        "4494bd01-6bc1-464b-b22e-28688b28af22": "5b7906b1-bd60-4519-820a-536b41b75fe2",
-        "a2c31ff0-6247-4bc5-89c5-a1cfda76ce99": "6e1b2aef-669a-460b-91e6-95000009341b",
-        "7cc0c081-4b25-4d03-baae-1e82cf06806d": "bfd62628-aef3-434b-aac4-221e8cdc04cc",
-        "7da0f84f-ba16-4fda-9601-a7fc2ff0e454": "ea302642-5daa-4c5a-a3bc-5608c00dcfd5",
-        "e1b9e7e9-88aa-419d-b753-a8e50316ebbc": "c43f1d4a-be18-47a2-8748-4559d280a082",
-        "995e84fd-4342-4c00-966c-aeedfc01e64e": "5fb8756d-2a1e-434a-b87c-a6133ab8acf1",
-        "519df53b-571f-4088-a78d-ab8f00122d3b": "075efbca-270e-468d-963f-a1983689a34d",
-        "892928e9-f3c9-49cf-bcd8-a06f4e41cb1b": "2221305e-4037-4593-a7a1-1bca76d3c74e",
-        "971576fb-ff6f-4a62-8615-0ac2a6238373": "1086c363-e881-4a2b-b488-9861833f0652",
-        "30f25c9e-6b04-476e-be3d-351196bc26a0": "4626c1ec-00b5-484f-be53-e118d7b41864",
-        "9c048289-b9df-49c0-84fb-43f4718f81f3": "d36776d4-05ea-4e96-8e72-d739d0021d97",
-        "9065c804-ce44-4116-bb18-73072ccba59a": "afdc4a8e-095f-44ad-a2cc-4e112dde6144",
-        "e6a2f25b-cba5-4dfb-870d-4088ffc13c78": "520bf198-8520-46a0-9d4e-ac1ce66741a4",
-        "63546057-cef5-431a-88ce-f342a30b7154": "f0d529cb-4213-49c2-8ce8-8707d8e2cefa",
-        "ad00b1d8-cf5b-4872-9f70-f7d5b93b7020": "5a0e5312-26e8-45b9-b639-8bc5fe8989e0",
-        "4d682924-f645-4cc8-8f55-daf784cefe10": "e56b4efa-a5fe-4e0b-94cf-18db88b0f88b",
-        "bcd42ab9-a42f-4872-9cc9-2fb84aca8990": "6b3bfca4-fa09-4cb2-9d99-4fef99f1e033",
-        "5662f449-aec9-4adf-b244-8d43521d48a2": "5443e171-b720-4363-b7c3-5fb4458edf52",
-        "bef26033-02ac-4b4b-a359-d5838b3652ce": "e72718c2-4a5c-4e09-a2fe-33264f196d28",
-        "693be9cb-39de-4abe-96ea-67ea6fc0034b": "75b1b8d6-a5f4-4494-8e50-dc17e388730e",
-        "f1625667-d95b-4e87-b075-3b8ea82980e1": "903365c8-6283-4bc4-9263-e66f5c407101",
-        "f6f22aa7-1d4e-4c3f-b89a-1fc6ef71f3ce": "3590a86f-1bfd-431e-a1ab-c11f5314f2cb",
-        "afd4e481-3b9e-4ce5-b358-7e7089725d5b": "6ce4b834-04b2-49b2-960f-9293775403ac",
-        "beeb2b19-0426-4616-8594-c796f0d146cf": "1030e2db-2fa6-495d-9e08-0d825213e395",
-        "66020797-d40b-4f53-a091-75c62b903928": "0d0714e1-0b0f-465c-afd9-42a464f199bd",
-        "ca12d12a-ff38-4503-aaa6-983a2c08f8d0": "54f39468-98b9-453d-8d79-cf74f66245d8",
-        "6721e749-febb-4ba3-9afb-621b6a8c4535": "326b90ce-9389-4099-908a-4daf0885f2b8",
-        "f7d31105-57d6-493d-a165-e15e012776f8": "f0090b92-477e-46bd-b18b-b7b5738f81a0",
-        "5e701a5f-1bf8-4c82-a457-4a68f1d9eada": "484ba50a-3d41-43e4-8702-5504e2965610",
-        "29116436-08ae-4437-8bf4-30c9d5142572": "8a6da196-4a75-49b6-865b-5d58ec4e10dd",
-        "44c19cf2-9cd1-48a3-9fe1-cc2ac3ee77df": "8896a2ad-5c3e-4cf2-9248-b1dba11198d9",
-        "60e762c2-15ac-4b96-bbb6-bd67c7a6043d": "95ace794-8246-4aa0-ab88-65c42bf416f3",
-        "2c5f5ef7-92f1-437e-8f28-0f2ef5d54032": "e1660776-dc96-4cc7-9024-825fad27ad3b",
-        "930881fa-e544-4c80-90fe-dc054fb4cd23": "2ab779a7-ba39-4859-8a15-5d88f92a730b",
-        "49426d97-1dde-4d8c-8d4d-d47e3a32d58f": "a802d6f0-9d02-44f0-a707-eee1d1c6b862",
-        "f3ca2d71-a7b4-412f-8642-b6c965d5c70c": "a2567ac9-8d17-476f-9145-aa1c02da76f8",
-        "965a9da1-1273-42a6-9dd5-20bd1a7efba6": "eee6d043-0cc7-4145-ab3b-079e81ca332f",
-        "f97d5237-62f7-4586-93b6-02a98cb19f51": "3cbba37a-73a9-4a79-aadd-5d6c8ff9dc13",
-        "be2e0066-6d77-4bbb-ae62-672e5af381ab": "1eb65594-d403-4ae4-b05a-265105821e0b",
-        "106fa0d3-13f4-4756-b495-f2f65f1dbc58": "01fca04b-0ca2-4c01-b484-961071d2adb7",
-        "c94c7eb2-7eb9-4439-98a3-80b20c4d1326": "d868b09d-87a7-417f-89b6-efc212fddb83",
-        "5286e994-68f9-4f68-8661-b5d7dfebe9bf": "367a2a4d-6531-42fb-9c67-e658bd65ec4a",
-        "954c7679-077a-49ef-9a2e-ddf8b0d2ca9b": "a047e4f6-bda4-44e6-83c5-d86dd37ee844",
-        "78e45c59-9044-43b5-8b0b-3363c79dfd1d": "f8aee57a-a98f-4e15-9815-756af0ebef80",
-        "2d8870fc-868f-428f-a485-8ac4dcd826f6": "871094ef-53e8-462f-b234-0db97e120643",
-        "4ad2183f-2a6a-4329-8653-6eb5cda2e514": "1629347b-443d-4cab-91ea-b977a0cb4443",
-        "9f80d6aa-77e5-4dda-9a3c-ea25b6abbe23": "1c6e01aa-27b6-4d65-9c93-92857cbf9e0c",
-        "38600e88-74af-457d-a02b-4cf6a3557077": "bbedda09-f630-4457-9f2f-468b1bd7004f",
-        "82656a9d-cb32-4645-b6b9-e6afb8d04425": "30911e29-804c-4895-896e-6dbcb4b75ac9",
-        "e3358ed2-bfc6-4a7b-8bf3-99443b9e1f05": "6edf2ef1-34ca-42de-87a0-22527aa9b45d",
-        "e8c2e4b8-78e5-4228-8536-906832b2e6c4": "d32320a1-4df0-42b3-b95d-9296f0d2ce37",
-        "b812e9a8-e3d3-49fb-8e67-33d00e144ce0": "aaae0929-1650-4d64-a2b4-9d7799387fab",
-        "7b5b39a9-390b-44e1-871a-93e9b33fc3bc": "45e78291-22ab-4f08-ad70-90a00bd8103b",
-        "22b3f50b-383c-4a19-aaf7-81f8139b4be3": "4030dfcb-e4c8-4fe9-b9c5-4e0f396fe566",
-        "1ddcd11f-d872-4a05-bcfd-7f95ec988c09": "2109677d-4f3f-4cdb-b78c-9db44b73b98f",
-        "0794ad24-f2d3-4f5b-9040-52c576ab5128": "144b6bd3-3911-4847-ab09-a6ef72e56bec",
-        "e13cdc22-0686-45f5-a22e-a375dfeb352a": "125bd8ee-ee33-46c1-9553-ddc931a6da84",
-        "b38cec79-4052-4c76-9674-1659137c177e": "9ab416a8-70c1-4b15-9df2-1bf80be3a5f1",
-        "36da5118-cc0e-46f1-8a64-9389a1c560c7": "661f7be7-ee5a-44ba-810f-5d17710cc229",
-        "2e4da31c-d856-4187-afa3-cae33d1d3644": "3e4a4ccc-adfd-4197-bf00-7c01fe58f267",
-        "b9f96225-9182-4b2a-af19-995cdf9853c8": "7460e16b-7077-4871-869e-309de3b01705",
-        "6945459d-7f9d-477b-993c-f8fe50be2f00": "f97718a1-57f7-4ad8-ada7-74626fb4d35d",
-        "b19b8053-e3cf-4a7d-bf6a-937d1e1dfe34": "58bdd83a-a057-486d-8b05-cc9e2a766b5a",
-        "f931cfb3-4f78-49b6-9116-337b024016bf": "af063fdb-f101-4819-82fc-3e1afc5c107a",
-        "791a3d32-d78f-413a-a3a9-dc43b2efd9b6": "e9f78e18-e14b-4e89-a3ea-8440dac3b1e9",
-        "ede5949c-128d-4273-8136-b1d4b86d54b0": "80a02f75-339c-4f33-a629-0f17152e9340",
-        "bf3f7e8c-da37-4141-a144-800aaa8cd33b": "419977b9-21db-472f-8b9a-c97c3e4ae981"
-      }
-    },
-    {
-      "__guid": "2fff51fd-c9a4-4025-9848-ed0e19513b94",
-      "__version": 2,
-      "__Prefab": "creatures/zombie_classic/zombie_classic.prefab",
-      "__PrefabInstancePatch": {
-        "AddedObjects": [],
-        "RemovedObjects": [],
-        "PropertyOverrides": [
-          {
-            "Target": {
-              "Type": "GameObject",
-              "IdValue": "004db47a-fa9f-4c14-be56-c4bdcf7e8491"
-            },
-            "Property": "Name",
-            "Value": "zombie_classic (1)"
-          },
-          {
-            "Target": {
-              "Type": "GameObject",
-              "IdValue": "004db47a-fa9f-4c14-be56-c4bdcf7e8491"
-            },
-            "Property": "Position",
-            "Value": "-944.126831,655.865601,4.82296801"
-          },
-          {
-            "Target": {
-              "Type": "GameObject",
-              "IdValue": "004db47a-fa9f-4c14-be56-c4bdcf7e8491"
-            },
-            "Property": "Rotation",
-            "Value": "0,0,0.866025448,0.49999997"
-          },
-          {
-            "Target": {
-              "Type": "GameObject",
-              "IdValue": "30f25c9e-6b04-476e-be3d-351196bc26a0"
-            },
-            "Property": "Position",
-            "Value": "0,0,0"
-          },
-          {
-            "Target": {
-              "Type": "GameObject",
-              "IdValue": "78e45c59-9044-43b5-8b0b-3363c79dfd1d"
-            },
-            "Property": "Position",
-            "Value": "0,0,0"
-          },
-          {
-            "Target": {
-              "Type": "GameObject",
-              "IdValue": "7b5b39a9-390b-44e1-871a-93e9b33fc3bc"
-            },
-            "Property": "Position",
-            "Value": "0,0,0"
-          }
-        ],
-        "MovedObjects": []
-      },
-      "__PrefabIdToInstanceId": {
-        "004db47a-fa9f-4c14-be56-c4bdcf7e8491": "2fff51fd-c9a4-4025-9848-ed0e19513b94",
-        "e8b735ae-13dc-48f1-b65c-f0bfa95c2165": "83a4003a-2f53-4c50-85dd-98b0b7d671b5",
-        "8a168628-201c-4fe4-82b3-46ed54a0dcb8": "82b21882-04e5-4d8e-8f6f-7e7be6cc0a13",
-        "16e8f78c-7179-4090-a40c-d88d1b029647": "f4bbffac-eaa3-4643-90c2-9c7353562d63",
-        "608b261b-3001-4833-882b-7787f48313db": "fb9a1446-baf2-4ab9-8306-16cf22034e14",
-        "adb22ffd-3fad-485b-9a5e-0bd406d0f895": "01059f9e-9ae8-4bde-9afc-8afaad7644de",
-        "272375e1-1ac4-401e-88d6-3e3c91dd6517": "d51ad2c4-ca38-482d-9808-bcf7fd804e7f",
-        "0c61b535-8712-4e2f-aa88-189f60683fd5": "cfa1e621-5c04-4c07-bd7b-6059d8e45f33",
-        "9effae08-81f8-46dd-a92a-2d41d40a11b4": "70f878a7-8784-443d-b277-b1577906221f",
-        "86d1a3c8-feb6-4c32-9d7a-bd8650b4d5df": "f1b33c68-78be-4d86-b4d1-c2f980a43cec",
-        "029ea075-4cef-416c-8346-ad9616160c1e": "22ccb7a4-715d-4313-a8b3-124f152799c4",
-        "b5c674ad-c6c4-4e5e-894a-571154d16c55": "0fc2ae67-e399-4eda-af74-15e1e9b7e40b",
-        "4c09827d-ebb3-461a-a0c9-dae06abf7420": "7cf5910c-67c1-44ad-985b-454dfb09d175",
-        "cd2326ed-0b49-4fc2-b6c6-f61437e4181e": "78815f77-9ece-47d2-a857-6c733b8afa55",
-        "16e99edf-f7a2-4cab-b86f-5dd9265ea543": "4067af2b-d15b-42b5-9e43-58fa25ad6d4c",
-        "59d564ba-739c-4a55-874d-59ced86a51d7": "7ef6c0ee-4bab-41be-8d18-3590a67440a3",
-        "60dfe226-1839-4eec-996c-062df92fc9d0": "131fbf20-7da8-42c2-917b-8449ebd93e32",
-        "26af2364-db9a-4389-9fa6-0f7f9b1eaced": "973df5fc-35ed-4487-9d6f-6577195b6edf",
-        "4d411ee9-8a25-4e33-af58-2283d08d41d6": "8cc88b7e-f4c6-41a1-9fa6-7c27cf59bfea",
-        "48a4ddba-305f-4f62-a973-080fc014bd7d": "3cb53f6c-9da0-46d3-995d-16b26442d3c3",
-        "e4c2a811-cb37-450e-a60a-993c3330d645": "33987df3-291f-489f-858a-8eddcd2e3740",
-        "0edb0443-0ed2-4a90-b5fc-f348cfb1b310": "eccc3d20-acc4-41fc-805e-4ffd3d8a5e1f",
-        "9c52daab-a048-4ada-b44a-94a1e5646fc3": "20022e43-6a10-496b-b751-ce44fc64db8a",
-        "c9f378a1-f95f-42af-a48b-dff93f5de281": "4a0480d0-00c0-4145-84ee-0bda70f07050",
-        "0985c4d2-bec3-46c6-a1cf-0de1768579db": "740a1b16-16f4-4220-b2d7-b9c53fdfa6c5",
-        "50e65cfe-6438-4ef5-ad98-04b81fbafe79": "01216aad-e621-4815-84b0-524780c84e82",
-        "318ba375-3f06-454e-9b04-098a63915859": "042b43fa-7ff0-403c-851b-df288fb1058c",
-        "bd67b0a8-a6d3-4754-bf59-3049221415f5": "40b3de25-56b6-472a-bc4c-2bfea4142e0d",
-        "cb00a216-27d7-48ff-935c-a8beb7f51a29": "2fe1c5cc-9c9d-4842-a6f1-f15f5ff7a87a",
-        "2231d358-8cda-4065-9c0b-19bfb3c293f8": "0b0f6df9-7ba3-4af0-b915-761eb24ac65c",
-        "ceedb06d-2dc5-486b-9a94-980af4e070d1": "dd187821-ae26-423f-ab72-098eaacccce7",
-        "432c3c8a-70ac-4953-be13-5cc248bf17d2": "8111b313-5cf2-4f9c-b89a-ce8d7d4411ca",
-        "653e9f07-147a-4c71-899d-ce6645fe6228": "415561d2-5537-4d01-8919-3b8d8d4fc864",
-        "00e71f1e-ea75-4ef3-ae86-7fc3f62a80d7": "e4254eca-55c7-4cc0-9f66-f132957564de",
-        "76f412dc-78fb-4513-9ff9-d8b396dde02d": "316aa996-0e55-4ee8-94ce-974f780d1b09",
-        "8dad3acf-1b83-48dd-9b97-1016a15d2943": "99fd0f83-a63b-4d5e-94a5-fb07d5e9f804",
-        "0ecc28f9-9a0a-4c97-837b-a9b70311be02": "be8f5725-cc13-46f8-9248-4fbf9a838f54",
-        "fd5fc6a8-5f5d-4f0b-a599-f3191820ee05": "133e58a2-7174-4b0e-8e79-4e10c07bdbf5",
-        "6892768f-f7e8-4554-b0d8-351a0b0e682f": "7a6d3241-83a1-46ed-9714-f6974c6d844b",
-        "2c48bb5d-269b-4424-a605-c4c5505668d7": "9db89099-c3b1-483d-9ff6-74d02e8c656e",
-        "37e1c5c9-1545-4bca-9388-6787dcccc489": "215ff3b1-d4f6-494d-bd6e-f30c3ca66c08",
-        "cc61b97e-04c3-4ab7-9579-bc077d2a0c3b": "223bedc7-0bc8-4eb6-bbbf-a14bc323cfee",
-        "2849e6e2-d4fe-4a12-8703-7fde63645cac": "4d7fa1b1-3f9d-40ed-8967-03c116de0f64",
-        "36deb752-76f0-456b-9aae-6da2079373be": "e30508f1-c8ef-4728-99f8-a1dc8a0c2c15",
-        "27c0ebf4-72df-4630-82b9-fad1cea79cda": "fd9da49f-2b55-4bdb-90b5-43fdae2753a6",
-        "30948579-5274-45a6-b676-e98e51a6efa3": "1851fa62-6ffa-4cb7-a9ff-d4147e20cd37",
-        "88f9447c-92b9-477d-8934-e48636158885": "1327f65f-3f6b-46bd-afde-a2e98905b95b",
-        "af451e0c-1802-4220-8bef-c5b261e0c651": "466db777-994a-49b5-bc53-00da12cfacc1",
-        "05bde6c2-edcf-4e8e-8a1e-488840cc4116": "2ed6572f-4040-4146-afba-9c54aae128f0",
-        "93abd840-760a-4a29-90a1-95e41b8158ab": "41b4b7ab-75b7-4bca-b7d5-ca3854291e5f",
-        "f521bc94-8821-46e2-9eef-2414d4cdc564": "ef989349-5470-4144-ab4a-4d9cfce6bf39",
-        "008baacd-0787-4e83-a1c5-9add21791e0a": "fce03ecc-c962-42de-a66c-4e80913f9973",
-        "cf2e027c-2bfe-41b6-bb41-0adba85bb5ef": "fd72e2e7-cd04-4d16-bc34-15600b93a081",
-        "2dc3bf16-503e-4338-b176-663adfd0412b": "e204554c-525d-4458-b60e-13e78d2ec345",
-        "395601c2-5b0e-40bd-a384-f6f41ee14f1a": "0a0fe29c-962c-4878-ae40-4b4cf5bfc079",
-        "a043f1fe-363b-4a6b-8268-89c219bea66b": "d32ed8b1-948e-4fdc-9bf4-1511f55078d7",
-        "7ad7a993-a151-496c-9d77-e2336746b141": "bad01be1-a729-460b-b9fb-87a0ae2c9759",
-        "5920e825-ef87-40d1-a730-43b10b928650": "e43548bc-1b2c-4220-aec8-3e443a632a92",
-        "acfd3374-710c-4b86-8b4a-8903de5c9101": "63f3f2da-c991-425e-83d3-8ae3a161e4ae",
-        "d7227273-5dd2-417d-b2f6-f4f1f5ba6443": "dcc33fdc-7503-441f-ae64-2d0049659348",
-        "2967fc9c-6c6f-4c52-956a-5328c40640c9": "ca62eb8c-1fdf-4f5b-becb-79c0cf4326c5",
-        "a58ac046-878d-4702-b000-1981dee08f9f": "4d86ba86-7081-4831-919b-3e82a18660b8",
-        "8677ab83-759e-40a1-9f63-662054843d8c": "0a43eb06-408f-4e8f-8a58-f495a98b71d0",
-        "9e64312e-1f1d-41ea-937f-533f3557cb26": "4c69f445-d58c-4f47-a407-08cfe64f7d7e",
-        "608a9031-9416-4eff-bb1f-66d2ce212dce": "71147a6d-b75c-4639-b2d8-d9c65dd82d40",
-        "2e3ec7d4-76a9-4ce7-a583-58141721844b": "d5a61557-27d5-48e3-a13e-6c451809b222",
-        "8c9da018-34cd-4f11-8338-463cd1fac1ed": "c82bd37b-0ff2-4303-8c5a-ceab7f05f5e8",
-        "886b9345-0761-408a-bde8-a4f4ef50ceb9": "0143d028-0692-402e-959a-f9363c901ff8",
-        "9de09b4b-241e-4d1a-a551-f2ca71b58bd4": "a8254d01-629a-41bb-89a0-bfd7c52946a6",
-        "11a912b6-5ffa-40dc-be10-e3e2c95aa6ad": "2f830a25-1dab-4eed-94dd-274477e887a6",
-        "23994def-8f0c-4551-9492-7edca7d3c14a": "449d3773-8071-42fe-9050-26533c8edd66",
-        "f83e74a7-1007-49eb-8b34-c9012d3ff05b": "cf7333d0-8c43-42a5-98e6-be9f3d99b438",
-        "e5d8c0a2-9b55-45c8-be63-bf00a2f1bdf4": "a897c2ca-4924-4b23-bf34-9bf49ac2f741",
-        "d54625c9-a70d-468c-9517-d55f7d43406c": "c2ef3f00-e2cb-4706-ab45-889060ff0759",
-        "27d1b168-ccf1-4219-8308-3d0f0df9c8a8": "a3151c95-8ddc-4437-b5cc-4f19ee80ddb4",
-        "5c2f94b4-40ed-4000-b743-e0fc559ec37d": "a9bbc6f4-44ea-44be-adfc-0513398fce70",
-        "3a6219f7-0608-44cd-ab95-7b39f721d0e2": "0a674a6d-6b0f-48fb-bea8-fc2df4905768",
-        "8e45d639-5247-4bf9-8040-78657bb1a4ac": "55012f6c-9c28-485c-b9b5-387b71864686",
-        "3837ce32-ce9c-471a-af7c-df1da037baf2": "2926bda8-fd32-4bcc-822b-e0ef26cd303b",
-        "2541c214-7e6e-4575-b43b-abc2ca311e00": "ef6ffe1b-189e-4d2f-a162-9515abd10887",
-        "5240005d-ed85-4142-ae93-7a16de305c5f": "d19f6074-965c-46cd-8940-26bb4e969253",
-        "64420ff3-fab9-4948-b1e2-b3661ef0dc51": "cfe4f10d-cdbd-4f81-884c-446d750f9d76",
-        "8984928e-b9ab-4bdf-9c52-7790da2d318c": "634a3d7b-89af-4e5a-9251-892ebc905d02",
-        "d33fd5e4-aba7-404e-9edb-763a66cba6f6": "c1adea26-fe39-4d23-8bdd-718dea7e9370",
-        "a5bc42c5-fb80-4e15-81a0-4526ecb5f056": "df7df465-0afd-4bc3-b6b2-666d34b6cd1d",
-        "d984c9d5-d135-4376-92c8-64f560049ec6": "69483000-2b18-459a-88cd-f96d6a9fb0eb",
-        "9cf95308-074d-42f0-abc4-2526fc8fcd34": "4d354b5a-5ba8-4b1b-8173-07d6f92b3474",
-        "3c229608-0d07-4307-93cf-f3efc7dd73e9": "b8db942a-8f15-4235-9c7d-969ff66166e8",
-        "27c6b7ba-c4e5-4842-a9dc-a80a3896a473": "89b74ebc-a971-4385-8fd5-24482b4f4b94",
-        "f5f9d477-61ee-42b6-9058-b350bc608d80": "82c6d70f-f8dd-4e54-96e8-369ab92f8258",
-        "40d8516d-0f84-46af-a851-225f293b7a01": "6d9fd64f-43d6-4c87-bba5-6d1caad21ead",
-        "d7a9a5cf-c99b-4739-9ead-1551de3daf90": "ed13d33e-c9ad-4011-87b1-e4bb70246cb1",
-        "92b11536-3110-4bfa-8b6f-c8fd71299ea3": "6ef5d045-9e47-4672-a5b0-bef7ba066e03",
-        "1ab61de4-6fd7-4438-adb9-7cfad80a245b": "ec78120b-bbb1-4073-ab00-3db2f72c783b",
-        "2b9cf162-aa3a-4120-8d56-b4747eb3c1fa": "d6ed5516-500d-48e8-b20a-4bedb2be6698",
-        "8c2c253e-de83-46a9-8866-12dd3ec08700": "2063f146-88b4-4c91-a39f-95d60438b46b",
-        "4532d0e4-6e2e-4637-ae48-64e720238fcf": "8be43958-2fc5-4943-b408-fb7d94a23835",
-        "c19be5da-fbb4-43e9-969e-55a46978c8dc": "53e5ede8-42f9-42bc-a249-929fd6dd9453",
-        "65044dbe-54a0-44d1-8239-54062c195312": "6d5a653b-3773-49e1-8006-9030cd0178a4",
-        "c6fbdc08-8c3b-45f6-b402-0e2ff61210d6": "23d2a591-c68c-4501-91c8-975a38a5ca3d",
-        "41facc0c-a746-4e64-8de9-a5b91cd0563a": "d46337ae-07ea-4b3d-8641-63d5595d2431",
-        "c2d95cd0-a03d-48c1-ac60-c0935a7bc85b": "481a2577-4eb0-46bc-b852-f8f3d82365cd",
-        "d259d3f1-2c3a-4deb-af11-4370daa6bfaf": "c9f0df47-eafb-4b44-a74f-6865c1150d63",
-        "25c73e22-0399-40cc-afea-a75d7737bc0c": "babadf38-2ce4-4eda-89e9-56d3aec28659",
-        "81ec25d2-4a20-47f2-a184-6e4d5bfbf46e": "1329d072-44ef-4d93-bb3b-3edbaff01578",
-        "3835ac5d-aee5-47a9-b837-8b10b81540e0": "c3b5d3fc-d797-4f13-bf79-a34d090bb5f2",
-        "5a909d0b-d0f9-4e80-b960-53136011c0a1": "11221daf-928d-432c-aca8-8f94c92e5f28",
-        "8ade44f7-24af-49af-a4ac-f6d8ccb452a2": "262b0b39-85fe-4618-bb12-91fbaf70176b",
-        "4494bd01-6bc1-464b-b22e-28688b28af22": "8c6e2d57-6cfa-4cf2-a73a-bed6902ec10c",
-        "a2c31ff0-6247-4bc5-89c5-a1cfda76ce99": "48656ee2-b0a3-42c8-8bdc-582ff1aff73a",
-        "7cc0c081-4b25-4d03-baae-1e82cf06806d": "c3038f1d-db8e-41dc-979e-d1ca69ae7193",
-        "7da0f84f-ba16-4fda-9601-a7fc2ff0e454": "a5235ba5-6a42-44de-8110-b51db0fd114b",
-        "e1b9e7e9-88aa-419d-b753-a8e50316ebbc": "9fab37f7-b761-416d-b2fe-a7d422b2bf96",
-        "995e84fd-4342-4c00-966c-aeedfc01e64e": "3a0cec21-34ac-44b9-ab43-d1432a16049a",
-        "519df53b-571f-4088-a78d-ab8f00122d3b": "2f80ade6-a034-4138-8dc9-81e581aa7551",
-        "892928e9-f3c9-49cf-bcd8-a06f4e41cb1b": "d0863414-4fc4-437b-8222-eb3dd3f26aca",
-        "971576fb-ff6f-4a62-8615-0ac2a6238373": "58f6d5db-3733-4f82-ad14-b67048df9128",
-        "30f25c9e-6b04-476e-be3d-351196bc26a0": "b6bba1a6-adb1-4c00-83d5-e376050a87a9",
-        "9c048289-b9df-49c0-84fb-43f4718f81f3": "f32e45a6-95b5-4f12-8d22-2ddf99d24ea2",
-        "9065c804-ce44-4116-bb18-73072ccba59a": "9f21319c-d81c-45e1-974c-a1f89e1e44a1",
-        "e6a2f25b-cba5-4dfb-870d-4088ffc13c78": "6a0658ce-4421-44f4-8da4-673f0ad5e23a",
-        "63546057-cef5-431a-88ce-f342a30b7154": "92d14fd9-9787-4a34-bec3-4b26b0554776",
-        "ad00b1d8-cf5b-4872-9f70-f7d5b93b7020": "32f49638-5d36-49e1-93e8-a440788f2cd0",
-        "4d682924-f645-4cc8-8f55-daf784cefe10": "7797cf6f-e2ae-40c9-8895-c3b1162f31f5",
-        "bcd42ab9-a42f-4872-9cc9-2fb84aca8990": "fe5b0623-c88e-4558-8e01-017cc43d0d45",
-        "5662f449-aec9-4adf-b244-8d43521d48a2": "50f114cf-f345-43db-9100-7b35b8200d82",
-        "bef26033-02ac-4b4b-a359-d5838b3652ce": "0d3e51fe-b4dc-47b4-8ae2-a561b179a7e5",
-        "693be9cb-39de-4abe-96ea-67ea6fc0034b": "a04d3f43-8ec9-468a-aa27-79acab51bd43",
-        "f1625667-d95b-4e87-b075-3b8ea82980e1": "efcb8c0c-eeb3-4b0c-a2f1-c36b997056ac",
-        "f6f22aa7-1d4e-4c3f-b89a-1fc6ef71f3ce": "24a0194f-a48b-4857-ab90-57bd26c46f6b",
-        "afd4e481-3b9e-4ce5-b358-7e7089725d5b": "ba87d981-1427-4084-921f-2b59f23ff328",
-        "beeb2b19-0426-4616-8594-c796f0d146cf": "f27fdfc9-7719-4539-9ea3-1d34d1462829",
-        "66020797-d40b-4f53-a091-75c62b903928": "90302c34-0f52-4a66-9314-c95c44409a44",
-        "ca12d12a-ff38-4503-aaa6-983a2c08f8d0": "d75497c6-b959-462d-96c2-0c00af22f63c",
-        "6721e749-febb-4ba3-9afb-621b6a8c4535": "57d3efa7-c7ca-45c4-b501-1957a268d6c4",
-        "f7d31105-57d6-493d-a165-e15e012776f8": "f71f1cf7-997f-434c-b212-2db4b5c541ae",
-        "5e701a5f-1bf8-4c82-a457-4a68f1d9eada": "d1ff88ab-f14c-43ab-b6c0-da070bda5f65",
-        "29116436-08ae-4437-8bf4-30c9d5142572": "1e97fe76-fce6-4271-8abb-3c0d2b4c8427",
-        "44c19cf2-9cd1-48a3-9fe1-cc2ac3ee77df": "50e4188e-c5bb-4b72-afbd-570afa249fb6",
-        "60e762c2-15ac-4b96-bbb6-bd67c7a6043d": "9eea2359-0b72-4452-9ab9-0282c4d087f5",
-        "2c5f5ef7-92f1-437e-8f28-0f2ef5d54032": "21efbf5a-8864-434f-a19f-610a43393c48",
-        "930881fa-e544-4c80-90fe-dc054fb4cd23": "7223c590-2fe2-4e8d-a661-d076c04c9616",
-        "49426d97-1dde-4d8c-8d4d-d47e3a32d58f": "ef75c1fa-e48e-4433-b9f2-ee0cdac24725",
-        "f3ca2d71-a7b4-412f-8642-b6c965d5c70c": "a234d0bb-33e7-4436-8ac5-22505ac0c0b1",
-        "965a9da1-1273-42a6-9dd5-20bd1a7efba6": "b97bd1c4-cbe3-4464-aa58-823b2072f1ee",
-        "f97d5237-62f7-4586-93b6-02a98cb19f51": "dca088c7-586d-4ef2-a59c-535ae4b670ee",
-        "be2e0066-6d77-4bbb-ae62-672e5af381ab": "9f9c05c5-abd5-46d2-8cd5-caa4504bb4b8",
-        "106fa0d3-13f4-4756-b495-f2f65f1dbc58": "a709e913-2d8f-4f49-8eb9-0187a9cedf34",
-        "c94c7eb2-7eb9-4439-98a3-80b20c4d1326": "8abfd8ea-9205-469d-af8f-e54fdb42684e",
-        "5286e994-68f9-4f68-8661-b5d7dfebe9bf": "9a394d82-270c-4512-886b-24c6873ffe68",
-        "954c7679-077a-49ef-9a2e-ddf8b0d2ca9b": "9649f5fa-20e9-42ce-87cd-15cd41e1f512",
-        "78e45c59-9044-43b5-8b0b-3363c79dfd1d": "07ad6392-0b4a-4961-a8bd-d02f3ce9a20b",
-        "2d8870fc-868f-428f-a485-8ac4dcd826f6": "f499b274-a742-4215-bf0d-470f303e31d1",
-        "4ad2183f-2a6a-4329-8653-6eb5cda2e514": "959d3c2b-c2ca-42bd-828a-44ace38643e1",
-        "9f80d6aa-77e5-4dda-9a3c-ea25b6abbe23": "f4e45bae-4d7c-4d26-9500-5be574b65784",
-        "38600e88-74af-457d-a02b-4cf6a3557077": "9a3cb3a8-93e0-4dde-a519-628243699eae",
-        "82656a9d-cb32-4645-b6b9-e6afb8d04425": "cd308754-e6eb-4156-821c-80f6c685f957",
-        "e3358ed2-bfc6-4a7b-8bf3-99443b9e1f05": "0800735d-9915-4114-819a-bf74ed5fd163",
-        "e8c2e4b8-78e5-4228-8536-906832b2e6c4": "fa66fbe4-175a-4465-b27f-60c9bbdf4007",
-        "b812e9a8-e3d3-49fb-8e67-33d00e144ce0": "678fe730-cc04-43ef-a77c-45ff31cd7435",
-        "7b5b39a9-390b-44e1-871a-93e9b33fc3bc": "165101e7-934a-45ab-bf18-aa94bdaeeaf3",
-        "22b3f50b-383c-4a19-aaf7-81f8139b4be3": "70c10902-2f22-46e6-b86d-44da31a1c8f4",
-        "1ddcd11f-d872-4a05-bcfd-7f95ec988c09": "9d84dfab-6892-45f0-ac98-4cae53558e73",
-        "0794ad24-f2d3-4f5b-9040-52c576ab5128": "ecfb3c7e-311c-4ef2-b8ae-d5f68bdae2cb",
-        "e13cdc22-0686-45f5-a22e-a375dfeb352a": "f5c87684-28d1-4c55-9a3b-8a74182ef560",
-        "b38cec79-4052-4c76-9674-1659137c177e": "8bcdef62-3465-42f3-b10b-a6a1c93ccb56",
-        "36da5118-cc0e-46f1-8a64-9389a1c560c7": "777408f4-2bb4-4959-8cea-8d9b0d5cc0f4",
-        "2e4da31c-d856-4187-afa3-cae33d1d3644": "8c156288-9dd8-45a0-9109-8315c824c13f",
-        "b9f96225-9182-4b2a-af19-995cdf9853c8": "754bb713-a64a-4a12-8333-5103155fd211",
-        "6945459d-7f9d-477b-993c-f8fe50be2f00": "ea7beb70-18c4-419a-8b2b-3796d05cb34d",
-        "b19b8053-e3cf-4a7d-bf6a-937d1e1dfe34": "afcdf45b-32d4-4f9b-95d1-40659dabe728",
-        "f931cfb3-4f78-49b6-9116-337b024016bf": "c26f30e8-7b41-4857-9866-002e9cb266e6",
-        "791a3d32-d78f-413a-a3a9-dc43b2efd9b6": "fa0c5cf4-3a2b-4c7e-87a4-948ca78d06e4",
-        "ede5949c-128d-4273-8136-b1d4b86d54b0": "81fd234f-5a00-41bb-8fd4-910dabb203cf",
-        "bf3f7e8c-da37-4141-a144-800aaa8cd33b": "1a2d0d77-c1cf-4098-82d4-895a8150e188"
-      }
-    },
-    {
-      "__guid": "0fd99445-d799-4d75-9b7d-47d059daa841",
-      "__version": 2,
-      "__Prefab": "creatures/zombie_classic/zombie_classic.prefab",
-      "__PrefabInstancePatch": {
-        "AddedObjects": [],
-        "RemovedObjects": [],
-        "PropertyOverrides": [
-          {
-            "Target": {
-              "Type": "GameObject",
-              "IdValue": "004db47a-fa9f-4c14-be56-c4bdcf7e8491"
-            },
-            "Property": "Name",
-            "Value": "zombie_classic (2)"
-          },
-          {
-            "Target": {
-              "Type": "GameObject",
-              "IdValue": "004db47a-fa9f-4c14-be56-c4bdcf7e8491"
-            },
-            "Property": "Position",
-            "Value": "-1084.85901,679.128357,4.82296801"
-          },
-          {
-            "Target": {
-              "Type": "GameObject",
-              "IdValue": "004db47a-fa9f-4c14-be56-c4bdcf7e8491"
-            },
-            "Property": "Rotation",
-            "Value": "0,0,0,0.99999994"
-          },
-          {
-            "Target": {
-              "Type": "GameObject",
-              "IdValue": "30f25c9e-6b04-476e-be3d-351196bc26a0"
-            },
-            "Property": "Position",
-            "Value": "0,0,0"
-          },
-          {
-            "Target": {
-              "Type": "GameObject",
-              "IdValue": "78e45c59-9044-43b5-8b0b-3363c79dfd1d"
-            },
-            "Property": "Position",
-            "Value": "0,0,0"
-          },
-          {
-            "Target": {
-              "Type": "GameObject",
-              "IdValue": "7b5b39a9-390b-44e1-871a-93e9b33fc3bc"
-            },
-            "Property": "Position",
-            "Value": "0,0,0"
-          }
-        ],
-        "MovedObjects": []
-      },
-      "__PrefabIdToInstanceId": {
-        "004db47a-fa9f-4c14-be56-c4bdcf7e8491": "0fd99445-d799-4d75-9b7d-47d059daa841",
-        "e8b735ae-13dc-48f1-b65c-f0bfa95c2165": "087f5654-97e4-4661-97a8-16fc7a153e9a",
-        "8a168628-201c-4fe4-82b3-46ed54a0dcb8": "720b0a5c-8da3-4745-b303-6cd81e96401b",
-        "16e8f78c-7179-4090-a40c-d88d1b029647": "e427d34c-d895-412b-b74d-d9e4f92e886b",
-        "608b261b-3001-4833-882b-7787f48313db": "0347121a-fc2e-4917-a8ad-d0987875e769",
-        "adb22ffd-3fad-485b-9a5e-0bd406d0f895": "e20cab5d-c863-4383-97a3-aebfb727fc80",
-        "272375e1-1ac4-401e-88d6-3e3c91dd6517": "9bc18624-216b-4ab0-b00a-7f9931b06dce",
-        "0c61b535-8712-4e2f-aa88-189f60683fd5": "b1d1ef0b-bd1f-45ca-8821-bb72b8079df8",
-        "9effae08-81f8-46dd-a92a-2d41d40a11b4": "a4333635-9a0c-4eb7-94c5-950ba38b640e",
-        "86d1a3c8-feb6-4c32-9d7a-bd8650b4d5df": "668e84a6-f69f-4eb6-ae95-3d657bcbb43a",
-        "029ea075-4cef-416c-8346-ad9616160c1e": "2b19cf7b-9665-43c4-a664-95e86dad2c8d",
-        "b5c674ad-c6c4-4e5e-894a-571154d16c55": "65601327-5b9d-4ac1-8a29-efc248a2d324",
-        "4c09827d-ebb3-461a-a0c9-dae06abf7420": "955862b5-26a2-4249-8738-0cb08cbbd957",
-        "cd2326ed-0b49-4fc2-b6c6-f61437e4181e": "6482594a-9ac0-41d8-97d8-e768281769f9",
-        "16e99edf-f7a2-4cab-b86f-5dd9265ea543": "4afbb76a-5a58-4e6d-89e9-f2094f66d69d",
-        "59d564ba-739c-4a55-874d-59ced86a51d7": "339f1ba2-17f9-4aa4-8056-3c5a8f2431d6",
-        "60dfe226-1839-4eec-996c-062df92fc9d0": "ebfb0962-a97e-4d2f-ae25-511b132a9380",
-        "26af2364-db9a-4389-9fa6-0f7f9b1eaced": "920ba431-6aa1-405f-a7c6-87369f2e3987",
-        "4d411ee9-8a25-4e33-af58-2283d08d41d6": "f51d3915-ac4a-4748-9ebe-683f8bc6ad95",
-        "48a4ddba-305f-4f62-a973-080fc014bd7d": "768d0dc3-6107-4f0b-a664-c338d1a06eec",
-        "e4c2a811-cb37-450e-a60a-993c3330d645": "3fdaecdd-5795-44e8-8337-a286328b0f85",
-        "0edb0443-0ed2-4a90-b5fc-f348cfb1b310": "870663fa-dc46-4b34-b300-b08052f99d33",
-        "9c52daab-a048-4ada-b44a-94a1e5646fc3": "4aa20bc5-dc67-4a2a-8e6b-accc0c60c1ec",
-        "c9f378a1-f95f-42af-a48b-dff93f5de281": "5a0e768f-3200-42d0-beed-663866e62618",
-        "0985c4d2-bec3-46c6-a1cf-0de1768579db": "f3bf78e5-335e-43ac-a644-0e1ce6b436a9",
-        "50e65cfe-6438-4ef5-ad98-04b81fbafe79": "0c488b77-7d69-4f2c-af6d-92be07b77323",
-        "318ba375-3f06-454e-9b04-098a63915859": "74e4fbd9-efe2-4610-8e91-1e5fdd32fa1a",
-        "bd67b0a8-a6d3-4754-bf59-3049221415f5": "76500c23-4dcd-42b3-9022-34e8e5a89d79",
-        "cb00a216-27d7-48ff-935c-a8beb7f51a29": "5fa50d16-0f57-465a-9646-affb1d2a3782",
-        "2231d358-8cda-4065-9c0b-19bfb3c293f8": "f3c02963-2265-4768-bc29-d0bcd3b4719b",
-        "ceedb06d-2dc5-486b-9a94-980af4e070d1": "c9601650-4ee4-442f-a699-c70b00e5db2c",
-        "432c3c8a-70ac-4953-be13-5cc248bf17d2": "0aa331b9-1ded-42ac-a455-55f1a69090ed",
-        "653e9f07-147a-4c71-899d-ce6645fe6228": "378ce6af-4f5b-44d9-96e9-f18b1feffe59",
-        "00e71f1e-ea75-4ef3-ae86-7fc3f62a80d7": "a6507d0e-93bf-455c-b5ef-caa8d3cae777",
-        "76f412dc-78fb-4513-9ff9-d8b396dde02d": "9e68b201-d336-4f46-925e-08bca512d6d1",
-        "8dad3acf-1b83-48dd-9b97-1016a15d2943": "b3b9d2a3-1ebf-4229-a346-43f4ce85fdce",
-        "0ecc28f9-9a0a-4c97-837b-a9b70311be02": "caa83e01-5bb6-4992-b0a2-9852e3a1bd1f",
-        "fd5fc6a8-5f5d-4f0b-a599-f3191820ee05": "bd094e85-9a76-42ed-ab5e-274e8f0f886c",
-        "6892768f-f7e8-4554-b0d8-351a0b0e682f": "2dd8d7a0-13ca-42b7-af16-1cb1622cd343",
-        "2c48bb5d-269b-4424-a605-c4c5505668d7": "3880ad1d-be95-44e8-bbd4-00e995b392eb",
-        "37e1c5c9-1545-4bca-9388-6787dcccc489": "fa0c080c-5472-44c8-89ac-c3e33dafeebc",
-        "cc61b97e-04c3-4ab7-9579-bc077d2a0c3b": "b596dc23-0ea9-4195-b4d0-1ae84a4942d1",
-        "2849e6e2-d4fe-4a12-8703-7fde63645cac": "627ec7d0-8ca6-470c-8309-3dcfadddc1f9",
-        "36deb752-76f0-456b-9aae-6da2079373be": "45b6b5f1-11f9-4bf9-a45c-c24112eab69a",
-        "27c0ebf4-72df-4630-82b9-fad1cea79cda": "f7b9e5ae-aff6-4620-9627-b93e98c8adaf",
-        "30948579-5274-45a6-b676-e98e51a6efa3": "f54be2a4-57b1-4014-a8cc-68deaaaa7481",
-        "88f9447c-92b9-477d-8934-e48636158885": "732b8a02-4379-4a6d-943a-2abb0dc775fb",
-        "af451e0c-1802-4220-8bef-c5b261e0c651": "625ef74e-d6c5-4859-9496-f52ba869a32e",
-        "05bde6c2-edcf-4e8e-8a1e-488840cc4116": "6883c0d8-7d3f-420e-bda0-9afa9e3e1762",
-        "93abd840-760a-4a29-90a1-95e41b8158ab": "9cac9774-fe8a-4b6f-a5a7-6e2e62b74c4f",
-        "f521bc94-8821-46e2-9eef-2414d4cdc564": "5790b7b9-b678-4d08-b9bd-bf988609a68a",
-        "008baacd-0787-4e83-a1c5-9add21791e0a": "00b7f6fc-f207-4dfc-a068-daf1a2c79a0e",
-        "cf2e027c-2bfe-41b6-bb41-0adba85bb5ef": "db14b89f-375a-4d5b-945e-c2c411060d7a",
-        "2dc3bf16-503e-4338-b176-663adfd0412b": "25d4df26-faf3-4f0c-af83-2eb17af3fa69",
-        "395601c2-5b0e-40bd-a384-f6f41ee14f1a": "981772f5-8387-4abc-87ef-bf3fe863d3f1",
-        "a043f1fe-363b-4a6b-8268-89c219bea66b": "58226d2d-4326-417a-911b-99b9615a1df3",
-        "7ad7a993-a151-496c-9d77-e2336746b141": "acd3db5c-4cb8-408c-9646-272cab80c0f4",
-        "5920e825-ef87-40d1-a730-43b10b928650": "185057e4-5a9a-4be1-ac2a-0a4a6ab9ba28",
-        "acfd3374-710c-4b86-8b4a-8903de5c9101": "f4153941-8da4-4508-b833-b9991f77346b",
-        "d7227273-5dd2-417d-b2f6-f4f1f5ba6443": "ad64c49e-447c-40c5-847b-e59ba909ccdf",
-        "2967fc9c-6c6f-4c52-956a-5328c40640c9": "eb47cff7-a200-4130-94b4-dcc26f72a91c",
-        "a58ac046-878d-4702-b000-1981dee08f9f": "da75ff3a-2e1c-4725-acee-060c49a20027",
-        "8677ab83-759e-40a1-9f63-662054843d8c": "0ced1e71-ae05-405b-8c41-19b5f27659c1",
-        "9e64312e-1f1d-41ea-937f-533f3557cb26": "3776042d-ec41-47c3-b06d-76d0d98a408a",
-        "608a9031-9416-4eff-bb1f-66d2ce212dce": "c7c5270a-13df-4932-b35f-53de68fae150",
-        "2e3ec7d4-76a9-4ce7-a583-58141721844b": "25c96a62-c0a1-43b1-b8fe-d09e30b90580",
-        "8c9da018-34cd-4f11-8338-463cd1fac1ed": "a890d0f2-5d67-4664-9631-3645e7f7ec40",
-        "886b9345-0761-408a-bde8-a4f4ef50ceb9": "31b57b71-6580-41cd-bf63-62be736c23bf",
-        "9de09b4b-241e-4d1a-a551-f2ca71b58bd4": "26001f3b-90b4-4941-bea8-589892a5716f",
-        "11a912b6-5ffa-40dc-be10-e3e2c95aa6ad": "8bcda929-6f82-42d6-b918-d42a9cc13a12",
-        "23994def-8f0c-4551-9492-7edca7d3c14a": "a7c6ba8e-9a7a-45e2-8f1e-053d91b10c73",
-        "f83e74a7-1007-49eb-8b34-c9012d3ff05b": "8e95b61a-fd63-442a-8acb-d69a981e7be5",
-        "e5d8c0a2-9b55-45c8-be63-bf00a2f1bdf4": "cce7fe64-33c1-4489-8e7f-59e420b421d8",
-        "d54625c9-a70d-468c-9517-d55f7d43406c": "5bfb046f-84ab-41a7-be94-1f6fac2d3eb4",
-        "27d1b168-ccf1-4219-8308-3d0f0df9c8a8": "44f22b2a-9788-4b68-b0bf-1e4b3d517b67",
-        "5c2f94b4-40ed-4000-b743-e0fc559ec37d": "7d5271f3-37e6-4c36-bf91-b622384fb697",
-        "3a6219f7-0608-44cd-ab95-7b39f721d0e2": "263a36b9-3648-4e26-a286-94e354ed7995",
-        "8e45d639-5247-4bf9-8040-78657bb1a4ac": "1b40a30a-a578-4b02-98ac-b4c96c2e996c",
-        "3837ce32-ce9c-471a-af7c-df1da037baf2": "bb9ed2a7-fcd5-46ce-9b52-d2d3346c2abb",
-        "2541c214-7e6e-4575-b43b-abc2ca311e00": "f56a8c46-cc4c-44ed-812e-718f882f21b7",
-        "5240005d-ed85-4142-ae93-7a16de305c5f": "925fa2bd-ff47-43c5-987a-70c24e73a1df",
-        "64420ff3-fab9-4948-b1e2-b3661ef0dc51": "9c38eb27-104d-4266-ad01-6ccbbaec1833",
-        "8984928e-b9ab-4bdf-9c52-7790da2d318c": "f1e410f5-7b69-42f7-bb35-239db821d31d",
-        "d33fd5e4-aba7-404e-9edb-763a66cba6f6": "f5dfb263-8c77-4c52-b0f9-513a72ba0c6a",
-        "a5bc42c5-fb80-4e15-81a0-4526ecb5f056": "f0268117-674c-4b75-a0e1-42e86d7d529d",
-        "d984c9d5-d135-4376-92c8-64f560049ec6": "89a61f26-e382-41c9-8d49-1cc08d7e3ab8",
-        "9cf95308-074d-42f0-abc4-2526fc8fcd34": "ae05d642-50cb-4b4e-998e-d44fe3cb6bb7",
-        "3c229608-0d07-4307-93cf-f3efc7dd73e9": "8b6646e9-c50e-42d1-a6e9-c37eb6c79e46",
-        "27c6b7ba-c4e5-4842-a9dc-a80a3896a473": "b179c11a-8535-415d-a1e2-65b0b00b2ff2",
-        "f5f9d477-61ee-42b6-9058-b350bc608d80": "45341c02-b203-4c17-8add-6abca5a8d6d4",
-        "40d8516d-0f84-46af-a851-225f293b7a01": "3ae215f8-c5c7-4e3b-9d62-761a38718607",
-        "d7a9a5cf-c99b-4739-9ead-1551de3daf90": "30c03b92-ab27-4350-98e2-b1de59d7a459",
-        "92b11536-3110-4bfa-8b6f-c8fd71299ea3": "630089e1-8500-4b2f-989e-21751a80059f",
-        "1ab61de4-6fd7-4438-adb9-7cfad80a245b": "482c096d-bd4f-4cca-9dc4-ccc8330660fb",
-        "2b9cf162-aa3a-4120-8d56-b4747eb3c1fa": "d7b23523-30b5-4ef1-bb3a-3b18a6e45ce3",
-        "8c2c253e-de83-46a9-8866-12dd3ec08700": "aa6ba9db-5a0e-4e45-91cf-17650f7ee1c7",
-        "4532d0e4-6e2e-4637-ae48-64e720238fcf": "26a10dd0-b240-4305-b8d1-483e66453017",
-        "c19be5da-fbb4-43e9-969e-55a46978c8dc": "296dbbe6-1928-498f-8db6-aa9087790c21",
-        "65044dbe-54a0-44d1-8239-54062c195312": "b1f9ae70-5e8a-475a-a81b-93db6b5f5ef6",
-        "c6fbdc08-8c3b-45f6-b402-0e2ff61210d6": "5106ccfb-ded5-491f-b7d7-09eeb4efc235",
-        "41facc0c-a746-4e64-8de9-a5b91cd0563a": "c7e39b96-ab4c-4f46-ba8d-1ba460cf7448",
-        "c2d95cd0-a03d-48c1-ac60-c0935a7bc85b": "99521687-eb38-4e81-8860-3507e35f4fd6",
-        "d259d3f1-2c3a-4deb-af11-4370daa6bfaf": "fa963464-7323-47a5-aab6-2d7362b425f6",
-        "25c73e22-0399-40cc-afea-a75d7737bc0c": "2f8ed9f6-f1fa-4be2-8087-a9b9dcea644e",
-        "81ec25d2-4a20-47f2-a184-6e4d5bfbf46e": "6ab13597-639f-4ec0-a4ab-9e58ebd7ce15",
-        "3835ac5d-aee5-47a9-b837-8b10b81540e0": "21a8d91c-1052-4de1-b0d4-1ae82bcafa3c",
-        "5a909d0b-d0f9-4e80-b960-53136011c0a1": "94a2ca05-0cb3-483a-9686-1c3a3e6b7415",
-        "8ade44f7-24af-49af-a4ac-f6d8ccb452a2": "c2600601-3d0a-4a94-bb18-3b9d9e4b0929",
-        "4494bd01-6bc1-464b-b22e-28688b28af22": "ab56c705-25ab-409b-a106-a4b71388f29f",
-        "a2c31ff0-6247-4bc5-89c5-a1cfda76ce99": "dd1589ae-b5d8-4b2a-92ef-85f4cba6ae75",
-        "7cc0c081-4b25-4d03-baae-1e82cf06806d": "5d2bcc26-c1d4-4a08-9de7-b3a2f4a48bac",
-        "7da0f84f-ba16-4fda-9601-a7fc2ff0e454": "415dde3f-7b25-47e4-b1bc-ddd5c96fd50b",
-        "e1b9e7e9-88aa-419d-b753-a8e50316ebbc": "83820842-1796-4131-be5f-e1b09368356d",
-        "995e84fd-4342-4c00-966c-aeedfc01e64e": "5a951595-c1a4-467f-bb56-a93f6f5d31d4",
-        "519df53b-571f-4088-a78d-ab8f00122d3b": "16e6fb82-ef1b-4cd5-8378-70dd211ced79",
-        "892928e9-f3c9-49cf-bcd8-a06f4e41cb1b": "6ae75a9e-75c2-4294-861a-650cfa18f646",
-        "971576fb-ff6f-4a62-8615-0ac2a6238373": "b25509d2-7f0e-4558-a9f7-cfad74ae7372",
-        "30f25c9e-6b04-476e-be3d-351196bc26a0": "28e70b77-532f-4f76-8782-78698cb77e42",
-        "9c048289-b9df-49c0-84fb-43f4718f81f3": "892dea34-5fa7-47d3-ae0d-4d601820a8f5",
-        "9065c804-ce44-4116-bb18-73072ccba59a": "9c0be73b-1ca9-46b4-af49-9d285f98c6f3",
-        "e6a2f25b-cba5-4dfb-870d-4088ffc13c78": "cd57644b-942a-4d60-a55a-8f207c090e6b",
-        "63546057-cef5-431a-88ce-f342a30b7154": "c4d04680-f655-455d-bd72-4d7456ed35f8",
-        "ad00b1d8-cf5b-4872-9f70-f7d5b93b7020": "adc4b09f-9165-487b-9a29-8b6451c8e509",
-        "4d682924-f645-4cc8-8f55-daf784cefe10": "7f232b89-6906-4ac1-88d4-b6dc8d54ce1c",
-        "bcd42ab9-a42f-4872-9cc9-2fb84aca8990": "93e43a47-b292-45fb-9b8d-1e818fac3f2f",
-        "5662f449-aec9-4adf-b244-8d43521d48a2": "3f3da3bb-1a4c-4339-8980-099431c10dd5",
-        "bef26033-02ac-4b4b-a359-d5838b3652ce": "e98a1c1d-260c-4a2e-8dde-1b9979f0bba5",
-        "693be9cb-39de-4abe-96ea-67ea6fc0034b": "7f920a7d-16f0-41dc-af44-07af31e8cb8b",
-        "f1625667-d95b-4e87-b075-3b8ea82980e1": "1194c8bf-a64a-4638-b3ee-dd96454afb86",
-        "f6f22aa7-1d4e-4c3f-b89a-1fc6ef71f3ce": "7c4da3b2-ce58-47c7-b1c4-a5fa0fc9ee01",
-        "afd4e481-3b9e-4ce5-b358-7e7089725d5b": "886f5e4d-7b4d-4d23-ae3c-7523f69b6367",
-        "beeb2b19-0426-4616-8594-c796f0d146cf": "6be8dad8-0115-4795-a98d-15a3329f8c34",
-        "66020797-d40b-4f53-a091-75c62b903928": "e32b76bb-ca46-448f-a5c1-471f8fe07be1",
-        "ca12d12a-ff38-4503-aaa6-983a2c08f8d0": "0f1d3e03-4e98-4616-9624-e2deb327224b",
-        "6721e749-febb-4ba3-9afb-621b6a8c4535": "c20db439-e878-4f16-8581-4a6a361e8d30",
-        "f7d31105-57d6-493d-a165-e15e012776f8": "6a1742ec-c5b0-41ab-89f2-d88e9cb567ab",
-        "5e701a5f-1bf8-4c82-a457-4a68f1d9eada": "1bba344c-561d-4282-a737-145ed306c659",
-        "29116436-08ae-4437-8bf4-30c9d5142572": "c520ccc3-261c-46db-a697-72b067c3df56",
-        "44c19cf2-9cd1-48a3-9fe1-cc2ac3ee77df": "8c50c7b1-da1b-4f06-8a92-044eae7dc8a8",
-        "60e762c2-15ac-4b96-bbb6-bd67c7a6043d": "caeeac85-1826-4e0b-9099-3188558dd13e",
-        "2c5f5ef7-92f1-437e-8f28-0f2ef5d54032": "179b93ea-5506-47dd-a17b-a777dd5ccfe8",
-        "930881fa-e544-4c80-90fe-dc054fb4cd23": "2194c9cf-ed30-40db-833a-a01cbe4cb889",
-        "49426d97-1dde-4d8c-8d4d-d47e3a32d58f": "4c26550a-60f7-430b-a2ee-1519ed343041",
-        "f3ca2d71-a7b4-412f-8642-b6c965d5c70c": "3127459b-218f-49f5-86ed-80bbf66d2e4e",
-        "965a9da1-1273-42a6-9dd5-20bd1a7efba6": "13a3d22f-29a7-46e9-9b17-168fce249b2e",
-        "f97d5237-62f7-4586-93b6-02a98cb19f51": "73c738fb-19ea-46ec-a0ca-9d580693fa61",
-        "be2e0066-6d77-4bbb-ae62-672e5af381ab": "03864fdb-6a6a-48c2-bda2-c062f75f738a",
-        "106fa0d3-13f4-4756-b495-f2f65f1dbc58": "10cdb2ac-2dad-47d9-a04d-5ad24314a456",
-        "c94c7eb2-7eb9-4439-98a3-80b20c4d1326": "380375ac-3402-4257-8530-a2ff28d14b08",
-        "5286e994-68f9-4f68-8661-b5d7dfebe9bf": "3dc396a2-474e-4fea-a3d5-30c2bb80d580",
-        "954c7679-077a-49ef-9a2e-ddf8b0d2ca9b": "1220d64d-a253-4b4b-a165-db92a082214e",
-        "78e45c59-9044-43b5-8b0b-3363c79dfd1d": "ddcc16e0-c10f-4e13-a856-33005dda7061",
-        "2d8870fc-868f-428f-a485-8ac4dcd826f6": "4332e251-9635-41e1-b8a7-13649c88ab45",
-        "4ad2183f-2a6a-4329-8653-6eb5cda2e514": "2ddca174-ba80-45d6-bdef-a922d3018d09",
-        "9f80d6aa-77e5-4dda-9a3c-ea25b6abbe23": "ee1db6ee-4375-439e-acde-c290e2baabba",
-        "38600e88-74af-457d-a02b-4cf6a3557077": "7b8a12a7-54ac-4c32-b897-c2ccb5d859f3",
-        "82656a9d-cb32-4645-b6b9-e6afb8d04425": "7afd70fe-096f-4b6e-9dd6-442be0a4fb09",
-        "e3358ed2-bfc6-4a7b-8bf3-99443b9e1f05": "081ac6d6-408a-45c4-bd61-e8c2845d2694",
-        "e8c2e4b8-78e5-4228-8536-906832b2e6c4": "1ca70e8f-2655-4730-9e37-80f4e548359d",
-        "b812e9a8-e3d3-49fb-8e67-33d00e144ce0": "9758d460-4195-46ae-b885-905a58d4b3b5",
-        "7b5b39a9-390b-44e1-871a-93e9b33fc3bc": "0155c82c-d15f-4d4e-ae13-3c72720e4497",
-        "22b3f50b-383c-4a19-aaf7-81f8139b4be3": "4b75dcd3-6488-40b6-a1e8-c79a047dee0f",
-        "1ddcd11f-d872-4a05-bcfd-7f95ec988c09": "a197cd75-e19a-4a67-baf7-322b2ba50592",
-        "0794ad24-f2d3-4f5b-9040-52c576ab5128": "edd8e219-ef30-4ff1-85cd-6980e02afc59",
-        "e13cdc22-0686-45f5-a22e-a375dfeb352a": "3e7b5d4f-e4a4-499f-bab1-3f7767be57a1",
-        "b38cec79-4052-4c76-9674-1659137c177e": "76f107bc-8a5d-4f56-b998-643a0c7ec989",
-        "36da5118-cc0e-46f1-8a64-9389a1c560c7": "3a476a08-9f78-4244-8423-cba7d1628933",
-        "2e4da31c-d856-4187-afa3-cae33d1d3644": "7bf2cbf9-3ac7-4d6b-a8d6-81e2a3fa5763",
-        "b9f96225-9182-4b2a-af19-995cdf9853c8": "cb4e281c-0372-44cf-afbe-b0b3d9c0c7a9",
-        "6945459d-7f9d-477b-993c-f8fe50be2f00": "e46ed963-3047-4de1-9036-ff30fc9c36fc",
-        "b19b8053-e3cf-4a7d-bf6a-937d1e1dfe34": "f1670718-ce70-461e-9298-f73e3412c8fc",
-        "f931cfb3-4f78-49b6-9116-337b024016bf": "7e547ca1-e58e-419b-8b55-f95c048f1dd6",
-        "791a3d32-d78f-413a-a3a9-dc43b2efd9b6": "d7d74d93-e1d1-47bd-b982-e83a13b7f88b",
-        "ede5949c-128d-4273-8136-b1d4b86d54b0": "b8519907-3faa-4688-b941-5f845651645c",
-        "bf3f7e8c-da37-4141-a144-800aaa8cd33b": "876aaee8-d3cd-483a-abf9-a75783acec0c"
-      }
+          "RenderType": "On",
+          "Tint": "1,1,1,1"
+        },
+        {
+          "__type": "Sandbox.BoxCollider",
+          "__guid": "90ac2955-4030-4fc2-be06-d27009ff0c39",
+          "__enabled": true,
+          "Flags": 0,
+          "Center": "0,0,0",
+          "ColliderFlags": 0,
+          "Elasticity": null,
+          "Friction": null,
+          "IsTrigger": false,
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
+          "OnObjectTriggerEnter": null,
+          "OnObjectTriggerExit": null,
+          "OnTriggerEnter": null,
+          "OnTriggerExit": null,
+          "RollingResistance": null,
+          "Scale": "50,50,50",
+          "Static": true,
+          "Surface": null,
+          "SurfaceVelocity": "0,0,0"
+        }
+      ],
+      "Children": []
     },
     {
       "__guid": "e9d89c66-ad2d-4b43-954d-2ad8ed1dd0c1",
       "__version": 2,
       "Flags": 0,
       "Name": "NavLink",
-      "Position": "-959.063416,425.248962,28",
+      "Position": "-931.252441,426.417358,27.7886887",
       "Rotation": "0,0,0,1",
       "Scale": "1,1,1",
       "Tags": "",
@@ -2137,7 +1321,7 @@
       "__version": 2,
       "Flags": 0,
       "Name": "NavLink (4)",
-      "Position": "-1121.64429,350.034912,27.9999619",
+      "Position": "-1093.8335,351.203308,27.7886276",
       "Rotation": "0,0,-0.793352723,0.608762085",
       "Scale": "1,1,1",
       "Tags": "",
@@ -2167,10 +1351,1319 @@
         }
       ],
       "Children": []
+    },
+    {
+      "__guid": "ac743301-21d6-4c0a-bf46-f445673c9fe6",
+      "__version": 2,
+      "__Prefab": {
+        "Id": "8fc86815-97d2-4421-a163-21082604126c",
+        "Path": "creatures/zombie_classic/zombie_classic.prefab"
+      },
+      "__PrefabInstancePatch": {
+        "AddedObjects": [],
+        "RemovedObjects": [],
+        "PropertyOverrides": [
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "004db47a-fa9f-4c14-be56-c4bdcf7e8491"
+            },
+            "Property": "Position",
+            "Value": "2142.16455,2328.03857,48.9912186"
+          },
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "004db47a-fa9f-4c14-be56-c4bdcf7e8491"
+            },
+            "Property": "Rotation",
+            "Value": "0,0,-0.991444826,0.130526245"
+          },
+          {
+            "Target": {
+              "Type": "Component",
+              "IdValue": "86d1a3c8-feb6-4c32-9d7a-bd8650b4d5df"
+            },
+            "Property": "Parameters",
+            "Value": {
+              "bools": {
+                "ik.hand_left.enabled": false,
+                "ik.hand_right.enabled": false,
+                "ik.foot_left.enabled": false,
+                "ik.foot_right.enabled": false
+              }
+            }
+          },
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "30f25c9e-6b04-476e-be3d-351196bc26a0"
+            },
+            "Property": "Position",
+            "Value": "0,0,0"
+          },
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "78e45c59-9044-43b5-8b0b-3363c79dfd1d"
+            },
+            "Property": "Position",
+            "Value": "0,0,0"
+          },
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "7b5b39a9-390b-44e1-871a-93e9b33fc3bc"
+            },
+            "Property": "Position",
+            "Value": "0,0,0"
+          }
+        ],
+        "MovedObjects": []
+      },
+      "__PrefabIdToInstanceId": {
+        "004db47a-fa9f-4c14-be56-c4bdcf7e8491": "ac743301-21d6-4c0a-bf46-f445673c9fe6",
+        "9effae08-81f8-46dd-a92a-2d41d40a11b4": "4ff44e08-dc01-4d50-a682-5c86a68ded23",
+        "cd2326ed-0b49-4fc2-b6c6-f61437e4181e": "3b79b2cc-d785-412b-9c7e-d0f11a746697",
+        "16e99edf-f7a2-4cab-b86f-5dd9265ea543": "1db341b4-b37e-4c02-817e-cb4d33b32ea0",
+        "59d564ba-739c-4a55-874d-59ced86a51d7": "558683c0-60e7-4503-89ac-d27be2edf3ea",
+        "60dfe226-1839-4eec-996c-062df92fc9d0": "66419d96-644f-4318-bfd1-0e858fc5532e",
+        "26af2364-db9a-4389-9fa6-0f7f9b1eaced": "9de65960-9273-4ca4-864d-dd34893ffc90",
+        "4d411ee9-8a25-4e33-af58-2283d08d41d6": "d793137d-59bc-444f-acb4-a4015d035152",
+        "48a4ddba-305f-4f62-a973-080fc014bd7d": "c29d6364-808e-49b2-9485-b9f41db8a307",
+        "e4c2a811-cb37-450e-a60a-993c3330d645": "5d353147-3e92-49bc-8083-e63b0c327456",
+        "0edb0443-0ed2-4a90-b5fc-f348cfb1b310": "58b94dd8-0342-4cf9-8285-2cfbba7f82d3",
+        "9c52daab-a048-4ada-b44a-94a1e5646fc3": "04a60679-ce22-46cb-aba7-b2871bf6e4c1",
+        "c9f378a1-f95f-42af-a48b-dff93f5de281": "e7521b7f-4f44-4bcc-bdd4-d92071412dd8",
+        "0985c4d2-bec3-46c6-a1cf-0de1768579db": "30107a7d-f6d5-4271-91d8-eb45eaea0b3c",
+        "50e65cfe-6438-4ef5-ad98-04b81fbafe79": "17469eb1-307e-4e1e-9a7e-e20970f8f11b",
+        "318ba375-3f06-454e-9b04-098a63915859": "fd600b52-3248-4780-9c47-f446824edd76",
+        "bd67b0a8-a6d3-4754-bf59-3049221415f5": "54cf3953-130b-4382-8748-475f198af4b8",
+        "cb00a216-27d7-48ff-935c-a8beb7f51a29": "f47be6ff-82e3-472e-9834-11d9359c3a1b",
+        "2231d358-8cda-4065-9c0b-19bfb3c293f8": "a09104dd-2668-4dba-885d-aff8e4912d16",
+        "ceedb06d-2dc5-486b-9a94-980af4e070d1": "ce453e4e-9668-458c-9bc1-845b96f03ddc",
+        "432c3c8a-70ac-4953-be13-5cc248bf17d2": "3589811e-c790-4f30-9756-9e8a04c4e165",
+        "653e9f07-147a-4c71-899d-ce6645fe6228": "1e796590-d73f-4146-877e-296a07e1607e",
+        "00e71f1e-ea75-4ef3-ae86-7fc3f62a80d7": "1a1c2582-a0a8-4fbf-b741-2543814d62c2",
+        "76f412dc-78fb-4513-9ff9-d8b396dde02d": "50a7d98c-492c-4e34-9b12-ae42b12e2305",
+        "8dad3acf-1b83-48dd-9b97-1016a15d2943": "9a51f133-a978-4a7b-951d-93cf5a16da05",
+        "0ecc28f9-9a0a-4c97-837b-a9b70311be02": "cb7c0949-381c-420c-b2fb-6d38e5f55665",
+        "fd5fc6a8-5f5d-4f0b-a599-f3191820ee05": "9b5e3e68-9d48-4d60-8f91-6be25c605e1d",
+        "6892768f-f7e8-4554-b0d8-351a0b0e682f": "25b0feea-b0d0-4162-8619-374a9f827d78",
+        "2c48bb5d-269b-4424-a605-c4c5505668d7": "ea5f4d99-3378-4525-aeaf-9024a4c85643",
+        "37e1c5c9-1545-4bca-9388-6787dcccc489": "9d444a6f-02b8-47c4-bac7-b6d867c9cba7",
+        "cc61b97e-04c3-4ab7-9579-bc077d2a0c3b": "41402040-ac0d-4348-8c36-d20a31d12572",
+        "2849e6e2-d4fe-4a12-8703-7fde63645cac": "0324e819-7a9f-4b1c-b827-83173759877e",
+        "36deb752-76f0-456b-9aae-6da2079373be": "31c72034-55a0-4675-b7e6-b92c00381b85",
+        "27c0ebf4-72df-4630-82b9-fad1cea79cda": "ae8ddf55-27f0-4d91-90c9-536a835655d8",
+        "30948579-5274-45a6-b676-e98e51a6efa3": "e6b636db-7f93-4fdd-bedd-da9619701994",
+        "88f9447c-92b9-477d-8934-e48636158885": "615b8058-a2f6-4e5f-af7c-68f68b2b0e38",
+        "af451e0c-1802-4220-8bef-c5b261e0c651": "a59359e7-1942-4e60-a755-ba0cb9e16a8c",
+        "05bde6c2-edcf-4e8e-8a1e-488840cc4116": "a041bb42-e17d-4f76-9719-42d7bae891b4",
+        "93abd840-760a-4a29-90a1-95e41b8158ab": "8d0b97d3-78df-425c-810b-3043c2727369",
+        "f521bc94-8821-46e2-9eef-2414d4cdc564": "551ab26b-2194-4dbb-a088-171a9f6adcd1",
+        "008baacd-0787-4e83-a1c5-9add21791e0a": "afcd7487-d047-4fb4-8bf5-b36a1b1279ee",
+        "cf2e027c-2bfe-41b6-bb41-0adba85bb5ef": "f8b3a06b-2079-409f-bc9d-4f3c68afa906",
+        "2dc3bf16-503e-4338-b176-663adfd0412b": "334110de-4817-411c-8cb3-d84f5755c530",
+        "395601c2-5b0e-40bd-a384-f6f41ee14f1a": "21453a67-0e3c-4311-9238-91065360d706",
+        "a043f1fe-363b-4a6b-8268-89c219bea66b": "5f09c606-b3b0-4721-bfc4-8b0faef3231b",
+        "7ad7a993-a151-496c-9d77-e2336746b141": "9748b1fc-d946-4617-b47d-68896e741d77",
+        "5920e825-ef87-40d1-a730-43b10b928650": "a798b6f4-9929-4161-b0fc-17cb2731df3c",
+        "acfd3374-710c-4b86-8b4a-8903de5c9101": "90d94d5b-9bb2-4230-8274-ef27f66b3790",
+        "d7227273-5dd2-417d-b2f6-f4f1f5ba6443": "3219a497-583d-425c-9f2f-ba3ffc68422d",
+        "2967fc9c-6c6f-4c52-956a-5328c40640c9": "80cfbc24-ecb7-4ea8-ac7c-96a7d152010f",
+        "a58ac046-878d-4702-b000-1981dee08f9f": "cd011b81-3897-4193-86f6-62970d6a9f6c",
+        "8677ab83-759e-40a1-9f63-662054843d8c": "d7cc1fa5-934e-49b5-b97b-060253835a1c",
+        "9e64312e-1f1d-41ea-937f-533f3557cb26": "d21f1866-9b9f-4757-a1d3-e5eb47736b15",
+        "608a9031-9416-4eff-bb1f-66d2ce212dce": "baa56a1f-ee7a-48f7-baa4-4df1207f4946",
+        "2e3ec7d4-76a9-4ce7-a583-58141721844b": "805ab9cc-5324-4159-9ac7-3cbba34e6460",
+        "8c9da018-34cd-4f11-8338-463cd1fac1ed": "7a48ffc5-9168-4798-b467-1c381f7ee264",
+        "886b9345-0761-408a-bde8-a4f4ef50ceb9": "531a651d-35b8-4109-ac9d-ddf4b06d9dbb",
+        "9de09b4b-241e-4d1a-a551-f2ca71b58bd4": "e92d0c65-7a45-46c5-8072-c283bd357a53",
+        "11a912b6-5ffa-40dc-be10-e3e2c95aa6ad": "8b8cab41-471d-4c4e-a757-3f262793b5b1",
+        "23994def-8f0c-4551-9492-7edca7d3c14a": "72512d78-044f-4df7-b272-4db7ddd14b37",
+        "f83e74a7-1007-49eb-8b34-c9012d3ff05b": "175ede10-7573-427e-a301-b3a1a89589bc",
+        "e5d8c0a2-9b55-45c8-be63-bf00a2f1bdf4": "40f25dde-6b9c-424f-a6e1-3a08ca1563ce",
+        "d54625c9-a70d-468c-9517-d55f7d43406c": "85468e1d-baf8-4c3f-92f8-32f25ef23e5b",
+        "27d1b168-ccf1-4219-8308-3d0f0df9c8a8": "957d9458-86be-486d-b32b-91fbeada8224",
+        "5c2f94b4-40ed-4000-b743-e0fc559ec37d": "9b5f7d8c-6bec-47ca-b45d-1da458f8df15",
+        "3a6219f7-0608-44cd-ab95-7b39f721d0e2": "2cce0344-fa5f-4713-8cff-5f9b5f27a097",
+        "8e45d639-5247-4bf9-8040-78657bb1a4ac": "9ed6984d-1307-4a94-926c-8df7dfac83c1",
+        "3837ce32-ce9c-471a-af7c-df1da037baf2": "8791683f-9e13-42b8-a810-a46e05788a2c",
+        "2541c214-7e6e-4575-b43b-abc2ca311e00": "2043e6ef-e12d-4934-9f14-516cf7440dd3",
+        "5240005d-ed85-4142-ae93-7a16de305c5f": "a0852e3b-5ea5-4754-b519-eedb94d6dfb4",
+        "64420ff3-fab9-4948-b1e2-b3661ef0dc51": "9c3ca7fe-9239-4358-8f50-8e3cc6dac295",
+        "8984928e-b9ab-4bdf-9c52-7790da2d318c": "f5b14a0e-a6c2-48e5-9ab0-62bfd3aebef7",
+        "d33fd5e4-aba7-404e-9edb-763a66cba6f6": "a503b0a3-2dd6-4567-bc73-fc3689a8ea5f",
+        "a5bc42c5-fb80-4e15-81a0-4526ecb5f056": "74f5e83e-d1bb-4ee1-9553-7d4b193cb2e9",
+        "d984c9d5-d135-4376-92c8-64f560049ec6": "414f3e61-e854-4445-b36b-ce268c670af7",
+        "9cf95308-074d-42f0-abc4-2526fc8fcd34": "d65975e3-328e-4315-814c-360d8333eef1",
+        "3c229608-0d07-4307-93cf-f3efc7dd73e9": "0b794a25-9fee-446e-b8f2-6e2f60d50321",
+        "27c6b7ba-c4e5-4842-a9dc-a80a3896a473": "868a7c4e-dfe0-4b41-9eb0-ef643e10b9d1",
+        "f5f9d477-61ee-42b6-9058-b350bc608d80": "5d8e0dbf-4d07-48b0-a88a-f2d3e3a96f78",
+        "40d8516d-0f84-46af-a851-225f293b7a01": "b9f5a0bb-504f-48f0-b4a5-b6d6e72ea3c6",
+        "d7a9a5cf-c99b-4739-9ead-1551de3daf90": "db13cd63-a238-4664-ba58-900a9ef9a655",
+        "92b11536-3110-4bfa-8b6f-c8fd71299ea3": "89e9444e-6604-4470-9481-779b3b748a86",
+        "1ab61de4-6fd7-4438-adb9-7cfad80a245b": "3b0772a8-d04e-45d7-8e51-72161d8a91c9",
+        "2b9cf162-aa3a-4120-8d56-b4747eb3c1fa": "44d47dcd-3f04-4acd-8068-49697151c9c6",
+        "8c2c253e-de83-46a9-8866-12dd3ec08700": "bdcf474a-9b8d-4d7c-825e-04a8a32b6941",
+        "4532d0e4-6e2e-4637-ae48-64e720238fcf": "f803e60c-a17b-4485-a1f5-50801604d3e0",
+        "c19be5da-fbb4-43e9-969e-55a46978c8dc": "aafb4e1d-16fc-438e-a7f3-7abef1788e5d",
+        "65044dbe-54a0-44d1-8239-54062c195312": "bbcbb7bc-4fb4-4783-9d56-58154ebe67dd",
+        "c6fbdc08-8c3b-45f6-b402-0e2ff61210d6": "6c8e4a06-3c7b-460b-ae49-990ab7c26f1f",
+        "41facc0c-a746-4e64-8de9-a5b91cd0563a": "4c124b43-d359-48ea-8fb1-e1b0bffaee2c",
+        "c2d95cd0-a03d-48c1-ac60-c0935a7bc85b": "55b19325-e847-4086-82ee-cda9ed59b1e7",
+        "d259d3f1-2c3a-4deb-af11-4370daa6bfaf": "6e30b0dd-b842-47da-8470-d6c33e0b1706",
+        "25c73e22-0399-40cc-afea-a75d7737bc0c": "307fe99d-37e2-4817-b165-8d2c40ffd2f9",
+        "81ec25d2-4a20-47f2-a184-6e4d5bfbf46e": "b671ce8d-96ec-4126-b70d-d3a2f7859de4",
+        "3835ac5d-aee5-47a9-b837-8b10b81540e0": "094c661f-3527-4232-81a5-4d42e312a93a",
+        "5a909d0b-d0f9-4e80-b960-53136011c0a1": "6511a561-f794-4a9a-aadc-e664bc30313f",
+        "8ade44f7-24af-49af-a4ac-f6d8ccb452a2": "d78945f0-3714-4564-94c2-46b944c4bb6a",
+        "4494bd01-6bc1-464b-b22e-28688b28af22": "5d23e03a-e172-4e24-bba4-a0f1dece8d70",
+        "a2c31ff0-6247-4bc5-89c5-a1cfda76ce99": "d6a53dc4-df87-4808-b75b-41716bd6e69b",
+        "7cc0c081-4b25-4d03-baae-1e82cf06806d": "5ba6af86-21f5-465c-b89d-0584ff1ce387",
+        "7da0f84f-ba16-4fda-9601-a7fc2ff0e454": "ad18c932-2a27-4906-90ba-619b96cc7660",
+        "e1b9e7e9-88aa-419d-b753-a8e50316ebbc": "42cc0b34-ff64-4f56-aa4d-d34d395cd61a",
+        "995e84fd-4342-4c00-966c-aeedfc01e64e": "54f4e02c-fb73-4453-9dce-455fd9a575d6",
+        "519df53b-571f-4088-a78d-ab8f00122d3b": "d2ac9710-83f4-4789-8219-a79096d897d6",
+        "892928e9-f3c9-49cf-bcd8-a06f4e41cb1b": "7c1d7aad-9a36-4199-9b48-056207f7a128",
+        "971576fb-ff6f-4a62-8615-0ac2a6238373": "0a2affab-0733-40fd-9eda-fc7f230ad7da",
+        "30f25c9e-6b04-476e-be3d-351196bc26a0": "d381cfb8-4230-4ad7-b097-322d18de1bb9",
+        "9c048289-b9df-49c0-84fb-43f4718f81f3": "47b313bc-c0df-4001-afbc-944b99117c5c",
+        "9065c804-ce44-4116-bb18-73072ccba59a": "9d51be71-551d-42b5-8b1d-e09f084e940a",
+        "e6a2f25b-cba5-4dfb-870d-4088ffc13c78": "74922639-d936-4a24-b4c2-2dfb44b91e73",
+        "63546057-cef5-431a-88ce-f342a30b7154": "bb6f55f6-5277-46f1-9192-bb9dd5a6d282",
+        "ad00b1d8-cf5b-4872-9f70-f7d5b93b7020": "e3b0303a-9946-4e80-afb3-78d596f3246f",
+        "4d682924-f645-4cc8-8f55-daf784cefe10": "a65ebbb0-649e-4c73-a92b-8b004c20c604",
+        "bcd42ab9-a42f-4872-9cc9-2fb84aca8990": "9ddbdb26-cca6-4e6d-961f-bb782e6a7647",
+        "5662f449-aec9-4adf-b244-8d43521d48a2": "4faabad3-a91a-4b1b-8bf8-2c67f922f826",
+        "bef26033-02ac-4b4b-a359-d5838b3652ce": "e48f1cc6-9fe5-4baa-b6fa-b7dbf7a45454",
+        "693be9cb-39de-4abe-96ea-67ea6fc0034b": "d74a583a-1deb-44f5-9b10-93b9c7f605fd",
+        "f1625667-d95b-4e87-b075-3b8ea82980e1": "3765ccd7-c2a0-415e-9b82-2e256823d079",
+        "f6f22aa7-1d4e-4c3f-b89a-1fc6ef71f3ce": "0c3d7c59-e852-4897-b258-cf2080ec706b",
+        "afd4e481-3b9e-4ce5-b358-7e7089725d5b": "0b9346e8-e3b7-4705-9e75-477e50ae876c",
+        "beeb2b19-0426-4616-8594-c796f0d146cf": "cfef3ecf-8fcc-44a1-8472-e27fbfb390aa",
+        "66020797-d40b-4f53-a091-75c62b903928": "bfb887ed-94ca-48c7-8d40-c8ec4b8c1efd",
+        "ca12d12a-ff38-4503-aaa6-983a2c08f8d0": "6240a3bd-ca21-4626-8b5f-d57a31a2c233",
+        "6721e749-febb-4ba3-9afb-621b6a8c4535": "f39fd6a0-9f06-4ed6-8290-9382955ef6bd",
+        "f7d31105-57d6-493d-a165-e15e012776f8": "acfcc290-4046-4f2f-baaa-218f9ebebc36",
+        "5e701a5f-1bf8-4c82-a457-4a68f1d9eada": "2acfa97b-3ad9-40ee-af8a-f2dc696c205c",
+        "29116436-08ae-4437-8bf4-30c9d5142572": "62dac279-93a0-4927-9e50-c499bca40bda",
+        "44c19cf2-9cd1-48a3-9fe1-cc2ac3ee77df": "191dd251-21d0-47c7-b5be-9a52cac6c2a4",
+        "60e762c2-15ac-4b96-bbb6-bd67c7a6043d": "abc94cd3-2349-4b7e-bb78-0f93fd48e06e",
+        "2c5f5ef7-92f1-437e-8f28-0f2ef5d54032": "ea167ddd-2f7a-4e39-8ecb-c1800162dd00",
+        "930881fa-e544-4c80-90fe-dc054fb4cd23": "8cc4793d-130b-4a14-8ee9-9a52fa6cc6aa",
+        "49426d97-1dde-4d8c-8d4d-d47e3a32d58f": "106f90ca-463e-44f6-9041-b831a41c66cf",
+        "f3ca2d71-a7b4-412f-8642-b6c965d5c70c": "e1c3c9e9-fa64-41d2-ade4-e3223208d7d3",
+        "965a9da1-1273-42a6-9dd5-20bd1a7efba6": "fceb27f4-ce65-4fad-86b5-dc9c6c0b5af4",
+        "f97d5237-62f7-4586-93b6-02a98cb19f51": "7cd01ab8-c6fa-448d-91bf-82879f154ec7",
+        "be2e0066-6d77-4bbb-ae62-672e5af381ab": "80e0e14e-e05b-42ff-b2c8-b9b75b9812b6",
+        "106fa0d3-13f4-4756-b495-f2f65f1dbc58": "0cbf98a6-12ad-479f-a293-d8e3d50a7dc6",
+        "c94c7eb2-7eb9-4439-98a3-80b20c4d1326": "32a5933a-0d43-48be-a12a-6f0eeaea277b",
+        "5286e994-68f9-4f68-8661-b5d7dfebe9bf": "e3a0f9a8-2c5d-453c-8f7f-3bc21a3241a5",
+        "954c7679-077a-49ef-9a2e-ddf8b0d2ca9b": "a3514a56-410b-43a5-bc11-915874645019",
+        "78e45c59-9044-43b5-8b0b-3363c79dfd1d": "74a320c2-520b-405c-8b60-91f589022347",
+        "2d8870fc-868f-428f-a485-8ac4dcd826f6": "d91526a4-f140-494d-8db3-6501234956d5",
+        "4ad2183f-2a6a-4329-8653-6eb5cda2e514": "cb751c4c-24a0-4615-9f30-cd4afbf13393",
+        "9f80d6aa-77e5-4dda-9a3c-ea25b6abbe23": "67313e0d-6957-4a35-b917-775b6f4d4d92",
+        "38600e88-74af-457d-a02b-4cf6a3557077": "e434f2dc-5735-4c44-8794-ba1c3989ce8a",
+        "82656a9d-cb32-4645-b6b9-e6afb8d04425": "9e40a617-9595-4f27-a7d9-07efe812ef15",
+        "e3358ed2-bfc6-4a7b-8bf3-99443b9e1f05": "bb2defa4-8477-486d-a908-cb108dbd6bfd",
+        "e8c2e4b8-78e5-4228-8536-906832b2e6c4": "81390afd-7e15-4701-9aa4-12c3844b3081",
+        "b812e9a8-e3d3-49fb-8e67-33d00e144ce0": "136cd033-b34c-415e-bd64-8f231c69db57",
+        "7b5b39a9-390b-44e1-871a-93e9b33fc3bc": "ac9be3ba-16ca-4967-969a-ffa7b153fd14",
+        "22b3f50b-383c-4a19-aaf7-81f8139b4be3": "3a1684eb-e152-4ea0-b3d2-e51ec681c1db",
+        "1ddcd11f-d872-4a05-bcfd-7f95ec988c09": "10b1b87a-7a65-4232-aacb-9504553c475d",
+        "0794ad24-f2d3-4f5b-9040-52c576ab5128": "6f876268-39a7-4f60-80dc-599ce0f4497d",
+        "e13cdc22-0686-45f5-a22e-a375dfeb352a": "82ade8ea-71d7-455c-aa58-8c29c1ba8349",
+        "b38cec79-4052-4c76-9674-1659137c177e": "684ca878-a421-43be-9a50-420061512db0",
+        "36da5118-cc0e-46f1-8a64-9389a1c560c7": "61563f63-5c57-4ec0-b83d-c50adc6ecbcb",
+        "2e4da31c-d856-4187-afa3-cae33d1d3644": "d6d2333f-0d8c-4e82-8fea-55281bb41dde",
+        "b9f96225-9182-4b2a-af19-995cdf9853c8": "7905b094-a2cd-4d5e-b6a2-391cf9f167c7",
+        "6945459d-7f9d-477b-993c-f8fe50be2f00": "154a3a9e-7263-4499-b2dd-4aa408b7e48f",
+        "b19b8053-e3cf-4a7d-bf6a-937d1e1dfe34": "c0be5a15-88ca-4adf-9a77-fc3ffd3d44fd",
+        "f931cfb3-4f78-49b6-9116-337b024016bf": "04ae529c-713c-4e6b-9884-d9eb3afce3c3",
+        "791a3d32-d78f-413a-a3a9-dc43b2efd9b6": "c4532047-b5c9-46e1-9119-28a003c60a85",
+        "ede5949c-128d-4273-8136-b1d4b86d54b0": "68c434a3-18db-446d-b44b-14275cdd566b",
+        "bf3f7e8c-da37-4141-a144-800aaa8cd33b": "351bc115-5bb0-450b-be5b-091425dfc04f",
+        "e8b735ae-13dc-48f1-b65c-f0bfa95c2165": "8fb3c2b2-024e-4b3c-9f47-849c573a70de",
+        "8a168628-201c-4fe4-82b3-46ed54a0dcb8": "99aa6e9e-38ce-4131-a84d-8b40c371672b",
+        "16e8f78c-7179-4090-a40c-d88d1b029647": "e02a50d3-9493-4a2b-9ecb-4b51584233b9",
+        "608b261b-3001-4833-882b-7787f48313db": "80b10377-2170-400a-92ed-0f39ffad1ddf",
+        "adb22ffd-3fad-485b-9a5e-0bd406d0f895": "0f90100e-b6b8-4936-b8e3-4e4189b670b9",
+        "272375e1-1ac4-401e-88d6-3e3c91dd6517": "ae8a655d-67a3-449a-8c69-a652178e66d8",
+        "0c61b535-8712-4e2f-aa88-189f60683fd5": "b7a201f8-d9ea-422a-a036-3829e66d633d",
+        "86d1a3c8-feb6-4c32-9d7a-bd8650b4d5df": "9e509a3f-a97a-4c71-b7a3-83eb05bb5fe2",
+        "029ea075-4cef-416c-8346-ad9616160c1e": "bab8931d-76eb-4e35-a7b6-c6d095e2ce40",
+        "b5c674ad-c6c4-4e5e-894a-571154d16c55": "39c2129d-246f-44c9-9d43-c3aea8fb7015",
+        "4c09827d-ebb3-461a-a0c9-dae06abf7420": "2eadcd4a-f2bf-4a84-b2ee-8d050b280ad9"
+      }
+    },
+    {
+      "__guid": "b9cc3c97-1b3f-4aff-a257-d9d9ba331a41",
+      "__version": 2,
+      "__Prefab": {
+        "Id": "8fc86815-97d2-4421-a163-21082604126c",
+        "Path": "creatures/zombie_classic/zombie_classic.prefab"
+      },
+      "__PrefabInstancePatch": {
+        "AddedObjects": [],
+        "RemovedObjects": [],
+        "PropertyOverrides": [
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "004db47a-fa9f-4c14-be56-c4bdcf7e8491"
+            },
+            "Property": "Name",
+            "Value": "zombie_classic (1)"
+          },
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "004db47a-fa9f-4c14-be56-c4bdcf7e8491"
+            },
+            "Property": "Position",
+            "Value": "2207.13135,2456.2334,48.9912186"
+          },
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "004db47a-fa9f-4c14-be56-c4bdcf7e8491"
+            },
+            "Property": "Rotation",
+            "Value": "0,0,-0.923879564,-0.382683396"
+          },
+          {
+            "Target": {
+              "Type": "Component",
+              "IdValue": "86d1a3c8-feb6-4c32-9d7a-bd8650b4d5df"
+            },
+            "Property": "Parameters",
+            "Value": {
+              "bools": {
+                "ik.hand_left.enabled": false,
+                "ik.hand_right.enabled": false,
+                "ik.foot_left.enabled": false,
+                "ik.foot_right.enabled": false
+              }
+            }
+          },
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "30f25c9e-6b04-476e-be3d-351196bc26a0"
+            },
+            "Property": "Position",
+            "Value": "0,0,0"
+          },
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "78e45c59-9044-43b5-8b0b-3363c79dfd1d"
+            },
+            "Property": "Position",
+            "Value": "0,0,0"
+          },
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "7b5b39a9-390b-44e1-871a-93e9b33fc3bc"
+            },
+            "Property": "Position",
+            "Value": "0,0,0"
+          }
+        ],
+        "MovedObjects": []
+      },
+      "__PrefabIdToInstanceId": {
+        "004db47a-fa9f-4c14-be56-c4bdcf7e8491": "b9cc3c97-1b3f-4aff-a257-d9d9ba331a41",
+        "9effae08-81f8-46dd-a92a-2d41d40a11b4": "4ec3f9ea-2093-4eff-9518-859295674645",
+        "cd2326ed-0b49-4fc2-b6c6-f61437e4181e": "635fed59-a868-4bb4-a095-f88c45298c45",
+        "16e99edf-f7a2-4cab-b86f-5dd9265ea543": "774b787b-9b4a-481f-8aaf-c9ffeed9aab3",
+        "59d564ba-739c-4a55-874d-59ced86a51d7": "26ff782f-c615-4e20-8c8c-9df023084caa",
+        "60dfe226-1839-4eec-996c-062df92fc9d0": "655201e6-6fcc-40fd-a76f-8d41ef0552e2",
+        "26af2364-db9a-4389-9fa6-0f7f9b1eaced": "ca73159f-c586-400e-a67e-06043af9a47e",
+        "4d411ee9-8a25-4e33-af58-2283d08d41d6": "78331911-12f7-4116-8df3-a2d05928330c",
+        "48a4ddba-305f-4f62-a973-080fc014bd7d": "916b679d-1d7f-45ec-8b4f-25039b240aaf",
+        "e4c2a811-cb37-450e-a60a-993c3330d645": "6c61fd19-75f6-4a27-8e0d-cc66b481876b",
+        "0edb0443-0ed2-4a90-b5fc-f348cfb1b310": "cf5bf47a-319e-4666-8668-1d97d076e629",
+        "9c52daab-a048-4ada-b44a-94a1e5646fc3": "482bd2c4-08ef-4717-8f93-861b6cc183dd",
+        "c9f378a1-f95f-42af-a48b-dff93f5de281": "0d705ac6-6a7f-43bf-921e-e07d9023e28e",
+        "0985c4d2-bec3-46c6-a1cf-0de1768579db": "a949b35d-9da0-43be-9a46-c29628360ff1",
+        "50e65cfe-6438-4ef5-ad98-04b81fbafe79": "a59f766d-f130-4346-bdae-2bb8629c924d",
+        "318ba375-3f06-454e-9b04-098a63915859": "5d83969d-da13-4134-8a74-706510c10546",
+        "bd67b0a8-a6d3-4754-bf59-3049221415f5": "85550916-6c81-4a31-a3b2-93151b064383",
+        "cb00a216-27d7-48ff-935c-a8beb7f51a29": "c41e422f-b04c-44d2-a6ad-1464b5eb6a67",
+        "2231d358-8cda-4065-9c0b-19bfb3c293f8": "f4c49df5-0b2f-481b-bfe8-0c7533289f74",
+        "ceedb06d-2dc5-486b-9a94-980af4e070d1": "de99d38f-77fc-441a-90c0-5f0a02916ac1",
+        "432c3c8a-70ac-4953-be13-5cc248bf17d2": "564abd0b-9ad4-48f7-9fc3-43dcd9116c0d",
+        "653e9f07-147a-4c71-899d-ce6645fe6228": "aef861fb-e6ed-49f5-8232-48f8d5d66abb",
+        "00e71f1e-ea75-4ef3-ae86-7fc3f62a80d7": "4f90190d-3d5f-478d-a8d1-88c63dd8e947",
+        "76f412dc-78fb-4513-9ff9-d8b396dde02d": "1dd63d23-4acb-41ad-a85b-599a9cc18680",
+        "8dad3acf-1b83-48dd-9b97-1016a15d2943": "57a14a95-15fc-4f3a-821b-3a40ffc28da4",
+        "0ecc28f9-9a0a-4c97-837b-a9b70311be02": "29e3c2ca-f3b2-45d2-bd2e-814bcf8b484f",
+        "fd5fc6a8-5f5d-4f0b-a599-f3191820ee05": "f1559f05-a5f7-426e-9cbd-d306110d5275",
+        "6892768f-f7e8-4554-b0d8-351a0b0e682f": "d61faa2d-8541-4ff6-a5a3-b265899ca9f7",
+        "2c48bb5d-269b-4424-a605-c4c5505668d7": "9e78f85d-be8f-4720-8481-234aec65225d",
+        "37e1c5c9-1545-4bca-9388-6787dcccc489": "9b9cf0b4-1704-4ab6-90c3-da88a42f35c1",
+        "cc61b97e-04c3-4ab7-9579-bc077d2a0c3b": "dea54290-0c72-416c-b3cd-adc1c3af4414",
+        "2849e6e2-d4fe-4a12-8703-7fde63645cac": "a8cbf3b7-a234-4d4c-9a62-282152b856b1",
+        "36deb752-76f0-456b-9aae-6da2079373be": "359db8ec-a223-491d-ad77-1e5ff04587c0",
+        "27c0ebf4-72df-4630-82b9-fad1cea79cda": "e8987d4b-1267-4866-a72e-59eb22a444a3",
+        "30948579-5274-45a6-b676-e98e51a6efa3": "3d37cbf5-eb40-4a48-81a8-f9b2524290de",
+        "88f9447c-92b9-477d-8934-e48636158885": "7219cf05-2a33-4d41-a05d-a31b3a0965fd",
+        "af451e0c-1802-4220-8bef-c5b261e0c651": "52d15b22-767a-4e65-9654-d7eb2a225c4d",
+        "05bde6c2-edcf-4e8e-8a1e-488840cc4116": "c6661ca3-420c-4e8b-900a-8450decec076",
+        "93abd840-760a-4a29-90a1-95e41b8158ab": "c42e01b7-3ad5-4d24-8207-a6dba43a8467",
+        "f521bc94-8821-46e2-9eef-2414d4cdc564": "59d20944-bf0e-4cd5-b9f9-63ecfbe05e29",
+        "008baacd-0787-4e83-a1c5-9add21791e0a": "c3c25a47-82f0-4fdb-ac7c-e0fab1e17e32",
+        "cf2e027c-2bfe-41b6-bb41-0adba85bb5ef": "34bd0634-a9f5-4b24-84ef-77ec7829677c",
+        "2dc3bf16-503e-4338-b176-663adfd0412b": "a407f826-7d0c-405e-aea9-1ba08a74abdb",
+        "395601c2-5b0e-40bd-a384-f6f41ee14f1a": "e9f06592-5f7a-48ea-a8ba-8dde59e13649",
+        "a043f1fe-363b-4a6b-8268-89c219bea66b": "504ae706-ccfa-43ec-8697-4fc0ce0ceeba",
+        "7ad7a993-a151-496c-9d77-e2336746b141": "26ac08bc-e242-41f0-a3ee-b1016cf7b943",
+        "5920e825-ef87-40d1-a730-43b10b928650": "67e7ed76-7d01-4108-a3ec-5c327485f478",
+        "acfd3374-710c-4b86-8b4a-8903de5c9101": "1daca85f-ae66-4665-aca5-6f8d54914954",
+        "d7227273-5dd2-417d-b2f6-f4f1f5ba6443": "db7c579d-d0a6-46ff-b05b-f0cfae6845b0",
+        "2967fc9c-6c6f-4c52-956a-5328c40640c9": "a0abdc7b-9745-43a7-baf1-aad31560cfbb",
+        "a58ac046-878d-4702-b000-1981dee08f9f": "e925ba0a-34a7-4996-a2a8-5d4509633536",
+        "8677ab83-759e-40a1-9f63-662054843d8c": "26d9dd80-789d-4385-b4ce-abc029763822",
+        "9e64312e-1f1d-41ea-937f-533f3557cb26": "17b62fea-57df-4e8a-8bc0-9731633c34ab",
+        "608a9031-9416-4eff-bb1f-66d2ce212dce": "5c6c1872-f9d9-4432-a5d1-fd11fc66a142",
+        "2e3ec7d4-76a9-4ce7-a583-58141721844b": "ef2781a4-d8da-4846-8529-aacc7d3a4dcf",
+        "8c9da018-34cd-4f11-8338-463cd1fac1ed": "9bad18c9-19ce-48ba-8b07-5cab1daf44ca",
+        "886b9345-0761-408a-bde8-a4f4ef50ceb9": "677a7eaa-502e-4c4d-bcc7-84da9302fdd6",
+        "9de09b4b-241e-4d1a-a551-f2ca71b58bd4": "618030c9-9984-499e-8e82-cf897338176c",
+        "11a912b6-5ffa-40dc-be10-e3e2c95aa6ad": "43a2dc6d-9c38-4979-a61d-ca66ef74d39b",
+        "23994def-8f0c-4551-9492-7edca7d3c14a": "023a58de-c46b-41cd-9216-9c631e58d185",
+        "f83e74a7-1007-49eb-8b34-c9012d3ff05b": "bfe280f4-817f-4332-9a24-9046a11c6553",
+        "e5d8c0a2-9b55-45c8-be63-bf00a2f1bdf4": "0583ab54-ccf0-4b2e-a316-ada0c23b267b",
+        "d54625c9-a70d-468c-9517-d55f7d43406c": "f7a32a65-7b6d-4134-8270-b1c7cc6cedd4",
+        "27d1b168-ccf1-4219-8308-3d0f0df9c8a8": "b3b8deea-d58e-425b-9019-3e13b51560eb",
+        "5c2f94b4-40ed-4000-b743-e0fc559ec37d": "c34892e9-5a05-43f0-9068-bd2dbae1c4ec",
+        "3a6219f7-0608-44cd-ab95-7b39f721d0e2": "9315487f-f971-4239-b235-8972af6a7be6",
+        "8e45d639-5247-4bf9-8040-78657bb1a4ac": "90ad938a-afa1-40e0-87d9-825d3e058475",
+        "3837ce32-ce9c-471a-af7c-df1da037baf2": "a15c1796-9d13-45f9-90c9-6a6b6bdeadb3",
+        "2541c214-7e6e-4575-b43b-abc2ca311e00": "a77bc1df-fd90-49bb-8b21-b9869e6f72bd",
+        "5240005d-ed85-4142-ae93-7a16de305c5f": "8937c787-01c2-4535-9297-51d036897fcb",
+        "64420ff3-fab9-4948-b1e2-b3661ef0dc51": "6dd3a9be-f5d9-4a97-8224-899f445c99e7",
+        "8984928e-b9ab-4bdf-9c52-7790da2d318c": "960e7e20-5470-44e2-a0b7-3232ff016561",
+        "d33fd5e4-aba7-404e-9edb-763a66cba6f6": "93f3c5ce-e3aa-4c2c-9220-89db0745bba2",
+        "a5bc42c5-fb80-4e15-81a0-4526ecb5f056": "2e111828-18c8-4689-ad0a-3447ebe54128",
+        "d984c9d5-d135-4376-92c8-64f560049ec6": "857f83b8-21b2-47a4-993b-08b450ebd6a3",
+        "9cf95308-074d-42f0-abc4-2526fc8fcd34": "3eaad482-8364-4a2a-b2ad-6159af36ddaf",
+        "3c229608-0d07-4307-93cf-f3efc7dd73e9": "ef095a83-8a53-488f-a120-3956195c28af",
+        "27c6b7ba-c4e5-4842-a9dc-a80a3896a473": "0fd06d62-a56f-4823-b2fe-ef2c94cc4360",
+        "f5f9d477-61ee-42b6-9058-b350bc608d80": "5bd4c50b-ac85-4f65-ba23-cb44699df442",
+        "40d8516d-0f84-46af-a851-225f293b7a01": "730d1e44-d75b-45d0-80b0-7810edca7be1",
+        "d7a9a5cf-c99b-4739-9ead-1551de3daf90": "cfe99b80-253f-4817-90ca-550a5d53cb7a",
+        "92b11536-3110-4bfa-8b6f-c8fd71299ea3": "081c5249-c187-4550-b98f-704060cfcbe6",
+        "1ab61de4-6fd7-4438-adb9-7cfad80a245b": "9b71f8e6-ee08-42d6-a59e-67a600a4cae6",
+        "2b9cf162-aa3a-4120-8d56-b4747eb3c1fa": "7243aeff-414f-4c27-be15-5dc81928cf24",
+        "8c2c253e-de83-46a9-8866-12dd3ec08700": "e5454018-8ad7-4aa0-b46f-f61d6f298f9a",
+        "4532d0e4-6e2e-4637-ae48-64e720238fcf": "99fafb32-5479-499a-a805-251a1b2c5245",
+        "c19be5da-fbb4-43e9-969e-55a46978c8dc": "4b2ae829-3ed3-40d1-b4c9-ceb25bdba4dd",
+        "65044dbe-54a0-44d1-8239-54062c195312": "042b5c7e-33bc-4e76-a731-931533ae43ca",
+        "c6fbdc08-8c3b-45f6-b402-0e2ff61210d6": "e244a070-1c53-469b-a325-3a730be397cf",
+        "41facc0c-a746-4e64-8de9-a5b91cd0563a": "1dd163e1-97ec-4af8-a337-09f7efac0847",
+        "c2d95cd0-a03d-48c1-ac60-c0935a7bc85b": "c85d6c75-74db-4506-8b57-9a28f2a6c0d8",
+        "d259d3f1-2c3a-4deb-af11-4370daa6bfaf": "ef0fe202-4112-436b-a7d4-25810360ed7e",
+        "25c73e22-0399-40cc-afea-a75d7737bc0c": "e6c6da86-0334-452a-855e-8ae962a408a9",
+        "81ec25d2-4a20-47f2-a184-6e4d5bfbf46e": "076465ce-05bc-443a-9c17-ad519c3d53aa",
+        "3835ac5d-aee5-47a9-b837-8b10b81540e0": "4ce5d130-fe3b-4102-9544-fc42485c273e",
+        "5a909d0b-d0f9-4e80-b960-53136011c0a1": "45496e7c-b7e7-4cc1-b318-f0617a47b3aa",
+        "8ade44f7-24af-49af-a4ac-f6d8ccb452a2": "735a65c3-735d-4b1d-bc03-9f141e910c23",
+        "4494bd01-6bc1-464b-b22e-28688b28af22": "e18bb560-e250-4deb-937a-6534410ab86b",
+        "a2c31ff0-6247-4bc5-89c5-a1cfda76ce99": "77320d7f-f579-4d28-a7dc-e728b60853e3",
+        "7cc0c081-4b25-4d03-baae-1e82cf06806d": "444f2336-8652-4704-8b99-5bf3833174bf",
+        "7da0f84f-ba16-4fda-9601-a7fc2ff0e454": "56ef0e91-6b40-47d6-babf-d3f96181c150",
+        "e1b9e7e9-88aa-419d-b753-a8e50316ebbc": "89605d5a-cf6d-4618-a1c6-d1f4a7253cd9",
+        "995e84fd-4342-4c00-966c-aeedfc01e64e": "99e7bc67-1573-4415-9a3b-4bbc803bc4be",
+        "519df53b-571f-4088-a78d-ab8f00122d3b": "236aa951-0891-4f63-b5ab-aa4e32db0c90",
+        "892928e9-f3c9-49cf-bcd8-a06f4e41cb1b": "ab591a91-c97d-4a31-b0ef-a90a89f60445",
+        "971576fb-ff6f-4a62-8615-0ac2a6238373": "57a5ebf4-a6ad-49ba-8d37-577dc79cb192",
+        "30f25c9e-6b04-476e-be3d-351196bc26a0": "f621687d-bcd9-4f93-8cc1-8e2eddeda4a0",
+        "9c048289-b9df-49c0-84fb-43f4718f81f3": "e9d42b86-f265-4608-b3ce-1457cc165df9",
+        "9065c804-ce44-4116-bb18-73072ccba59a": "109ccb71-a363-494e-bdf7-fa87c7fa21db",
+        "e6a2f25b-cba5-4dfb-870d-4088ffc13c78": "91af952a-6d08-4efc-84c2-ac91973f28d3",
+        "63546057-cef5-431a-88ce-f342a30b7154": "7a540dcd-8f19-4df8-80a6-f7f69d33bbfd",
+        "ad00b1d8-cf5b-4872-9f70-f7d5b93b7020": "c1e1ca2e-0093-45a0-ae71-d3a4573efb8b",
+        "4d682924-f645-4cc8-8f55-daf784cefe10": "5bb710ef-cc76-47c6-a958-b27ae0cf1a03",
+        "bcd42ab9-a42f-4872-9cc9-2fb84aca8990": "f3e8690c-2844-4c39-8497-4a85fbc8fcb9",
+        "5662f449-aec9-4adf-b244-8d43521d48a2": "5b58479e-0219-4f06-8f8d-aa45496dd676",
+        "bef26033-02ac-4b4b-a359-d5838b3652ce": "e87100a6-9902-4312-8d16-e86708932901",
+        "693be9cb-39de-4abe-96ea-67ea6fc0034b": "3016e05b-cf86-4392-b9b9-902a162dd7d4",
+        "f1625667-d95b-4e87-b075-3b8ea82980e1": "34be14f5-6431-4967-b605-5661972e45ae",
+        "f6f22aa7-1d4e-4c3f-b89a-1fc6ef71f3ce": "442eb4cb-53a4-4680-91af-6bd09762d1c4",
+        "afd4e481-3b9e-4ce5-b358-7e7089725d5b": "499e4b58-8837-4269-ba6a-075ffe9952c6",
+        "beeb2b19-0426-4616-8594-c796f0d146cf": "20418575-a445-407b-9f20-138d2795e884",
+        "66020797-d40b-4f53-a091-75c62b903928": "4771db5a-9710-40a4-a93d-62a11f9715be",
+        "ca12d12a-ff38-4503-aaa6-983a2c08f8d0": "365b02d3-e5b8-415d-a2f8-c798587f304d",
+        "6721e749-febb-4ba3-9afb-621b6a8c4535": "3c96070b-cedc-4991-bc37-b8d81c673371",
+        "f7d31105-57d6-493d-a165-e15e012776f8": "3acc4501-e5de-41e5-b079-993367257c2b",
+        "5e701a5f-1bf8-4c82-a457-4a68f1d9eada": "2d8e2b2f-1fc2-40dc-ab05-0435c4ce4cda",
+        "29116436-08ae-4437-8bf4-30c9d5142572": "9239a2e2-fe6b-443f-acbf-cd9c1c81362a",
+        "44c19cf2-9cd1-48a3-9fe1-cc2ac3ee77df": "80d1dec3-04bd-4fde-bf13-924662895537",
+        "60e762c2-15ac-4b96-bbb6-bd67c7a6043d": "3011b97e-734e-425f-8d8b-f6f4fceeedd2",
+        "2c5f5ef7-92f1-437e-8f28-0f2ef5d54032": "d87a7197-5161-4f0c-96f6-ad08b1307e8f",
+        "930881fa-e544-4c80-90fe-dc054fb4cd23": "80dabe6c-da83-4893-99c9-9ad0473cd9b6",
+        "49426d97-1dde-4d8c-8d4d-d47e3a32d58f": "95ec71bf-7a78-4409-af1e-c128b52c1e2f",
+        "f3ca2d71-a7b4-412f-8642-b6c965d5c70c": "956b0349-e0de-4b6e-b983-dd689d1a0710",
+        "965a9da1-1273-42a6-9dd5-20bd1a7efba6": "a10192d9-b4af-4994-ad09-d4ce7e70f87c",
+        "f97d5237-62f7-4586-93b6-02a98cb19f51": "c26caa6e-1b44-4451-bd42-d6af0af98452",
+        "be2e0066-6d77-4bbb-ae62-672e5af381ab": "ab4d9664-a141-4326-8cd7-0687d8d90ab2",
+        "106fa0d3-13f4-4756-b495-f2f65f1dbc58": "7ffade94-25fd-4a74-817b-1a6cc53814e2",
+        "c94c7eb2-7eb9-4439-98a3-80b20c4d1326": "3410a0c4-d818-44a0-a493-f226bd367aef",
+        "5286e994-68f9-4f68-8661-b5d7dfebe9bf": "2138cc8b-13d7-41f2-9b86-572a8d3bfe18",
+        "954c7679-077a-49ef-9a2e-ddf8b0d2ca9b": "99c6f70b-2a90-4fca-afd9-0b57138c6f1b",
+        "78e45c59-9044-43b5-8b0b-3363c79dfd1d": "2fd91c0e-d6e4-43ce-a833-4c3b79b8a037",
+        "2d8870fc-868f-428f-a485-8ac4dcd826f6": "d42a2272-fe74-46e3-b583-a19afbebbedc",
+        "4ad2183f-2a6a-4329-8653-6eb5cda2e514": "01a40c54-19e2-4015-bf77-6b31262326be",
+        "9f80d6aa-77e5-4dda-9a3c-ea25b6abbe23": "a63ab664-b079-4d0d-a802-53144a0d7ffe",
+        "38600e88-74af-457d-a02b-4cf6a3557077": "1902d906-1082-4761-9c57-0f995d9e470c",
+        "82656a9d-cb32-4645-b6b9-e6afb8d04425": "662a8590-54e7-44bc-abe9-4e4f4a0faf54",
+        "e3358ed2-bfc6-4a7b-8bf3-99443b9e1f05": "5ab7d625-b403-473e-b6cd-a9fd155a398f",
+        "e8c2e4b8-78e5-4228-8536-906832b2e6c4": "bdc01dcb-a8fc-454a-ad58-1fdb48f7544a",
+        "b812e9a8-e3d3-49fb-8e67-33d00e144ce0": "9f605bbb-291b-497a-aef4-6dfdd4624bda",
+        "7b5b39a9-390b-44e1-871a-93e9b33fc3bc": "8472a029-90e3-40dc-ab82-aa263e1a11f7",
+        "22b3f50b-383c-4a19-aaf7-81f8139b4be3": "754db0b8-9f44-4b4c-be3a-e1bd2d59d002",
+        "1ddcd11f-d872-4a05-bcfd-7f95ec988c09": "f714c8c9-0692-4fb4-96c4-e503bbd24f14",
+        "0794ad24-f2d3-4f5b-9040-52c576ab5128": "647abab1-606d-4e2c-85e0-95b4721e1896",
+        "e13cdc22-0686-45f5-a22e-a375dfeb352a": "22802641-ccfa-489a-a24f-7b95aa2c38fb",
+        "b38cec79-4052-4c76-9674-1659137c177e": "8dde10eb-b0b1-4ed4-96e1-405747fbd110",
+        "36da5118-cc0e-46f1-8a64-9389a1c560c7": "e7fbdfb9-ac62-4978-a48f-37c6bee83951",
+        "2e4da31c-d856-4187-afa3-cae33d1d3644": "62bcd921-221a-4c52-abda-f41b8273a661",
+        "b9f96225-9182-4b2a-af19-995cdf9853c8": "13717bd5-0996-4f12-b2f1-a0f93742e149",
+        "6945459d-7f9d-477b-993c-f8fe50be2f00": "9f00883e-5e6a-4f19-9045-c010e8695e29",
+        "b19b8053-e3cf-4a7d-bf6a-937d1e1dfe34": "b7f5fecc-3a69-4bd2-aeb0-7b1f79489cd6",
+        "f931cfb3-4f78-49b6-9116-337b024016bf": "425dc4d1-2faa-4a69-9460-da7d81664032",
+        "791a3d32-d78f-413a-a3a9-dc43b2efd9b6": "8a1d099c-9287-4e1f-b0dc-727ad25b4f0f",
+        "ede5949c-128d-4273-8136-b1d4b86d54b0": "6d0dfbd7-511d-435c-8ba4-d518151a356b",
+        "bf3f7e8c-da37-4141-a144-800aaa8cd33b": "7e9813f9-a8f8-407b-afc4-84c06f8e3991",
+        "e8b735ae-13dc-48f1-b65c-f0bfa95c2165": "e939327d-ab79-405b-8241-036811a83046",
+        "8a168628-201c-4fe4-82b3-46ed54a0dcb8": "e6ee1378-51f6-4ffa-ad5b-055c8ee4deff",
+        "16e8f78c-7179-4090-a40c-d88d1b029647": "d2611f58-4355-4335-890c-2a757df1d530",
+        "608b261b-3001-4833-882b-7787f48313db": "312437a2-0255-4aa3-9729-4ac4e3685c36",
+        "adb22ffd-3fad-485b-9a5e-0bd406d0f895": "34733a51-0244-4fb6-8551-0b31b1874b20",
+        "272375e1-1ac4-401e-88d6-3e3c91dd6517": "284b4e24-7752-467c-900e-7c02bbe913e4",
+        "0c61b535-8712-4e2f-aa88-189f60683fd5": "bbc19541-9d96-46e5-88f3-157cf8964004",
+        "86d1a3c8-feb6-4c32-9d7a-bd8650b4d5df": "9d7e235b-df8a-4c25-bb47-61f7f9c8141d",
+        "029ea075-4cef-416c-8346-ad9616160c1e": "39331bac-1b20-4610-b6a8-3a369970d9fa",
+        "b5c674ad-c6c4-4e5e-894a-571154d16c55": "555ac2bc-1868-4f81-90d3-227e46cf803b",
+        "4c09827d-ebb3-461a-a0c9-dae06abf7420": "79bd23e2-7049-4d3e-b2eb-4599b24fab6a"
+      }
+    },
+    {
+      "__guid": "eec8435c-31ce-4b1b-8d9e-0c01753b9888",
+      "__version": 2,
+      "__Prefab": {
+        "Id": "8fc86815-97d2-4421-a163-21082604126c",
+        "Path": "creatures/zombie_classic/zombie_classic.prefab"
+      },
+      "__PrefabInstancePatch": {
+        "AddedObjects": [],
+        "RemovedObjects": [],
+        "PropertyOverrides": [
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "004db47a-fa9f-4c14-be56-c4bdcf7e8491"
+            },
+            "Property": "Name",
+            "Value": "zombie_classic (2)"
+          },
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "004db47a-fa9f-4c14-be56-c4bdcf7e8491"
+            },
+            "Property": "Position",
+            "Value": "2332.71045,2615.13452,-0.973339081"
+          },
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "004db47a-fa9f-4c14-be56-c4bdcf7e8491"
+            },
+            "Property": "Rotation",
+            "Value": "0,0,0.866025448,0.49999997"
+          },
+          {
+            "Target": {
+              "Type": "Component",
+              "IdValue": "86d1a3c8-feb6-4c32-9d7a-bd8650b4d5df"
+            },
+            "Property": "Parameters",
+            "Value": {
+              "bools": {
+                "ik.hand_left.enabled": false,
+                "ik.hand_right.enabled": false,
+                "ik.foot_left.enabled": false,
+                "ik.foot_right.enabled": false
+              }
+            }
+          },
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "30f25c9e-6b04-476e-be3d-351196bc26a0"
+            },
+            "Property": "Position",
+            "Value": "0,0,0"
+          },
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "78e45c59-9044-43b5-8b0b-3363c79dfd1d"
+            },
+            "Property": "Position",
+            "Value": "0,0,0"
+          },
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "7b5b39a9-390b-44e1-871a-93e9b33fc3bc"
+            },
+            "Property": "Position",
+            "Value": "0,0,0"
+          }
+        ],
+        "MovedObjects": []
+      },
+      "__PrefabIdToInstanceId": {
+        "004db47a-fa9f-4c14-be56-c4bdcf7e8491": "eec8435c-31ce-4b1b-8d9e-0c01753b9888",
+        "9effae08-81f8-46dd-a92a-2d41d40a11b4": "5e82142f-c8c4-4372-89e5-1476cb646572",
+        "cd2326ed-0b49-4fc2-b6c6-f61437e4181e": "f99a6274-4410-41bb-be53-85b686450c14",
+        "16e99edf-f7a2-4cab-b86f-5dd9265ea543": "65d3363c-3e0e-442c-91c7-3dcd871f35a6",
+        "59d564ba-739c-4a55-874d-59ced86a51d7": "dbeab4f8-8429-44a9-aa00-4ef209efa8f2",
+        "60dfe226-1839-4eec-996c-062df92fc9d0": "ab0e4147-57ec-4060-99b2-61ad8497bdc2",
+        "26af2364-db9a-4389-9fa6-0f7f9b1eaced": "84e88b5f-ad43-4a37-a995-4e47ac376564",
+        "4d411ee9-8a25-4e33-af58-2283d08d41d6": "ca2eaae7-4313-4ca9-9959-1fcb7387bb95",
+        "48a4ddba-305f-4f62-a973-080fc014bd7d": "2fc7e0db-fb44-49ac-ac14-fe0b3ba04d13",
+        "e4c2a811-cb37-450e-a60a-993c3330d645": "ed36d983-73cc-41f6-977c-8d1f70ea7f37",
+        "0edb0443-0ed2-4a90-b5fc-f348cfb1b310": "6823e5f8-9419-46ed-ba7f-6ccdd2cf4cdb",
+        "9c52daab-a048-4ada-b44a-94a1e5646fc3": "6e677da3-718d-49dc-997e-2bf9a595d075",
+        "c9f378a1-f95f-42af-a48b-dff93f5de281": "43698c7c-bfae-4fd2-b9a6-5267fe0b7b6a",
+        "0985c4d2-bec3-46c6-a1cf-0de1768579db": "28590c1a-1c4e-4351-8951-503d65a61f2d",
+        "50e65cfe-6438-4ef5-ad98-04b81fbafe79": "d9408b9a-b9cb-4f4f-87db-02f8bf510f72",
+        "318ba375-3f06-454e-9b04-098a63915859": "4806d3a1-3db8-43db-ba81-b0e3275c204f",
+        "bd67b0a8-a6d3-4754-bf59-3049221415f5": "29bf14ab-35df-43ab-ba5a-a4c0043a52bf",
+        "cb00a216-27d7-48ff-935c-a8beb7f51a29": "371ec458-f5c9-4b30-967e-3aa9efdc6dcf",
+        "2231d358-8cda-4065-9c0b-19bfb3c293f8": "71c70a73-0aef-49aa-892c-54507258da7c",
+        "ceedb06d-2dc5-486b-9a94-980af4e070d1": "782fb55e-6358-40b8-8443-be271ccd2551",
+        "432c3c8a-70ac-4953-be13-5cc248bf17d2": "278033db-dc3d-4bbf-83b6-b33c1df6cd3f",
+        "653e9f07-147a-4c71-899d-ce6645fe6228": "89da9aeb-87ff-4c21-b1ac-cb187fe4ed9f",
+        "00e71f1e-ea75-4ef3-ae86-7fc3f62a80d7": "30f652ab-3d6f-4343-895b-aa3054e91aa2",
+        "76f412dc-78fb-4513-9ff9-d8b396dde02d": "f499c592-3840-42c4-b8a8-1dd4f32195fb",
+        "8dad3acf-1b83-48dd-9b97-1016a15d2943": "55c05b28-cb0d-40ef-b314-a7c0406359f0",
+        "0ecc28f9-9a0a-4c97-837b-a9b70311be02": "91d9d1e5-a3b2-49f9-aa64-7e27f23451f8",
+        "fd5fc6a8-5f5d-4f0b-a599-f3191820ee05": "5ad8548b-0d81-4eb9-b82f-a688e453b04a",
+        "6892768f-f7e8-4554-b0d8-351a0b0e682f": "694942a3-9343-4177-a992-236610e5596b",
+        "2c48bb5d-269b-4424-a605-c4c5505668d7": "8acb5571-9f29-4ad2-835e-dd4f0c75cbaf",
+        "37e1c5c9-1545-4bca-9388-6787dcccc489": "e420520b-7181-43d2-b516-72e315d456ec",
+        "cc61b97e-04c3-4ab7-9579-bc077d2a0c3b": "8840d794-0357-48d7-9424-a9f951aafdcf",
+        "2849e6e2-d4fe-4a12-8703-7fde63645cac": "67046a44-91da-4bef-b63d-5f355de52aaa",
+        "36deb752-76f0-456b-9aae-6da2079373be": "c612084c-8cc1-4f33-adaf-0cf3eb48130f",
+        "27c0ebf4-72df-4630-82b9-fad1cea79cda": "1af88da6-e2b7-4517-89e2-89020cb7677c",
+        "30948579-5274-45a6-b676-e98e51a6efa3": "4f6a491a-a841-456b-a2a1-1765c2001404",
+        "88f9447c-92b9-477d-8934-e48636158885": "2965ef10-c4f2-4df0-bdc8-12cf09f75b14",
+        "af451e0c-1802-4220-8bef-c5b261e0c651": "31a87461-fa27-4c47-9614-82b35994b6ca",
+        "05bde6c2-edcf-4e8e-8a1e-488840cc4116": "c759617e-8a0b-4c79-be98-b7d45a4d2148",
+        "93abd840-760a-4a29-90a1-95e41b8158ab": "df62f964-b223-4d5c-800a-436384846aff",
+        "f521bc94-8821-46e2-9eef-2414d4cdc564": "a02ebaa9-ff46-4837-90d0-1a1da8160f7e",
+        "008baacd-0787-4e83-a1c5-9add21791e0a": "f946488d-6012-4654-ad56-a4f18588b353",
+        "cf2e027c-2bfe-41b6-bb41-0adba85bb5ef": "a80529b7-225b-4510-86cb-43c16f421ecd",
+        "2dc3bf16-503e-4338-b176-663adfd0412b": "650b60de-63a0-492a-83ec-8d2498fa0666",
+        "395601c2-5b0e-40bd-a384-f6f41ee14f1a": "835c1389-4672-4a6f-866d-51f8e92463a6",
+        "a043f1fe-363b-4a6b-8268-89c219bea66b": "ebc9c1ee-6ee4-4a23-8f41-d6265410d46c",
+        "7ad7a993-a151-496c-9d77-e2336746b141": "56de72cf-0af7-4301-b025-5a5dfb50fd3c",
+        "5920e825-ef87-40d1-a730-43b10b928650": "4f5bac0e-186c-4710-9d4c-ea22b85e7837",
+        "acfd3374-710c-4b86-8b4a-8903de5c9101": "5fda993d-2de7-4e60-9642-bcfcc82eef40",
+        "d7227273-5dd2-417d-b2f6-f4f1f5ba6443": "0eaab0cb-2f9a-44ac-b113-abd740891846",
+        "2967fc9c-6c6f-4c52-956a-5328c40640c9": "22287f26-9a24-476d-8064-054b7656e300",
+        "a58ac046-878d-4702-b000-1981dee08f9f": "15e01ba7-cd02-4f18-9801-5cd9d868fed3",
+        "8677ab83-759e-40a1-9f63-662054843d8c": "5defb956-7378-4259-ac48-a2a861c2d978",
+        "9e64312e-1f1d-41ea-937f-533f3557cb26": "0caef568-ad95-40ae-ac65-f291924fa9c9",
+        "608a9031-9416-4eff-bb1f-66d2ce212dce": "ba44ddb0-152d-4bc1-b1f6-20a2675b915f",
+        "2e3ec7d4-76a9-4ce7-a583-58141721844b": "87691e4f-f3e2-40ff-bea6-d46ca6c28c87",
+        "8c9da018-34cd-4f11-8338-463cd1fac1ed": "166cbdf5-246e-453e-a27d-1c6610bea6fa",
+        "886b9345-0761-408a-bde8-a4f4ef50ceb9": "a182b4e1-be93-46b7-b75f-5ffda4449297",
+        "9de09b4b-241e-4d1a-a551-f2ca71b58bd4": "0ab8ffa5-22e7-480e-ba2b-793c322fa9b3",
+        "11a912b6-5ffa-40dc-be10-e3e2c95aa6ad": "ad3524e8-dcc5-4676-b292-3ff893b2c522",
+        "23994def-8f0c-4551-9492-7edca7d3c14a": "d2ce8d52-576a-43be-99ec-0daee5aef441",
+        "f83e74a7-1007-49eb-8b34-c9012d3ff05b": "bceac058-076c-43fe-9eda-c6f1d5656351",
+        "e5d8c0a2-9b55-45c8-be63-bf00a2f1bdf4": "dde87f56-5f31-4b1e-9a02-b96286d0ba82",
+        "d54625c9-a70d-468c-9517-d55f7d43406c": "f0cba783-6bb7-4a12-8c23-dc035159cabf",
+        "27d1b168-ccf1-4219-8308-3d0f0df9c8a8": "7045984e-b592-4174-a83b-965393098b8a",
+        "5c2f94b4-40ed-4000-b743-e0fc559ec37d": "11c29416-c0c8-4582-90ae-ce66b3de4621",
+        "3a6219f7-0608-44cd-ab95-7b39f721d0e2": "82adbfd5-8456-4836-ab47-3a11b9295d14",
+        "8e45d639-5247-4bf9-8040-78657bb1a4ac": "d1aedfc3-ed41-4882-9f9b-f0e04a81876f",
+        "3837ce32-ce9c-471a-af7c-df1da037baf2": "7174ddf2-f725-4c25-9f31-5aa715a02c45",
+        "2541c214-7e6e-4575-b43b-abc2ca311e00": "37bff20d-b8f7-4103-b502-43b72701505c",
+        "5240005d-ed85-4142-ae93-7a16de305c5f": "2100ec95-53b1-40d2-a706-5db523ad4391",
+        "64420ff3-fab9-4948-b1e2-b3661ef0dc51": "76bc44b8-a808-4a71-bc39-32a88681f6b8",
+        "8984928e-b9ab-4bdf-9c52-7790da2d318c": "07396866-1b16-4c65-8c25-1a2c4a533dc5",
+        "d33fd5e4-aba7-404e-9edb-763a66cba6f6": "f9287442-eda0-4500-803b-3fd16469ad0b",
+        "a5bc42c5-fb80-4e15-81a0-4526ecb5f056": "1e9df750-e77c-42f3-8457-af6a6c43a4e4",
+        "d984c9d5-d135-4376-92c8-64f560049ec6": "08dee685-163f-4119-b941-70177de28206",
+        "9cf95308-074d-42f0-abc4-2526fc8fcd34": "c2b1194d-c801-4d62-a33e-2a47df1cb08d",
+        "3c229608-0d07-4307-93cf-f3efc7dd73e9": "21ecd326-3ca5-48e2-955c-67086d099f0d",
+        "27c6b7ba-c4e5-4842-a9dc-a80a3896a473": "6052ef64-43b8-4d1a-a3c9-663868caab8c",
+        "f5f9d477-61ee-42b6-9058-b350bc608d80": "59935379-5ec5-4bad-8955-aacc8da3df98",
+        "40d8516d-0f84-46af-a851-225f293b7a01": "4b938a47-68d0-4def-aa59-b81bb03aeb51",
+        "d7a9a5cf-c99b-4739-9ead-1551de3daf90": "bc10dcc4-992d-464f-9b61-e08b55ebd54a",
+        "92b11536-3110-4bfa-8b6f-c8fd71299ea3": "545d0fbd-1d7d-4be0-9ec4-84195d00a625",
+        "1ab61de4-6fd7-4438-adb9-7cfad80a245b": "5a3f9b78-9cb4-4a20-b239-b5b12987f796",
+        "2b9cf162-aa3a-4120-8d56-b4747eb3c1fa": "a822aee9-e569-4915-ac80-cea61a3b5978",
+        "8c2c253e-de83-46a9-8866-12dd3ec08700": "4d9fb919-a886-4021-9f88-845fe195df2e",
+        "4532d0e4-6e2e-4637-ae48-64e720238fcf": "8cf082ea-3fcc-4059-84db-875ce8dde22b",
+        "c19be5da-fbb4-43e9-969e-55a46978c8dc": "46587191-11bc-4c7f-97d6-ed69684e2486",
+        "65044dbe-54a0-44d1-8239-54062c195312": "7e6b0050-79ac-4bb2-bb2b-3fbf60185419",
+        "c6fbdc08-8c3b-45f6-b402-0e2ff61210d6": "7dac3d1e-2fa2-47fe-8b68-c999075173b6",
+        "41facc0c-a746-4e64-8de9-a5b91cd0563a": "7432c903-16bb-418a-8639-dc4480056ce3",
+        "c2d95cd0-a03d-48c1-ac60-c0935a7bc85b": "3571a793-6446-4d6b-93cf-9e82c67965a9",
+        "d259d3f1-2c3a-4deb-af11-4370daa6bfaf": "7f5b2c31-820e-4486-a3af-2fb2b3d513df",
+        "25c73e22-0399-40cc-afea-a75d7737bc0c": "9b4284a1-133e-4f10-bfa8-c40ffd7734cc",
+        "81ec25d2-4a20-47f2-a184-6e4d5bfbf46e": "4ba84210-934b-4757-8607-94ef201ee2ee",
+        "3835ac5d-aee5-47a9-b837-8b10b81540e0": "4a902d1c-7eb1-4978-aab7-6b79bf48b261",
+        "5a909d0b-d0f9-4e80-b960-53136011c0a1": "aca8a1f5-94a4-45d7-8c22-1b011af1951e",
+        "8ade44f7-24af-49af-a4ac-f6d8ccb452a2": "8fe4b8c6-07f9-4df9-8135-b42e6fafffcb",
+        "4494bd01-6bc1-464b-b22e-28688b28af22": "d70efcb1-cd60-492a-9b23-87dc3dae34fa",
+        "a2c31ff0-6247-4bc5-89c5-a1cfda76ce99": "1744dae0-0d38-438e-bd5a-44f53a021e04",
+        "7cc0c081-4b25-4d03-baae-1e82cf06806d": "274c9bbf-6e17-4684-85e6-2904bdc97069",
+        "7da0f84f-ba16-4fda-9601-a7fc2ff0e454": "9d1d0bcf-8486-40fe-9452-a2e08d8463da",
+        "e1b9e7e9-88aa-419d-b753-a8e50316ebbc": "f715ce8e-edc5-4919-a061-758d394a28df",
+        "995e84fd-4342-4c00-966c-aeedfc01e64e": "20fd064e-7951-4ce1-b662-022287155ab3",
+        "519df53b-571f-4088-a78d-ab8f00122d3b": "769686bc-ea81-44fc-a761-3a5b1eaadd18",
+        "892928e9-f3c9-49cf-bcd8-a06f4e41cb1b": "77a4ea33-5605-4402-94c4-bccb648eb13b",
+        "971576fb-ff6f-4a62-8615-0ac2a6238373": "59d09a08-929e-415f-9c68-8f57e0f91aee",
+        "30f25c9e-6b04-476e-be3d-351196bc26a0": "a317a5cb-fc7f-4616-a824-12a67d9593e5",
+        "9c048289-b9df-49c0-84fb-43f4718f81f3": "fe5d9951-20dd-46e7-a1ee-69c4b7360777",
+        "9065c804-ce44-4116-bb18-73072ccba59a": "6b08725b-a20e-4ba7-9f6f-e2fbe7badce7",
+        "e6a2f25b-cba5-4dfb-870d-4088ffc13c78": "ccca0ed6-eb8b-47a4-b0a5-62448c49e283",
+        "63546057-cef5-431a-88ce-f342a30b7154": "786bdc2f-d183-419a-9aa5-224b10badaed",
+        "ad00b1d8-cf5b-4872-9f70-f7d5b93b7020": "28d79852-9e60-426b-a3b0-19af3744da05",
+        "4d682924-f645-4cc8-8f55-daf784cefe10": "cd806cbf-7956-42fd-b199-97175672ca56",
+        "bcd42ab9-a42f-4872-9cc9-2fb84aca8990": "bb212d5f-0ffb-46f7-a671-90da14b6e886",
+        "5662f449-aec9-4adf-b244-8d43521d48a2": "4f64ea1f-7966-4218-b714-754cf751cb22",
+        "bef26033-02ac-4b4b-a359-d5838b3652ce": "501944fb-885e-4ed9-a383-fc6ec18e7def",
+        "693be9cb-39de-4abe-96ea-67ea6fc0034b": "fab1467b-140d-4984-9a8b-58e19b8ae291",
+        "f1625667-d95b-4e87-b075-3b8ea82980e1": "b176120c-8f3f-4d3b-9245-a57de7f1eb91",
+        "f6f22aa7-1d4e-4c3f-b89a-1fc6ef71f3ce": "8ff718a3-ad73-4cfd-a250-1f6e8dd8fa74",
+        "afd4e481-3b9e-4ce5-b358-7e7089725d5b": "09e644a2-e895-44c5-9146-3dfb01100286",
+        "beeb2b19-0426-4616-8594-c796f0d146cf": "56461256-8949-4801-86ed-837e1d257858",
+        "66020797-d40b-4f53-a091-75c62b903928": "3d2cfe63-0b12-42cf-ac75-63c9a1e97fd0",
+        "ca12d12a-ff38-4503-aaa6-983a2c08f8d0": "f4161a9d-dd2f-4dc6-93b3-2fa8024ff0a9",
+        "6721e749-febb-4ba3-9afb-621b6a8c4535": "7235b778-9cd5-481e-9e39-271833ddce57",
+        "f7d31105-57d6-493d-a165-e15e012776f8": "da077910-b77a-4c5f-9f86-7dbf0d897b48",
+        "5e701a5f-1bf8-4c82-a457-4a68f1d9eada": "79c4ff52-bb4f-4297-82d1-a2ee131ba917",
+        "29116436-08ae-4437-8bf4-30c9d5142572": "c59a2b6c-6c26-4fff-87c8-944faf0300b5",
+        "44c19cf2-9cd1-48a3-9fe1-cc2ac3ee77df": "0ef56684-548f-4025-9db3-2a3d00db7919",
+        "60e762c2-15ac-4b96-bbb6-bd67c7a6043d": "90136a1b-5679-49a2-bd26-0d110157a956",
+        "2c5f5ef7-92f1-437e-8f28-0f2ef5d54032": "9b2104ac-7444-4c2f-853e-2ebaf377674e",
+        "930881fa-e544-4c80-90fe-dc054fb4cd23": "3eb42b35-a125-445a-95b6-f33d6f66694d",
+        "49426d97-1dde-4d8c-8d4d-d47e3a32d58f": "217d2699-c086-4eae-ae7a-82baed749224",
+        "f3ca2d71-a7b4-412f-8642-b6c965d5c70c": "8626fc5d-3ad2-48ad-ae69-0856997f9775",
+        "965a9da1-1273-42a6-9dd5-20bd1a7efba6": "1462d2e9-2883-499d-a9ba-52adc08d0ba1",
+        "f97d5237-62f7-4586-93b6-02a98cb19f51": "ed03ce57-0bc2-43b3-81ba-251b059306d0",
+        "be2e0066-6d77-4bbb-ae62-672e5af381ab": "2265b2bd-875c-45a4-9f91-17df87df13e5",
+        "106fa0d3-13f4-4756-b495-f2f65f1dbc58": "9c47c53f-0ab9-47d1-ba0e-daadf9c1999d",
+        "c94c7eb2-7eb9-4439-98a3-80b20c4d1326": "231de720-b649-4782-b5a5-fee31e03af5d",
+        "5286e994-68f9-4f68-8661-b5d7dfebe9bf": "68de3e25-b658-44e4-854f-b864d98af62b",
+        "954c7679-077a-49ef-9a2e-ddf8b0d2ca9b": "843fbfae-bdc8-4a33-8fd2-a25b8c7ab175",
+        "78e45c59-9044-43b5-8b0b-3363c79dfd1d": "fd7a6026-cb5b-4378-b499-fe0ba990108d",
+        "2d8870fc-868f-428f-a485-8ac4dcd826f6": "b1ce61a5-5182-42a3-9b39-b10d3f981733",
+        "4ad2183f-2a6a-4329-8653-6eb5cda2e514": "5c5cb09c-12d8-4dd1-a940-df444fb3155e",
+        "9f80d6aa-77e5-4dda-9a3c-ea25b6abbe23": "fe20c7e9-fcf7-49b6-b187-c7510784eb0e",
+        "38600e88-74af-457d-a02b-4cf6a3557077": "3e6320b5-0a93-47b8-8111-c7a461a1e9b4",
+        "82656a9d-cb32-4645-b6b9-e6afb8d04425": "b0ed2fe6-fb1a-4458-9143-548f4197db75",
+        "e3358ed2-bfc6-4a7b-8bf3-99443b9e1f05": "593f88db-60dd-4f7a-a54d-385fea95f4fe",
+        "e8c2e4b8-78e5-4228-8536-906832b2e6c4": "4aa2104b-24ff-470b-9213-c8773120568b",
+        "b812e9a8-e3d3-49fb-8e67-33d00e144ce0": "7a9f970b-01b3-47e9-a5a5-56f7271b31bc",
+        "7b5b39a9-390b-44e1-871a-93e9b33fc3bc": "d65215fa-76f3-46c8-a52d-b77712f8d024",
+        "22b3f50b-383c-4a19-aaf7-81f8139b4be3": "f74915fe-f45c-4ae0-a29e-8bdc8076b9e8",
+        "1ddcd11f-d872-4a05-bcfd-7f95ec988c09": "ef7dc242-91de-4a87-8bd7-a733e69fb917",
+        "0794ad24-f2d3-4f5b-9040-52c576ab5128": "3303fd10-0724-4b3c-b9a5-ce884a20e475",
+        "e13cdc22-0686-45f5-a22e-a375dfeb352a": "a0c836f0-dc41-49e7-9e3c-5462a967044c",
+        "b38cec79-4052-4c76-9674-1659137c177e": "e5051b87-5d98-47c0-a60d-ca23e544901d",
+        "36da5118-cc0e-46f1-8a64-9389a1c560c7": "23ffb7da-110d-4952-a818-aff05e82c0ec",
+        "2e4da31c-d856-4187-afa3-cae33d1d3644": "694f182e-f81f-4ebd-9c42-eba8f191b29c",
+        "b9f96225-9182-4b2a-af19-995cdf9853c8": "5d085215-df5f-40f6-9a8e-bf50e3d216ff",
+        "6945459d-7f9d-477b-993c-f8fe50be2f00": "c5b3e708-5972-4ee6-9b0a-ca3b90968fdf",
+        "b19b8053-e3cf-4a7d-bf6a-937d1e1dfe34": "2851d3b1-6356-4585-af06-86087bfb689e",
+        "f931cfb3-4f78-49b6-9116-337b024016bf": "6faae3e7-b96b-4082-aa01-30a6535a64d2",
+        "791a3d32-d78f-413a-a3a9-dc43b2efd9b6": "2a2cebd6-ad3d-42e1-9d17-e15f3c311384",
+        "ede5949c-128d-4273-8136-b1d4b86d54b0": "d495e641-6f57-45f0-b1fc-95c5d76a3b27",
+        "bf3f7e8c-da37-4141-a144-800aaa8cd33b": "804697fa-975d-4afc-a76f-59d3baa79601",
+        "e8b735ae-13dc-48f1-b65c-f0bfa95c2165": "b4a0087c-565c-44c6-96d9-c7fe69f12635",
+        "8a168628-201c-4fe4-82b3-46ed54a0dcb8": "eb5c21a8-cf9b-46e1-8ec8-bda063b990b3",
+        "16e8f78c-7179-4090-a40c-d88d1b029647": "40f1c2f8-17f5-45e6-b4b1-103a4213ae85",
+        "608b261b-3001-4833-882b-7787f48313db": "a137379e-ca1a-465d-b8f7-a8097df8705a",
+        "adb22ffd-3fad-485b-9a5e-0bd406d0f895": "461348e4-decd-481d-88d0-cfc178b120be",
+        "272375e1-1ac4-401e-88d6-3e3c91dd6517": "e6df36ee-20c8-4404-a0ab-9654d0d2326b",
+        "0c61b535-8712-4e2f-aa88-189f60683fd5": "97a110bd-dc2a-4bb4-926c-ae2279eed7e0",
+        "86d1a3c8-feb6-4c32-9d7a-bd8650b4d5df": "d5946551-dd31-4473-8687-a687ccdc92a9",
+        "029ea075-4cef-416c-8346-ad9616160c1e": "3976a707-9bfe-4801-a793-2a6ad974abb7",
+        "b5c674ad-c6c4-4e5e-894a-571154d16c55": "f703e7a9-d321-400b-b373-5a16ce676e2f",
+        "4c09827d-ebb3-461a-a0c9-dae06abf7420": "b900f95a-e8b0-41e9-971e-fcf0e344a635"
+      }
+    },
+    {
+      "__guid": "30cf5371-b141-42d5-aceb-c96f80083cab",
+      "__version": 2,
+      "__Prefab": {
+        "Id": "8fc86815-97d2-4421-a163-21082604126c",
+        "Path": "creatures/zombie_classic/zombie_classic.prefab"
+      },
+      "__PrefabInstancePatch": {
+        "AddedObjects": [],
+        "RemovedObjects": [],
+        "PropertyOverrides": [
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "004db47a-fa9f-4c14-be56-c4bdcf7e8491"
+            },
+            "Property": "Name",
+            "Value": "zombie_classic (3)"
+          },
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "004db47a-fa9f-4c14-be56-c4bdcf7e8491"
+            },
+            "Property": "Position",
+            "Value": "2191.97803,2638.39746,-1.0087204"
+          },
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "004db47a-fa9f-4c14-be56-c4bdcf7e8491"
+            },
+            "Property": "Rotation",
+            "Value": "0,0,0,0.99999994"
+          },
+          {
+            "Target": {
+              "Type": "Component",
+              "IdValue": "86d1a3c8-feb6-4c32-9d7a-bd8650b4d5df"
+            },
+            "Property": "Parameters",
+            "Value": {
+              "bools": {
+                "ik.hand_left.enabled": false,
+                "ik.hand_right.enabled": false,
+                "ik.foot_left.enabled": false,
+                "ik.foot_right.enabled": false
+              }
+            }
+          },
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "30f25c9e-6b04-476e-be3d-351196bc26a0"
+            },
+            "Property": "Position",
+            "Value": "0,0,0"
+          },
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "78e45c59-9044-43b5-8b0b-3363c79dfd1d"
+            },
+            "Property": "Position",
+            "Value": "0,0,0"
+          },
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "7b5b39a9-390b-44e1-871a-93e9b33fc3bc"
+            },
+            "Property": "Position",
+            "Value": "0,0,0"
+          }
+        ],
+        "MovedObjects": []
+      },
+      "__PrefabIdToInstanceId": {
+        "004db47a-fa9f-4c14-be56-c4bdcf7e8491": "30cf5371-b141-42d5-aceb-c96f80083cab",
+        "9effae08-81f8-46dd-a92a-2d41d40a11b4": "42cfc1d3-b891-4155-8127-ab0262c12904",
+        "cd2326ed-0b49-4fc2-b6c6-f61437e4181e": "41b706b1-e953-44df-91dd-ed0dc565c676",
+        "16e99edf-f7a2-4cab-b86f-5dd9265ea543": "39d03bae-a997-4d9d-bb8a-564838b60973",
+        "59d564ba-739c-4a55-874d-59ced86a51d7": "a75cd8a8-f714-4f3a-8e25-0ca1b064af46",
+        "60dfe226-1839-4eec-996c-062df92fc9d0": "3436c8ea-e65e-45f3-9d58-0951f1054752",
+        "26af2364-db9a-4389-9fa6-0f7f9b1eaced": "bb482742-740f-4ca2-ae22-44791970bd5c",
+        "4d411ee9-8a25-4e33-af58-2283d08d41d6": "863c717d-d201-432f-90c1-2a73c1bdaa4e",
+        "48a4ddba-305f-4f62-a973-080fc014bd7d": "23786032-1a1e-4921-ae45-81b3be2b3923",
+        "e4c2a811-cb37-450e-a60a-993c3330d645": "950f0eb6-88bb-40a7-b863-5c5843d24ce7",
+        "0edb0443-0ed2-4a90-b5fc-f348cfb1b310": "07e9ea19-813d-4e4b-8b44-625eb2aa50be",
+        "9c52daab-a048-4ada-b44a-94a1e5646fc3": "579d0bf7-bfaf-4f87-ad4b-c2acee0d23a7",
+        "c9f378a1-f95f-42af-a48b-dff93f5de281": "3b4a7015-fc1d-4657-9c75-aed2dc78b2f8",
+        "0985c4d2-bec3-46c6-a1cf-0de1768579db": "804b1b75-56ad-40b6-9257-b1d31c48c271",
+        "50e65cfe-6438-4ef5-ad98-04b81fbafe79": "76a3c520-673f-4838-a870-f74b92465363",
+        "318ba375-3f06-454e-9b04-098a63915859": "6dc9ce90-2ec8-4abd-b62c-dce577e0d129",
+        "bd67b0a8-a6d3-4754-bf59-3049221415f5": "44bb6ee4-d050-4628-9f00-83c82419fbee",
+        "cb00a216-27d7-48ff-935c-a8beb7f51a29": "962ac05c-b164-4f67-982f-033d86c21484",
+        "2231d358-8cda-4065-9c0b-19bfb3c293f8": "eb68db10-6bc8-4fd6-8145-3f4a1c6a2579",
+        "ceedb06d-2dc5-486b-9a94-980af4e070d1": "89407765-610e-46fd-a24a-d4dce522f672",
+        "432c3c8a-70ac-4953-be13-5cc248bf17d2": "35d9f12a-0255-4a7e-a1a1-89ec8d35627d",
+        "653e9f07-147a-4c71-899d-ce6645fe6228": "9766d542-7937-4d31-a8ae-63315faa292f",
+        "00e71f1e-ea75-4ef3-ae86-7fc3f62a80d7": "ccc78e47-a2ba-4775-b800-dca214cf202b",
+        "76f412dc-78fb-4513-9ff9-d8b396dde02d": "20f8d722-17cc-4d16-8d17-5dd370d9fa84",
+        "8dad3acf-1b83-48dd-9b97-1016a15d2943": "01eeb6c7-7f17-4193-9478-30c55c720216",
+        "0ecc28f9-9a0a-4c97-837b-a9b70311be02": "d1ddf58b-d886-4ed7-9fc1-94656d3d1788",
+        "fd5fc6a8-5f5d-4f0b-a599-f3191820ee05": "c6734f1c-3371-4673-b1ac-06ee7981ae49",
+        "6892768f-f7e8-4554-b0d8-351a0b0e682f": "c953a562-d903-4e04-8cb6-7a5a55292e16",
+        "2c48bb5d-269b-4424-a605-c4c5505668d7": "84768245-faa5-492f-a187-6451e4a60083",
+        "37e1c5c9-1545-4bca-9388-6787dcccc489": "64a86087-d6cb-423a-9ed1-9e9b17d13f7a",
+        "cc61b97e-04c3-4ab7-9579-bc077d2a0c3b": "12a86635-7f22-4049-a414-3da624a93081",
+        "2849e6e2-d4fe-4a12-8703-7fde63645cac": "3fa9cc64-2e09-4ed7-8b9b-acbc64dad3cf",
+        "36deb752-76f0-456b-9aae-6da2079373be": "0b8d1155-b81c-4d2b-bd81-ad9ca250a979",
+        "27c0ebf4-72df-4630-82b9-fad1cea79cda": "b35b9bfd-c899-4eb7-8c92-18b6752384e9",
+        "30948579-5274-45a6-b676-e98e51a6efa3": "0a17f9c6-850c-44ff-821b-a39855a2fbe3",
+        "88f9447c-92b9-477d-8934-e48636158885": "5f742370-61ec-404b-a590-9f343ce43164",
+        "af451e0c-1802-4220-8bef-c5b261e0c651": "b6be98f2-3f34-40e9-96b2-8fceef8a4cf9",
+        "05bde6c2-edcf-4e8e-8a1e-488840cc4116": "f127d626-bef0-493f-89d3-14090cae73db",
+        "93abd840-760a-4a29-90a1-95e41b8158ab": "a07d52e0-5c26-4f63-9498-338074a3c8b8",
+        "f521bc94-8821-46e2-9eef-2414d4cdc564": "61c57975-760c-4740-b60c-409cbe31441a",
+        "008baacd-0787-4e83-a1c5-9add21791e0a": "fb8f6ce5-84f9-4387-bf1b-d74458cf787e",
+        "cf2e027c-2bfe-41b6-bb41-0adba85bb5ef": "014ce552-5cd0-45e0-94b2-9edb8cafafd3",
+        "2dc3bf16-503e-4338-b176-663adfd0412b": "a56a519c-d493-4bab-833c-27b758fce296",
+        "395601c2-5b0e-40bd-a384-f6f41ee14f1a": "352da30b-fc23-4b31-b190-1d2dbf7fc8a1",
+        "a043f1fe-363b-4a6b-8268-89c219bea66b": "5e19be53-cd4b-4d03-af40-eceb1b772860",
+        "7ad7a993-a151-496c-9d77-e2336746b141": "4ceb4eb8-4b57-4632-a67c-9ee9f0e8aa60",
+        "5920e825-ef87-40d1-a730-43b10b928650": "c6d1828f-5bc4-4e77-9019-f77679c4fab9",
+        "acfd3374-710c-4b86-8b4a-8903de5c9101": "d99e74c1-afd9-476d-9906-41d4f3e732a8",
+        "d7227273-5dd2-417d-b2f6-f4f1f5ba6443": "3cceedf3-021b-42d2-86b6-e2251680ab1b",
+        "2967fc9c-6c6f-4c52-956a-5328c40640c9": "e2bff22e-5bf4-443f-aebe-23c89a6ae9a0",
+        "a58ac046-878d-4702-b000-1981dee08f9f": "693ab727-bb98-4fa6-95ed-3eaa29d788df",
+        "8677ab83-759e-40a1-9f63-662054843d8c": "122c006a-66ee-416e-b206-4f9d678e0bcd",
+        "9e64312e-1f1d-41ea-937f-533f3557cb26": "4e3288c7-7a5a-4aa0-81af-2e75fcd2af81",
+        "608a9031-9416-4eff-bb1f-66d2ce212dce": "9bf439cb-945b-4047-af96-b5a21c9f3161",
+        "2e3ec7d4-76a9-4ce7-a583-58141721844b": "9528b699-bf73-4410-82d3-18317511c130",
+        "8c9da018-34cd-4f11-8338-463cd1fac1ed": "888d696a-a9e5-4d4c-a49c-80ae2f3881c2",
+        "886b9345-0761-408a-bde8-a4f4ef50ceb9": "e1f59a58-04ac-4ee9-93ae-508663fd24a9",
+        "9de09b4b-241e-4d1a-a551-f2ca71b58bd4": "f52bd27e-ff84-45b0-a8cc-080a2699ea40",
+        "11a912b6-5ffa-40dc-be10-e3e2c95aa6ad": "8419a61d-dcff-449f-a2ab-ef427851553b",
+        "23994def-8f0c-4551-9492-7edca7d3c14a": "3c9b473f-e412-4df6-aed3-fd4cfbda8010",
+        "f83e74a7-1007-49eb-8b34-c9012d3ff05b": "65c7e60e-0c56-46fc-b24a-531646499e99",
+        "e5d8c0a2-9b55-45c8-be63-bf00a2f1bdf4": "0f85309a-462c-4c65-b1a9-994e3f722672",
+        "d54625c9-a70d-468c-9517-d55f7d43406c": "6fe58037-38b0-4ac3-beea-d60ac9c536fd",
+        "27d1b168-ccf1-4219-8308-3d0f0df9c8a8": "d6c2b384-723f-4bfe-bba3-5e03b7eb806f",
+        "5c2f94b4-40ed-4000-b743-e0fc559ec37d": "88ce3aab-5fad-4a17-8d64-6c8ec77a8af1",
+        "3a6219f7-0608-44cd-ab95-7b39f721d0e2": "0cbb7e17-8cfc-4213-9b53-e34a463ce482",
+        "8e45d639-5247-4bf9-8040-78657bb1a4ac": "d357beb8-b949-4274-9fa2-8b6c113f8b81",
+        "3837ce32-ce9c-471a-af7c-df1da037baf2": "3ce3e109-6551-448e-9cdb-5bd7daa2b51e",
+        "2541c214-7e6e-4575-b43b-abc2ca311e00": "687a9ec8-96bc-45ea-9235-c9add19b0de4",
+        "5240005d-ed85-4142-ae93-7a16de305c5f": "1c06d380-d252-4159-b0be-529b2f24f274",
+        "64420ff3-fab9-4948-b1e2-b3661ef0dc51": "df8cd28b-e757-4b04-a171-0a1f95ad8daa",
+        "8984928e-b9ab-4bdf-9c52-7790da2d318c": "7ebbedf9-4d24-4eb3-a63b-5a677534c279",
+        "d33fd5e4-aba7-404e-9edb-763a66cba6f6": "48a89f0f-2a6e-4f2c-8834-17af6b6338be",
+        "a5bc42c5-fb80-4e15-81a0-4526ecb5f056": "01a08b1c-18dd-44de-9e04-5170a3f45847",
+        "d984c9d5-d135-4376-92c8-64f560049ec6": "48aae2d0-4def-4af7-9c6d-023e03a7cc31",
+        "9cf95308-074d-42f0-abc4-2526fc8fcd34": "8d6ff453-0979-441c-8ad6-0e567e42392e",
+        "3c229608-0d07-4307-93cf-f3efc7dd73e9": "c235b144-e645-4573-abbb-8882951e045e",
+        "27c6b7ba-c4e5-4842-a9dc-a80a3896a473": "f8d4a68c-cec7-463f-9de0-d1db61bb09f1",
+        "f5f9d477-61ee-42b6-9058-b350bc608d80": "7d5d174f-f681-4e72-8f6d-2838d7874b30",
+        "40d8516d-0f84-46af-a851-225f293b7a01": "192e43d9-721c-4c39-83a9-bc3f38963f54",
+        "d7a9a5cf-c99b-4739-9ead-1551de3daf90": "a78e41ec-de03-4ca4-8710-b3c4ef3d298d",
+        "92b11536-3110-4bfa-8b6f-c8fd71299ea3": "786256ec-7897-45fd-9e94-d63e8b0148f4",
+        "1ab61de4-6fd7-4438-adb9-7cfad80a245b": "8ab9027a-43bd-44a5-a891-7935d648624f",
+        "2b9cf162-aa3a-4120-8d56-b4747eb3c1fa": "89ce5138-661c-47aa-81e2-fefbc06017b9",
+        "8c2c253e-de83-46a9-8866-12dd3ec08700": "48e5f005-8ba4-4825-b444-76c2cd0a62d8",
+        "4532d0e4-6e2e-4637-ae48-64e720238fcf": "994fd1da-f868-44bf-921b-9f4a06292d26",
+        "c19be5da-fbb4-43e9-969e-55a46978c8dc": "1c4aa686-a2c4-4ff8-a32c-73c57107cd02",
+        "65044dbe-54a0-44d1-8239-54062c195312": "7ad83cb1-bb21-4922-8d52-558fee064906",
+        "c6fbdc08-8c3b-45f6-b402-0e2ff61210d6": "525c1161-5170-4c51-ab79-43db2d41ec53",
+        "41facc0c-a746-4e64-8de9-a5b91cd0563a": "37d37269-80e2-4ac2-9cc0-f6f02485ae2a",
+        "c2d95cd0-a03d-48c1-ac60-c0935a7bc85b": "0592b55e-1231-4e93-9c3b-4f4925b29101",
+        "d259d3f1-2c3a-4deb-af11-4370daa6bfaf": "89843f52-6cf5-4527-b582-270599ccb1b0",
+        "25c73e22-0399-40cc-afea-a75d7737bc0c": "bb5dbbb8-0674-4c5c-8479-19ee65655d3c",
+        "81ec25d2-4a20-47f2-a184-6e4d5bfbf46e": "41444f11-ecaf-46e0-a3b5-9ba2437c465d",
+        "3835ac5d-aee5-47a9-b837-8b10b81540e0": "2ad23394-32e7-4369-a898-68b573198edb",
+        "5a909d0b-d0f9-4e80-b960-53136011c0a1": "3fab3468-9cfd-483b-819f-acb8d455aa6a",
+        "8ade44f7-24af-49af-a4ac-f6d8ccb452a2": "2f562f4c-99cf-4277-8f4d-378c3a84bb64",
+        "4494bd01-6bc1-464b-b22e-28688b28af22": "e458549e-82f8-43e4-8d18-88a7b4418e8a",
+        "a2c31ff0-6247-4bc5-89c5-a1cfda76ce99": "806f7540-e292-4574-9b6b-4f42b6a15fe2",
+        "7cc0c081-4b25-4d03-baae-1e82cf06806d": "94b5b745-7e43-49f3-858a-c3ed4579024c",
+        "7da0f84f-ba16-4fda-9601-a7fc2ff0e454": "7584155b-8b63-4681-b630-dc670f7621f2",
+        "e1b9e7e9-88aa-419d-b753-a8e50316ebbc": "8199e9f8-f0f1-4658-8721-2bf93b20767f",
+        "995e84fd-4342-4c00-966c-aeedfc01e64e": "accac41d-a0b3-4ab5-ae55-8d5947c885c7",
+        "519df53b-571f-4088-a78d-ab8f00122d3b": "1e6b454a-2973-4687-887e-22530284b6c3",
+        "892928e9-f3c9-49cf-bcd8-a06f4e41cb1b": "ff80c975-b76c-4864-8082-95f6e9c118bd",
+        "971576fb-ff6f-4a62-8615-0ac2a6238373": "95598daa-261a-43b6-a805-6e77f4a337f7",
+        "30f25c9e-6b04-476e-be3d-351196bc26a0": "2e6692e4-0fd9-4e0b-89f3-5e2fafa133ec",
+        "9c048289-b9df-49c0-84fb-43f4718f81f3": "5ff8597a-e2b2-45e7-9d57-801cbd7645bd",
+        "9065c804-ce44-4116-bb18-73072ccba59a": "a4689a8a-9bbc-4236-b655-2f1894b5d284",
+        "e6a2f25b-cba5-4dfb-870d-4088ffc13c78": "478f9bdf-4a13-448d-a5f0-13f61b26cf40",
+        "63546057-cef5-431a-88ce-f342a30b7154": "dc97e355-0215-4a27-8774-77caea25dab6",
+        "ad00b1d8-cf5b-4872-9f70-f7d5b93b7020": "24d276ad-0d05-4128-8d94-014e8694ca2e",
+        "4d682924-f645-4cc8-8f55-daf784cefe10": "03653adc-9849-4ffe-ac02-fa3df12f1fa5",
+        "bcd42ab9-a42f-4872-9cc9-2fb84aca8990": "0cbdc381-05b3-4f6e-9be6-4d290649ca8b",
+        "5662f449-aec9-4adf-b244-8d43521d48a2": "45a57bce-a9ba-45f2-a687-d99e149ed0fe",
+        "bef26033-02ac-4b4b-a359-d5838b3652ce": "61b64ddb-3cce-4e04-bfad-78940a11ab6b",
+        "693be9cb-39de-4abe-96ea-67ea6fc0034b": "c8ef4e0f-c6a4-496a-839f-f24faa8b1ee1",
+        "f1625667-d95b-4e87-b075-3b8ea82980e1": "87511f5e-799e-4f50-8b59-1de18b63e679",
+        "f6f22aa7-1d4e-4c3f-b89a-1fc6ef71f3ce": "edb8a3ae-7de9-413e-9908-79a0ff59a9c9",
+        "afd4e481-3b9e-4ce5-b358-7e7089725d5b": "e6f633e3-bdd4-4bb1-bdb5-7781878c6c69",
+        "beeb2b19-0426-4616-8594-c796f0d146cf": "23701e75-fc54-4560-9cd9-b0b8045936b5",
+        "66020797-d40b-4f53-a091-75c62b903928": "14e3d65b-63de-4318-8c40-d48120dd6dc4",
+        "ca12d12a-ff38-4503-aaa6-983a2c08f8d0": "711eb5bc-655b-4314-9ffe-e00602288503",
+        "6721e749-febb-4ba3-9afb-621b6a8c4535": "7ffb6739-1157-43c2-9211-78ffe563cb5f",
+        "f7d31105-57d6-493d-a165-e15e012776f8": "efe61bec-a907-4967-bd4b-b9fc80da1f73",
+        "5e701a5f-1bf8-4c82-a457-4a68f1d9eada": "39ebd129-0632-49fe-91d9-ee1b944c19e7",
+        "29116436-08ae-4437-8bf4-30c9d5142572": "d82721f1-02b1-4f00-8158-9efb6b8ceab1",
+        "44c19cf2-9cd1-48a3-9fe1-cc2ac3ee77df": "9dab9b9c-2c31-48b0-97b2-748a62d7fd3a",
+        "60e762c2-15ac-4b96-bbb6-bd67c7a6043d": "5a812a2b-baa4-4789-b375-78c4f6355223",
+        "2c5f5ef7-92f1-437e-8f28-0f2ef5d54032": "1d7b63b5-246e-4c10-ab5d-de43d6023ad9",
+        "930881fa-e544-4c80-90fe-dc054fb4cd23": "cc55abea-16f5-4a31-bff1-35ea9c68d747",
+        "49426d97-1dde-4d8c-8d4d-d47e3a32d58f": "96736f0e-55d2-4df6-9349-ab71a659dbba",
+        "f3ca2d71-a7b4-412f-8642-b6c965d5c70c": "94124bb0-f746-4a93-96b3-2a89a46c8f74",
+        "965a9da1-1273-42a6-9dd5-20bd1a7efba6": "a83a3368-5576-4071-b1a9-b3162f3ce799",
+        "f97d5237-62f7-4586-93b6-02a98cb19f51": "9fd2b8b2-544f-41fb-96cf-6b7ab0d9c367",
+        "be2e0066-6d77-4bbb-ae62-672e5af381ab": "c5811af4-81cf-47a9-9280-3dfbd3f12ece",
+        "106fa0d3-13f4-4756-b495-f2f65f1dbc58": "ab78be77-99ec-4fa1-a5fe-cd2b1bc4ec0d",
+        "c94c7eb2-7eb9-4439-98a3-80b20c4d1326": "1908ef16-994e-427e-8f6a-c6ed7d84bcb2",
+        "5286e994-68f9-4f68-8661-b5d7dfebe9bf": "e871d898-5aca-4459-a202-1f8ddbc2f3a1",
+        "954c7679-077a-49ef-9a2e-ddf8b0d2ca9b": "976c53d4-240d-4256-a3e2-c01ad9b3bc71",
+        "78e45c59-9044-43b5-8b0b-3363c79dfd1d": "f9a1ff5b-70bd-456f-ad65-e64c64a0cb47",
+        "2d8870fc-868f-428f-a485-8ac4dcd826f6": "5fce6f48-130c-4db4-93c1-23e6a2e2c931",
+        "4ad2183f-2a6a-4329-8653-6eb5cda2e514": "c1531b52-06fd-40e9-affc-bb440bcd02cb",
+        "9f80d6aa-77e5-4dda-9a3c-ea25b6abbe23": "b755d1fb-a9a3-493b-af07-3567710ad418",
+        "38600e88-74af-457d-a02b-4cf6a3557077": "f81d3e0e-e31e-449f-a0e6-526cd0ff75e5",
+        "82656a9d-cb32-4645-b6b9-e6afb8d04425": "1a902eda-6e1f-45ae-9cc3-5d93676b1810",
+        "e3358ed2-bfc6-4a7b-8bf3-99443b9e1f05": "d6da45f0-2e2c-42ae-a34c-585a798555ee",
+        "e8c2e4b8-78e5-4228-8536-906832b2e6c4": "87cc1a03-e08a-49c2-8a70-29a4944c607f",
+        "b812e9a8-e3d3-49fb-8e67-33d00e144ce0": "5e6b40be-5b75-4af0-87be-e29b8c83598e",
+        "7b5b39a9-390b-44e1-871a-93e9b33fc3bc": "042f8051-b67d-4df6-af7f-b4ecac8279f8",
+        "22b3f50b-383c-4a19-aaf7-81f8139b4be3": "a611050f-9c04-4a91-8d70-5fe59ae1930b",
+        "1ddcd11f-d872-4a05-bcfd-7f95ec988c09": "d7fafb57-ff17-444a-ae4d-50acf98ba409",
+        "0794ad24-f2d3-4f5b-9040-52c576ab5128": "8b28ca01-37c4-43d2-91c6-dc991165175f",
+        "e13cdc22-0686-45f5-a22e-a375dfeb352a": "87cf4688-fd01-4b14-87b2-01df8d3545ec",
+        "b38cec79-4052-4c76-9674-1659137c177e": "4e035016-f454-464d-ab82-e65f095cae0a",
+        "36da5118-cc0e-46f1-8a64-9389a1c560c7": "0b744650-e2d7-4278-aa90-0bd1fd145727",
+        "2e4da31c-d856-4187-afa3-cae33d1d3644": "97c2c052-5f9f-439d-88ba-c1217c9fc79c",
+        "b9f96225-9182-4b2a-af19-995cdf9853c8": "b5b0f8b5-0c49-46c9-b24b-bc28e7430bd5",
+        "6945459d-7f9d-477b-993c-f8fe50be2f00": "dea528ad-dafe-42a3-b8b9-0ea1afb4b99f",
+        "b19b8053-e3cf-4a7d-bf6a-937d1e1dfe34": "2172bf55-633d-4d4a-b903-047cbb410452",
+        "f931cfb3-4f78-49b6-9116-337b024016bf": "463c3e94-cbce-4680-b481-e983c059ebec",
+        "791a3d32-d78f-413a-a3a9-dc43b2efd9b6": "449ffe1e-5242-4d8b-8986-b27935e4a059",
+        "ede5949c-128d-4273-8136-b1d4b86d54b0": "26e3a917-9dec-41fb-bf74-75f73b29dd8a",
+        "bf3f7e8c-da37-4141-a144-800aaa8cd33b": "d6dd85e4-8281-46af-8c25-88129e3ec084",
+        "e8b735ae-13dc-48f1-b65c-f0bfa95c2165": "b09de4e9-13e7-4e0c-b668-dd603dc0112e",
+        "8a168628-201c-4fe4-82b3-46ed54a0dcb8": "9b88d93c-a37b-4032-a17b-ce0c584e9105",
+        "16e8f78c-7179-4090-a40c-d88d1b029647": "b9feff8c-bc24-4c47-9061-6890b5fb6dbd",
+        "608b261b-3001-4833-882b-7787f48313db": "60916df2-c9d6-44df-8872-23421d510830",
+        "adb22ffd-3fad-485b-9a5e-0bd406d0f895": "c5a8c3a3-59f5-4218-ba76-46b2d984fa34",
+        "272375e1-1ac4-401e-88d6-3e3c91dd6517": "4dc9e92b-50cb-4a56-98c3-23bbb575bd48",
+        "0c61b535-8712-4e2f-aa88-189f60683fd5": "19e0efca-d359-4e5a-b951-b12836a29e5d",
+        "86d1a3c8-feb6-4c32-9d7a-bd8650b4d5df": "d129cc30-e904-42f6-8bb6-c091af6b80d6",
+        "029ea075-4cef-416c-8346-ad9616160c1e": "40c90e05-2f48-467e-bdef-569422ceeb1c",
+        "b5c674ad-c6c4-4e5e-894a-571154d16c55": "ab9b4439-b68c-49ec-b1f7-d3799d1355f8",
+        "4c09827d-ebb3-461a-a0c9-dae06abf7420": "2433c946-a5a8-4b1d-a283-b8301441b3dd"
+      }
+    },
+    {
+      "__guid": "c8a716e2-8517-477f-ae03-b5f477178f3d",
+      "__version": 2,
+      "Flags": 0,
+      "Name": "Cube",
+      "Position": "838.753601,4.76837158E-07,54.4225388",
+      "Rotation": "0,0.258819103,0,0.965925813",
+      "Scale": "15.2276936,2.60000014,0.170984447",
+      "Tags": "",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "NetworkFlags": 0,
+      "NetworkOrphaned": 0,
+      "NetworkTransmit": true,
+      "OwnerTransfer": 1,
+      "Components": [
+        {
+          "__type": "Sandbox.ModelRenderer",
+          "__guid": "87caba48-eea9-4cca-a022-fa4d2dbc8317",
+          "__enabled": true,
+          "Flags": 0,
+          "BodyGroups": 18446744073709551615,
+          "CreateAttachments": false,
+          "LodOverride": null,
+          "MaterialGroup": null,
+          "MaterialOverride": null,
+          "Materials": {
+            "indexed": {
+              "0": {
+                "Id": "7e76ef93-9864-4beb-8c75-c1f5581129ea",
+                "Path": "materials/concrete/concrete_01/concrete_01.vmat"
+              }
+            }
+          },
+          "Model": "models/dev/box.vmdl",
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
+          "RenderOptions": {
+            "GameLayer": true,
+            "OverlayLayer": false,
+            "BloomLayer": false,
+            "AfterUILayer": false
+          },
+          "RenderType": "On",
+          "Tint": "1,1,1,1"
+        },
+        {
+          "__type": "Sandbox.BoxCollider",
+          "__guid": "d9b5cd48-307a-4c62-afb6-15379ad5562e",
+          "__enabled": true,
+          "Flags": 0,
+          "Center": "0,0,0",
+          "ColliderFlags": 0,
+          "Elasticity": null,
+          "Friction": null,
+          "IsTrigger": false,
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
+          "OnObjectTriggerEnter": null,
+          "OnObjectTriggerExit": null,
+          "OnTriggerEnter": null,
+          "OnTriggerExit": null,
+          "RollingResistance": null,
+          "Scale": "50,50,50",
+          "Static": false,
+          "Surface": null,
+          "SurfaceVelocity": "0,0,0"
+        }
+      ],
+      "Children": []
+    },
+    {
+      "__guid": "59528047-68e8-4218-83b3-45cbafc82db7",
+      "__version": 2,
+      "Flags": 0,
+      "Name": "Cube (2)",
+      "Position": "2223.67285,2025.08594,48",
+      "Rotation": "-0.707106769,2.10734239E-08,2.10734239E-08,0.707106769",
+      "Scale": "15.2276936,2.05362725,1.30733263",
+      "Tags": "",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "NetworkFlags": 0,
+      "NetworkOrphaned": 0,
+      "NetworkTransmit": true,
+      "OwnerTransfer": 1,
+      "Components": [
+        {
+          "__type": "Sandbox.ModelRenderer",
+          "__guid": "db2ec097-56fd-41f3-b609-666f1e26c1ae",
+          "__enabled": true,
+          "Flags": 0,
+          "BodyGroups": 18446744073709551615,
+          "CreateAttachments": false,
+          "LodOverride": null,
+          "MaterialGroup": null,
+          "MaterialOverride": null,
+          "Materials": null,
+          "Model": "models/dev/box.vmdl",
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
+          "RenderOptions": {
+            "GameLayer": true,
+            "OverlayLayer": false,
+            "BloomLayer": false,
+            "AfterUILayer": false
+          },
+          "RenderType": "On",
+          "Tint": "1,1,1,1"
+        },
+        {
+          "__type": "Sandbox.BoxCollider",
+          "__guid": "010d029c-23b9-4f99-a59b-93f5ab3fe257",
+          "__enabled": true,
+          "Flags": 0,
+          "Center": "0,0,0",
+          "ColliderFlags": 0,
+          "Elasticity": null,
+          "Friction": null,
+          "IsTrigger": false,
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
+          "OnObjectTriggerEnter": null,
+          "OnObjectTriggerExit": null,
+          "OnTriggerEnter": null,
+          "OnTriggerExit": null,
+          "RollingResistance": null,
+          "Scale": "50,50,50",
+          "Static": false,
+          "Surface": null,
+          "SurfaceVelocity": "0,0,0"
+        }
+      ],
+      "Children": []
+    },
+    {
+      "__guid": "2b837b7c-7947-485b-a2ab-7a389150a55a",
+      "__version": 2,
+      "Flags": 0,
+      "Name": "Cube (3)",
+      "Position": "1848,2392,55.9999542",
+      "Rotation": "-0.49999997,0.49999997,-0.49999997,0.49999997",
+      "Scale": "15.2276936,2.60000014,0.170984447",
+      "Tags": "",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "NetworkFlags": 0,
+      "NetworkOrphaned": 0,
+      "NetworkTransmit": true,
+      "OwnerTransfer": 1,
+      "Components": [
+        {
+          "__type": "Sandbox.ModelRenderer",
+          "__guid": "dd5555df-4db5-44a3-8a81-0de8136378c8",
+          "__enabled": true,
+          "Flags": 0,
+          "BodyGroups": 18446744073709551615,
+          "CreateAttachments": false,
+          "LodOverride": null,
+          "MaterialGroup": null,
+          "MaterialOverride": null,
+          "Materials": null,
+          "Model": "models/dev/box.vmdl",
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
+          "RenderOptions": {
+            "GameLayer": true,
+            "OverlayLayer": false,
+            "BloomLayer": false,
+            "AfterUILayer": false
+          },
+          "RenderType": "On",
+          "Tint": "1,1,1,1"
+        },
+        {
+          "__type": "Sandbox.BoxCollider",
+          "__guid": "b25578e9-0c53-45cc-9420-f5c4625d3310",
+          "__enabled": true,
+          "Flags": 0,
+          "Center": "0,0,0",
+          "ColliderFlags": 0,
+          "Elasticity": null,
+          "Friction": null,
+          "IsTrigger": false,
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
+          "OnObjectTriggerEnter": null,
+          "OnObjectTriggerExit": null,
+          "OnTriggerEnter": null,
+          "OnTriggerExit": null,
+          "RollingResistance": null,
+          "Scale": "50,50,50",
+          "Static": false,
+          "Surface": null,
+          "SurfaceVelocity": "0,0,0"
+        }
+      ],
+      "Children": []
+    },
+    {
+      "__guid": "f1d40422-cf9c-4185-98b4-cb7b538b21d7",
+      "__version": 2,
+      "__Prefab": {
+        "Id": "84ea3034-f96c-4856-b447-4a5d91b03ef6",
+        "Path": "weapons/p90/p90.prefab"
+      },
+      "__PrefabInstancePatch": {
+        "AddedObjects": [],
+        "RemovedObjects": [],
+        "PropertyOverrides": [
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "469ac304-eba5-4b66-8b1f-bd88055c949b"
+            },
+            "Property": "Position",
+            "Value": "-479.999939,183.999969,257.406036"
+          },
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "469ac304-eba5-4b66-8b1f-bd88055c949b"
+            },
+            "Property": "Rotation",
+            "Value": "0,0,0,0.99999994"
+          }
+        ],
+        "MovedObjects": []
+      },
+      "__PrefabIdToInstanceId": {
+        "469ac304-eba5-4b66-8b1f-bd88055c949b": "f1d40422-cf9c-4185-98b4-cb7b538b21d7",
+        "74de6873-f2db-443a-9727-1dfcd47a5661": "f87062b9-3019-4f89-86e8-233c004d4fd5",
+        "94f9d11c-a3cc-4ce5-99c7-60c1392b4f30": "46d8ec6e-04f4-4090-a262-8685a50263c5",
+        "7c5bee69-dae6-480a-a872-49447133a8ae": "b2fe812a-c288-49a7-8e38-a3789ff27ae4",
+        "761eaecd-6e70-4cae-87d3-d49579d4b849": "a02edcae-42e2-44d9-bbdc-c0a15e78ae9f",
+        "69e4689e-47a9-4d43-963a-39e00e9c9839": "6aba8b84-490a-4634-ba40-165997dc3bc6",
+        "671191d4-3c16-427a-8f71-e5ba897ed107": "f6e2dfe5-490b-4740-95d3-c438532ed014",
+        "a5d4f19b-8ed8-489b-816b-5818f6e7a276": "849866ee-9ddd-4aab-85ad-b9cee988d20d"
+      }
+    },
+    {
+      "__guid": "4122c37b-2aec-44ee-aec5-e2669ae20031",
+      "__version": 2,
+      "__Prefab": {
+        "Id": "668666c1-37eb-46b5-b0c3-e7776d947f3e",
+        "Path": "weapons/pistol/9mmpistol.prefab"
+      },
+      "__PrefabInstancePatch": {
+        "AddedObjects": [],
+        "RemovedObjects": [],
+        "PropertyOverrides": [
+          {
+            "Target": {
+              "Type": "GameObject",
+              "IdValue": "c5ea8b74-89df-4205-b7f8-3e81b0b0249b"
+            },
+            "Property": "Position",
+            "Value": "-439.999939,167.999969,256"
+          }
+        ],
+        "MovedObjects": []
+      },
+      "__PrefabIdToInstanceId": {
+        "c5ea8b74-89df-4205-b7f8-3e81b0b0249b": "4122c37b-2aec-44ee-aec5-e2669ae20031",
+        "21a22041-4216-449a-a283-04ee78827ff0": "ae71feb6-dcec-48c2-b63e-a621c69a5565",
+        "18246af1-300a-4966-8342-4be67fadab6f": "a40a19ac-2aa4-4860-a035-79f21bdf7487",
+        "e93615aa-7e02-4913-a4be-431303184d5e": "f214d095-e3db-4d31-9518-ee7b65bcbe1d",
+        "b50293f9-b10e-40a1-9844-04aedc4ef73e": "d05dc04d-f904-4b8e-aff9-5396e3849cfb",
+        "f0a51a58-49be-4f08-ada2-0a2992dcf5d9": "3cf0397a-98ac-4d91-9c85-6eeef5447bae",
+        "299b6b71-e8ef-4ed2-a001-40515718b287": "b2f3f916-d522-8b6c-a9f3-62af5f871f36"
+      }
     }
   ],
   "SceneProperties": {
     "NetworkInterpolation": true,
+    "PhysicsMode": "Physics3D",
     "TimeScale": 1,
     "WantsSystemScene": true,
     "Metadata": {},

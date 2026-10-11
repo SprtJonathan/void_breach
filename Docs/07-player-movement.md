@@ -8,6 +8,8 @@ Le calcul d'inertie, de direction et de transition de sprint est regroupé dans 
 
 Le prefab utilise marche 150, sprint 300 et accroupissement 70 unités/s. Le lissage de la cible native reste actif : `AccelerationTime=0.12`, `DeaccelerationTime=0.09`. `DirectionResponseTime=0.055` et `ReversalResponseTime=0.11` adoucissent les changements de direction sans retarder la visée.
 
+Le déplacement et la direction du slide utilisent directement le yaw de `PlayerController.EyeAngles`, avant conversion en rotation. Le solveur natif reçoit cette même orientation horizontale. Regarder exactement vers le sol ou le ciel conserve ainsi les directions des touches, sans extraction instable du yaw depuis la rotation verticale.
+
 `EnableMomentumMovement=true` remplace l'accélération et le freinage du mode Walk par une friction au sol et une accélération projetée sur la direction demandée, inspirées du [mouvement Source de Valve](https://github.com/ValveSoftware/source-sdk-2013/blob/master/src/game/shared/gamemovement.cpp). Les colliders, les marches, le saut et la gravité en l'air restent natifs. Le drag Rigidbody et la friction des pieds sont retirés uniquement pendant ce mouvement, pour éviter un double freinage. Sur un sol statique praticable, la gravité du corps est suspendue et le grounding natif suit la surface, pour pouvoir s'arrêter en pente ; elle reprend dès la perte du sol. Les supports dynamiques conservent la gravité. Désactiver l'option retrouve le solveur natif et son `BrakePower=0.15`.
 
 | Réglage | Valeur du prefab | Effet |
@@ -107,5 +109,7 @@ Le verrou de combat passe 33 assertions dans les quatre états de traversal : pe
 Les rebords fins passent 12 scénarios supplémentaires : clôtures de 4/16/28 unités, confirmation manuelle vers Vaulting, maintien de Climbing sur un dessus large, relâchement définitif des mains, plafond, absence de réception, chute excessive, support retiré, obstacle ajouté, géométrie dynamique et option désactivée. Le mouvement passe 10 scénarios de physique réelle : arrêt progressif depuis 150, saut de sprint et deux sauts manuels à 300 conservés en l'air, saut de slide, air strafe, plafond de 420, impulsion externe de 500 conservée, collision murale, arrêt sur pente de 30° et marche native de 16 unités.
 
 Après le nettoyage des fichiers partiels et des snapshots de support, ces 22 scénarios sont rejoués avec succès dans le moteur. La compilation finale passe sans erreur et sans avertissement dans les composants de mouvement modifiés.
+
+La direction du déplacement est vérifiée dans le moteur sur 448 combinaisons : huit orientations horizontales, sept inclinaisons (dont ±90°), les quatre directions de déplacement, avec et sans le solveur d'inertie. Avant correction, 112 combinaisons échouaient ; après utilisation directe du yaw, les 448 passent.
 
 Une session avec deux processus locaux vérifie propriétaire et proxy : état Hanging et prise répliqués, paramètres IK actifs sur les deux machines, impact envoyé par le propriétaire et santé confirmée sur l'hôte et le client. Deux rapports natifs de 60 au même instant ne retirent que 60. Les bancs et géométries temporaires sont retirés du code livré. Une validation sous forte latence et sur serveur dédié reste distincte de ces tests locaux.

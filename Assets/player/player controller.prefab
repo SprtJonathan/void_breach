@@ -150,6 +150,13 @@
         "__enabled": true,
         "Flags": 0,
         "DirectionResponseTime": 0.055,
+        "EnableMomentumMovement": true,
+        "GroundAcceleration": 10,
+        "GroundDrag": 5.5,
+        "GroundStopSpeed": 60,
+        "AirAcceleration": 10,
+        "AirWishSpeed": 30,
+        "MaximumAirSpeed": 420,
         "EnableSlide": true,
         "ExtendSlideDownhill": true,
         "GroundAngle": 45,
@@ -178,14 +185,50 @@
         "SprintCurveStrength": 0.75,
         "SprintDecelerationTime": 0.35,
         "StepDownHeight": 18,
-        "StepUpHeight": 18,
-        "EnableMomentumMovement": true,
-        "GroundAcceleration": 10,
-        "GroundDrag": 5.5,
-        "GroundStopSpeed": 60,
-        "AirAcceleration": 10,
-        "AirWishSpeed": 30,
-        "MaximumAirSpeed": 420
+        "StepUpHeight": 18
+      },
+      {
+        "__type": "VBMoveModeTraversal",
+        "__guid": "c2ddc8d7-4b0f-466f-827c-0dfe2691d3a5",
+        "__enabled": true,
+        "Flags": 0,
+        "CatchReachAboveHead": 0,
+        "BodyTraceInset": 0.25,
+        "CatchWhileRising": true,
+        "ClimbDuration": 0.65,
+        "ClimbMaximumHeight": 112,
+        "Cooldown": 0.35,
+        "DebugDrawTraces": true,
+        "DebugIgnoreDepth": true,
+        "DebugTraceDuration": 2,
+        "EnableLedgeGrab": true,
+        "EnableThinLedgeVault": true,
+        "LedgeVaultMaximumDrop": 128,
+        "EnableTraversal": true,
+        "EnableTraversalDebug": false,
+        "FeedbackDuration": 1,
+        "HangDrainPerSecond": 5,
+        "MinimumCatchHoldTime": 0.25,
+        "JumpInputBuffer": 0.25,
+        "HangClimbRearmTime": 0.12,
+        "MaximumCatchFallSpeed": 600,
+        "MaximumHangTime": 0,
+        "MaximumLandingAngle": 25,
+        "MinimumHeight": 24,
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "Priority": 2,
+        "ReachDistance": 36,
+        "ShowTraversalFeedback": true,
+        "TraversalStaminaCost": 8,
+        "VaultDuration": 0.45,
+        "VaultForwardDistance": 80,
+        "VaultMaximumDrop": 80,
+        "VaultMaximumHeight": 64
       },
       {
         "__type": "Sandbox.Movement.MoveModeSwim",
@@ -228,32 +271,60 @@
           "go": "d01bf2bb-4495-4132-96b4-a5761fcdd441",
           "component_type": "SkinnedModelRenderer"
         },
+        "ChestSize": 0.5,
+        "ChinSize": 0,
         "Clothing": [
           {
-            "Clothing": "models/citizen_clothes/body/human05.clothing"
+            "Clothing": {
+              "Id": "cbba9073-225b-4a84-9bbf-ce9436615597",
+              "Path": "models/citizen_clothes/body/human05.clothing"
+            }
           },
           {
-            "Clothing": "models/citizen_clothes/shirt/flannel_shirt/flannel_shirt.clothing"
+            "Clothing": {
+              "Id": "46b57b4f-4ce5-41a5-82a5-62b30b838e14",
+              "Path": "models/citizen_clothes/shirt/flannel_shirt/flannel_shirt.clothing"
+            }
           },
           {
-            "Clothing": "models/citizen_clothes/trousers/cargopants/brown_cargo_pants.clothing"
+            "Clothing": {
+              "Id": "da391d9c-d6fc-4635-95e0-f7c979dc5fe2",
+              "Path": "models/citizen_clothes/trousers/cargopants/brown_cargo_pants.clothing"
+            }
           },
           {
-            "Clothing": "models/citizen_clothes/gloves/fingerless_gloves/fingerless_gloves.clothing"
+            "Clothing": {
+              "Id": "ad245ae6-3e58-4fac-9775-c51704c46820",
+              "Path": "models/citizen_clothes/gloves/fingerless_gloves/fingerless_gloves.clothing"
+            }
           },
           {
-            "Clothing": "models/citizen_clothes/shoes/boots/black_boots.clothing"
+            "Clothing": {
+              "Id": "ac691bb6-27ca-4897-9363-1c707b16d34e",
+              "Path": "models/citizen_clothes/shoes/boots/black_boots.clothing"
+            }
           },
           {
-            "Clothing": "models/citizen_clothes/hat/flatcap/flatcap.clothing"
+            "Clothing": {
+              "Id": "b471d06a-bd21-4b58-aed8-776e9bd7c119",
+              "Path": "models/citizen_clothes/hat/flatcap/flatcap.clothing"
+            }
           },
           {
-            "Clothing": "models/citizen_clothes/jacket/bomber_jacket/bomber_jacket.clothing"
+            "Clothing": {
+              "Id": "14dfeb4b-e877-40cd-bd72-f519e3e6e474",
+              "Path": "models/citizen_clothes/jacket/bomber_jacket/bomber_jacket.clothing"
+            }
           }
         ],
+        "EyeAlign": 0.5,
+        "EyeColor": 0,
+        "HeadShape": 0.5,
         "ManualAge": 0.5,
         "ManualHeight": 0.5,
         "ManualTint": 0.5,
+        "NeckSize": 0,
+        "NoseSize": 0,
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
         "OnComponentEnabled": null,
@@ -262,6 +333,7 @@
         "OnComponentUpdate": null,
         "RemoveUnownedItems": true,
         "Source": "Manual",
+        "WaistSize": 0.5,
         "WorkshopItems": []
       },
       {
@@ -290,6 +362,10 @@
           {
             "_type": "gameobject",
             "prefab": "weapons/fists/fists.prefab"
+          },
+          {
+            "_type": "gameobject",
+            "prefab": "pda/pda.prefab"
           }
         ],
         "UsesLoadout": true
@@ -315,9 +391,13 @@
         "__enabled": true,
         "Flags": 0,
         "BaseDrainRate": 5,
+        "CanBeDowned": true,
         "DefaultDrainModifierDuration": 5,
         "DownedHardHealthDamageTypes": "Explosion, Fire, Poison, Energy, Freeze",
-        "DownedSound": "sounds/player/health/downed_sound.sound",
+        "DownedSound": {
+          "Id": "f6af23aa-8081-40ed-b760-6291fd3fa3ef",
+          "Path": "sounds/player/health/downed_sound.sound"
+        },
         "MinWakeHp": 10,
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
@@ -428,87 +508,6 @@
         "YawAmplitude": 0.04
       },
       {
-        "__type": "VBFirstPersonHeldItemMotion",
-        "__guid": "6be0fc4b-860f-4fe8-89de-9e59c201f8cf",
-        "__enabled": true,
-        "Flags": 0,
-        "AdsLookInertiaScale": 0.1,
-        "AdsMovementScale": 0.25,
-        "AdsPitchDepthScale": 0,
-        "Controller": {
-          "_type": "component",
-          "component_id": "c085fbe2-eed9-44b1-b1a3-0be503ea0f07",
-          "go": "1f832bc9-bcab-42d6-ad2b-daac59f5c14d",
-          "component_type": "PlayerController"
-        },
-        "EnableLookInertia": true,
-        "EnableMovement": true,
-        "EnablePitchDepth": true,
-        "Inventory": {
-          "_type": "component",
-          "component_id": "071981b9-6183-41bf-9e2e-e2af002edda4",
-          "go": "1f832bc9-bcab-42d6-ad2b-daac59f5c14d",
-          "component_type": "BaseInventoryComponent"
-        },
-        "LookInertiaMaxAngle": 0.75,
-        "LookInertiaPositionScale": 0.025,
-        "LookInertiaReturnSpeed": 14,
-        "LookInertiaStrength": 0.05,
-        "OnComponentDestroy": null,
-        "OnComponentDisabled": null,
-        "OnComponentEnabled": null,
-        "OnComponentFixedUpdate": null,
-        "OnComponentStart": null,
-        "OnComponentUpdate": null,
-        "PitchDepthOffset": 0.5,
-        "RunMovementMultiplier": 1.15,
-        "WalkPositionAmplitude": "0.08,0.12,0.12",
-        "WalkRotationAmplitude": "0.05,0.05,0.04"
-      },
-      {
-        "__type": "VBMoveModeTraversal",
-        "__guid": "c2ddc8d7-4b0f-466f-827c-0dfe2691d3a5",
-        "__enabled": true,
-        "Flags": 0,
-        "CatchReachAboveHead": 0,
-        "BodyTraceInset": 0.25,
-        "CatchWhileRising": true,
-        "ClimbDuration": 0.65,
-        "ClimbMaximumHeight": 112,
-        "Cooldown": 0.35,
-        "DebugDrawTraces": true,
-        "DebugIgnoreDepth": true,
-        "DebugTraceDuration": 2,
-        "EnableLedgeGrab": true,
-        "EnableTraversal": true,
-        "EnableTraversalDebug": false,
-        "FeedbackDuration": 1,
-        "HangDrainPerSecond": 5,
-        "MinimumCatchHoldTime": 0.25,
-        "JumpInputBuffer": 0.25,
-        "HangClimbRearmTime": 0.12,
-        "MaximumCatchFallSpeed": 600,
-        "MaximumHangTime": 0,
-        "MaximumLandingAngle": 25,
-        "MinimumHeight": 24,
-        "OnComponentDestroy": null,
-        "OnComponentDisabled": null,
-        "OnComponentEnabled": null,
-        "OnComponentFixedUpdate": null,
-        "OnComponentStart": null,
-        "OnComponentUpdate": null,
-        "Priority": 2,
-        "ReachDistance": 36,
-        "ShowTraversalFeedback": true,
-        "TraversalStaminaCost": 8,
-        "VaultDuration": 0.45,
-        "VaultForwardDistance": 80,
-        "VaultMaximumDrop": 80,
-        "VaultMaximumHeight": 64,
-        "EnableThinLedgeVault": true,
-        "LedgeVaultMaximumDrop": 128
-      },
-      {
         "__type": "VBSlideCamera",
         "__guid": "9c3d28fa-fc85-444b-b095-c8272d601ede",
         "__enabled": true,
@@ -528,6 +527,32 @@
         "PitchDegrees": 0.5,
         "RollDegrees": -3,
         "ScaleWithSpeed": true
+      },
+      {
+        "__type": "VBFirstPersonHeldItemMotion",
+        "__guid": "6be0fc4b-860f-4fe8-89de-9e59c201f8cf",
+        "__enabled": true,
+        "Flags": 0,
+        "AdsLookInertiaScale": 0.1,
+        "AdsMovementScale": 0.25,
+        "AdsPitchDepthScale": 0,
+        "EnableLookInertia": true,
+        "EnableMovement": true,
+        "EnablePitchDepth": true,
+        "LookInertiaMaxAngle": 0.75,
+        "LookInertiaPositionScale": 0.025,
+        "LookInertiaReturnSpeed": 14,
+        "LookInertiaStrength": 0.05,
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "PitchDepthOffset": 0.5,
+        "RunMovementMultiplier": 1.15,
+        "WalkPositionAmplitude": "0.0799999982,0.119999997,0.119999997",
+        "WalkRotationAmplitude": "0.0500000007,0.0500000007,0.0399999991"
       },
       {
         "__type": "VBTraversalHands",
@@ -573,11 +598,15 @@
             "BoneMergeTarget": null,
             "CreateAttachments": false,
             "CreateBoneObjects": true,
+            "DeformationMode": "Normal",
             "LodOverride": null,
             "MaterialGroup": "skin_light",
             "MaterialOverride": null,
             "Materials": null,
-            "Model": "models/citizen_human/citizen_human_male.vmdl",
+            "Model": {
+              "Id": "161d0b00-c517-4044-989d-b679dab75a28",
+              "Path": "models/citizen_human/citizen_human_male.vmdl"
+            },
             "Morphs": {},
             "OnComponentDestroy": null,
             "OnComponentDisabled": null,
@@ -586,11 +615,10 @@
             "OnComponentStart": null,
             "OnComponentUpdate": null,
             "Parameters": {
-              "bools": {},
-              "ints": {},
-              "floats": {},
-              "vectors": {},
-              "rotations": {}
+              "floats": {
+                "scale_height": 1,
+                "scale_heel": 0
+              }
             },
             "PlaybackRate": 1,
             "RenderOptions": {
@@ -613,8 +641,21 @@
             "__guid": "7aee257d-2417-4d77-9c97-a5eb7a395e63",
             "__enabled": true,
             "Flags": 0,
+            "Bodies": [],
             "IgnoreRoot": true,
-            "Model": "models/citizen_human/citizen_human_male.vmdl",
+            "Joints": [],
+            "Locking": {
+              "X": false,
+              "Y": false,
+              "Z": false,
+              "Pitch": false,
+              "Yaw": false,
+              "Roll": false
+            },
+            "Model": {
+              "Id": "161d0b00-c517-4044-989d-b679dab75a28",
+              "Path": "models/citizen_human/citizen_human_male.vmdl"
+            },
             "MotionEnabled": false,
             "OnComponentDestroy": null,
             "OnComponentDisabled": null,
@@ -622,12 +663,15 @@
             "OnComponentFixedUpdate": null,
             "OnComponentStart": null,
             "OnComponentUpdate": null,
+            "PhysicsWereCreated": false,
             "Renderer": {
               "_type": "component",
               "component_id": "256504cb-7033-4371-bf1f-1747c5b471b8",
               "go": "d01bf2bb-4495-4132-96b4-a5761fcdd441",
               "component_type": "SkinnedModelRenderer"
-            }
+            },
+            "RigidbodyFlags": 0,
+            "StartAsleep": false
           }
         ],
         "Children": [
@@ -2412,7 +2456,7 @@
             ]
           },
           {
-            "__guid": "4ba87745-54ae-470e-80c0-621af3528e6b",
+            "__guid": "a20e7245-ed7f-43ab-a863-4a802e153ce6",
             "__version": 2,
             "Flags": 0,
             "Name": "Clothing - flannel_shirt",
@@ -2429,7 +2473,7 @@
             "Components": [
               {
                 "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "115e1ecc-20eb-4b5e-a5f1-1c261dbda5d1",
+                "__guid": "2ccf2768-1ce1-40ba-9574-7bdc1a2430c8",
                 "__enabled": true,
                 "Flags": 0,
                 "AnimationGraph": null,
@@ -2442,11 +2486,15 @@
                 },
                 "CreateAttachments": false,
                 "CreateBoneObjects": false,
+                "DeformationMode": "Normal",
                 "LodOverride": null,
                 "MaterialGroup": null,
                 "MaterialOverride": null,
                 "Materials": null,
-                "Model": "models/citizen_clothes/shirt/flannel_shirt/models/flannel_shirt_m_human.vmdl",
+                "Model": {
+                  "Id": "6ea9790d-d58c-4141-b531-29c9af815137",
+                  "Path": "models/citizen_clothes/shirt/flannel_shirt/models/flannel_shirt_m_human.vmdl"
+                },
                 "Morphs": {},
                 "OnComponentDestroy": null,
                 "OnComponentDisabled": null,
@@ -2454,13 +2502,7 @@
                 "OnComponentFixedUpdate": null,
                 "OnComponentStart": null,
                 "OnComponentUpdate": null,
-                "Parameters": {
-                  "bools": {},
-                  "ints": {},
-                  "floats": {},
-                  "vectors": {},
-                  "rotations": {}
-                },
+                "Parameters": {},
                 "PlaybackRate": 1,
                 "RenderOptions": {
                   "GameLayer": true,
@@ -2481,7 +2523,7 @@
             "Children": []
           },
           {
-            "__guid": "9bd1d664-ffbe-4fbf-ac8b-d54aac3d64b4",
+            "__guid": "3ed59570-97c4-4216-b3c0-8dc103e6891a",
             "__version": 2,
             "Flags": 0,
             "Name": "Clothing - brown_cargo_pants",
@@ -2498,7 +2540,7 @@
             "Components": [
               {
                 "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "83bdf186-f3d3-4fbe-a187-0497b29ec500",
+                "__guid": "833fa15e-90ec-4264-a970-5cb7ef539a56",
                 "__enabled": true,
                 "Flags": 0,
                 "AnimationGraph": null,
@@ -2511,11 +2553,15 @@
                 },
                 "CreateAttachments": false,
                 "CreateBoneObjects": false,
+                "DeformationMode": "Normal",
                 "LodOverride": null,
                 "MaterialGroup": null,
                 "MaterialOverride": null,
                 "Materials": null,
-                "Model": "models/citizen_clothes/trousers/cargopants/models/brown_cargo_pants_m_human.vmdl",
+                "Model": {
+                  "Id": "f8845a77-4d41-4ded-b3ec-4c5a4ad59f02",
+                  "Path": "models/citizen_clothes/trousers/cargopants/models/brown_cargo_pants_m_human.vmdl"
+                },
                 "Morphs": {},
                 "OnComponentDestroy": null,
                 "OnComponentDisabled": null,
@@ -2523,13 +2569,7 @@
                 "OnComponentFixedUpdate": null,
                 "OnComponentStart": null,
                 "OnComponentUpdate": null,
-                "Parameters": {
-                  "bools": {},
-                  "ints": {},
-                  "floats": {},
-                  "vectors": {},
-                  "rotations": {}
-                },
+                "Parameters": {},
                 "PlaybackRate": 1,
                 "RenderOptions": {
                   "GameLayer": true,
@@ -2550,7 +2590,7 @@
             "Children": []
           },
           {
-            "__guid": "c9edeb98-000f-426d-9e34-cd400638c4be",
+            "__guid": "24c7b6df-7da7-4438-b488-19a1f8de7143",
             "__version": 2,
             "Flags": 0,
             "Name": "Clothing - fingerless_gloves",
@@ -2567,7 +2607,7 @@
             "Components": [
               {
                 "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "9086fa1d-b5e8-4545-8c78-5117e4725e19",
+                "__guid": "e006b703-a866-441c-b475-5ee4a590e11c",
                 "__enabled": true,
                 "Flags": 0,
                 "AnimationGraph": null,
@@ -2580,11 +2620,15 @@
                 },
                 "CreateAttachments": false,
                 "CreateBoneObjects": false,
+                "DeformationMode": "Normal",
                 "LodOverride": null,
                 "MaterialGroup": null,
                 "MaterialOverride": null,
                 "Materials": null,
-                "Model": "models/citizen_clothes/gloves/fingerless_gloves/models/fingerless_gloves_m_human.vmdl",
+                "Model": {
+                  "Id": "b314bceb-9449-42fe-a109-a2b15d9825dd",
+                  "Path": "models/citizen_clothes/gloves/fingerless_gloves/models/fingerless_gloves_m_human.vmdl"
+                },
                 "Morphs": {},
                 "OnComponentDestroy": null,
                 "OnComponentDisabled": null,
@@ -2592,13 +2636,7 @@
                 "OnComponentFixedUpdate": null,
                 "OnComponentStart": null,
                 "OnComponentUpdate": null,
-                "Parameters": {
-                  "bools": {},
-                  "ints": {},
-                  "floats": {},
-                  "vectors": {},
-                  "rotations": {}
-                },
+                "Parameters": {},
                 "PlaybackRate": 1,
                 "RenderOptions": {
                   "GameLayer": true,
@@ -2619,7 +2657,7 @@
             "Children": []
           },
           {
-            "__guid": "bdade6d0-18e0-408c-9cd2-f57fed853160",
+            "__guid": "94c6aa04-491b-41b6-8c5e-b2dd710362b4",
             "__version": 2,
             "Flags": 0,
             "Name": "Clothing - black_boots",
@@ -2636,7 +2674,7 @@
             "Components": [
               {
                 "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "cd2b6aad-ce2a-4f09-aa84-b5ab29b3bfdd",
+                "__guid": "e6e2579f-2456-4214-a052-cf0979da804f",
                 "__enabled": true,
                 "Flags": 0,
                 "AnimationGraph": null,
@@ -2649,11 +2687,15 @@
                 },
                 "CreateAttachments": false,
                 "CreateBoneObjects": false,
+                "DeformationMode": "Normal",
                 "LodOverride": null,
                 "MaterialGroup": null,
                 "MaterialOverride": null,
                 "Materials": null,
-                "Model": "models/citizen_clothes/shoes/boots/models/boots_m_human.vmdl",
+                "Model": {
+                  "Id": "69912f44-d5da-4bea-b16f-855ab40e2f67",
+                  "Path": "models/citizen_clothes/shoes/boots/models/boots_m_human.vmdl"
+                },
                 "Morphs": {},
                 "OnComponentDestroy": null,
                 "OnComponentDisabled": null,
@@ -2661,13 +2703,7 @@
                 "OnComponentFixedUpdate": null,
                 "OnComponentStart": null,
                 "OnComponentUpdate": null,
-                "Parameters": {
-                  "bools": {},
-                  "ints": {},
-                  "floats": {},
-                  "vectors": {},
-                  "rotations": {}
-                },
+                "Parameters": {},
                 "PlaybackRate": 1,
                 "RenderOptions": {
                   "GameLayer": true,
@@ -2688,7 +2724,7 @@
             "Children": []
           },
           {
-            "__guid": "99bb3449-6fe7-41f7-b030-dee00183967a",
+            "__guid": "8bb01e6c-7c31-4906-a82b-bd5a4b9ccaed",
             "__version": 2,
             "Flags": 0,
             "Name": "Clothing - flatcap",
@@ -2705,7 +2741,7 @@
             "Components": [
               {
                 "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "9b782f9a-b087-42c5-b754-205fb9dac539",
+                "__guid": "72221388-5e1a-4788-91cb-cf7821f2444e",
                 "__enabled": true,
                 "Flags": 0,
                 "AnimationGraph": null,
@@ -2718,11 +2754,15 @@
                 },
                 "CreateAttachments": false,
                 "CreateBoneObjects": false,
+                "DeformationMode": "Normal",
                 "LodOverride": null,
                 "MaterialGroup": null,
                 "MaterialOverride": null,
                 "Materials": null,
-                "Model": "models/citizen_clothes/hat/flatcap/models/flatcap_m_human.vmdl",
+                "Model": {
+                  "Id": "85f1c91d-cf2e-4dec-8fd1-7fef216634f7",
+                  "Path": "models/citizen_clothes/hat/flatcap/models/flatcap_m_human.vmdl"
+                },
                 "Morphs": {},
                 "OnComponentDestroy": null,
                 "OnComponentDisabled": null,
@@ -2730,13 +2770,7 @@
                 "OnComponentFixedUpdate": null,
                 "OnComponentStart": null,
                 "OnComponentUpdate": null,
-                "Parameters": {
-                  "bools": {},
-                  "ints": {},
-                  "floats": {},
-                  "vectors": {},
-                  "rotations": {}
-                },
+                "Parameters": {},
                 "PlaybackRate": 1,
                 "RenderOptions": {
                   "GameLayer": true,
@@ -2757,7 +2791,7 @@
             "Children": []
           },
           {
-            "__guid": "54f1ecff-37ae-4ed1-aec8-dfd60acdb148",
+            "__guid": "4f08ed46-323a-419f-9fb8-488bc2bbc143",
             "__version": 2,
             "Flags": 0,
             "Name": "Clothing - bomber_jacket",
@@ -2774,7 +2808,7 @@
             "Components": [
               {
                 "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "48837f96-455f-426c-ac0a-32cbc17b66c8",
+                "__guid": "e6ba4ef1-9b7e-4950-b30d-3ff1aa045074",
                 "__enabled": true,
                 "Flags": 0,
                 "AnimationGraph": null,
@@ -2787,11 +2821,15 @@
                 },
                 "CreateAttachments": false,
                 "CreateBoneObjects": false,
+                "DeformationMode": "Normal",
                 "LodOverride": null,
                 "MaterialGroup": null,
                 "MaterialOverride": null,
                 "Materials": null,
-                "Model": "models/citizen_clothes/jacket/bomber_jacket/models/bomber_jacket_m_human.vmdl",
+                "Model": {
+                  "Id": "6f2a677e-3dc6-4051-99ae-780c08dd8433",
+                  "Path": "models/citizen_clothes/jacket/bomber_jacket/models/bomber_jacket_m_human.vmdl"
+                },
                 "Morphs": {},
                 "OnComponentDestroy": null,
                 "OnComponentDisabled": null,
@@ -2799,13 +2837,7 @@
                 "OnComponentFixedUpdate": null,
                 "OnComponentStart": null,
                 "OnComponentUpdate": null,
-                "Parameters": {
-                  "bools": {},
-                  "ints": {},
-                  "floats": {},
-                  "vectors": {},
-                  "rotations": {}
-                },
+                "Parameters": {},
                 "PlaybackRate": 1,
                 "RenderOptions": {
                   "GameLayer": true,
@@ -2931,6 +2963,7 @@
             "Scale": 1,
             "ScaleStrategy": "ConsistentHeight",
             "TargetCamera": null,
+            "Timing": "AfterPostProcess",
             "ZIndex": 100
           },
           {
@@ -2955,6 +2988,7 @@
     ],
     "__properties": {
       "NetworkInterpolation": true,
+      "PhysicsMode": "Physics3D",
       "TimeScale": 1,
       "WantsSystemScene": true,
       "Metadata": {},

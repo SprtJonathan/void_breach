@@ -1,0 +1,10 @@
+"Layer0"
+{
+	"shader" "shaders/complex.shader"
+	"g_flRoughnessScaleFactor" "2"
+	"g_flMetalness" "0"
+	"TextureColor" "materials/concrete/concrete_01/concrete_01_color.png"
+	"TextureNormal" "materials/concrete/concrete_01/concrete_01_normal.png"
+	"TextureRoughness" "materials/concrete/concrete_01/concrete_01_rough.png"
+	"g_flNormalMapScaleFactor" "0.4"
+}

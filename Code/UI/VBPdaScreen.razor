@@ -1,0 +1,157 @@
+@using System
+@using System.Linq
+@using Sandbox
+@using Sandbox.UI
+@inherits PanelComponent
+
+@{
+	var position = OperatorPosition;
+	var online = LocalInventory is not null;
+}
+
+<root class="@(online ? "online" : "offline")">
+	<div class="screen-shell">
+		<div class="top-bar">
+			<div class="brand">
+				<label class="brand-mark">VB</label>
+				<div class="brand-copy">
+					<label class="brand-title">BREACHLINK</label>
+					<label class="brand-subtitle">FIELD TERMINAL // PDA-07</label>
+				</div>
+			</div>
+
+			<div class="connection">
+				<div class="signal-bars">
+					<div class="signal-bar low"></div>
+					<div class="signal-bar medium"></div>
+					<div class="signal-bar high"></div>
+					<div class="signal-bar peak"></div>
+				</div>
+				<div class="connection-copy">
+					<label class="connection-state">TACTICAL LINK</label>
+					<label class="connection-detail">SIMULATION CHANNEL // 74%</label>
+				</div>
+			</div>
+		</div>
+
+		<div class="content">
+			<div class="map-panel">
+				<div class="panel-header">
+					<label>LOCAL TOPOGRAPHY</label>
+					<label class="muted">SECTOR VB-01</label>
+				</div>
+
+				<div class="map-grid">
+					<div class="scan-line"></div>
+					<div class="signal-ray"></div>
+					<div class="zone zone-a"><label>ANOMALY A</label></div>
+					<div class="zone zone-b"><label>ANOMALY B</label></div>
+					<div class="extract extract-open"><label>EX-01</label></div>
+					<div class="extract extract-locked"><label>EX-02</label></div>
+					<div class="operator-marker">
+						<div class="operator-arrow">▲</div>
+						<label>YOU</label>
+					</div>
+					<div class="squad-marker squad-two"><label>2</label></div>
+					<div class="squad-marker squad-three"><label>3</label></div>
+				</div>
+
+				<div class="coordinates">
+					<label>X @Coordinate( position.x )</label>
+					<label>Y @Coordinate( position.y )</label>
+					<label>Z @Coordinate( position.z )</label>
+					<label class="live">● LIVE</label>
+				</div>
+			</div>
+
+			<div class="side-column">
+				<div class="status-panel">
+					<div class="panel-header">
+						<label>RAID STATE</label>
+						<label class="status-active">ACTIVE</label>
+					</div>
+					<div class="timer">@MissionElapsed</div>
+					<div class="status-row">
+						<label>LOCAL UPLINK</label>
+						<label class="value">@(online ? "NOMINAL" : "WAIT")</label>
+					</div>
+					<div class="status-row">
+						<label>EXTRACTION EX-01</label>
+						<label class="value open">AVAILABLE</label>
+					</div>
+					<div class="status-row">
+						<label>EXTRACTION EX-02</label>
+						<label class="value locked">LOCKED</label>
+					</div>
+				</div>
+
+				<div class="objective-panel">
+					<div class="panel-header">
+						<label>SQUAD OBJECTIVE</label>
+						<label class="muted">01 / 03</label>
+					</div>
+					<label class="objective-title">LOCATE SIGNAL SOURCE</label>
+					<label class="objective-detail">Approximate bearing acquired. Exact position unavailable.</label>
+					<div class="bearing">
+						<label>BEARING</label>
+						<label class="bearing-value">042° NE</label>
+					</div>
+				</div>
+
+				<div class="squad-panel">
+					<div class="panel-header">
+						<label>SQUAD</label>
+						<label class="muted">3 LINKED</label>
+					</div>
+					<div class="squad-row local"><label>01 // YOU</label><label>SYNC</label></div>
+					<div class="squad-row"><label>02 // ECHO</label><label>84%</label></div>
+					<div class="squad-row"><label>03 // MICA</label><label>61%</label></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="footer">
+			<label>READ-ONLY FIELD PROTOTYPE</label>
+			<label>PRIVATE SQUAD DATA // OWNER DISPLAY</label>
+		</div>
+	</div>
+</root>
+
+@code
+{
+	private VBWeaponInventoryComponent LocalInventory => Scene?
+		.GetAll<VBWeaponInventoryComponent>()
+		.FirstOrDefault( inventory => !inventory.IsProxy
+			&& inventory.ActiveItem is VBPdaItem );
+
+	private Vector3 OperatorPosition => LocalInventory?.WorldPosition ?? Vector3.Zero;
+
+	private string MissionElapsed
+	{
+		get
+		{
+			var totalSeconds = Math.Max( 0, (int)Time.Now );
+			var minutes = totalSeconds / 60;
+			var seconds = totalSeconds % 60;
+			return $"{minutes:00}:{seconds:00}";
+		}
+	}
+
+	private static int Coordinate( float value ) => (int)MathF.Round( value );
+
+	protected override int BuildHash()
+	{
+		var hash = new HashCode();
+		var inventory = LocalInventory;
+		var position = OperatorPosition;
+
+		hash.Add( inventory?.Id ?? Guid.Empty );
+		hash.Add( inventory?.ActiveItem?.Id ?? Guid.Empty );
+		hash.Add( Coordinate( position.x ) );
+		hash.Add( Coordinate( position.y ) );
+		hash.Add( Coordinate( position.z ) );
+		hash.Add( (int)Time.Now );
+
+		return hash.ToHashCode();
+	}
+}

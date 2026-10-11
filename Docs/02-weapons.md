@@ -10,6 +10,22 @@ All weapon definitions are data-driven. Stats, ammo type, carry size, fire modes
 
 Adding a conventional weapon variant should require a new definition and assets, not a new inventory architecture.
 
+The first P90 integration and its native MP5 animation donor are documented in
+[FN P90](08-p90.md), including the viewmodel grip adjustments.
+
+Gunshot audio uses the native shot presentation callback. On the local shooter,
+`VBCombatWeapon` plays one dry 2D sound per event, without occlusion, distance
+attenuation, air absorption or simulated reverb. Other peers keep the native
+spatial sound and its `.sound` acoustic settings. Impacts, tracers and attack
+animations still use the native presentation hooks. The pistol fire event uses
+a fixed linear volume of 1 instead of the previous random 15–150 range.
+
+The pistol pickup prefab includes `InventoryWorldRepresentation` directly.
+It creates the pickup prompt and hides the ground prop while the weapon is
+carried, then restores it on drop. New scene instances therefore work without
+adding components by hand. Legacy scene-only copies of this component have
+been migrated to the inherited prefab component without changing their settings.
+
 ---
 
 ## 1. Weapon Slots, Carry Size and Ground Swaps

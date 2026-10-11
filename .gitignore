@@ -16,6 +16,8 @@ code/Properties/*
 .sbox/*
 *.generated.*
 *.*_c
+# The supplied P90 mesh has no editable source; keep this required asset.
+!Assets/weapons/p90/mesh/p90.vmdl_c
 !*.shader_c
 *.los
 *.vpk

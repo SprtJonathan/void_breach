@@ -1,0 +1,74 @@
+{
+  "RootObject": {
+    "__guid": "68772b40-b7b1-455c-ab35-8ecabe0dadf0",
+    "__version": 2,
+    "Flags": 0,
+    "Name": "Water camera effects",
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
+    "Tags": "",
+    "Enabled": true,
+    "NetworkMode": 2,
+    "NetworkFlags": 0,
+    "NetworkOrphaned": 0,
+    "NetworkTransmit": true,
+    "OwnerTransfer": 1,
+    "Components": [
+      {
+        "__type": "Sandbox.PostProcessVolume",
+        "__guid": "c890a4e0-7e4b-4f2a-be32-f1a2bafe3ff5",
+        "__enabled": true,
+        "Flags": 0,
+        "BlendDistance": 50,
+        "BlendWeight": 1,
+        "EditorPreview": true,
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "Priority": 0,
+        "SceneVolume": {
+          "Type": "Infinite",
+          "Sphere": {
+            "Center": "0,0,0",
+            "Radius": 10
+          },
+          "Box": {
+            "Mins": "-50,-50,-50",
+            "Maxs": "50,50,50"
+          },
+          "Capsule": {
+            "CenterA": "0,0,10",
+            "CenterB": "0,0,90",
+            "Radius": 10
+          }
+        }
+      },
+      {
+        "__type": "VoidBreach.Water.VBWaterUnderwater",
+        "__guid": "abf9df6d-2a02-4764-b659-1a3a738a62ce",
+        "__enabled": true,
+        "Flags": 0,
+        "CausticStrength": 0.18,
+        "Contrast": 0.9,
+        "Distortion": 0.0022,
+        "DistortionSpeed": 0.75,
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "Tint": "0.035,0.16,0.13,1",
+        "TransitionDepth": 12,
+        "Visibility": 900
+      }
+    ],
+    "Children": []
+  },
+  "__references": [],
+  "__version": 1
+}

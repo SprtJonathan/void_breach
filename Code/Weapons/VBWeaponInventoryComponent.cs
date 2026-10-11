@@ -30,6 +30,26 @@ public sealed class VBWeaponInventoryComponent : BaseInventoryComponent
 		if ( !base.OnAdding( item, slot ) )
 			return false;
 
+		if ( slot == VBWeaponSelectionController.PdaSlot
+			&& (item is not IVBInventorySlotPolicy pdaPolicy
+				|| pdaPolicy.RequiredInventorySlot != slot
+				|| !pdaPolicy.LocksInventorySlot) )
+		{
+			return false;
+		}
+
+		if ( item is IVBInventorySlotPolicy slotPolicy )
+		{
+			if ( slotPolicy.RequiredInventorySlot != slot )
+				return false;
+
+			if ( slotPolicy.LocksInventorySlot
+				&& Items.Any( existing => existing != item && existing.Slot == slot ) )
+			{
+				return false;
+			}
+		}
+
 		if ( item is not BaseCombatWeapon weapon
 			|| weapon is not IVBWeaponCarryItem )
 			return true;
@@ -73,6 +93,31 @@ public sealed class VBWeaponInventoryComponent : BaseInventoryComponent
 
 		var existingCarrySize = existingCarriedWeapons.Sum( GetCarrySize );
 		return existingCarrySize + GetCarrySize( weapon ) <= MaximumWeaponCarrySize;
+	}
+
+	protected override bool OnRemoving( BaseInventoryItem item )
+	{
+		if ( !base.OnRemoving( item ) )
+			return false;
+
+		return item is not IVBInventorySlotPolicy { IsInventoryBound: true };
+	}
+
+	protected override bool OnDropping( BaseInventoryItem item )
+	{
+		if ( !base.OnDropping( item ) )
+			return false;
+
+		return item is not IVBInventorySlotPolicy { IsInventoryBound: true };
+	}
+
+	protected override bool OnMovingSlot( int fromSlot, int toSlot )
+	{
+		if ( !base.OnMovingSlot( fromSlot, toSlot ) )
+			return false;
+
+		return fromSlot != VBWeaponSelectionController.PdaSlot
+			&& toSlot != VBWeaponSelectionController.PdaSlot;
 	}
 
 	public static int GetCarrySize( BaseCombatWeapon weapon )

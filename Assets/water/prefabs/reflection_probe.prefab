@@ -1,0 +1,56 @@
+{
+  "RootObject": {
+    "__guid": "c2e9aee8-3ec2-468f-b6fc-3ab9221b9497",
+    "__version": 2,
+    "Flags": 0,
+    "Name": "Water environment reflection",
+    "Position": "0,0,160",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
+    "Tags": "",
+    "Enabled": true,
+    "NetworkMode": 2,
+    "NetworkFlags": 0,
+    "NetworkOrphaned": 0,
+    "NetworkTransmit": true,
+    "OwnerTransfer": 1,
+    "Components": [
+      {
+        "__type": "Sandbox.EnvmapProbe",
+        "__guid": "5e7727a8-8e05-43fc-a638-81a1b0382ea8",
+        "__enabled": true,
+        "Flags": 0,
+        "__version": 1,
+        "BakedTexture": null,
+        "Bounds": {
+          "Mins": "-2200,-2200,-800",
+          "Maxs": "2200,4200,1800"
+        },
+        "DelayBetweenUpdates": 1,
+        "Feathering": 8,
+        "FrameInterval": 5,
+        "MaxDistance": 20000,
+        "Mode": "Realtime",
+        "MultiBounce": false,
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "Priority": 0,
+        "Projection": "Box",
+        "RenderExcludeTags": "water_surface",
+        "Resolution": "Small",
+        "Texture": null,
+        "TintColor": "1,1,1,1",
+        "UpdateStrategy": "TimeInterval",
+        "ZFar": 20000,
+        "ZNear": 16
+      }
+    ],
+    "Children": []
+  },
+  "__references": [],
+  "__version": 1
+}
