@@ -21,6 +21,9 @@ public sealed partial class VBMoveModeTraversal : MoveMode, PlayerController.IEv
 	[Property, Group( "Detection" ), Range( 0f, 0.5f )] public float BodyTraceInset { get; set; } = 0.25f;
 	[Property, Group( "Vault" ), Range( 32f, 160f )] public float VaultForwardDistance { get; set; } = 80f;
 	[Property, Group( "Vault" ), Range( 0f, 100f )] public float VaultMaximumDrop { get; set; } = 80f;
+	[Property, Group( "Vault" )] public bool EnableThinLedgeVault { get; set; } = true;
+	/// <summary>Maximum safe landing drop when climbing across a top that cannot support the body.</summary>
+	[Property, Group( "Vault" ), Range( 0f, 200f )] public float LedgeVaultMaximumDrop { get; set; } = 128f;
 	[Property, Group( "Timing" ), Range( 0.2f, 2f )] public float VaultDuration { get; set; } = 0.45f;
 	[Property, Group( "Timing" ), Range( 0.2f, 2f )] public float ClimbDuration { get; set; } = 0.65f;
 	[Property, Group( "Timing" ), Range( 0f, 2f )] public float Cooldown { get; set; } = 0.35f;
@@ -69,6 +72,10 @@ public sealed partial class VBMoveModeTraversal : MoveMode, PlayerController.IEv
 	private Component _supportComponent;
 	private bool _supportHadComponent;
 	private Transform _supportTransform;
+	private GameObject _exitSupport;
+	private Component _exitSupportComponent;
+	private bool _exitSupportHadComponent;
+	private Transform _exitSupportTransform;
 	private float _motionTime, _duration, _hangTime;
 	private bool _finishPending;
 	private TimeSince _timeSinceEnded = 999f;
@@ -127,8 +134,9 @@ public sealed partial class VBMoveModeTraversal : MoveMode, PlayerController.IEv
 				BeginDebugAttempt();
 				try
 				{
-					if ( PlanClimb( WorldPosition, _landing, _landing.z ) )
-						BeginMotion( VBTraversalState.Climbing, ClimbDuration );
+					if ( PlanLedgeExit( WorldPosition, out bool vault ) )
+						BeginMotion( vault ? VBTraversalState.Vaulting : VBTraversalState.Climbing,
+							vault ? MathF.Max( VaultDuration, ClimbDuration ) : ClimbDuration );
 					else SetFeedback( "vb.traversal.blocked" );
 				}
 				finally { EndDebugAttempt(); }
@@ -272,10 +280,13 @@ public sealed partial class VBMoveModeTraversal : MoveMode, PlayerController.IEv
 		{ RejectDebugAttempt( "vb.traversal.debug.approach_angle", $"dot={wall.Normal.Dot( forward ):F2}, max=-0.60", true ); return; }
 		float radius = Controller.BodyRadius * (MathF.Abs( wall.Normal.x ) + MathF.Abs( wall.Normal.y ));
 		var inside = wall.EndPosition - wall.Normal * (radius + Skin * 2f);
+		// The contact probe must fit a thin fence; standing clearance is validated
+		// separately at the actual body destination, farther behind the face.
+		var edgeProbe = wall.EndPosition - wall.Normal * 0.5f;
 		float minimum = grounded ? MathF.Max( MinimumHeight, 18f ) : Controller.BodyHeight - 24f;
 		float maximum = grounded ? MathF.Max( ClimbMaximumHeight, minimum ) : Controller.BodyHeight + MathF.Max( CatchReachAboveHead, 0f );
 		SetDebugHeightWindow( minimum, maximum, probeHeight, (wall.EndPosition - origin).Length );
-		var top = StaticRay( inside.WithZ( WorldPosition.z + maximum + Skin ), inside.WithZ( WorldPosition.z + minimum ), "top" );
+		var top = StaticRay( edgeProbe.WithZ( WorldPosition.z + maximum + Skin ), edgeProbe.WithZ( WorldPosition.z + minimum ), "top" );
 		if ( !IsLanding( top ) )
 		{
 			RejectDebugAttempt( top.StartedSolid ? "vb.traversal.debug.top_inside"
@@ -289,11 +300,8 @@ public sealed partial class VBMoveModeTraversal : MoveMode, PlayerController.IEv
 			if ( _debugRecording ) RejectDebugAttempt( "vb.traversal.debug.height_window", $"height={ledgeHeight:F1} | allowed=[{minimum:F0}..{maximum:F0}]", true );
 			return;
 		}
-		_landing = top.EndPosition + Vector3.Up * Skin;
+		_landing = inside.WithZ( top.EndPosition.z + Skin );
 		_candidateGrip = new Transform( wall.EndPosition.WithZ( top.EndPosition.z ), Rotation.LookAt( -wall.Normal, Vector3.Up ) );
-		bool vault = grounded && ledgeHeight <= MathF.Max( VaultMaximumHeight, MinimumHeight );
-		bool topClear = LandingClear( _landing );
-		if ( !topClear && !vault ) return;
 		_support = top.GameObject;
 		_supportComponent = top.Component;
 		_supportHadComponent = _supportComponent.IsValid();
@@ -303,7 +311,7 @@ public sealed partial class VBMoveModeTraversal : MoveMode, PlayerController.IEv
 		{
 			var hang = (wall.EndPosition + wall.Normal * (radius + Skin * 2f))
 				.WithZ( top.EndPosition.z - (Controller.BodyHeight - 12f) );
-			if ( !PathClear( WorldPosition, hang, "catch" ) || !PlanClimb( hang, _landing, _landing.z ) ) return;
+			if ( !PathClear( WorldPosition, hang, "catch" ) || !PlanLedgeExit( hang, out _ ) ) return;
 			_start = WorldPosition;
 			_destination = hang;
 			if ( !SpendStartCost( MathF.Max( HangDrainPerSecond, 0f ) * MathF.Max( MinimumCatchHoldTime, 0f ) ) ) return;
@@ -311,20 +319,43 @@ public sealed partial class VBMoveModeTraversal : MoveMode, PlayerController.IEv
 			return;
 		}
 
-		var landing = _landing;
-		bool hasLanding = topClear;
-		if ( vault )
+		bool vault = ledgeHeight <= MathF.Max( VaultMaximumHeight, MinimumHeight );
+		bool planned = vault && PlanVaultExit( WorldPosition, VaultMaximumDrop );
+		if ( !planned )
 		{
-			var beyond = inside + forward * MathF.Max( VaultForwardDistance, 32f );
-			var far = StaticRay( beyond.WithZ( _landing.z + Skin ), beyond.WithZ( top.EndPosition.z - MathF.Max( VaultMaximumDrop, 0f ) ), "far" );
-			if ( IsLanding( far ) && LandingClear( far.EndPosition + Vector3.Up * Skin ) )
-			{
-				var farLanding = far.EndPosition + Vector3.Up * Skin;
-				if ( PlanClimb( WorldPosition, farLanding, _landing.z ) ) { landing = farLanding; hasLanding = true; }
-			}
+			if ( !PlanLedgeExit( WorldPosition, out bool thinVault ) ) return;
+			vault |= thinVault;
 		}
-		if ( !hasLanding || !PlanClimb( WorldPosition, landing, _landing.z ) || !SpendStartCost() ) return;
+		if ( !SpendStartCost() ) return;
 		BeginMotion( vault ? VBTraversalState.Vaulting : VBTraversalState.Climbing, vault ? VaultDuration : ClimbDuration );
+	}
+
+	private bool PlanLedgeExit( Vector3 start, out bool vault )
+	{
+		vault = false;
+		_exitSupport = null;
+		// A usable top always wins. A blocked path to a broad top must not be
+		// bypassed by vaulting farther; only insufficient standing space falls back.
+		if ( LandingClear( _landing ) ) return PlanClimb( start, _landing, _landing.z );
+		if ( !EnableThinLedgeVault || !PlanVaultExit( start, LedgeVaultMaximumDrop ) ) return false;
+		vault = true;
+		return true;
+	}
+
+	private bool PlanVaultExit( Vector3 start, float maximumDrop )
+	{
+		var forward = (IsTraversing ? Grip : _candidateGrip).Rotation.Forward;
+		var beyond = _landing + forward * MathF.Max( VaultForwardDistance, 32f );
+		var far = StaticRay( beyond.WithZ( _landing.z + Skin ),
+			beyond.WithZ( _landing.z - Skin - MathF.Max( maximumDrop, 0f ) ), "far" );
+		if ( !IsLanding( far ) ) return false;
+		var landing = far.EndPosition + Vector3.Up * Skin;
+		if ( !LandingClear( landing ) || !PlanClimb( start, landing, _landing.z ) ) return false;
+		_exitSupport = far.GameObject;
+		_exitSupportComponent = far.Component;
+		_exitSupportHadComponent = _exitSupportComponent.IsValid();
+		_exitSupportTransform = _exitSupport.WorldTransform;
+		return true;
 	}
 
 	private bool PlanClimb( Vector3 start, Vector3 destination, float topHeight )
@@ -425,12 +456,19 @@ public sealed partial class VBMoveModeTraversal : MoveMode, PlayerController.IEv
 	}
 	private string SupportFailure()
 	{
-		if ( !_support.IsValid() ) return "support_removed";
-		if ( !_support.Active ) return "support_disabled";
-		if ( _supportHadComponent && (!_supportComponent.IsValid() || !_supportComponent.Enabled) ) return "collider_removed";
-		if ( !((_support.WorldPosition - _supportTransform.Position).Length < 0.5f
-			&& (_support.WorldScale - _supportTransform.Scale).Length < 0.001f
-			&& Rotation.Difference( _supportTransform.Rotation, _support.WorldRotation ).Angle() < 0.5f) ) return "support_moved";
+		var failure = CheckSupport( _support, _supportComponent, _supportHadComponent, _supportTransform );
+		if ( failure is not null ) return failure;
+		if ( _exitSupport is not null ) return CheckSupport( _exitSupport, _exitSupportComponent, _exitSupportHadComponent, _exitSupportTransform );
+		return null;
+	}
+	private static string CheckSupport( GameObject support, Component collider, bool hadCollider, Transform transform )
+	{
+		if ( !support.IsValid() ) return "support_removed";
+		if ( !support.Active ) return "support_disabled";
+		if ( hadCollider && (!collider.IsValid() || !collider.Enabled) ) return "collider_removed";
+		if ( !((support.WorldPosition - transform.Position).Length < 0.5f
+			&& (support.WorldScale - transform.Scale).Length < 0.001f
+			&& Rotation.Difference( transform.Rotation, support.WorldRotation ).Angle() < 0.5f) ) return "support_moved";
 		return null;
 	}
 	private bool SpendStartCost( float holdReserve = 0f )

@@ -178,7 +178,14 @@
         "SprintCurveStrength": 0.75,
         "SprintDecelerationTime": 0.35,
         "StepDownHeight": 18,
-        "StepUpHeight": 18
+        "StepUpHeight": 18,
+        "EnableMomentumMovement": true,
+        "GroundAcceleration": 10,
+        "GroundDrag": 5.5,
+        "GroundStopSpeed": 60,
+        "AirAcceleration": 10,
+        "AirWishSpeed": 30,
+        "MaximumAirSpeed": 420
       },
       {
         "__type": "Sandbox.Movement.MoveModeSwim",
@@ -497,7 +504,9 @@
         "VaultDuration": 0.45,
         "VaultForwardDistance": 80,
         "VaultMaximumDrop": 80,
-        "VaultMaximumHeight": 64
+        "VaultMaximumHeight": 64,
+        "EnableThinLedgeVault": true,
+        "LedgeVaultMaximumDrop": 128
       },
       {
         "__type": "VBSlideCamera",

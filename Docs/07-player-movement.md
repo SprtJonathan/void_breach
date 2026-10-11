@@ -4,7 +4,18 @@ Le prefab `Assets/player/player controller.prefab` conserve le `PlayerController
 
 ## Inertie, sprint et slide
 
-Le prefab utilise marche 150, sprint 300 et accroupissement 70 unités/s. Le lissage natif reste actif : `AccelerationTime=0.12`, `DeaccelerationTime=0.09`, `BrakePower=0.15`. `DirectionResponseTime=0.055` et `ReversalResponseTime=0.11` adoucissent les changements de direction sans retarder la visée.
+Le prefab utilise marche 150, sprint 300 et accroupissement 70 unités/s. Le lissage de la cible native reste actif : `AccelerationTime=0.12`, `DeaccelerationTime=0.09`. `DirectionResponseTime=0.055` et `ReversalResponseTime=0.11` adoucissent les changements de direction sans retarder la visée.
+
+`EnableMomentumMovement=true` remplace l'accélération et le freinage du mode Walk par une friction au sol et une accélération projetée sur la direction demandée, inspirées du [mouvement Source de Valve](https://github.com/ValveSoftware/source-sdk-2013/blob/master/src/game/shared/gamemovement.cpp). Les colliders, les marches, le saut et la gravité en l'air restent natifs. Le drag Rigidbody et la friction des pieds sont retirés uniquement pendant ce mouvement, pour éviter un double freinage. Sur un sol statique praticable, la gravité du corps est suspendue et le grounding natif suit la surface, pour pouvoir s'arrêter en pente ; elle reprend dès la perte du sol. Les supports dynamiques conservent la gravité. Désactiver l'option retrouve le solveur natif et son `BrakePower=0.15`.
+
+| Réglage | Valeur du prefab | Effet |
+|---|---:|---|
+| GroundAcceleration | 10 | Accélération au sol, proportionnelle à la vitesse demandée |
+| GroundDrag / GroundStopSpeed | 5.5 / 60 | Freinage progressif avec arrêt complet à basse vitesse |
+| AirAcceleration / AirWishSpeed | 10 / 30 | Accélération en l'air ; le plafond concerne la projection dans la direction d'entrée |
+| MaximumAirSpeed | 420 | Plafond de vitesse gagnée par les air strafes ; une impulsion externe plus rapide est conservée |
+
+Relâcher le sprint, les touches de déplacement ou s'accroupir en l'air ne ramène pas la vitesse horizontale à celle de la marche. Les air strafes permettent de gagner de la vitesse en orientant les entrées ; des sauts manuels enchaînés peuvent la conserver. Aucune impulsion gratuite ni saut automatique n'est ajouté. Revenir au sol applique le freinage ; les collisions réduisent réellement la vitesse et aucun ancien vecteur ne la réinjecte après un choc.
 
 La transition marche/sprint utilise une courbe progressive : `SprintAccelerationTime=0.15`, `SprintDecelerationTime=0.35`, `SprintCurveStrength=0.75` dans le prefab. Une force de zéro donne une rampe linéaire ; des temps de zéro retrouvent la cible native immédiate. La stamina peut toujours refuser le sprint.
 
@@ -28,7 +39,7 @@ Une descente suffisante dans le sens du déplacement réduit le drag et remet à
 - `jump` face à un obstacle bas : franchissement avec réception sûre, ou montée sur le dessus.
 - `jump` face à une structure plus haute : montée si hauteur, réception et trajet sont valides.
 - `jump` en l'air : accroche pendant la montée ou la chute, si le rebord est accessible.
-- Suspendu : relâcher `jump` pendant au moins 0.12 s, puis presser à nouveau pour monter. Les appuis pendant le rattrapage ne déclenchent pas une montée immédiate.
+- Suspendu : relâcher `jump` pendant au moins 0.12 s, puis presser à nouveau pour monter. Si le dessus est trop fin, cette confirmation franchit le rebord vers une réception sûre derrière. Les appuis pendant le rattrapage ne déclenchent pas une montée immédiate.
 - `duck` : lâcher ou interrompre. Sans appui manuel sur `jump`, aucune accroche ne se produit.
 
 Un appui est mémorisé pendant 0.25 s, y compris entre deux ticks de physique. Chaque nouvelle pression renouvelle cette fenêtre ; maintenir la touche ne la renouvelle pas. La demande est consommée au départ et annulée par l'accroupissement, un slide, un autre mode ou l'expiration.
@@ -43,6 +54,7 @@ Un appui est mémorisé pendant 0.25 s, y compris entre deux ticks de physique. 
 | MaximumLandingAngle | 25° | Pente maximale de réception |
 | BodyTraceInset | 0.25 | Tolérance de contact des requêtes, plafonnée à 0.5 unité |
 | VaultForwardDistance / VaultMaximumDrop | 80 / 80 | Recherche de réception derrière l'obstacle |
+| EnableThinLedgeVault / LedgeVaultMaximumDrop | true / 128 | Franchissement d'un dessus impropre à la station debout, avec limite de chute à l'arrivée |
 | VaultDuration / ClimbDuration | 0.45 / 0.65 s | Durées des mouvements |
 | Cooldown / JumpInputBuffer | 0.35 / 0.25 s | Délai après fin / mémoire d'un appui |
 | TraversalStaminaCost / HangDrainPerSecond | 8 / 5 | Départ / consommation par seconde suspendu |
@@ -52,6 +64,8 @@ Un appui est mémorisé pendant 0.25 s, y compris entre deux ticks de physique. 
 Avec JumpSpeed=300 et la gravité actuelle de 850, le saut natif monte d'environ 51 unités. Une structure de 120 reste accessible avec le bon timing ; 128 demande un départ surélevé. Le plafond réel dépend du saut, de la gravité, de la posture et de la géométrie. Les limites de hauteur sont strictes : la marge des traces ne les étend pas.
 
 La détection exige une face presque verticale, une approche frontale, un dessus praticable, un support sous les quatre coins et un trajet dégagé. Le mouvement suit trois segments (monter, passer au-dessus, descendre), avec des requêtes aux dimensions du capsule et des pieds natifs. Aucune collision n'est désactivée. Les chemins sont revérifiés pendant la physique ; un support retiré, désactivé, déplacé ou une obstruction nouvelle provoque le relâchement. Les structures mobiles ne sont pas prises en charge.
+
+Le rayon du dessus est placé à 0.5 unité derrière la face pour détecter les clôtures fines. La réception du corps reste plus loin derrière la face et exige le support sous ses quatre coins. Si cette place manque, une réception derrière est cherchée et tout le trajet est balayé avant l'accroche, puis à nouveau lors de la confirmation. La clôture et le support de réception sont surveillés pendant l'action. Un dessus large avec un trajet bloqué reste refusé. Les plafonds de hauteur et le verrou de combat s'appliquent aussi à ces franchissements.
 
 Pendant Vaulting, Climbing, Catching et Hanging, `VBTraversalCombatWeapon` bloque les attaques primaires/secondaires et le rechargement des armes et des poings, y compris les appels directs. Un rechargement déjà commencé est annulé et la visée ADS est retirée. L'hôte refuse aussi les demandes de dégâts de tir lorsque son état de traversal répliqué est actif. Les actions redeviennent disponibles à la fin du traversal, selon les délais natifs de l'arme. Les nouvelles armes de combat doivent hériter de cette base commune.
 
@@ -70,7 +84,7 @@ Pendant Vaulting, Climbing, Catching et Hanging, `VBTraversalCombatWeapon` bloqu
 | ReleaseHeight | 36 | Relâchement lorsque les pieds approchent du dessus |
 | HideHeldViewModel | true | Remplace temporairement les bras FPS de l'objet tenu par les bras du personnage |
 
-La prise reste fixe dans le monde pendant la suspension. Les mains lâchent progressivement pendant la montée et à la fin de l'action. Les paramètres sont nettoyés lors d'une désactivation, destruction ou changement de renderer. En première personne, `CameraPerspectiveTagFilter` révèle le corps local et masque sa tête et les accessoires de tête dans les objets de rendu locaux ; les propriétés du modèle et les snapshots réseau sont conservés. Le viewmodel tenu retrouve ensuite sa visibilité.
+La prise reste fixe dans le monde pendant la suspension. Les mains lâchent progressivement pendant la montée et à la fin de l'action ; une fois relâchées au-dessus du rebord, elles restent libres pendant la descente derrière une clôture. Les paramètres sont nettoyés lors d'une désactivation, destruction ou changement de renderer. En première personne, `CameraPerspectiveTagFilter` révèle le corps local et masque sa tête et les accessoires de tête dans les objets de rendu locaux ; les propriétés du modèle et les snapshots réseau sont conservés. Le viewmodel tenu retrouve ensuite sa visibilité.
 
 Cela donne une pose de bras fonctionnelle, mais ne remplace pas une animation complète du torse, des jambes et des doigts. Un modèle personnalisé doit exposer ces os et chaînes IK. Les modèles Citizen natifs utilisent une dernière option Head vide pour le masquage local.
 
@@ -87,5 +101,7 @@ Dans Traversal → **Debug**, `EnableTraversalDebug` active le feedback de test 
 Validation avec le MCP s&box, moteur 26.10.02 : 16 scénarios de franchissement/relâchement, 13 scénarios d'entrée et buffer, 8 cas de contact/chute, 5 cas de regroupement des impacts et 10 cas de limites/IK passent. Les os des mains sont mesurés contre leurs cibles réelles. Le slide passe quatre déclenchements avec maintien de posture après un tap, saut, obstacle, désactivation des contrôles et retour du FOV à sa valeur initiale.
 
 Le verrou de combat passe 33 assertions dans les quatre états de traversal : permissions natives, entrées, appels directs sur arme et poings, suppression de l'ADS, annulation d'un rechargement, refus du hook de validation des tirs et rétablissement après sortie. Ce banc local ne remplace pas un test réseau sous latence.
+
+Les rebords fins passent 12 scénarios supplémentaires : clôtures de 4/16/28 unités, confirmation manuelle vers Vaulting, maintien de Climbing sur un dessus large, relâchement définitif des mains, plafond, absence de réception, chute excessive, support retiré, obstacle ajouté, géométrie dynamique et option désactivée. Le mouvement passe 10 scénarios de physique réelle : arrêt progressif depuis 150, saut de sprint et deux sauts manuels à 300 conservés en l'air, saut de slide, air strafe, plafond de 420, impulsion externe de 500 conservée, collision murale, arrêt sur pente de 30° et marche native de 16 unités.
 
 Une session avec deux processus locaux vérifie propriétaire et proxy : état Hanging et prise répliqués, paramètres IK actifs sur les deux machines, impact envoyé par le propriétaire et santé confirmée sur l'hôte et le client. Deux rapports natifs de 60 au même instant ne retirent que 60. Les bancs et géométries temporaires sont retirés du code livré. Une validation sous forte latence et sur serveur dédié reste distincte de ces tests locaux.

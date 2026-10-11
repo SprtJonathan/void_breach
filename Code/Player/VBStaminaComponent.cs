@@ -89,8 +89,8 @@ public sealed class VBStaminaComponent : Component, PlayerController.IEvents
 
 	/// <summary>
 	/// Runs through PlayerController's native input extension point before its
-	/// fixed movement update. The native walk mode remains responsible for all
-	/// acceleration and movement calculations.
+	/// fixed movement update. The movement mode remains responsible for
+	/// acceleration and physics; stamina only determines available sprint speed.
 	/// </summary>
 	void PlayerController.IEvents.PreInput()
 	{

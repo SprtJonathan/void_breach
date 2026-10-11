@@ -29,6 +29,7 @@ public sealed class VBTraversalHands : Component, ICameraModifier
 	private bool _viewModelWasEnabled;
 	private Transform _neutralLeft, _neutralRight, _grip;
 	private float _blend;
+	private float _gripReleaseWeight = 1f;
 	private bool _hasPose;
 	private bool _headHidden;
 
@@ -61,8 +62,16 @@ public sealed class VBTraversalHands : Component, ICameraModifier
 		{
 			_grip = _traversal.Grip;
 			if ( _traversal.State is VBTraversalState.Climbing or VBTraversalState.Vaulting )
-				target *= Math.Clamp( (_grip.Position.z - WorldPosition.z) / MathF.Max( ReleaseHeight, 1f ), 0f, 1f );
+			{
+				// Once released above the ledge, hands must not reach back to it
+				// when descending onto a lower landing beyond a thin fence.
+				_gripReleaseWeight = MathF.Min( _gripReleaseWeight,
+					Math.Clamp( (_grip.Position.z - WorldPosition.z) / MathF.Max( ReleaseHeight, 1f ), 0f, 1f ) );
+				target *= _gripReleaseWeight;
+			}
+			else _gripReleaseWeight = 1f;
 		}
+		else if ( !_traversal.IsTraversing ) _gripReleaseWeight = 1f;
 		if ( target > 0f && !_hasPose )
 		{
 			if ( !_renderer.TryGetBoneTransform( "hand_L", out var left ) || !_renderer.TryGetBoneTransform( "hand_R", out var right ) ) return;
