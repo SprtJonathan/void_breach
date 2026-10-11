@@ -8,7 +8,7 @@ using Sandbox.Rendering;
 /// </summary>
 [Title( "Void Breach Combat Weapon" )]
 [Category( "Void Breach/Weapons" )]
-public sealed class VBCombatWeapon : BaseCombatWeapon, IVBWeaponCarryItem, IVBFirstPersonHeldItem
+public sealed class VBCombatWeapon : VBTraversalCombatWeapon, IVBWeaponCarryItem, IVBFirstPersonHeldItem
 {
 	/// <summary>
 	/// Amount consumed from the shared five-point weapon carrying budget.
@@ -145,13 +145,14 @@ public sealed class VBCombatWeapon : BaseCombatWeapon, IVBWeaponCarryItem, IVBFi
 		base.Think();
 
 		_wantsToAim = IsHeld
+			&& !IsTraversalBlockingActions
 			&& !IsReloading
 			&& Input.Down( "Attack2" )
 			&& !IsOwnerSprinting();
 		var target = _wantsToAim ? 1f : 0f;
 		var transition = Math.Clamp( AimTransitionSpeed * Time.Delta, 0f, 1f );
 
-		_aimAmount = MathX.Lerp( _aimAmount, target, transition );
+		_aimAmount = IsTraversalBlockingActions ? 0f : MathX.Lerp( _aimAmount, target, transition );
 
 		UpdateViewModelAimParameters();
 		SyncMuzzleMarkerToAttachment();
@@ -260,6 +261,7 @@ public sealed class VBCombatWeapon : BaseCombatWeapon, IVBWeaponCarryItem, IVBFi
 	/// </summary>
 	public override void PrimaryAttack()
 	{
+		if ( IsTraversalBlockingActions ) return;
 		SyncMuzzleMarkerToAttachment();
 
 		var previousClip = Clip1;

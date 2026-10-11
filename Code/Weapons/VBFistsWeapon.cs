@@ -8,7 +8,7 @@ using Sandbox;
 [Title( "Void Breach Fists" )]
 [Category( "Void Breach/Weapons" )]
 [Icon( "sports_mma" )]
-public sealed class VBFistsWeapon : BaseCombatWeapon, IVBWeaponCarryItem, IVBFirstPersonHeldItem
+public sealed class VBFistsWeapon : VBTraversalCombatWeapon, IVBWeaponCarryItem, IVBFirstPersonHeldItem
 {
 	public int CarrySize => 0;
 	public VBWeaponSlotCategory SlotCategory => VBWeaponSlotCategory.Melee;
@@ -20,6 +20,7 @@ public sealed class VBFistsWeapon : BaseCombatWeapon, IVBWeaponCarryItem, IVBFir
 
 	public override void PrimaryAttack()
 	{
+		if ( IsTraversalBlockingActions ) return;
 		if ( IsHeld && !TakePrimaryAmmo( 1 ) )
 			return;
 

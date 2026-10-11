@@ -53,6 +53,8 @@ Avec JumpSpeed=300 et la gravité actuelle de 850, le saut natif monte d'environ
 
 La détection exige une face presque verticale, une approche frontale, un dessus praticable, un support sous les quatre coins et un trajet dégagé. Le mouvement suit trois segments (monter, passer au-dessus, descendre), avec des requêtes aux dimensions du capsule et des pieds natifs. Aucune collision n'est désactivée. Les chemins sont revérifiés pendant la physique ; un support retiré, désactivé, déplacé ou une obstruction nouvelle provoque le relâchement. Les structures mobiles ne sont pas prises en charge.
 
+Pendant Vaulting, Climbing, Catching et Hanging, `VBTraversalCombatWeapon` bloque les attaques primaires/secondaires et le rechargement des armes et des poings, y compris les appels directs. Un rechargement déjà commencé est annulé et la visée ADS est retirée. L'hôte refuse aussi les demandes de dégâts de tir lorsque son état de traversal répliqué est actif. Les actions redeviennent disponibles à la fin du traversal, selon les délais natifs de l'arme. Les nouvelles armes de combat doivent hériter de cette base commune.
+
 ## Mains sur le rebord par IK
 
 `VBTraversalHands` utilise les chaînes `hand_left` / `hand_right` de l'animgraph Citizen, sur les os `hand_L` / `hand_R`. Le contact vient du rebord réellement validé, jamais d'une prédiction visuelle. L'IK ne décide pas de la réussite et ne déplace pas le collider.
@@ -83,5 +85,7 @@ Dans Traversal → **Debug**, `EnableTraversalDebug` active le feedback de test 
 ## Vérifications dans l'éditeur
 
 Validation avec le MCP s&box, moteur 26.10.02 : 16 scénarios de franchissement/relâchement, 13 scénarios d'entrée et buffer, 8 cas de contact/chute, 5 cas de regroupement des impacts et 10 cas de limites/IK passent. Les os des mains sont mesurés contre leurs cibles réelles. Le slide passe quatre déclenchements avec maintien de posture après un tap, saut, obstacle, désactivation des contrôles et retour du FOV à sa valeur initiale.
+
+Le verrou de combat passe 33 assertions dans les quatre états de traversal : permissions natives, entrées, appels directs sur arme et poings, suppression de l'ADS, annulation d'un rechargement, refus du hook de validation des tirs et rétablissement après sortie. Ce banc local ne remplace pas un test réseau sous latence.
 
 Une session avec deux processus locaux vérifie propriétaire et proxy : état Hanging et prise répliqués, paramètres IK actifs sur les deux machines, impact envoyé par le propriétaire et santé confirmée sur l'hôte et le client. Deux rapports natifs de 60 au même instant ne retirent que 60. Les bancs et géométries temporaires sont retirés du code livré. Une validation sous forte latence et sur serveur dédié reste distincte de ces tests locaux.
