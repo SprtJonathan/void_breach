@@ -37,6 +37,8 @@
   "vb.hud.spectating": "SPECTATING: {Name}",
   "vb.hud.no_spectate_targets": "NO PLAYER TO SPECTATE",
   "vb.hud.return_to_menu": "RETURN TO MENU",
+  "vb.weapon.m4a1": "M4A1",
+  "vb.weapon.mp5": "HK MP5",
   "vb.weapon.p90": "FN P90",
   "vb.weapon.fists": "FISTS",
   "vb.weapon.pistol_9mm": "9MM PISTOL",
@@ -109,5 +111,18 @@
   "vb.traversal.debug.support_removed": "Grip interrupted: support removed",
   "vb.traversal.debug.climb_rearm": "Grip held: briefly release Jump before pressing to climb",
   "vb.traversal.debug.hold_reserve": "Not enough stamina left to hold after paying the catch cost",
-  "vb.traversal.debug.height_window": "Ledge outside allowed height range"
+  "vb.traversal.debug.height_window": "Ledge outside allowed height range",
+  "vb.vehicle.enter": "Drive",
+  "vb.vehicle.name": "Humvee",
+  "vb.vehicle.gunner.enter": "Man the turret",
+  "vb.vehicle.turret.toggle": "Change seat",
+  "vb.vehicle.driver.return": "Return to driver seat",
+  "vb.vehicle.turret.fire": "Fire",
+  "vb.vehicle.handbrake": "Handbrake",
+  "vb.vehicle.exit": "Exit (at low speed)",
+  "vb.vehicle.low_gear": "Automatic low range",
+  "vb.vehicle.turbo": "Turbo",
+  "vb.vehicle.recover": "Flip vehicle",
+  "vb.item.frag_grenade": "Frag Grenade",
+  "vb.interaction.swap_weapon": "Swap weapon"
 }

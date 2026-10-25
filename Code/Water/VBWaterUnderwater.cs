@@ -43,6 +43,11 @@ public sealed class VBWaterUnderwater : BasePostProcess<VBWaterUnderwater>
 				_causticScale = body.CausticScale;
 				_causticSpeed = body.CausticSpeed;
 			}
+			else if ( sample.Surface is VoidBreach.Ocean.VBFFTOcean fft )
+			{
+				_waterClarity = fft.Clarity; _waterColor = fft.DeepColor;
+				_causticScale = fft.CausticScale; _causticSpeed = fft.Speed;
+			}
 		}
 		// Spatial smoothing is independent of framerate and of the previous rendered
 		// camera. A global volume can render the editor and game cameras in one frame.

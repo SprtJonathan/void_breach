@@ -3,13 +3,13 @@ using Sandbox;
 using Sandbox.Movement;
 
 /// <summary>
-/// Extends native walking with configurable ground friction, air acceleration,
-/// sprint transitions and sliding; native collision, stepping and jumps stay active.
+/// Adds slide and traversal integration to native walking. Ordinary movement,
+/// acceleration, friction, gravity and animation stay in MoveModeWalk.
 /// </summary>
 [Title( "MoveMode - Void Breach Walk" )]
 [Category( "Void Breach/Player" )]
 [Icon( "directions_run" )]
-public sealed partial class VBMoveModeWalk : MoveModeWalk, PlayerController.IEvents
+public sealed class VBMoveModeWalk : MoveModeWalk, PlayerController.IEvents
 {
 	[Property, Group( "Slide" )]
 	public bool EnableSlide { get; set; } = true;
@@ -86,11 +86,9 @@ public sealed partial class VBMoveModeWalk : MoveModeWalk, PlayerController.IEve
 		base.OnModeBegin();
 		if ( IsProxy ) return;
 		ResolveComponents();
-		_moveDirection = Controller.Velocity.WithZ( 0f ).Normal;
 		if ( _traversal.IsValid() ) _traversal.ResetJumpInput();
 		_duckWasDown = Input.Down( "duck" );
 		_sprintTime = 0f;
-		_sprintBlend = _sprintBlendStart = _sprintBlendTarget = _sprintBlendTime = 0f;
 	}
 
 	public override void OnModeEnd( MoveMode next )
@@ -150,7 +148,6 @@ public sealed partial class VBMoveModeWalk : MoveModeWalk, PlayerController.IEve
 		{
 			EndSlide();
 			_sprintTime = 0f;
-			_moveDirection = Vector3.Zero;
 			return Vector3.Zero;
 		}
 
@@ -158,19 +155,8 @@ public sealed partial class VBMoveModeWalk : MoveModeWalk, PlayerController.IEve
 		// for both native speed smoothing and our horizontal steering.
 		var movementEyes = Rotation.FromYaw( Controller.EyeAngles.yaw );
 		// Keep native speed smoothing warm even during the slide, for a smooth exit.
-		var wish = UpdateCurvedSpeed( movementEyes, input, dt ).WithZ( 0f );
-		var steering = (movementEyes * input.WithZ( 0f )).ClampLength( 1f );
-		wish = SmoothDirection( wish, steering, dt );
-		_slideSteering = steering;
-		if ( EnableMomentumMovement )
-		{
-			// Friction handles release on the ground; air control follows current
-			// input without injecting residual input from native target smoothing.
-			if ( steering.IsNearZeroLength ) wish = Vector3.Zero;
-			else if ( !Controller.IsOnGround )
-				wish = steering * (Controller.IsDucking ? Controller.DuckedSpeed
-					: Controller.WalkSpeed + (Controller.RunSpeed - Controller.WalkSpeed) * _sprintBlend);
-		}
+		var wish = base.UpdateMove( movementEyes, input );
+		_slideSteering = (movementEyes * input.WithZ( 0f )).ClampLength( 1f );
 
 		if ( IsSliding )
 		{
@@ -203,16 +189,6 @@ public sealed partial class VBMoveModeWalk : MoveModeWalk, PlayerController.IEve
 		if ( IsProxy ) return;
 		if ( _traversal.IsValid() && _traversal.IsTraversing ) { _traversal.UpdateRigidBody( body ); return; }
 		base.UpdateRigidBody( body );
-		if ( EnableMomentumMovement && CanMove )
-		{
-			// Our solver owns drag. Native collision shapes, gravity and stepping remain active.
-			body.LinearDamping = 0f;
-			if ( Controller.FeetCollider.IsValid() ) Controller.FeetCollider.Friction = 0f;
-			// Without native feet friction, gravity would keep accelerating a resting
-			// character down standable static slopes. Native grounding/steps follow
-			// the surface; falling gravity resumes immediately after losing support.
-			body.Gravity = !Controller.IsOnGround || Controller.GroundIsDynamic;
-		}
 		if ( !IsSliding ) return;
 		body.LinearDamping = 0f;
 		// Native regrounding cancels falling velocity on slopes. Apply the ground
@@ -255,7 +231,7 @@ public sealed partial class VBMoveModeWalk : MoveModeWalk, PlayerController.IEve
 
 		if ( !IsSliding )
 		{
-			AddWalkingVelocity();
+			base.AddVelocity();
 			return;
 		}
 
@@ -264,7 +240,7 @@ public sealed partial class VBMoveModeWalk : MoveModeWalk, PlayerController.IEve
 		if ( speed < MathF.Max( SlideEndSpeed, 1f ) )
 		{
 			EndSlide();
-			AddWalkingVelocity();
+			base.AddVelocity();
 			return;
 		}
 
@@ -316,6 +292,7 @@ public sealed partial class VBMoveModeWalk : MoveModeWalk, PlayerController.IEve
 	{
 		if ( IsProxy ) return;
 		if ( !_traversal.IsValid() || !_traversal.IsTraversing ) base.PrePhysicsStep();
+		Controller.GetComponent<VBVehiclePlayerDriver>()?.ResolveHeavyVehicleContacts();
 	}
 
 	public override void PostPhysicsStep()

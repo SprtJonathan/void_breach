@@ -26,7 +26,8 @@ public sealed partial class VBMoveModeTraversal
 		var forward = Rotation.FromYaw( Controller.EyeAngles.yaw ).Forward;
 		float probeHeight = grounded ? MathF.Max( MinimumHeight - Skin, Skin ) : Controller.BodyHeight * 0.5f;
 		var origin = WorldPosition + Vector3.Up * probeHeight;
-		var wall = StaticRay( origin, origin + forward * (Controller.BodyRadius + MathF.Max( ReachDistance, 8f )), "wall" );
+		var wall = Geometry.FindWall( WorldPosition, forward, ReachDistance, probeHeight );
+		RecordDebugTrace( origin, origin + forward * (Controller.BodyRadius + MathF.Max( ReachDistance, 8f )), wall, "wall", false, wall.Hit && !wall.StartedSolid );
 		if ( !wall.Hit || wall.StartedSolid )
 		{ RejectDebugAttempt( wall.StartedSolid ? "vb.traversal.debug.wall_inside" : "vb.traversal.debug.no_wall", markTrace: true ); return; }
 		if ( MathF.Abs( wall.Normal.z ) > 0.2f )
@@ -34,14 +35,14 @@ public sealed partial class VBMoveModeTraversal
 		if ( wall.Normal.Dot( forward ) > -0.6f )
 		{ RejectDebugAttempt( "vb.traversal.debug.approach_angle", $"dot={wall.Normal.Dot( forward ):F2}, max=-0.60", true ); return; }
 		float radius = Controller.BodyRadius * (MathF.Abs( wall.Normal.x ) + MathF.Abs( wall.Normal.y ));
-		var inside = wall.EndPosition - wall.Normal * (radius + Skin * 2f);
 		// The contact probe must fit a thin fence; standing clearance is validated
 		// separately at the actual body destination, farther behind the face.
 		var edgeProbe = wall.EndPosition - wall.Normal * 0.5f;
 		float minimum = grounded ? MathF.Max( MinimumHeight, 18f ) : Controller.BodyHeight - 24f;
 		float maximum = grounded ? MathF.Max( ClimbMaximumHeight, minimum ) : Controller.BodyHeight + MathF.Max( CatchReachAboveHead, 0f );
 		SetDebugHeightWindow( minimum, maximum, probeHeight, (wall.EndPosition - origin).Length );
-		var top = StaticRay( edgeProbe.WithZ( WorldPosition.z + maximum + Skin ), edgeProbe.WithZ( WorldPosition.z + minimum ), "top" );
+		var top = Geometry.FindTop( WorldPosition, wall, minimum, maximum );
+		RecordDebugTrace( edgeProbe.WithZ( WorldPosition.z + maximum + Skin ), edgeProbe.WithZ( WorldPosition.z + minimum ), top, "top", false, top.Hit && !top.StartedSolid );
 		if ( !IsLanding( top ) )
 		{
 			RejectDebugAttempt( top.StartedSolid ? "vb.traversal.debug.top_inside"
@@ -55,7 +56,7 @@ public sealed partial class VBMoveModeTraversal
 			if ( _debugRecording ) RejectDebugAttempt( "vb.traversal.debug.height_window", $"height={ledgeHeight:F1} | allowed=[{minimum:F0}..{maximum:F0}]", true );
 			return;
 		}
-		_landing = inside.WithZ( top.EndPosition.z + Skin );
+		_landing = Geometry.LandingBehind( wall, top );
 		_candidateGrip = new Transform( wall.EndPosition.WithZ( top.EndPosition.z ), Rotation.LookAt( -wall.Normal, Vector3.Up ) );
 		_support = new TraversalSupport( top );
 
@@ -122,36 +123,15 @@ public sealed partial class VBMoveModeTraversal
 		RecordDebugTrace( start, end, trace, purpose, false, trace.Hit && !trace.StartedSolid );
 		return trace;
 	}
-	private bool IsLanding( SceneTraceResult hit ) => hit.Hit && !hit.StartedSolid && hit.GameObject.IsValid()
-		&& hit.Normal.z >= MathF.Cos( Math.Clamp( MaximumLandingAngle, 0f, 45f ) * MathF.PI / 180f );
-	private bool PathClear( Vector3 start, Vector3 end, string purpose = "body" )
-	{
-		// Match native PlayerController.UpdateBody's standing capsule and feet box.
-		// TraceBody(2) encloses the capsule in a wider square and rejects legal wall contact.
-		float radius = Controller.BodyRadius / MathF.Sqrt( 2f );
-		float height = Controller.BodyHeight;
-		float inset = Math.Clamp( BodyTraceInset, 0f, MathF.Min( 0.5f, Controller.BodyRadius * 0.1f ) );
-		float upper = height - radius;
-		float lower = MathF.Max( height * 0.5f, radius + 1f );
-		if ( lower < upper )
-		{
-			var capsule = new Capsule( Vector3.Up * lower, Vector3.Up * upper, radius - inset );
-			var trace = Scene.Trace.Capsule( capsule, start, end ).IgnoreGameObjectHierarchy( GameObject ).WithCollisionRules( Tags ).Run();
-			var bounds = new BBox( new Vector3( -capsule.Radius, -capsule.Radius, lower - capsule.Radius ),
-				new Vector3( capsule.Radius, capsule.Radius, upper + capsule.Radius ) );
-			if ( !CheckBodyTrace( start, end, trace, purpose, bounds, capsule ) ) return false;
-		}
-		float feetHeight = lower < upper ? height * 0.5f : height;
-		float halfWidth = Controller.BodyRadius * 0.5f - inset;
-		var feet = new BBox( new Vector3( -halfWidth, -halfWidth, inset ), new Vector3( halfWidth, halfWidth, feetHeight - inset ) );
-		var feetTrace = Scene.Trace.Box( feet, start, end ).Rotated( WorldRotation )
-			.IgnoreGameObjectHierarchy( GameObject ).WithCollisionRules( Tags ).Run();
-		return CheckBodyTrace( start, end, feetTrace, purpose, feet );
-	}
+	private bool IsLanding( SceneTraceResult hit ) => Geometry.IsLanding( hit );
+	private VBTraversalGeometry Geometry => new( GameObject, Controller.BodyRadius, Controller.BodyHeight,
+		BodyTraceInset, LandingSupportScale, MaximumLandingAngle );
+	private bool PathClear( Vector3 start, Vector3 end, string purpose = "body" ) =>
+		Geometry.PathClear( start, end, purpose, CheckBodyTrace );
 	private bool LandingClear( Vector3 landing )
 	{
 		if ( !PathClear( landing, landing, "landing" ) ) return false;
-		float radius = Controller.BodyRadius * 0.9f;
+		float radius = Controller.BodyRadius * Math.Clamp( LandingSupportScale, 0.25f, 1f );
 		for ( int x = -1; x <= 1; x += 2 )
 		for ( int y = -1; y <= 1; y += 2 )
 		{

@@ -1,349 +1,201 @@
+// COMPACT SUIT VISOR V4 – subtle emissive edges + static CRT-grain contrast.
+// Not backdrop blur/glass: a faint projected image, in front of the world.
 VBMasterHud {
-	position: absolute;
-	inset: 0;
-	width: 100%;
-	height: 100%;
-	font-family: Roboto Mono;
-	color: #f3a43b;
-	pointer-events: none;
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    font-family: Roboto Mono; font-variant-numeric: tabular-nums;
+    color: #f9c469; pointer-events: none;
+    &.remote { display: none; }
 
-	&.remote {
-		display: none;
-	}
+    .vitals-block {
+        position: absolute; left: 22px; bottom: 22px;
+        width: 398px; flex-direction: column; gap: 5px;
+    }
+    .bottom-row { display: flex; flex-direction: row; gap: 5px; width: 100%; }
+    .stamina-slot { width: 196px; height: 0; display: flex; flex-direction: column; }
+    .stamina-slot.visible { height: 43px; }
 
-	.vitals-block {
-		position: absolute;
-		left: 44px;
-		bottom: 38px;
-		width: 480px;
-		display: flex;
-		flex-direction: column;
-		gap: 8px;
-	}
+    .readout {
+        position: relative; width: 196px; height: 91px;
+        flex-direction: column; flex-shrink: 0;
+        overflow: hidden; padding: 9px 11px 7px;
+        border: 1px solid rgba(255, 77, 46, 0.13);
+        border-radius: 7px;
+        background-color: rgba(9, 12, 15, 0.39);
+        background-image: url("Ui/Hud/visor_grain.png");
+        background-repeat: repeat;
+        background-size: 128px 128px;
+        box-shadow: 0 0 9px rgba(255, 77, 46, 0.15);
+        color: #ff6042;
+        transition: opacity 0.16s ease-out;
+        &:intro { opacity: 0; } &:outro { opacity: 0; }
+    }
+    .readout-header {
+        width: 100%; height: 19px; flex-shrink: 0;
+        display: flex; align-items: center; gap: 6px;
+        border-bottom: 1px solid rgba(255, 78, 41, 0.27);
+    }
+    .readout-icon { width: 13px; font-size: 16px; font-weight: 900; text-align: center; }
+    .readout-title { flex-grow: 1; font-size: 10px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; }
+    .readout-main {
+        position: relative; min-height: 0; flex-grow: 1;
+        display: flex; align-items: center;
+    }
+    .readout-value {
+        flex-shrink: 0; font-size: 42px; line-height: 49px;
+        font-weight: 900; letter-spacing: -2px;
+        text-shadow: 0 0 7px rgba(255, 88, 58, 0.4);
+    }
+    // Stacked progress bands still communicate Current / Soft / Hard Health.
+    .health-track, .resource-track, .bleedout-track {
+        position: relative; width: 100%; height: 2px; flex-shrink: 0;
+        overflow: hidden; background-color: rgba(255, 91, 62, 0.12);
+    }
+    .hard-max, .soft-max, .current-health, .armor-fill, .stamina-fill, .bleedout-fill {
+        position: absolute; top: 0; left: 0; height: 100%;
+        transition: width 0.15s ease-out;
+    }
+    .hard-max { background-color: rgba(148, 68, 45, 0.53); }
+    .soft-max { background-color: rgba(255, 120, 66, 0.48); }
+    .current-health { background-color: #ff5c3d; }
 
-	.bottom-row {
-		width: 100%;
-		display: flex;
-		flex-direction: row;
-		gap: 8px;
-	}
+    // ECG a partir de vrais echantillons temporels calcules par OnUpdate.
+    // Pas d'animation CSS bouclee : 50 petits segments relient 51 mesures.
+    .pulse-trace {
+        position: absolute; right: 0; top: 3px;
+        width: 100px; height: 43px; overflow: hidden;
+        pointer-events: none;
+    }
+    .ecg-segment {
+        position: absolute; height: 1.5px;
+        transform-origin: 0% 50%;
+        background-color: #ffd26c;
+    }
+    .ecg-flatline {
+        position: absolute; left: 0; right: 0; top: 24px;
+        height: 1px; background-color: #ff6045;
+    }
 
-	.stamina-slot {
-		width: 236px;
-		height: 76px;
-		display: flex;
-	}
+    // Trois plages d'integrite (vie soft, bornee par HardMax) :
+    // >65% : jaune, 30–65% : orange, <=30% : rouge.
+    .health-readout {
+        color: #ffd36f;
+        border-color: rgba(255, 206, 93, 0.22);
+        box-shadow: 0 0 10px rgba(255, 206, 93, 0.24);
+        .readout-header { border-bottom-color: rgba(255, 206, 93, 0.33); }
+        .readout-value { text-shadow: 0 0 6px rgba(255, 207, 100, 0.25); }
+        .health-track { background-color: rgba(255, 205, 97, 0.13); }
+        .hard-max { background-color: rgba(138, 104, 46, 0.50); }
+        .soft-max { background-color: rgba(245, 199, 82, 0.46); }
+        .current-health, .ecg-segment { background-color: #ffd36f; }
+    }
+    .health-readout.medium {
+        color: #ff9c4a;
+        border-color: rgba(255, 148, 66, 0.23);
+        box-shadow: 0 0 11px rgba(255, 148, 66, 0.27);
+        .readout-header { border-bottom-color: rgba(255, 148, 66, 0.34); }
+        .readout-value { text-shadow: 0 0 6px rgba(255, 148, 66, 0.26); }
+        .health-track { background-color: rgba(255, 148, 66, 0.13); }
+        .soft-max { background-color: rgba(255, 148, 66, 0.48); }
+        .current-health, .ecg-segment { background-color: #ff9c4a; }
+    }
+    .health-readout.danger {
+        color: #ff5844;
+        border-color: rgba(255, 78, 60, 0.26);
+        box-shadow: 0 0 12px rgba(255, 78, 60, 0.32);
+        .readout-header { border-bottom-color: rgba(255, 78, 60, 0.43); }
+        .readout-value { text-shadow: 0 0 8px rgba(255, 63, 46, 0.38); }
+        .health-track { background-color: rgba(255, 78, 60, 0.14); }
+        .soft-max { background-color: rgba(255, 92, 68, 0.53); }
+        .current-health, .ecg-segment { background-color: #ff5844; }
+    }
 
-	.readout {
-		position: relative;
-		width: 236px;
-		height: 76px;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		padding: 10px 12px;
-		background-color: rgba(10, 13, 12, 0.82);
-		border-left: 3px solid rgba(243, 164, 59, 0.9);
-		box-shadow: 0 0 18px rgba(0, 0, 0, 0.7);
-		opacity: 1;
-		transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    .armor-readout {
+        color: #ffd16b; border-color: rgba(255, 203, 96, 0.19);
+        box-shadow: 0 0 10px rgba(255, 203, 96, 0.22);
+        .readout-header { border-bottom-color: rgba(255, 207, 91, 0.26); }
+        .readout-value { text-shadow: 0 0 6px rgba(255, 208, 104, 0.32); }
+        .resource-track { background-color: rgba(255, 208, 111, 0.12); }
+    }
+    .armor-ticks { position: absolute; right: 0; top: 32px; display: flex; flex-direction: row; gap: 3px; }
+    .scan-tick { width: 5px; height: 2px; background-color: rgba(255, 212, 114, 0.55); }
+    .armor-fill { background-color: #ffd575; }
 
-		&:intro {
-			opacity: 0;
-			transform: translateY( 8px );
-		}
+    // Endurance : palette et seuils identiques a HEALTH (65 % / 30 %).
+    // "exhausted" garde la priorite rouge.
+    .stamina-readout {
+        width: 196px; height: 43px; padding: 5px 9px;
+        border-radius: 5px;
+        color: #ffd36f;
+        border-color: rgba(255, 206, 93, 0.22);
+        box-shadow: 0 0 9px rgba(255, 206, 93, 0.23);
+        .readout-header { height: 28px; border-bottom: 0; }
+        .readout-icon { width: 13px; font-size: 14px; }
+        .readout-title { font-size: 9px; letter-spacing: 1.2px; }
+        .readout-value { font-size: 22px; line-height: 27px; letter-spacing: -1px;
+            text-shadow: 0 0 5px rgba(255, 206, 93, 0.22); }
+        .stamina-fill { background-color: #ffd36f; }
+        .resource-track { background-color: rgba(255, 205, 97, 0.12); }
 
-		&:outro {
-			opacity: 0;
-			transform: translateY( 8px );
-		}
-	}
+        &.medium {
+            color: #ff9c4a;
+            border-color: rgba(255, 148, 66, 0.23);
+            box-shadow: 0 0 10px rgba(255, 148, 66, 0.27);
+            .readout-value { text-shadow: 0 0 5px rgba(255, 148, 66, 0.26); }
+            .stamina-fill { background-color: #ff9c4a; }
+            .resource-track { background-color: rgba(255, 148, 66, 0.13); }
+        }
+        &.danger, &.exhausted {
+            color: #ff5844;
+            border-color: rgba(255, 78, 60, 0.26);
+            box-shadow: 0 0 11px rgba(255, 78, 60, 0.32);
+            .readout-value { text-shadow: 0 0 7px rgba(255, 63, 46, 0.35); }
+            .stamina-fill { background-color: #ff5844; }
+            .resource-track { background-color: rgba(255, 78, 60, 0.14); }
+        }
+    }
+    .resource-warning { position: absolute; right: 10px; top: 2px; font-size: 8px; color: #ff5844; }
 
-	.readout-header {
-		width: 100%;
-		display: flex;
-		align-items: center;
-		gap: 8px;
-	}
-
-	.readout-icon {
-		width: 24px;
-		font-size: 23px;
-		font-weight: 800;
-		text-align: center;
-		text-shadow: 0 0 8px rgba(243, 164, 59, 0.6);
-	}
-
-	.readout-title {
-		flex-grow: 1;
-		font-size: 13px;
-		font-weight: 700;
-		letter-spacing: 2px;
-		opacity: 0.82;
-	}
-
-	.readout-value {
-		min-width: 54px;
-		font-size: 27px;
-		font-weight: 800;
-		text-align: right;
-		text-shadow: 0 0 10px rgba(243, 164, 59, 0.45);
-	}
-
-	.health-track,
-	.resource-track,
-	.bleedout-track {
-		position: relative;
-		width: 100%;
-		height: 10px;
-		margin-top: 7px;
-		overflow: hidden;
-		background-color: rgba(0, 0, 0, 0.68);
-		border: 1px solid rgba(243, 164, 59, 0.28);
-	}
-
-	.health-track {
-		height: 14px;
-	}
-
-	.hard-max,
-	.soft-max,
-	.current-health,
-	.armor-fill,
-	.stamina-fill,
-	.bleedout-fill {
-		position: absolute;
-		left: 0;
-		top: 0;
-		height: 100%;
-		transition: width 0.16s ease-out;
-	}
-
-	.hard-max {
-		background-color: rgba(117, 45, 24, 0.9);
-	}
-
-	.soft-max {
-		background-color: rgba(204, 103, 36, 0.86);
-	}
-
-	.current-health {
-		background-color: #f3a43b;
-		box-shadow: 0 0 9px rgba(243, 164, 59, 0.72);
-	}
-
-	.armor-fill {
-		background-color: #e7c77d;
-		box-shadow: 0 0 8px rgba(231, 199, 125, 0.55);
-	}
-
-	.stamina-fill {
-		background-color: #b7c56a;
-		box-shadow: 0 0 8px rgba(183, 197, 106, 0.45);
-	}
-
-	.health-limits {
-		width: 100%;
-		display: flex;
-		justify-content: space-between;
-		margin-top: 4px;
-		font-size: 10px;
-		font-weight: 700;
-		letter-spacing: 1px;
-		opacity: 0.58;
-	}
-
-	.resource-warning {
-		position: absolute;
-		right: 12px;
-		bottom: 1px;
-		color: #ff7048;
-		font-size: 9px;
-		font-weight: 800;
-		letter-spacing: 1px;
-		text-align: right;
-	}
-
-	.exhausted {
-		border-left-color: #ff7048;
-
-		.stamina-fill {
-			background-color: #ff7048;
-		}
-	}
-
-	.state-overlay {
-		position: absolute;
-		left: 50%;
-		top: 50%;
-		width: 430px;
-		transform: translate( -50%, -50% );
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		padding: 22px 30px;
-		background-color: rgba(12, 8, 7, 0.88);
-		border: 1px solid rgba(255, 103, 62, 0.7);
-		box-shadow: 0 0 42px rgba(0, 0, 0, 0.88);
-	}
-
-	.state-title {
-		color: #ff7048;
-		font-size: 31px;
-		font-weight: 900;
-		letter-spacing: 5px;
-		text-shadow: 0 0 13px rgba(255, 65, 35, 0.72);
-	}
-
-	.state-detail {
-		margin-top: 5px;
-		color: #e9b49e;
-		font-size: 13px;
-		font-weight: 700;
-		letter-spacing: 3px;
-		opacity: 0.78;
-	}
-
-	.bleedout-track {
-		height: 8px;
-		margin-top: 18px;
-		border-color: rgba(255, 103, 62, 0.45);
-	}
-
-	.bleedout-fill {
-		background-color: #ff542f;
-		box-shadow: 0 0 10px rgba(255, 65, 35, 0.8);
-	}
-
-	.state-value {
-		margin-top: 7px;
-		color: #ff7048;
-		font-size: 20px;
-		font-weight: 800;
-	}
-
-	.dead-overlay {
-		border-color: rgba(203, 70, 45, 0.55);
-
-		.state-title {
-			color: #c94d35;
-		}
-	}
-
-	.death-menu {
-		width: 590px;
-		padding: 30px 38px 34px;
-		pointer-events: all;
-	}
-
-	.death-reason {
-		width: 100%;
-		margin-top: 24px;
-		padding: 14px 18px;
-		flex-direction: column;
-		align-items: center;
-		background-color: rgba(0, 0, 0, 0.36);
-		border-left: 2px solid rgba(201, 77, 53, 0.7);
-		border-right: 2px solid rgba(201, 77, 53, 0.7);
-	}
-
-	.death-reason-title {
-		color: rgba(233, 180, 158, 0.62);
-		font-size: 10px;
-		font-weight: 800;
-		letter-spacing: 3px;
-	}
-
-	.death-reason-value {
-		margin-top: 6px;
-		color: #e9b49e;
-		font-size: 18px;
-		font-weight: 800;
-		letter-spacing: 1px;
-		text-align: center;
-	}
-
-	.spectating-label {
-		margin-top: 16px;
-		color: #e7c77d;
-		font-size: 11px;
-		font-weight: 800;
-		letter-spacing: 2px;
-
-		&.unavailable {
-			color: rgba(233, 180, 158, 0.42);
-		}
-	}
-
-	.death-actions {
-		width: 100%;
-		margin-top: 22px;
-		gap: 12px;
-		justify-content: center;
-		pointer-events: all;
-	}
-
-	.death-button {
-		min-width: 210px;
-		height: 48px;
-		justify-content: center;
-		align-items: center;
-		gap: 9px;
-		padding: 0 18px;
-		background-color: rgba(31, 22, 20, 0.96);
-		border: 1px solid rgba(201, 77, 53, 0.7);
-		border-radius: 2px;
-		color: #e9b49e;
-		font-size: 12px;
-		font-weight: 900;
-		letter-spacing: 1.5px;
-		pointer-events: all;
-		transition: all 0.14s ease-out;
-
-		&:hover {
-			background-color: rgba(87, 38, 29, 0.98);
-			border-color: #ff7048;
-			color: white;
-			transform: translateY( -1px );
-		}
-
-		&:active {
-			transform: translateY( 1px );
-		}
-
-	}
-
-	.menu-button {
-		border-color: rgba(231, 199, 125, 0.5);
-		color: #e7c77d;
-
-		&:hover {
-			background-color: rgba(76, 62, 31, 0.96);
-			border-color: #e7c77d;
-		}
-	}
-
-	.missing-player {
-		position: absolute;
-		left: 44px;
-		bottom: 38px;
-		padding: 10px 14px;
-		background-color: rgba(10, 13, 12, 0.75);
-		color: rgba(243, 164, 59, 0.55);
-		font-size: 11px;
-		font-weight: 700;
-		letter-spacing: 2px;
-	}
-
-	&.downed {
-		.vitals-block {
-			opacity: 0.48;
-		}
-	}
-
-	&.dead {
-		.vitals-block {
-			opacity: 0;
-		}
-	}
+    // Keep actual respawn/spectate controls fully usable, without mobile UI styling.
+    .state-overlay {
+        position: absolute; left: 50%; top: 50%; width: 430px;
+        transform: translate(-50%, -50%);
+        flex-direction: column; align-items: center; padding: 23px 28px;
+        background-color: rgba(12, 7, 9, 0.77);
+        border: 1px solid rgba(255, 100, 67, 0.21); border-radius: 5px;
+        box-shadow: 0 0 15px rgba(255, 100, 67, 0.24);
+    }
+    .state-title { color: #ff7157; font-size: 26px; font-weight: 900; letter-spacing: 3px; }
+    .state-detail { margin-top: 7px; color: #f1ad9a; font-size: 11px; letter-spacing: 1.5px; }
+    .bleedout-track { height: 3px; margin-top: 18px; }
+    .bleedout-fill { background-color: #ff674e; }
+    .state-value { margin-top: 10px; color: #ff7657; font-size: 21px; font-weight: 800; }
+    .death-menu { width: 510px; padding: 30px; pointer-events: all; }
+    .death-reason { width: 100%; margin-top: 20px; padding: 12px; flex-direction: column; align-items: center; background-color: rgba(255, 90, 53, 0.04); border: 1px solid rgba(255, 96, 62, 0.2); }
+    .death-reason-title { color: #eb9b81; font-size: 10px; letter-spacing: 2px; }
+    .death-reason-value { color: #fbd2c1; margin-top: 6px; font-size: 17px; text-align: center; }
+    .spectating-label { margin-top: 14px; color: #ffca88; font-size: 11px; letter-spacing: 1px; &.unavailable { opacity: 0.55; } }
+    .death-actions { width: 100%; margin-top: 20px; gap: 9px; justify-content: center; pointer-events: all; }
+    .death-button { min-width: 190px; height: 40px; align-items: center; justify-content: center; gap: 8px; padding: 0 12px;
+        border: 1px solid rgba(255, 144, 87, 0.23); border-radius: 3px;
+        box-shadow: 0 0 7px rgba(255, 144, 87, 0.16);
+        background-color: rgba(33, 22, 19, 0.82); color: #ffe1c8; font-size: 11px; font-weight: 800;
+        pointer-events: all;
+        &:hover { border-color: #ffc37c; background-color: rgba(75, 43, 30, 0.85); }
+    }
+    .menu-button { color: #ffce85; border-color: rgba(255, 203, 121, 0.42); }
+    .missing-player { position: absolute; left: 22px; bottom: 22px; padding: 9px 13px;
+        border: 1px solid rgba(255, 204, 126, 0.18);
+        background-color: rgba(9, 12, 15, 0.42);
+        background-image: url("Ui/Hud/visor_grain.png");
+        background-repeat: repeat;
+        background-size: 128px 128px;
+        box-shadow: 0 0 9px rgba(255, 204, 126, 0.19);
+        color: #ffdc9e; font-size: 11px; }
+    &.downed .vitals-block { opacity: 0.5; }
+    &.dead .vitals-block { opacity: 0; }
+}
+@keyframes suit-alert {
+    0% { border-color: rgba(255, 94, 62, 0.40); }
+    50% { border-color: rgba(255, 94, 62, 0.85); }
+    100% { border-color: rgba(255, 94, 62, 0.40); }
 }

@@ -12,6 +12,9 @@ Adding a conventional weapon variant should require a new definition and assets,
 
 The first P90 integration and its native MP5 animation donor are documented in
 [FN P90](08-p90.md), including the viewmodel grip adjustments.
+The official Facepunch MP5 integration is documented in [HK MP5](09-mp5.md).
+The M4A1 and editable MP5 holographic mounts are documented in
+[M4A1 and attachments](15-m4a1-attachments.md).
 
 Gunshot audio uses the native shot presentation callback. On the local shooter,
 `VBCombatWeapon` plays one dry 2D sound per event, without occlusion, distance
@@ -43,6 +46,11 @@ There is no additional weapon storage during the raid.
 - The sum of all carried weapons must not exceed the configured maximum.
 - An empty weapon slot resolves to the permanent fists placeholder. Fists have
   `CarrySize = 0` and do not count as a carried weapon.
+- Fists leave the third-person body in the native unarmed (`none`) pose at rest.
+  A native shot presentation event selects `melee_punch` before `b_attack`, then
+  returns to unarmed after 0.6 seconds without another punch. This also runs on
+  remote peers and on misses; the first-person viewmodel keeps its native behavior.
+  Switching weapons or starting traversal clears the temporary punching pose.
 - A weapon found on the ground can be taken only if it fits the remaining quota or if the player swaps out an equipped weapon.
 - The dropped weapon remains in the world and can be taken by another player.
 
@@ -357,7 +365,7 @@ First-person walk movement, pitch depth and look inertia belong to the player's
 viewmodel through `IVBFirstPersonHeldItem`; the PDA can use the same contract
 without inheriting weapon behaviour.
 
-Real weapons can be dropped by holding the configurable `DropWeapon` input for
+Real weapons can be dropped by holding the configurable `Drop` input (G) for
 0.85 seconds. Dropping is routed through the native inventory so the item
 returns to the world and the best remaining item, including fists, is deployed.
 World interaction remains routed through the native `PlayerController` pressing

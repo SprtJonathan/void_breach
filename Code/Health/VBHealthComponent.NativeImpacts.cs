@@ -7,11 +7,40 @@ public sealed partial class VBHealthComponent
 	private readonly Dictionary<GameObject, float> _nativePlayerImpacts = new();
 	private float _nativeImpactTime = float.NegativeInfinity;
 	private PlayerController _impactController;
+	private float _lastFallReport = float.NegativeInfinity;
+
+	void PlayerController.IEvents.OnLanded( float distance, Vector3 velocity )
+	{
+		if ( IsProxy || !float.IsFinite( distance ) ) return;
+		float amount = VBFallDamage.FromDistance( distance );
+		if ( amount <= 0f ) return;
+		if ( Networking.IsHost ) ApplyLanding( amount );
+		else ReportLanding( distance );
+	}
+
+	[Rpc.Host( NetFlags.OwnerOnly )]
+	private void ReportLanding( float distance )
+	{
+		if ( !Networking.IsHost || !GetComponent<PlayerController>().IsValid()
+			|| !float.IsFinite( distance ) || VBFallDamage.FromDistance( distance ) <= 0f
+			|| Time.Now - _lastFallReport < 0.15f ) return;
+		ApplyLanding( VBFallDamage.FromDistance( distance ) );
+	}
+
+	private void ApplyLanding( float amount )
+	{
+		_lastFallReport = Time.Now;
+		var info = VBDamageInfo.Create( amount, VBDamageType.Fall );
+		info.Position = WorldPosition;
+		info.ArmorPierce = 1f;
+		TakeDamage( info );
+	}
 
 	private void ResetNativeImpacts()
 	{
 		_nativePlayerImpacts.Clear();
 		_nativeImpactTime = float.NegativeInfinity;
+		_lastFallReport = float.NegativeInfinity;
 	}
 
 	public void OnDamage( in DamageInfo damage )
@@ -26,7 +55,13 @@ public sealed partial class VBHealthComponent
 		var info = VBDamageInfo.FromNative( damage );
 		if ( playerImpact )
 		{
-			// Compound body shapes can report one landing more than once.
+			var otherBody = damage.Attacker.IsValid() ? damage.Attacker.GetComponentInParent<Rigidbody>( includeSelf: true ) : null;
+			bool worldLanding = (!otherBody.IsValid() || !otherBody.MotionEnabled)
+				&& damage.Position.z <= WorldPosition.z + 18f;
+			// Ground contacts are priced by OnLanded's height profile, regardless of
+			// whether native impact damage arrives before or after that event.
+			if ( worldLanding ) return;
+			// Compound body shapes can report one impact more than once.
 			// Keep the maximum per source and simulation time, charging only a stronger contact's increment.
 			if ( _nativeImpactTime != Time.Now )
 			{

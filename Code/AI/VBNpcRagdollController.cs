@@ -29,7 +29,7 @@ public sealed class VBNpcRagdollController : Component
 	[Property, Group( "Knockdown" ), Range( 16f, 500f )] public float GroundProbeDistance { get; set; } = 110f;
 	[Property, Group( "Knockdown" )] public float StandHeightOffset { get; set; } = 2f;
 	[Property, Group( "Collision" )]
-	[Description( "Tag appliqué au mesh physique. La matrice de collision l'ignore face au tag player." )]
+	[Description( "Tag appliqué au mesh physique. La matrice de collision l'ignore face aux joueurs et aux PNJ." )]
 	public string RagdollCollisionTag { get; set; } = "npc_ragdoll";
 
 	[Sync( SyncFlags.FromHost )]
@@ -54,13 +54,15 @@ public sealed class VBNpcRagdollController : Component
 	private float _settledTime;
 	private Vector3 _lastMassCenter;
 	private string _appliedCollisionTag;
+	[Sync( SyncFlags.FromHost )] private float _fallPeak { get; set; }
+	[Sync( SyncFlags.FromHost )] private bool _landingCharged { get; set; }
 
 	protected override void OnStart()
 	{
 		ResolveReferences();
 		CaptureDefaults();
 
-		if ( Networking.IsHost && Health.IsValid() )
+		if ( Health.IsValid() )
 		{
 			Health.OnDamaged += OnDamaged;
 			Health.OnDeath += OnDied;
@@ -87,7 +89,8 @@ public sealed class VBNpcRagdollController : Component
 		if ( !Networking.IsHost || State != VBNpcRagdollState.Recoverable || !_modelPhysics.IsValid() )
 			return;
 
-		UpdateRecovery();
+		UpdateFallDamage();
+		if ( State == VBNpcRagdollState.Recoverable ) UpdateRecovery();
 	}
 
 	protected override void OnDestroy()
@@ -119,10 +122,31 @@ public sealed class VBNpcRagdollController : Component
 	{
 		ResolveReferences();
 		CaptureDefaults();
+		if ( State == state && _presentedState == state )
+		{
+			// A second hit during a fall must not erase the height already fallen.
+			_settledTime = 0f;
+			ApplyImpulse( impulse );
+			return;
+		}
 		State = state;
 		_timeSinceRagdoll = 0f;
 		_settledTime = 0f;
 		PresentRagdoll( state, impulse );
+		_fallPeak = GetMassCenter().z;
+		_landingCharged = false;
+	}
+
+	private void UpdateFallDamage()
+	{
+		var center = GetMassCenter();
+		_fallPeak = MathF.Max( _fallPeak, center.z );
+		if ( _landingCharged || _fallPeak - center.z <= VBFallDamage.SafeDistance ) return;
+		var ground = TraceGround( center );
+		// Ragdoll COM rests above its support; only charge once actual support is nearby.
+		if ( !ground.Hit || ground.StartedSolid || center.z - ground.EndPosition.z > 32f ) return;
+		_landingCharged = true;
+		Health.TakeDamage( VBFallDamage.Create( _fallPeak - center.z, ground.EndPosition ) );
 	}
 
 	private void UpdateRecovery()
@@ -191,8 +215,9 @@ public sealed class VBNpcRagdollController : Component
 					Agent.Stop();
 				Agent.UpdatePosition = false;
 
-				if ( state == VBNpcRagdollState.Dead )
-					Agent.Enabled = false;
+				// A fallen character is no longer a standing crowd obstacle. Restore
+				// the original agent state on recovery, at its actual stand position.
+				Agent.Enabled = false;
 			}
 
 			return;
@@ -338,7 +363,7 @@ public sealed class VBNpcRagdollController : Component
 		}
 	}
 
-	[Rpc.Broadcast]
+	[Rpc.Broadcast( NetFlags.HostOnly )]
 	private void PresentRagdoll( VBNpcRagdollState state, Vector3 impulse )
 	{
 		ResolveReferences();

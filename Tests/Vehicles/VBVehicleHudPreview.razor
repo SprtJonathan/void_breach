@@ -1,0 +1,10 @@
+@using Sandbox
+@using Sandbox.UI
+@inherits PanelComponent
+
+<root><VBVehicleHud Player=@Player /></root>
+
+@code {
+    [Property] public GameObject Player { get; set; }
+    protected override int BuildHash() => System.HashCode.Combine(Player);
+}

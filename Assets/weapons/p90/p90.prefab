@@ -3,9 +3,9 @@
     "__guid": "469ac304-eba5-4b66-8b1f-bd88055c949b",
     "__version": 2,
     "Flags": 0,
-    "Name": "FN P90",
+    "Name": "p90",
     "Position": "0,0,0",
-    "Rotation": "0,0,0,1",
+    "Rotation": "0,0.707106769,0,0.707106769",
     "Scale": "1,1,1",
     "Tags": "",
     "Enabled": true,
@@ -20,17 +20,22 @@
         "__guid": "74de6873-f2db-443a-9727-1dfcd47a5661",
         "__enabled": true,
         "Flags": 0,
+        "AimRecoilMultiplier": 0.65,
+        "AimSpreadMultiplier": 0.45,
         "AimTransitionSpeed": 14,
-        "AttackSound": "sounds/weapons/p90/fire.sound",
-        "AutoReload": false,
+        "AttackSound": {
+          "Id": "bc59a4ea-d998-434c-9211-022b92024646",
+          "Path": "sounds/weapons/p90/fire.sound"
+        },
+        "AutoReload": true,
         "Ballistics": {
           "Damage": 14,
           "Pellets": 1,
           "Range": 4096,
           "Radius": 0.5,
           "Force": 1800,
-          "SpreadBase": "0.65,0.65",
-          "SpreadGrowth": "1.2,1.2",
+          "SpreadBase": "0.649999976,0.649999976",
+          "SpreadGrowth": "1.20000005,1.20000005",
           "SpreadRecovery": 0.18
         },
         "CanCancelReload": true,
@@ -39,20 +44,30 @@
         "DeployTime": 0.45,
         "DisplayIcon": null,
         "DisplayName": "#vb.weapon.p90",
-        "DryFireSound": "sounds/weapons/9mmpistol/dry_fire.sound",
+        "DryFireSound": {
+          "Id": "68439325-0e8d-4889-b2fc-941501457940",
+          "Path": "sounds/weapons/9mmpistol/dry_fire.sound"
+        },
         "EnableFirstPersonAimZoom": true,
         "EnableThirdPersonAimZoom": true,
         "FirstPersonAimFieldOfViewReduction": 8,
-        "FirstPersonAimPositionOffset": "0,0,0",
+        "FirstPersonAimPositionOffset": "0,0,-1.5",
         "FirstPersonAimRotationOffset": "0,0,0",
         "FirstShellReloadTime": 0,
+        "GunshotAiRadius": 1800,
         "Handedness": "Both",
         "HoldBone": "hold_R",
         "HoldType": "rifle",
         "IncrementalReloading": false,
-        "LowAmmoSound": "sounds/weapons/9mmpistol/low_ammo.sound",
+        "LowAmmoSound": {
+          "Id": "bb749f8a-f6c4-4d46-acdb-2b00be82a4b4",
+          "Path": "sounds/weapons/9mmpistol/low_ammo.sound"
+        },
         "LowAmmoThreshold": 0.2,
-        "MagazineDepletedSound": "sounds/weapons/9mmpistol/mag_depleted.sound",
+        "MagazineDepletedSound": {
+          "Id": "660aca3a-cd79-4a5c-95d6-b4d7255d2f4d",
+          "Path": "sounds/weapons/9mmpistol/mag_depleted.sound"
+        },
         "Npc": {
           "MinRange": 0,
           "MaxRange": 1400,
@@ -63,25 +78,37 @@
           "SpreadScale": 3,
           "CanBePickedUp": true
         },
+        "NpcHoldPositionOffset": "0,0,0",
+        "NpcHoldRotationOffset": "0,0,0",
+        "NpcSupportHandPosition": "0,0,0",
+        "NpcSupportHandRotation": "0,0,0",
+        "NpcUseSupportHand": false,
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
         "OnComponentEnabled": null,
         "OnComponentFixedUpdate": null,
         "OnComponentStart": null,
         "OnComponentUpdate": null,
+        "PreferMuzzleMarker": true,
         "PreferredSlot": -1,
-        "PrimaryAmmoType": "ammo/57x28.ammo",
+        "PrimaryAmmoType": {
+          "Id": "98df9787-31ad-49c7-8c46-773904e10f24",
+          "Path": "ammo/medium.ammo"
+        },
         "PrimaryAutomatic": true,
-        "PrimaryDelay": 0.06666666666666667,
+        "PrimaryDelay": 0.06666667,
+        "RecoilPitch": "-0.280000001,-0.159999996",
+        "RecoilYaw": "-0.119999997,0.119999997",
         "ReloadStartTime": 0,
-        "ReloadTime": 2.8,
+        "ReloadTime": 1.5,
         "SecondaryAmmoType": null,
         "SecondaryAutomatic": false,
         "SecondaryClipSize": -1,
         "SecondaryDefaultClip": -1,
         "SecondaryDelay": 0.5,
+        "SlotCategory": "Main",
         "SlotOrder": 0,
-        "StartingAmmo": 50,
+        "StartingAmmo": 0,
         "ThirdPersonAimFieldOfViewReduction": 10,
         "UsableByNpcs": true,
         "UsesAmmo": true,
@@ -94,14 +121,7 @@
         "WorldModelPrefab": {
           "_type": "gameobject",
           "prefab": "weapons/p90/w_p90.prefab"
-        },
-        "SlotCategory": "Main",
-        "AimSpreadMultiplier": 0.45,
-        "AimRecoilMultiplier": 0.65,
-        "RecoilPitch": "-0.28,-0.16",
-        "RecoilYaw": "-0.12,0.12",
-        "GunshotAiRadius": 1800,
-        "PreferMuzzleMarker": true
+        }
       },
       {
         "__type": "Sandbox.Prop",
@@ -112,7 +132,10 @@
         "Health": 0,
         "IsStatic": false,
         "MaterialGroup": null,
-        "Model": "weapons/p90/mesh/p90.vmdl",
+        "Model": {
+          "Id": "85f13d60-41f5-4854-958d-2ce53ee45ef9",
+          "Path": "weapons/p90/mesh/p90.vmdl"
+        },
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
         "OnComponentEnabled": null,
@@ -136,7 +159,10 @@
         "MaterialGroup": null,
         "MaterialOverride": null,
         "Materials": null,
-        "Model": "weapons/p90/mesh/p90.vmdl",
+        "Model": {
+          "Id": "85f13d60-41f5-4854-958d-2ce53ee45ef9",
+          "Path": "weapons/p90/mesh/p90.vmdl"
+        },
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
         "OnComponentEnabled": null,
@@ -161,7 +187,10 @@
         "Elasticity": null,
         "Friction": null,
         "IsTrigger": false,
-        "Model": "weapons/p90/mesh/p90.vmdl",
+        "Model": {
+          "Id": "85f13d60-41f5-4854-958d-2ce53ee45ef9",
+          "Path": "weapons/p90/mesh/p90.vmdl"
+        },
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
         "OnComponentEnabled": null,
@@ -188,6 +217,7 @@
         "Gravity": true,
         "GravityScale": 1,
         "ImpactDamage": 0,
+        "InertiaScale": 1,
         "LinearDamping": 0,
         "Locking": {
           "X": false,
@@ -198,7 +228,7 @@
           "Roll": false
         },
         "MassCenterOverride": "0,0,0",
-        "MassOverride": 2.6,
+        "MassOverride": 0,
         "MinImpactDamageSpeed": 500,
         "MotionEnabled": true,
         "OnComponentDestroy": null,
@@ -223,6 +253,31 @@
           "go": "469ac304-eba5-4b66-8b1f-bd88055c949b",
           "component_type": "VBCombatWeapon"
         },
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "PickupInputAction": "use",
+        "PickupText": "#vb.interaction.pick_up",
+        "PromptAnchor": null,
+        "PromptAppearanceDistance": 240,
+        "PromptCardScreenOffset": "0,-24",
+        "PromptInteractionDistance": 48,
+        "PromptLocalOffset": "0,0,0",
+        "PromptRequiresLineOfSight": true,
+        "PromptShowsInputAction": true,
+        "PromptShowsItemName": true,
+        "PromptShowsMarker": true,
+        "PromptShowsText": true,
+        "ShowInteractionPrompt": true,
+        "WorldCollider": {
+          "_type": "component",
+          "component_id": "761eaecd-6e70-4cae-87d3-d49579d4b849",
+          "go": "469ac304-eba5-4b66-8b1f-bd88055c949b",
+          "component_type": "ModelCollider"
+        },
         "WorldProp": {
           "_type": "component",
           "component_id": "94f9d11c-a3cc-4ce5-99c7-60c1392b4f30",
@@ -235,23 +290,61 @@
           "go": "469ac304-eba5-4b66-8b1f-bd88055c949b",
           "component_type": "ModelRenderer"
         },
-        "WorldCollider": {
-          "_type": "component",
-          "component_id": "761eaecd-6e70-4cae-87d3-d49579d4b849",
-          "go": "469ac304-eba5-4b66-8b1f-bd88055c949b",
-          "component_type": "ModelCollider"
-        },
         "WorldRigidbody": {
           "_type": "component",
           "component_id": "69e4689e-47a9-4d43-963a-39e00e9c9839",
           "go": "469ac304-eba5-4b66-8b1f-bd88055c949b",
           "component_type": "Rigidbody"
         }
+      },
+      {
+        "__type": "Sandbox.SkinnedModelRenderer",
+        "__guid": "a5d4f19b-8ed8-489b-816b-5818f6e7a276",
+        "__enabled": true,
+        "Flags": 0,
+        "AnimationGraph": null,
+        "BodyGroups": 257,
+        "BoneMergeTarget": null,
+        "CreateAttachments": false,
+        "CreateBoneObjects": false,
+        "DeformationMode": "Normal",
+        "LodOverride": null,
+        "MaterialGroup": null,
+        "MaterialOverride": null,
+        "Materials": null,
+        "Model": {
+          "Id": "85f13d60-41f5-4854-958d-2ce53ee45ef9",
+          "Path": "weapons/p90/mesh/p90.vmdl"
+        },
+        "Morphs": {},
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "Parameters": {},
+        "PlaybackRate": 1,
+        "RenderOptions": {
+          "GameLayer": true,
+          "OverlayLayer": false,
+          "BloomLayer": false,
+          "AfterUILayer": false
+        },
+        "RenderType": "On",
+        "Sequence": {
+          "Name": null,
+          "Looping": true,
+          "Blending": false
+        },
+        "Tint": "1,1,1,1",
+        "UseAnimGraph": true
       }
     ],
     "Children": [],
     "__properties": {
       "NetworkInterpolation": true,
+      "PhysicsMode": "Physics3D",
       "TimeScale": 1,
       "WantsSystemScene": true,
       "Metadata": {},
@@ -277,8 +370,6 @@
   "MenuPath": null,
   "MenuIcon": null,
   "DontBreakAsTemplate": false,
-  "__references": [
-    "greg.p90"
-  ],
+  "__references": [],
   "__version": 2
 }

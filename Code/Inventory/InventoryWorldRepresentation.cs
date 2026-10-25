@@ -8,6 +8,7 @@ using Sandbox;
 [Category( "Void Breach/Inventory" )]
 public sealed class InventoryWorldRepresentation : Component, IVBInteractionPromptProvider
 {
+	private bool? _presentedInWorld;
 	/// <summary>
 	/// Objet d'inventaire surveillé.
 	/// Il est trouvé automatiquement sur ce GameObject si non renseigné.
@@ -89,8 +90,6 @@ public sealed class InventoryWorldRepresentation : Component, IVBInteractionProm
 	[Property, Group( "Interaction Prompt" )]
 	public bool PromptRequiresLineOfSight { get; set; } = true;
 
-	private bool? _lastWorldState;
-
 	protected override void OnAwake()
 	{
 		base.OnAwake();
@@ -103,14 +102,16 @@ public sealed class InventoryWorldRepresentation : Component, IVBInteractionProm
 
 		CreateInteractionPrompt();
 
-		UpdateWorldState( force: true );
+		UpdateWorldState();
 	}
 
 	VBInteractionPromptState IVBInteractionPromptProvider.GetInteractionPromptState( GameObject viewer )
 	{
+		var inventory = viewer.IsValid() ? viewer.GetComponentInParent<VBWeaponInventoryComponent>( includeSelf: true ) : null;
+		bool swap = Item is VBCombatWeapon gun && inventory.IsValid() && inventory.CanSwapWeapon( gun );
 		return new VBInteractionPromptState(
 			ShowInteractionPrompt && Item.IsValid() && Item.Inventory is null,
-			PickupText,
+			swap ? "#vb.interaction.swap_weapon" : PickupText,
 			PickupInputAction,
 			Item.IsValid() ? Item.DisplayName : null
 		);
@@ -166,13 +167,14 @@ public sealed class InventoryWorldRepresentation : Component, IVBInteractionProm
 
 		UpdateWorldState( force: true );
 	}
+	protected override void OnStart() => UpdateWorldState( force: true );
 
 	protected override void OnUpdate()
 	{
-		UpdateWorldState( force: false );
+		UpdateWorldState();
 	}
 
-	private void UpdateWorldState( bool force )
+	private void UpdateWorldState( bool force = false )
 	{
 		if ( !Item.IsValid() )
 			return;
@@ -180,16 +182,21 @@ public sealed class InventoryWorldRepresentation : Component, IVBInteractionProm
 		// Inventory == null : l'objet est posé dans le monde.
 		// Inventory != null : l'objet appartient à un joueur/inventaire.
 		var isInWorld = Item.Inventory is null;
-
-		if ( !force && _lastWorldState == isInWorld )
-			return;
+		if ( !force && _presentedInWorld == isInWorld ) return;
+		_presentedInWorld = isInWorld;
 
 		SetComponentEnabled( WorldProp, isInWorld );
 		SetComponentEnabled( WorldRenderer, isInWorld );
 		SetComponentEnabled( WorldCollider, isInWorld );
 		SetComponentEnabled( WorldRigidbody, isInWorld );
+		// Prop can create its renderer/collider/body after this component's Awake,
+		// including additional components when a prefab already serialized them.
+		// Reconcile every root world component, without touching held/view models
+		// that the native weapon creates on child GameObjects.
+		foreach ( var renderer in GetComponents<ModelRenderer>( includeDisabled: true ) ) SetComponentEnabled( renderer, isInWorld );
+		foreach ( var collider in GetComponents<Collider>( includeDisabled: true ) ) SetComponentEnabled( collider, isInWorld );
+		foreach ( var body in GetComponents<Rigidbody>( includeDisabled: true ) ) SetComponentEnabled( body, isInWorld );
 
-		_lastWorldState = isInWorld;
 	}
 
 	private static void SetComponentEnabled(
@@ -199,7 +206,7 @@ public sealed class InventoryWorldRepresentation : Component, IVBInteractionProm
 	{
 		if ( component.IsValid() )
 		{
-			component.Enabled = enabled;
+			if ( component.Enabled != enabled ) component.Enabled = enabled;
 		}
 	}
 }

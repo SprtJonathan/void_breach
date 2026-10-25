@@ -15,9 +15,9 @@ public enum VBDamageType
 	Freeze = 1 << 7
 }
 
-/// <summary>
-/// Immutable-by-convention description of one Void Breach damage event.
-/// </summary>
+public enum VBHitLocation { Unspecified, Torso, Head, Arm, Leg }
+
+/// <summary>Immutable-by-convention description of one Void Breach damage event.</summary>
 public struct VBDamageInfo
 {
 	public float Amount { get; set; }
@@ -32,6 +32,7 @@ public struct VBDamageInfo
 	public Vector3 Position { get; set; }
 	public Vector3 Force { get; set; }
 	public bool IsHeadshot { get; set; }
+	public VBHitLocation HitLocation { get; set; }
 	public string DownedReasonToken { get; set; }
 
 	public static VBDamageInfo Create(
@@ -64,6 +65,7 @@ public struct VBDamageInfo
 		info.Position = position;
 		info.Force = force;
 		info.IsHeadshot = isHeadshot;
+		info.HitLocation = isHeadshot ? VBHitLocation.Head : VBHitLocation.Unspecified;
 		info.ArmorPierce = Math.Clamp( armorPierce, 0f, 1f );
 		return info;
 	}
@@ -124,7 +126,21 @@ public struct VBDamageInfo
 		);
 
 		info.Position = damage.Position;
+		info.HitLocation = GetNativeHitLocation( damage );
+		info.IsHeadshot = info.HitLocation == VBHitLocation.Head;
 		return info;
+	}
+
+	private static VBHitLocation GetNativeHitLocation( in DamageInfo damage )
+	{
+		// Native weapons merge the traced hitbox tags on the host, including
+		// validated remote shots. Keep the bone name as a fallback for other rigs.
+		var tags = damage.Tags;
+		var bone = damage.Hitbox?.Bone?.Name?.ToLowerInvariant() ?? string.Empty;
+		if ( tags is not null && tags.HasAny( "head", "skull" ) || bone.Contains( "head" ) || bone.Contains( "neck" ) ) return VBHitLocation.Head;
+		if ( tags is not null && tags.HasAny( "arm", "hand", "clavicle" ) || bone.Contains( "arm" ) || bone.Contains( "hand" ) || bone.Contains( "clavicle" ) ) return VBHitLocation.Arm;
+		if ( tags is not null && tags.HasAny( "leg", "foot", "thigh", "calf" ) || bone.Contains( "leg" ) || bone.Contains( "thigh" ) || bone.Contains( "calf" ) || bone.Contains( "ankle" ) || bone.Contains( "foot" ) ) return VBHitLocation.Leg;
+		return damage.Hitbox is not null ? VBHitLocation.Torso : VBHitLocation.Unspecified;
 	}
 
 	private static VBDamageType GetNativeDamageType( in DamageInfo damage )

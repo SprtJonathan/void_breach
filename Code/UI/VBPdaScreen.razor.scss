@@ -354,3 +354,56 @@ VBPdaScreen {
 		}
 	}
 }
+
+// PDA projected-display pass. The PDA remains legible as a dedicated instrument;
+// unlike the previous version, it does not look like frosted mobile-app cards.
+VBPdaScreen {
+    color: #ffd590;
+    background-color: rgba(6, 12, 15, 0.88);
+    .screen-shell {
+        border: 1px solid rgba(255, 204, 119, 0.20);
+        border-radius: 3px;
+        padding: 19px 23px 14px;
+        background-color: rgba(7, 17, 20, 0.78);
+        background-image: url("Ui/Hud/visor_grain.png");
+        background-repeat: repeat;
+        background-size: 128px 128px;
+        box-shadow: 0 0 12px rgba(255, 204, 119, 0.20);
+    }
+    .top-bar { height: 57px; padding-bottom: 9px; border-bottom: 1px solid rgba(255, 200, 108, 0.31); }
+    .brand-mark { width: 39px; height: 36px; border: 1px solid rgba(255, 219, 150, 0.7); background-color: rgba(255, 196, 94, 0.1); color: #ffe4b3; font-size: 19px; }
+    .brand-title { font-size: 19px; color: #ffd18f; text-shadow: none; }
+    .connection-state { color: #ffd594; }
+    .signal-bar { background-color: #ffd085; box-shadow: none; }
+    .content { gap: 11px; padding: 11px 0 9px; }
+    .side-column { width: 305px; gap: 8px; }
+    .map-panel, .status-panel, .objective-panel, .squad-panel {
+        border: 1px solid rgba(255, 209, 128, 0.13);
+        border-radius: 2px;
+        background-color: rgba(9, 12, 15, 0.53);
+        background-image: url("Ui/Hud/visor_grain.png");
+        background-repeat: repeat;
+        background-size: 128px 128px;
+        box-shadow: 0 0 8px rgba(255, 209, 128, 0.17);
+    }
+    .map-panel { padding: 10px; }
+    .map-grid { border: 1px solid rgba(255, 203, 112, 0.12); border-radius: 0; background-color: rgba(5, 16, 20, 0.47); box-shadow: 0 0 8px rgba(255, 203, 112, 0.14); }
+    .panel-header { color: #ffdea5; border-bottom: 1px solid rgba(255, 195, 100, 0.18); }
+    .scan-line { background-color: rgba(255, 198, 112, 0.23); box-shadow: none; }
+    .signal-ray { background-color: rgba(255, 193, 90, 0.17); border-right-color: #ffd07e; }
+    .operator-marker { border-color: #ffe0a3; box-shadow: none; }
+    .operator-arrow { color: #ffe0ad; text-shadow: 0 0 6px rgba(255, 192, 84, 0.45); }
+    .zone { border-color: rgba(255, 105, 78, 0.54); color: #ff967c; }
+    .extract { background-color: rgba(14, 24, 25, 0.25); }
+    .extract-open { border-color: #7ae8cd; color: #7ae8cd; }
+    .extract-locked { border-color: rgba(255, 132, 102, 0.65); color: #ff8975; }
+    .squad-marker { border-color: #ffd394; color: #ffe2ac; background-color: rgba(255, 210, 138, 0.06); }
+    .coordinates .live, .status-active, .value.open, .squad-row.local { color: #81e7c9; }
+    .value.locked { color: #ff9178; }
+    .timer, .bearing-value { color: #ffdb9a; text-shadow: none; }
+    .objective-title { color: #ffe3af; }
+    .objective-detail { color: #eed4ab; }
+    .bearing { border-top-color: rgba(255, 196, 108, 0.2); }
+    .footer { border-top-color: rgba(255, 203, 122, 0.23); }
+    &.offline { opacity: 0.67; .screen-shell { border-color: rgba(255, 112, 81, 0.22); box-shadow: 0 0 12px rgba(255, 112, 81, 0.23); } }
+}

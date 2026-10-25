@@ -1,0 +1,37 @@
+@using System
+@using Sandbox
+@using Sandbox.UI
+@inherits Panel
+
+<root>
+	@if ( Bridge is { IsSeated: true } )
+	{
+		<div class="vehicle-status">
+			<div class="speed">
+				<label>@((int)(Bridge.ActiveSeat.Vehicle.SpeedKmh))</label><label class="units">km/h</label>
+				@if ( Bridge.ActiveSeat.Vehicle.IsTurboActive ) { <label class="turbo">@Language.GetPhrase( "vb.vehicle.turbo" )</label> }
+			</div>
+			<div class="seat-hints">
+				@if ( Bridge.CanChangeSeat )
+				{
+					<label>@($"{Key( Bridge.TurretToggleAction )} · {Language.GetPhrase( Bridge.IsDriving ? "vb.vehicle.gunner.enter" : "vb.vehicle.driver.return" )}")</label>
+				}
+				<label>@($"{Key( "use" )} · {Language.GetPhrase( "vb.vehicle.exit" )}")</label>
+			</div>
+		</div>
+		@if ( Bridge.IsTurretAiming )
+		{
+			<div class="turret-reticle"><div class="horizontal"></div><div class="vertical"></div></div>
+		}
+	}
+</root>
+
+@code
+{
+	public GameObject Player { get; set; }
+	private VBVehiclePlayerDriver Bridge => Player.IsValid() ? Player.GetComponent<VBVehiclePlayerDriver>() : null;
+	private VBVehicleTurret Turret => Bridge?.ActiveSeat?.Vehicle?.GetComponent<VBVehicleTurret>();
+	private static string Key( string action ) => Input.GetButtonOrigin( action ) ?? action;
+	protected override int BuildHash() => HashCode.Combine( Bridge?.IsSeated, Bridge?.IsTurretAiming,
+		Bridge?.ActiveSeat, (int)(Bridge?.ActiveSeat?.Vehicle?.SpeedKmh ?? 0f), Turret?.Access, Bridge?.CanChangeSeat, Bridge?.ActiveSeat?.Vehicle?.IsTurboActive );
+}

@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using Sandbox;
 using Sandbox.Citizen;
 
@@ -13,6 +12,14 @@ public enum VBZombieState
 	Attack,
 	Ragdoll,
 	Dead
+}
+
+public enum VBZombieAttackPhase
+{
+	None,
+	Windup,
+	Strike,
+	Recovery
 }
 
 /// <summary>
@@ -29,6 +36,7 @@ public sealed class VBZombieController : Component
 	[RequireComponent] private VBNpcRagdollController Ragdoll { get; set; }
 	[RequireComponent] private VBAiPerceptionComponent Perception { get; set; }
 	[RequireComponent] private VBFactionComponent Faction { get; set; }
+	[RequireComponent] private VBNpcLocomotion Locomotion { get; set; }
 
 	[Property, Group( "Locomotion" ), Range( 10f, 1000f )] public float MoveSpeed { get; set; } = 105f;
 	[Property, Group( "Locomotion" ), Range( 10f, 3000f )] public float Acceleration { get; set; } = 500f;
@@ -54,10 +62,14 @@ public sealed class VBZombieController : Component
 	[Property, Group( "Search" ), Range( 1f, 30f )] public float LostTargetChaseTimeout { get; set; } = 10f;
 	[Property, Group( "Search" )] public Vector2 SearchWaitRange { get; set; } = new( 0.4f, 1.2f );
 
-	[Property, Group( "Melee" ), Range( 1f, 300f )] public float AttackRange { get; set; } = 78f;
+	[Property, Group( "Melee" ), Range( 1f, 300f )] public float AttackRange { get; set; } = 64f;
 	[Property, Group( "Melee" ), Range( 0f, 200f )] public float AttackDamage { get; set; } = 18f;
-	[Property, Group( "Melee" ), Range( 0.05f, 5f )] public float AttackCooldown { get; set; } = 1.35f;
-	[Property, Group( "Melee" ), Range( 0f, 2f )] public float AttackWindup { get; set; } = 0.42f;
+	/// <summary>Minimum time between the beginnings of two attacks.</summary>
+	[Property, Group( "Melee" ), Range( 0.05f, 5f )] public float AttackCooldown { get; set; } = 1.6f;
+	[Property, Group( "Melee" ), Range( 0f, 2f )] public float AttackWindup { get; set; } = 0.2f;
+	/// <summary>Time from triggering the punch animation to checking its impact.</summary>
+	[Property, Group( "Melee" ), Range( 0f, 1f )] public float AttackImpactDelay { get; set; } = 0.18f;
+	[Property, Group( "Melee" ), Range( 0f, 2f )] public float AttackRecovery { get; set; } = 0.65f;
 	[Property, Group( "Melee" ), Range( 0f, 180f )] public float AttackHalfAngle { get; set; } = 55f;
 
 	[Property, Group( "Audio" )] public SoundEvent AlertSound { get; set; }
@@ -67,20 +79,21 @@ public sealed class VBZombieController : Component
 	[Property, Group( "Animation" )] public string AttackAnimationParameter { get; set; } = "b_attack";
 
 	[Sync( SyncFlags.FromHost )] public VBZombieState State { get; private set; } = VBZombieState.Idle;
+	[Sync( SyncFlags.FromHost )] public VBZombieAttackPhase AttackPhase { get; private set; }
+	[Sync( SyncFlags.FromHost )] private TimeSince TimeSinceAttack { get; set; } = 999f;
+	[Sync( SyncFlags.FromHost )] private GameObject AttackTarget { get; set; }
 
 	public GameObject Target => Perception.IsValid() ? Perception.CurrentTarget : null;
 	public Vector3 LastKnownTargetPosition => Perception.IsValid() ? Perception.LastKnownPosition : WorldPosition;
 
 	private CitizenAnimationHelper _animationHelper;
 	private SkinnedModelRenderer _renderer;
-	private Vector3 _previousPosition;
 	private Vector3 _visualVelocity;
 	private Vector3 _searchOrigin;
 	private Vector3 _searchDestination;
 	private Vector3 _patrolDestination;
 	private Vector3 _patrolProgressPosition;
 	private Vector3 _patrolOrigin;
-	private TimeSince _timeSinceAttack;
 	private TimeSince _timeSincePathRefresh;
 	private TimeSince _timeSinceSearchStarted;
 	private TimeSince _timeSinceSearchWait;
@@ -91,13 +104,14 @@ public sealed class VBZombieController : Component
 	private int _searchPointsRemaining;
 	private bool _isSearching;
 	private bool _hasPatrolDestination;
-	private bool _attackInProgress;
+	private bool AttackInProgress => AttackPhase != VBZombieAttackPhase.None;
 	private GameObject _lastAlertedTarget;
+	private Vector3 _chaseGoal, _chaseProgress;
+	private float _chaseProgressTime;
 
 	protected override void OnStart()
 	{
 		ResolveVisuals();
-		_previousPosition = WorldPosition;
 		_patrolOrigin = WorldPosition;
 		Agent.MaxSpeed = MoveSpeed;
 		Agent.Acceleration = Acceleration;
@@ -112,8 +126,7 @@ public sealed class VBZombieController : Component
 		if ( GameObject.NetworkMode != NetworkMode.Object )
 			Log.Warning( $"[VBZombieController] '{GameObject.Name}' doit être en NetworkMode.Object pour répliquer son mouvement et ses états." );
 
-		if ( Networking.IsHost )
-			Health.OnDeath += OnDied;
+		Health.OnDeath += OnDied;
 	}
 
 	protected override void OnUpdate()
@@ -126,6 +139,7 @@ public sealed class VBZombieController : Component
 
 		if ( Health.IsDead )
 		{
+			CancelAttack();
 			SetState( VBZombieState.Dead );
 			StopAgentUnlessTraversingLink();
 			return;
@@ -133,12 +147,28 @@ public sealed class VBZombieController : Component
 
 		if ( Ragdoll.IsRagdolled )
 		{
+			CancelAttack();
 			SetState( VBZombieState.Ragdoll );
 			StopAgentUnlessTraversingLink();
 			return;
 		}
+		if ( Agent.IsTraversingLink || !Locomotion.IsGrounded ) return;
+
+		// An engaged attack cannot chase, turn or switch victims halfway through.
+		if ( AttackInProgress )
+		{
+			TickAttackSequence();
+			return;
+		}
 
 		TickBehaviour();
+	}
+
+	protected override void OnDisabled()
+	{
+		if ( !Networking.IsHost ) return;
+		CancelAttack();
+		if ( Agent.IsValid() ) StopAgentUnlessTraversingLink();
 	}
 
 	protected override void OnDestroy()
@@ -150,7 +180,9 @@ public sealed class VBZombieController : Component
 	private void ResolveVisuals()
 	{
 		_animationHelper ??= Components.Get<CitizenAnimationHelper>( FindMode.InSelf | FindMode.InChildren );
-		_renderer ??= Components.Get<SkinnedModelRenderer>( FindMode.InSelf | FindMode.InChildren );
+		_renderer = _animationHelper.IsValid() && _animationHelper.Target.IsValid()
+			? _animationHelper.Target
+			: Components.Get<SkinnedModelRenderer>( FindMode.InSelf | FindMode.InChildren );
 	}
 
 	private void TickBehaviour()
@@ -219,12 +251,23 @@ public sealed class VBZombieController : Component
 	{
 		_hasPatrolDestination = false;
 		SetState( VBZombieState.Chase );
-		FaceTowards( position - WorldPosition );
+		FaceTowards( Agent.IsNavigating ? Agent.WishVelocity : position - WorldPosition );
+		if ( Vector3.DistanceBetween( _chaseProgress, WorldPosition ) > 8f )
+		{ _chaseProgress = WorldPosition; _chaseProgressTime = Time.Now; }
 
-		if ( _timeSincePathRefresh >= PathRefreshInterval || !Agent.IsNavigating )
+		if ( _timeSincePathRefresh >= PathRefreshInterval )
 		{
 			_timeSincePathRefresh = 0f;
-			Agent.MoveTo( position );
+			bool stalled = Agent.IsNavigating && Time.Now - _chaseProgressTime > 2f;
+			if ( Agent.IsNavigating && !stalled && Vector3.DistanceBetween( _chaseGoal, position ) < 48f ) return;
+			if ( !VBNpcNavigation.TryWalkPath( Scene, Agent, WorldPosition, position, out var path ) )
+			{
+				Agent.Stop();
+				BeginSearch( position ); Perception.ForgetTarget(); Perception.ConsumeInvestigationPoint();
+				return;
+			}
+			Agent.SetPath( path ); _chaseGoal = position;
+			_chaseProgress = WorldPosition; _chaseProgressTime = Time.Now;
 		}
 	}
 
@@ -279,7 +322,7 @@ public sealed class VBZombieController : Component
 			return;
 
 		_searchDestination = destination.Value;
-		Agent.MoveTo( _searchDestination );
+		if ( VBNpcNavigation.TryWalkPath( Scene, Agent, WorldPosition, _searchDestination, out var searchPath ) ) Agent.SetPath( searchPath );
 	}
 
 	private void BeginSearchWait()
@@ -354,7 +397,7 @@ public sealed class VBZombieController : Component
 			_patrolProgressPosition = WorldPosition;
 			_timeSincePatrolProgress = 0f;
 			_hasPatrolDestination = true;
-			Agent.MoveTo( _patrolDestination );
+			if ( VBNpcNavigation.TryWalkPath( Scene, Agent, WorldPosition, _patrolDestination, out var patrolPath ) ) Agent.SetPath( patrolPath );
 			SetState( VBZombieState.Patrol );
 		}
 		else
@@ -375,6 +418,7 @@ public sealed class VBZombieController : Component
 
 			if ( Vector3.DistanceBetween( WorldPosition, destination.Value ) < PatrolMinimumMoveDistance )
 				continue;
+			if ( !VBNpcNavigation.TryWalkPath( Scene, Agent, WorldPosition, destination.Value, out _ ) ) continue;
 
 			return destination;
 		}
@@ -402,39 +446,49 @@ public sealed class VBZombieController : Component
 		StopAgentUnlessTraversingLink();
 		FaceTowards( target.WorldPosition - WorldPosition );
 
-		if ( !_attackInProgress && _timeSinceAttack >= AttackCooldown )
-			_ = AttackAsync();
+		if ( Agent.IsTraversingLink || TimeSinceAttack < AttackCooldown ) return;
+		AttackTarget = target;
+		TimeSinceAttack = 0f;
+		AttackPhase = VBZombieAttackPhase.Windup;
+		PlayAttackSound();
 	}
 
-	private async Task AttackAsync()
+	private void TickAttackSequence()
 	{
-		_attackInProgress = true;
-		_timeSinceAttack = 0f;
-		SetAttackAnimation( true );
-		PlayAttackSound();
+		SetState( VBZombieState.Attack );
+		StopAgentUnlessTraversingLink();
+		float windup = MathF.Max( AttackWindup, 0f );
+		float impact = windup + MathF.Max( AttackImpactDelay, 0f );
 
-		try
+		if ( AttackPhase == VBZombieAttackPhase.Windup && TimeSinceAttack >= windup )
 		{
-			await Task.DelaySeconds( AttackWindup );
-			if ( !this.IsValid() || !Networking.IsHost || Health.IsDead || Ragdoll.IsRagdolled )
-				return;
+			AttackPhase = VBZombieAttackPhase.Strike;
+			SetAttackAnimation( true );
+		}
 
-			if ( TryApplyMeleeDamage() )
+		if ( AttackPhase == VBZombieAttackPhase.Strike && TimeSinceAttack >= impact )
+		{
+			// Consume this impact even on a miss; body contact never retries damage.
+			AttackPhase = VBZombieAttackPhase.Recovery;
+			if ( TryApplyMeleeDamage( AttackTarget ) )
 				PlayAttackHitSound();
 			else
 				PlayAttackMissSound();
 		}
-		finally
-		{
-			if ( this.IsValid() )
-				SetAttackAnimation( false );
-			_attackInProgress = false;
-		}
+
+		if ( TimeSinceAttack >= impact + MathF.Max( AttackRecovery, 0f ) )
+			CancelAttack();
 	}
 
-	private bool TryApplyMeleeDamage()
+	private void CancelAttack()
 	{
-		var target = Perception.CurrentTarget;
+		if ( AttackInProgress ) SetAttackAnimation( false );
+		AttackTarget = null;
+		AttackPhase = VBZombieAttackPhase.None;
+	}
+
+	private bool TryApplyMeleeDamage( GameObject target )
+	{
 		if ( !Perception.IsViableTarget( target ) || !Perception.CanSee( target ) )
 			return false;
 
@@ -449,6 +503,16 @@ public sealed class VBZombieController : Component
 			return false;
 
 		var targetHealth = target.Components.Get<VBHealthComponent>();
+		var targetSeat = target.GetComponent<VBVehiclePlayerDriver>()?.ActiveSeat;
+		if ( targetSeat.IsValid() )
+		{
+			var player = target.GetComponent<PlayerController>();
+			var point = player.IsValid() ? player.EyePosition : target.WorldPosition + Perception.TargetOffset;
+			var contact = Scene.Trace.Ray( WorldPosition + Perception.EyeOffset, point )
+				.IgnoreGameObjectHierarchy( GameObject ).UseHitboxes( true ).Run();
+			if ( contact.Hit && contact.GameObject.IsValid()
+				&& contact.GameObject.GetComponentInParent<VBHealthComponent>( includeSelf: true ) != targetHealth ) return false;
+		}
 		if ( targetHealth.IsValid() )
 		{
 			var damage = VBDamageInfo.Create( AttackDamage, VBDamageType.Blunt, GameObject, GameObject );
@@ -483,8 +547,7 @@ public sealed class VBZombieController : Component
 	private void UpdateAnimation()
 	{
 		float deltaTime = MathF.Max( Time.Delta, 0.0001f );
-		var measuredVelocity = (WorldPosition - _previousPosition) / deltaTime;
-		_previousPosition = WorldPosition;
+		var measuredVelocity = Locomotion.Velocity;
 
 		if ( Ragdoll.IsRagdolled )
 			return;
@@ -494,16 +557,20 @@ public sealed class VBZombieController : Component
 			return;
 
 		_animationHelper.WithVelocity( _visualVelocity );
-		_animationHelper.WithWishVelocity( Agent.WishVelocity );
-		_animationHelper.IsGrounded = true;
+		_animationHelper.WithWishVelocity( _visualVelocity.WithZ( 0f ) );
+		// Use the same automatic Human gait selection as the default player.
+		_animationHelper.MoveStyle = CitizenAnimationHelper.MoveStyles.Auto;
+		_animationHelper.HoldType = AttackPhase != VBZombieAttackPhase.None
+			? CitizenAnimationHelper.HoldTypes.Punch : CitizenAnimationHelper.HoldTypes.None;
+		_animationHelper.IsGrounded = Locomotion.IsGrounded;
 		_animationHelper.WithLook( WorldRotation.Forward );
 	}
 
 	private void OnDied()
 	{
+		if ( !Networking.IsHost ) return;
 		SetState( VBZombieState.Dead );
-		SetAttackAnimation( false );
-		_attackInProgress = false;
+		CancelAttack();
 	}
 
 	private void StopAgentUnlessTraversingLink()
@@ -524,15 +591,20 @@ public sealed class VBZombieController : Component
 		return minimum + Game.Random.NextSingle() * (maximum - minimum);
 	}
 
-	[Rpc.Broadcast]
+	[Rpc.Broadcast( NetFlags.HostOnly )]
 	private void SetAttackAnimation( bool attacking )
 	{
+		ResolveVisuals();
+		// b_attack belongs to the Punch branch, not the weaponless idle branch.
+		var holdType = attacking ? CitizenAnimationHelper.HoldTypes.Punch : CitizenAnimationHelper.HoldTypes.None;
+		if ( _animationHelper.IsValid() ) _animationHelper.HoldType = holdType;
+		if ( _renderer.IsValid() ) _renderer.Set( "holdtype", (int)holdType );
 		if ( _renderer.IsValid() && !string.IsNullOrWhiteSpace( AttackAnimationParameter ) )
 			_renderer.Set( AttackAnimationParameter, attacking );
 	}
 
-	[Rpc.Broadcast] private void PlayAlertSound() { if ( AlertSound is not null ) GameObject.PlaySound( AlertSound ); }
-	[Rpc.Broadcast] private void PlayAttackSound() { if ( AttackSound is not null ) GameObject.PlaySound( AttackSound ); }
-	[Rpc.Broadcast] private void PlayAttackHitSound() { if ( AttackHitSound is not null ) GameObject.PlaySound( AttackHitSound ); }
-	[Rpc.Broadcast] private void PlayAttackMissSound() { if ( AttackMissSound is not null ) GameObject.PlaySound( AttackMissSound ); }
+	[Rpc.Broadcast( NetFlags.HostOnly )] private void PlayAlertSound() { if ( AlertSound is not null ) GameObject.PlaySound( AlertSound ); }
+	[Rpc.Broadcast( NetFlags.HostOnly )] private void PlayAttackSound() { if ( AttackSound is not null ) GameObject.PlaySound( AttackSound ); }
+	[Rpc.Broadcast( NetFlags.HostOnly )] private void PlayAttackHitSound() { if ( AttackHitSound is not null ) GameObject.PlaySound( AttackHitSound ); }
+	[Rpc.Broadcast( NetFlags.HostOnly )] private void PlayAttackMissSound() { if ( AttackMissSound is not null ) GameObject.PlaySound( AttackMissSound ); }
 }

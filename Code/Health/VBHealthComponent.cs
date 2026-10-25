@@ -26,8 +26,12 @@ internal sealed class VBDrainModifier
 /// Manages Void Breach's three-tier health model, downed state, bleed-out,
 /// revival and temporary SoftMax health effects.
 /// </summary>
-public sealed partial class VBHealthComponent : Component, Component.IDamageable
+public sealed partial class VBHealthComponent : Component, Component.IDamageable, PlayerController.IEvents
 {
+	/// <summary>Host-controlled debug invulnerability. Disabled by default for normal gameplay.</summary>
+	[Property, Group( "Debug" ), Sync( SyncFlags.FromHost )]
+	public bool GodMode { get; set; }
+
 	[Property, Group( "Life Cycle" )]
 	public bool CanBeDowned { get; set; } = true;
 
@@ -151,12 +155,13 @@ public sealed partial class VBHealthComponent : Component, Component.IDamageable
 	{
 		EnsureInitialized();
 
-		if ( !Networking.IsHost || IsDead || info.Amount <= 0f )
+		if ( !Networking.IsHost || GodMode || IsDead || info.Amount <= 0f )
 			return;
 
 		if ( IsDowned && !CanDamageHardHealthWhileDowned( info.Type ) )
 			return;
 
+		ApplyHitLocation( ref info );
 		if ( _armor is not null )
 			info.Amount = _armor.AbsorbDamage( info );
 
@@ -201,6 +206,18 @@ public sealed partial class VBHealthComponent : Component, Component.IDamageable
 
 		OnDamaged?.Invoke( info );
 		NotifyHealthChanged();
+	}
+
+	[ConCmd( "vb_god" )]
+	public static void Debug_SetLocalPlayerGodMode( bool enabled = true )
+	{
+		if ( !Networking.IsHost || Game.ActiveScene is null ) return;
+		var player = Game.ActiveScene.GetAll<PlayerController>().FirstOrDefault( x => !x.IsProxy );
+		var health = player.IsValid() ? player.GetComponent<VBHealthComponent>() : null;
+		if ( !health.IsValid() ) return;
+		health.GodMode = enabled;
+		if ( enabled ) health.ResetHealth();
+		Log.Info( $"Player god mode: {(enabled ? "ON" : "OFF")}." );
 	}
 
 	public void Heal( float amount )

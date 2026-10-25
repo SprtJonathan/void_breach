@@ -1,0 +1,69 @@
+{
+  "RootObject": {
+    "__guid": "24cd55a6-5457-45ec-b704-71a0eadd999d",
+    "__version": 2,
+    "Flags": 0,
+    "Name": "NPC climb link",
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
+    "Tags": "",
+    "Enabled": true,
+    "NetworkMode": 2,
+    "Components": [
+      {
+        "__type": "Sandbox.NavMeshLink",
+        "__guid": "0da69e1c-92b8-4611-85c4-56cbbf471e34",
+        "__enabled": true,
+        "Flags": 0,
+        "LocalStartPosition": "0,0,0",
+        "LocalEndPosition": "120,0,160",
+        "IsBiDirectional": true,
+        "ConnectionRadius": 48,
+        "Area": {
+          "Id": "3544b263-167c-4a0c-b5b7-a90ac62fa11e",
+          "Path": "navigation/npc_climb.navarea"
+        }
+      },
+      {
+        "__type": "VBNpcTraversalLink",
+        "__guid": "b3fa01c7-5c96-4516-8d7b-96eb4a67f0d6",
+        "__enabled": true,
+        "Flags": 0,
+        "Link": {
+          "_type": "component",
+          "component_id": "0da69e1c-92b8-4611-85c4-56cbbf471e34",
+          "go": "24cd55a6-5457-45ec-b704-71a0eadd999d",
+          "component_type": "NavMeshLink"
+        },
+        "Mode": "Climb",
+        "Speed": 70,
+        "ArcHeight": 48,
+        "Waypoints": [
+          {
+            "_type": "gameobject",
+            "go": "6d5e814b-8fc0-44d0-9c25-1196050c72b9"
+          }
+        ]
+      }
+    ],
+    "Children": [
+      {
+        "__guid": "6d5e814b-8fc0-44d0-9c25-1196050c72b9",
+        "__version": 2,
+        "Flags": 0,
+        "Name": "Feet above ledge",
+        "Position": "0,0,160",
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "Components": [],
+        "Children": []
+      }
+    ]
+  },
+  "ResourceVersion": 3,
+  "__references": [],
+  "__version": 3
+}

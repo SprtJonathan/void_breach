@@ -17,6 +17,8 @@ public sealed partial class VBMoveModeTraversal : MoveMode, PlayerController.IEv
 	[Property, Group( "Detection" ), Range( 24f, 100f )] public float VaultMaximumHeight { get; set; } = 64f;
 	[Property, Group( "Detection" ), Range( 64f, 200f )] public float ClimbMaximumHeight { get; set; } = 112f;
 	[Property, Group( "Detection" ), Range( 0f, 45f )] public float MaximumLandingAngle { get; set; } = 25f;
+	/// <summary>Required support footprint as a fraction of BodyRadius; smaller values allow shallower tops.</summary>
+	[Property, Group( "Detection" ), Range( 0.25f, 1f ), Step( 0.05f )] public float LandingSupportScale { get; set; } = 0.5f;
 	/// <summary>Small query inset for resting physics contacts; never expands detection reach or disables collision.</summary>
 	[Property, Group( "Detection" ), Range( 0f, 0.5f )] public float BodyTraceInset { get; set; } = 0.25f;
 	[Property, Group( "Vault" ), Range( 32f, 160f )] public float VaultForwardDistance { get; set; } = 80f;

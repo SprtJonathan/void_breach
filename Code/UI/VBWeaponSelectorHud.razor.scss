@@ -1,230 +1,47 @@
+// Non-intrusive tactical visor selection: translucent panels rather than tiles/cards.
 VBWeaponSelectorHud {
-	position: absolute;
-	left: 3vw;
-	right: 3vw;
-	top: 34px;
-	font-family: Roboto Mono;
-	color: #f3a43b;
-	pointer-events: none;
-	opacity: 1;
-	transform: translate( 0, 0 );
-	transition: opacity 0.18s ease-out, transform 0.18s ease-out;
-
-	&.hidden {
-		opacity: 0;
-		transform: translate( 0, -14px );
-	}
-
-	.weapon-slots {
-		width: 100%;
-		display: flex;
-		gap: 12px;
-	}
-
-	.equipment-slots {
-		width: 100%;
-		margin-top: 10px;
-		display: flex;
-		gap: 12px;
-	}
-
-	.capacity-readout {
-		height: 28px;
-		margin-bottom: 7px;
-		padding: 0 8px;
-		display: flex;
-		align-items: center;
-		justify-content: flex-end;
-		gap: 12px;
-		font-size: 13px;
-		font-weight: 700;
-		letter-spacing: 0.8px;
-		text-transform: uppercase;
-		text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
-		opacity: 0.72;
-
-		.capacity-value {
-			font-size: 16px;
-			font-weight: 900;
-			opacity: 1;
-		}
-	}
-
-	.weapon-slot {
-		position: relative;
-		min-width: 0;
-		flex-grow: 1;
-		height: 108px;
-		display: flex;
-		align-items: center;
-		gap: 16px;
-		padding: 14px 18px;
-		background-color: rgba(10, 13, 12, 0.72);
-		border-bottom: 2px solid rgba(243, 164, 59, 0.2);
-		opacity: 0.52;
-		transition: opacity 0.14s ease-out, border-color 0.14s ease-out, background-color 0.14s ease-out;
-
-		&.active {
-			background-color: rgba(18, 20, 16, 0.92);
-			border-bottom-color: #f3a43b;
-			box-shadow: 0 0 15px rgba(0, 0, 0, 0.62);
-			opacity: 1;
-		}
-
-		&.placeholder {
-			opacity: 0.38;
-
-			&.active {
-				opacity: 0.82;
-			}
-		}
-	}
-
-	.slot-key {
-		width: 46px;
-		height: 46px;
-		align-items: center;
-		justify-content: center;
-		background-color: rgba(243, 164, 59, 0.08);
-		border: 1px solid rgba(243, 164, 59, 0.46);
-		font-size: 18px;
-		font-weight: 900;
-	}
-
-	.slot-identity {
-		min-width: 0;
-		flex-grow: 1;
-		display: flex;
-		flex-direction: column;
-	}
-
-	.slot-name {
-		font-size: 13px;
-		font-weight: 700;
-		letter-spacing: 1px;
-		opacity: 0.55;
-	}
-
-	.weapon-name {
-		max-width: 100%;
-		margin-top: 6px;
-		font-size: 19px;
-		font-weight: 900;
-		letter-spacing: 0.6px;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-
-	.slot-weight {
-		width: 34px;
-		height: 34px;
-		align-items: center;
-		justify-content: center;
-		border: 1px solid rgba(243, 164, 59, 0.32);
-		font-size: 15px;
-		font-weight: 900;
-		opacity: 0.7;
-	}
-
-	.equipment-slot {
-		position: relative;
-		min-width: 0;
-		flex-grow: 1;
-		height: 76px;
-		display: flex;
-		align-items: center;
-		gap: 12px;
-		padding: 11px 14px;
-		background-color: rgba(10, 13, 12, 0.62);
-		border-bottom: 2px solid rgba(243, 164, 59, 0.16);
-		opacity: 0.48;
-		transition: opacity 0.14s ease-out, border-color 0.14s ease-out, background-color 0.14s ease-out;
-
-		&.active {
-			background-color: rgba(18, 20, 16, 0.9);
-			border-bottom-color: #f3a43b;
-			opacity: 1;
-		}
-
-		&.empty {
-			opacity: 0.3;
-
-			&.active {
-				opacity: 0.68;
-			}
-		}
-
-		&.locked {
-			border-top: 1px solid rgba(243, 164, 59, 0.22);
-		}
-	}
-
-	.equipment-key {
-		position: absolute;
-		top: 3px;
-		left: 4px;
-		font-size: 11px;
-		font-weight: 900;
-		opacity: 0.58;
-	}
-
-	.equipment-icon {
-		width: 34px;
-		align-items: center;
-		justify-content: center;
-		font-size: 24px;
-		font-weight: 900;
-	}
-
-	.equipment-identity {
-		min-width: 0;
-		flex-grow: 1;
-		flex-direction: column;
-	}
-
-	.equipment-name {
-		font-size: 12px;
-		font-weight: 800;
-		letter-spacing: 0.5px;
-		opacity: 0.68;
-	}
-
-	.equipment-item {
-		max-width: 100%;
-		margin-top: 4px;
-		font-size: 14px;
-		font-weight: 900;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-
-	.drop-progress {
-		width: 100%;
-		margin-top: 10px;
-		padding: 8px 12px;
-		flex-direction: column;
-		background-color: rgba(10, 13, 12, 0.82);
-		font-size: 13px;
-		font-weight: 800;
-		letter-spacing: 0.8px;
-
-		.drop-track {
-			width: 100%;
-			height: 5px;
-			margin-top: 7px;
-			background-color: rgba(243, 164, 59, 0.15);
-		}
-
-		.drop-fill {
-			height: 100%;
-			background-color: #f3a43b;
-		}
-	}
-
-	&:intro {
-		opacity: 0;
-		transform: translate( 0, -14px );
-	}
+    position: absolute; left: 8vw; right: 8vw; top: 22px;
+    font-family: Roboto Mono; color: #ffd38b; pointer-events: none;
+    opacity: 1; transition: opacity 0.14s ease-out;
+    &.hidden { opacity: 0; }
+    .weapon-slots, .equipment-slots { width: 100%; display: flex; gap: 6px; }
+    .equipment-slots { margin-top: 5px; }
+    .capacity-readout { height: 20px; margin-bottom: 5px; padding: 0 6px; align-items: center; justify-content: flex-end; gap: 8px; font-size: 10px; font-weight: 800; letter-spacing: 0.9px; text-transform: uppercase; opacity: 0.86;
+        .capacity-value { font-size: 13px; font-weight: 900; }
+    }
+    .weapon-slot, .equipment-slot { position: relative; min-width: 0; flex-grow: 1; display: flex; align-items: center; overflow: hidden;
+        border: 1px solid rgba(255, 201, 105, 0.14); border-radius: 5px;
+        background-color: rgba(9, 12, 15, 0.43);
+        background-image: url("Ui/Hud/visor_grain.png");
+        background-repeat: repeat;
+        background-size: 128px 128px;
+        box-shadow: 0 0 7px rgba(255, 201, 105, 0.15);
+        opacity: 0.67;
+        transition: opacity 0.12s ease-out, border-color 0.12s ease-out;
+        &.active { border-color: rgba(255, 207, 117, 0.28); box-shadow: 0 0 11px rgba(255, 207, 117, 0.31); opacity: 1; }
+    }
+    .weapon-slot { height: 70px; padding: 9px 11px; gap: 8px; &.placeholder { opacity: 0.32; &.active { opacity: 0.72; } } }
+    .slot-key { width: 27px; height: 27px; flex-shrink: 0; align-items: center; justify-content: center; border: 1px solid rgba(255, 212, 136, 0.22); box-shadow: 0 0 6px rgba(255, 212, 136, 0.17); border-radius: 2px; color: #ffe2aa; font-size: 12px; font-weight: 900; }
+    .slot-identity { min-width: 0; flex-grow: 1; flex-direction: column; }
+    .slot-name { font-size: 9px; font-weight: 750; letter-spacing: 0.8px; opacity: 0.7; }
+    .weapon-name { max-width: 100%; margin-top: 4px; font-size: 13px; font-weight: 850; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .slot-weight { width: 24px; height: 24px; align-items: center; justify-content: center; border: 1px solid rgba(255, 206, 112, 0.19); box-shadow: 0 0 5px rgba(255, 206, 112, 0.15); border-radius: 2px; font-size: 11px; font-weight: 800; opacity: 0.76; }
+    .equipment-slot { height: 52px; padding: 7px 9px; gap: 7px; &.empty { opacity: 0.32; &.active { opacity: 0.7; } } &.locked { border-top-color: rgba(255, 194, 88, 0.48); } }
+    .equipment-key { position: absolute; top: 3px; left: 7px; font-size: 8px; font-weight: 900; opacity: 0.64; }
+    .equipment-icon { width: 26px; flex-shrink: 0; align-items: center; justify-content: center; font-size: 19px; font-weight: 900; }
+    .equipment-identity { min-width: 0; flex-grow: 1; flex-direction: column; }
+    .equipment-name { font-size: 9px; font-weight: 800; opacity: 0.8; }
+    .equipment-item { max-width: 100%; margin-top: 3px; font-size: 11px; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .drop-progress { width: 100%; margin-top: 7px; padding: 8px 11px; flex-direction: column;
+        background-color: rgba(9, 12, 15, 0.43);
+        background-image: url("Ui/Hud/visor_grain.png");
+        background-repeat: repeat;
+        background-size: 128px 128px;
+        border: 1px solid rgba(255, 193, 94, 0.22); border-radius: 4px;
+        box-shadow: 0 0 10px rgba(255, 193, 94, 0.25);
+        font-size: 10px; font-weight: 800; letter-spacing: 0.6px;
+        .drop-track { width: 100%; height: 3px; margin-top: 6px; overflow: hidden; background-color: rgba(255, 195, 98, 0.15); }
+        .drop-fill { height: 100%; background-color: #ffcf79; }
+    }
+    &:intro { opacity: 0; }
 }

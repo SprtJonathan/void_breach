@@ -16,6 +16,22 @@
     "OwnerTransfer": 1,
     "Components": [
       {
+        "__type": "VBPlayerCamera",
+        "__guid": "25049f73-63a3-4e1a-9a98-c8256d1bd8b2",
+        "__enabled": true,
+        "Flags": 0,
+        "CameraPriority": -101,
+        "DefaultFieldOfView": 90,
+        "FarClip": 10000,
+        "NearClip": 5,
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null
+      },
+      {
         "__type": "VBFactionComponent",
         "__guid": "4a76ece7-a23d-4d98-a8e4-1f4a2a0fc924",
         "__enabled": true,
@@ -41,7 +57,8 @@
         "__guid": "c085fbe2-eed9-44b1-b1a3-0be503ea0f07",
         "__enabled": true,
         "Flags": 0,
-        "AccelerationTime": 0.12,
+        "__version": 1,
+        "AccelerationTime": 0,
         "AimStrengthBody": 1,
         "AimStrengthEyes": 1,
         "AimStrengthHead": 1,
@@ -57,14 +74,15 @@
         "BodyHeight": 72,
         "BodyMass": 500,
         "BodyRadius": 16,
-        "BrakePower": 0.15,
+        "BrakePower": 1,
         "CameraCollisionIgnore": "",
         "CameraOffset": "70,15,0",
         "ColliderObject": {
           "_type": "gameobject",
           "go": "73213114-ecf9-40c0-910b-2efa36f524eb"
         },
-        "DeaccelerationTime": 0.09,
+        "CoyoteTime": 0.33,
+        "DeaccelerationTime": 0,
         "DuckedHeight": 36,
         "DuckedSpeed": 70,
         "EnableFootstepSounds": true,
@@ -96,7 +114,7 @@
         "RotationAngleLimit": 45,
         "RotationSpeed": 1,
         "RunByDefault": false,
-        "RunSpeed": 300,
+        "RunSpeed": 320,
         "ShowColliderComponents": false,
         "ShowRigidbodyComponent": false,
         "ThirdPerson": false,
@@ -107,7 +125,7 @@
         "UseFovFromPreferences": true,
         "UseInputControls": true,
         "UseLookControls": true,
-        "WalkSpeed": 150
+        "WalkSpeed": 110
       },
       {
         "__type": "Sandbox.Rigidbody",
@@ -120,6 +138,7 @@
         "Gravity": true,
         "GravityScale": 1,
         "ImpactDamage": 0,
+        "InertiaScale": 1,
         "LinearDamping": 0.1,
         "Locking": {
           "X": false,
@@ -149,14 +168,6 @@
         "__guid": "f461df7c-a2e8-40a9-933c-18ece990b8ca",
         "__enabled": true,
         "Flags": 0,
-        "DirectionResponseTime": 0.055,
-        "EnableMomentumMovement": true,
-        "GroundAcceleration": 10,
-        "GroundDrag": 5.5,
-        "GroundStopSpeed": 60,
-        "AirAcceleration": 10,
-        "AirWishSpeed": 30,
-        "MaximumAirSpeed": 420,
         "EnableSlide": true,
         "ExtendSlideDownhill": true,
         "GroundAngle": 45,
@@ -169,7 +180,6 @@
         "OnComponentUpdate": null,
         "Priority": 1,
         "RequireForwardSprint": true,
-        "ReversalResponseTime": 0.11,
         "SlideCooldown": 0.65,
         "SlideDeceleration": 280,
         "SlideDownhillAngle": 12,
@@ -181,9 +191,6 @@
         "SlideSpeedBoost": 35,
         "SlideStaminaCost": 8,
         "SlideSteeringDegreesPerSecond": 70,
-        "SprintAccelerationTime": 0.15,
-        "SprintCurveStrength": 0.75,
-        "SprintDecelerationTime": 0.35,
         "StepDownHeight": 18,
         "StepUpHeight": 18
       },
@@ -192,8 +199,8 @@
         "__guid": "c2ddc8d7-4b0f-466f-827c-0dfe2691d3a5",
         "__enabled": true,
         "Flags": 0,
-        "CatchReachAboveHead": 0,
         "BodyTraceInset": 0.25,
+        "CatchReachAboveHead": 0,
         "CatchWhileRising": true,
         "ClimbDuration": 0.65,
         "ClimbMaximumHeight": 112,
@@ -203,17 +210,18 @@
         "DebugTraceDuration": 2,
         "EnableLedgeGrab": true,
         "EnableThinLedgeVault": true,
-        "LedgeVaultMaximumDrop": 128,
         "EnableTraversal": true,
         "EnableTraversalDebug": false,
         "FeedbackDuration": 1,
-        "HangDrainPerSecond": 5,
-        "MinimumCatchHoldTime": 0.25,
-        "JumpInputBuffer": 0.25,
         "HangClimbRearmTime": 0.12,
+        "HangDrainPerSecond": 5,
+        "JumpInputBuffer": 0.25,
+        "LandingSupportScale": 0.5,
+        "LedgeVaultMaximumDrop": 128,
         "MaximumCatchFallSpeed": 600,
         "MaximumHangTime": 0,
         "MaximumLandingAngle": 25,
+        "MinimumCatchHoldTime": 0.25,
         "MinimumHeight": 24,
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
@@ -231,7 +239,23 @@
         "VaultMaximumHeight": 64
       },
       {
-        "__type": "Sandbox.Movement.MoveModeSwim",
+        "__type": "VoidBreach.Water.VBWaterInteractor",
+        "__guid": "c2761f78-9b65-4d48-9eb6-6155f8a3d9ba",
+        "__enabled": true,
+        "Flags": 0,
+        "ContactOffset": "0,0,0",
+        "ContactRadius": 24,
+        "Interval": 0.12,
+        "MinimumSpeed": 12,
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null
+      },
+      {
+        "__type": "VBMoveModeSwim",
         "__guid": "92dea152-0cef-4bdf-bcc7-76c1a3f4c1d2",
         "__enabled": true,
         "Flags": 0,
@@ -355,7 +379,7 @@
         "OnComponentFixedUpdate": null,
         "OnComponentStart": null,
         "OnComponentUpdate": null,
-        "PickupMode": "Use",
+        "PickupMode": "Touch",
         "PickupRadius": 48,
         "StartingAmmo": [],
         "StartingItems": [
@@ -376,7 +400,7 @@
         "__enabled": true,
         "Flags": 0,
         "DropWeaponHoldDuration": 0.85,
-        "DropWeaponInputAction": "DropWeapon",
+        "DropWeaponInputAction": "Drop",
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
         "OnComponentEnabled": null,
@@ -398,6 +422,9 @@
           "Id": "f6af23aa-8081-40ed-b760-6291fd3fa3ef",
           "Path": "sounds/player/health/downed_sound.sound"
         },
+        "GodMode": true,
+        "HeadDamageMultiplier": 4,
+        "LimbDamageMultiplier": 0.7,
         "MinWakeHp": 10,
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
@@ -407,6 +434,8 @@
         "OnComponentUpdate": null,
         "SoftMaxRecoveryRate": 2,
         "StartingHardMaxHealth": 100,
+        "TorsoDamageMultiplier": 1,
+        "UseLocalizedBulletDamage": false,
         "WakePercent": 0.25
       },
       {
@@ -559,16 +588,74 @@
         "__guid": "ef92a7d5-d338-480c-be26-651154218542",
         "__enabled": true,
         "Flags": 0,
-        "EnableHands": true,
-        "HandSpacing": 28,
-        "GripOffset": "3,0,1",
-        "LeftHandRotation": "0,0,-90",
-        "RightHandRotation": "0,0,90",
         "BlendInTime": 0.12,
         "BlendOutTime": 0.15,
-        "ReleaseHeight": 36,
+        "EnableHands": true,
+        "FaceLedge": true,
+        "GripOffset": "3,0,1",
+        "HandSpacing": 28,
         "HideHeldViewModel": true,
-        "FaceLedge": true
+        "LeftHandRotation": "0,0,-90",
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "ReleaseHeight": 36,
+        "RightHandRotation": "0,0,90"
+      },
+      {
+        "__type": "Sandbox.Movement.SitMoveMode",
+        "__guid": "c26159f8-74ba-43d9-a302-6b7b04d014d9",
+        "__enabled": true,
+        "Flags": 0,
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null
+      },
+      {
+        "__type": "VBVehiclePlayerDriver",
+        "__guid": "17652c87-94fe-4f82-a023-4bb9c6183862",
+        "__enabled": true,
+        "Flags": 0,
+        "CameraMotionResponse": 8,
+        "ChaseOffset": "-230,0,110",
+        "ChaseResponse": 8,
+        "ChaseRoll": 2,
+        "ChaseSpeedDistance": 36,
+        "ChaseSpeedFov": 8,
+        "EnableCameraMotion": true,
+        "FirstPersonSpeedFov": 3,
+        "HandbrakeAction": "Handbrake",
+        "InertiaDistance": 1,
+        "InertiaRoll": 1.5,
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "SendRate": 25,
+        "TurboAction": "vehicleturbo",
+        "TurboCameraFov": 2,
+        "TurretToggleAction": "vehicleweapon",
+        "UsePlayerInput": true
+      },
+      {
+        "__type": "VBAnimatedBodyContacts",
+        "__guid": "ad87e98d-fde1-432d-bf7d-7fff26acb7b5",
+        "__enabled": true,
+        "Flags": 0,
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null
       }
     ],
     "Children": [
@@ -2456,7 +2543,7 @@
             ]
           },
           {
-            "__guid": "a20e7245-ed7f-43ab-a863-4a802e153ce6",
+            "__guid": "a98d367e-9a3b-461f-91e6-187194657ee5",
             "__version": 2,
             "Flags": 0,
             "Name": "Clothing - flannel_shirt",
@@ -2473,7 +2560,7 @@
             "Components": [
               {
                 "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "2ccf2768-1ce1-40ba-9574-7bdc1a2430c8",
+                "__guid": "6a6d8163-80c2-4142-acc8-c07781f88882",
                 "__enabled": true,
                 "Flags": 0,
                 "AnimationGraph": null,
@@ -2523,7 +2610,7 @@
             "Children": []
           },
           {
-            "__guid": "3ed59570-97c4-4216-b3c0-8dc103e6891a",
+            "__guid": "ea568547-2d02-4965-810f-2686478c3eeb",
             "__version": 2,
             "Flags": 0,
             "Name": "Clothing - brown_cargo_pants",
@@ -2540,7 +2627,7 @@
             "Components": [
               {
                 "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "833fa15e-90ec-4264-a970-5cb7ef539a56",
+                "__guid": "6475774b-d26e-404b-8fb8-202925dc7ba0",
                 "__enabled": true,
                 "Flags": 0,
                 "AnimationGraph": null,
@@ -2590,7 +2677,7 @@
             "Children": []
           },
           {
-            "__guid": "24c7b6df-7da7-4438-b488-19a1f8de7143",
+            "__guid": "e6d6aecd-91bf-42df-8279-127d37d79837",
             "__version": 2,
             "Flags": 0,
             "Name": "Clothing - fingerless_gloves",
@@ -2607,7 +2694,7 @@
             "Components": [
               {
                 "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "e006b703-a866-441c-b475-5ee4a590e11c",
+                "__guid": "8dd8064a-1ad5-4706-a6b8-ec8b65adbcf9",
                 "__enabled": true,
                 "Flags": 0,
                 "AnimationGraph": null,
@@ -2657,7 +2744,7 @@
             "Children": []
           },
           {
-            "__guid": "94c6aa04-491b-41b6-8c5e-b2dd710362b4",
+            "__guid": "d60b84cd-101a-456b-b7bd-bbe18387caa8",
             "__version": 2,
             "Flags": 0,
             "Name": "Clothing - black_boots",
@@ -2674,7 +2761,7 @@
             "Components": [
               {
                 "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "e6e2579f-2456-4214-a052-cf0979da804f",
+                "__guid": "ac8eb89a-5d0a-425c-a56e-b9a80a6fea5e",
                 "__enabled": true,
                 "Flags": 0,
                 "AnimationGraph": null,
@@ -2724,7 +2811,7 @@
             "Children": []
           },
           {
-            "__guid": "8bb01e6c-7c31-4906-a82b-bd5a4b9ccaed",
+            "__guid": "f1842604-2f2f-474c-8cff-7c9f4acaf94b",
             "__version": 2,
             "Flags": 0,
             "Name": "Clothing - flatcap",
@@ -2741,7 +2828,7 @@
             "Components": [
               {
                 "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "72221388-5e1a-4788-91cb-cf7821f2444e",
+                "__guid": "597887dd-57cb-4218-a7d6-1d2331e70325",
                 "__enabled": true,
                 "Flags": 0,
                 "AnimationGraph": null,
@@ -2791,7 +2878,7 @@
             "Children": []
           },
           {
-            "__guid": "4f08ed46-323a-419f-9fb8-488bc2bbc143",
+            "__guid": "5d1d6377-60ee-468d-bb4b-1b008173df99",
             "__version": 2,
             "Flags": 0,
             "Name": "Clothing - bomber_jacket",
@@ -2808,7 +2895,7 @@
             "Components": [
               {
                 "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "e6ba4ef1-9b7e-4950-b30d-3ff1aa045074",
+                "__guid": "d3f97fa9-c21c-4104-9e19-e233fbe5f59c",
                 "__enabled": true,
                 "Flags": 0,
                 "AnimationGraph": null,

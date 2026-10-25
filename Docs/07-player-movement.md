@@ -2,26 +2,17 @@
 
 Le prefab `Assets/player/player controller.prefab` conserve le `PlayerController`, son Rigidbody et les modes Swim/Ladder. `VBMoveModeWalk` dérive de Walk et garde ses collisions, marches, saut et accroupissement. Traversal prend la main uniquement pendant une action manuelle validée. Priorités : Walk 1, Traversal 2, Ladder 5, Swim 10.
 
-Le calcul d'inertie, de direction et de transition de sprint est regroupé dans `VBMoveModeWalk.Momentum.cs`. La détection, les réceptions et les trajets de traversal sont dans `VBMoveModeTraversal.Detection.cs`, avec un même type de snapshot pour surveiller le rebord et la réception. Les diagnostics restent dans `.Debug.cs`. Ces fichiers partiels constituent les mêmes composants ; les propriétés du prefab et les états répliqués restent sur leurs types existants.
+La marche ordinaire appelle directement `MoveModeWalk.UpdateMove`, `UpdateRigidBody` et `AddVelocity`. Le solveur d'inertie, son air control et ses courbes de sprint ont été retirés, ainsi que `VBMoveModeWalk.Momentum.cs` et ses propriétés sérialisées. `VBMoveModeWalk` conserve le slide et l'intégration du franchissement. La détection et les trajets de traversal restent dans `VBMoveModeTraversal.Detection.cs`, et les diagnostics dans `.Debug.cs`.
 
-## Inertie, sprint et slide
+## Marche native, sprint et slide
 
-Le prefab utilise marche 150, sprint 300 et accroupissement 70 unités/s. Le lissage de la cible native reste actif : `AccelerationTime=0.12`, `DeaccelerationTime=0.09`. `DirectionResponseTime=0.055` et `ReversalResponseTime=0.11` adoucissent les changements de direction sans retarder la visée.
+Les valeurs de déplacement du `PlayerController` et du Rigidbody sont réalignées sur le template livré avec s&box : marche 110, sprint 320, accroupissement 70 et saut 300 unités/s, `AccelerationTime=0`, `DeaccelerationTime=0`, `BrakePower=1`, `AirFriction=0.1`, `LinearDamping=0.1`. Les dimensions du corps et les colliders correspondaient déjà au template. Les références du prefab, la caméra FPS, les armes, la santé, la stamina, le slide, le franchissement et les véhicules sont conservés. Les modes Swim/Ladder utilisent leurs réglages natifs ; la priorité Walk reste 1 pour l'intégration du projet.
+
+L'animation est entièrement héritée du `PlayerController` natif : aucun override d'animation dans `VBMoveModeWalk`. L'animgraph Human sélectionne automatiquement marche, jogging et sprint. Le modèle masculin et le modèle `human.vmdl` du template natif référencent tous deux `models/citizen_human/animgraphs/human.vanmgrph` et la même liste d'animations Human. Redémarrer Play après la mise à jour du prefab réinitialise les anciens paramètres d'animation et les états physiques.
 
 Le déplacement et la direction du slide utilisent directement le yaw de `PlayerController.EyeAngles`, avant conversion en rotation. Le solveur natif reçoit cette même orientation horizontale. Regarder exactement vers le sol ou le ciel conserve ainsi les directions des touches, sans extraction instable du yaw depuis la rotation verticale.
 
-`EnableMomentumMovement=true` remplace l'accélération et le freinage du mode Walk par une friction au sol et une accélération projetée sur la direction demandée, inspirées du [mouvement Source de Valve](https://github.com/ValveSoftware/source-sdk-2013/blob/master/src/game/shared/gamemovement.cpp). Les colliders, les marches, le saut et la gravité en l'air restent natifs. Le drag Rigidbody et la friction des pieds sont retirés uniquement pendant ce mouvement, pour éviter un double freinage. Sur un sol statique praticable, la gravité du corps est suspendue et le grounding natif suit la surface, pour pouvoir s'arrêter en pente ; elle reprend dès la perte du sol. Les supports dynamiques conservent la gravité. Désactiver l'option retrouve le solveur natif et son `BrakePower=0.15`.
-
-| Réglage | Valeur du prefab | Effet |
-|---|---:|---|
-| GroundAcceleration | 10 | Accélération au sol, proportionnelle à la vitesse demandée |
-| GroundDrag / GroundStopSpeed | 5.5 / 60 | Freinage progressif avec arrêt complet à basse vitesse |
-| AirAcceleration / AirWishSpeed | 10 / 30 | Accélération en l'air ; le plafond concerne la projection dans la direction d'entrée |
-| MaximumAirSpeed | 420 | Plafond de vitesse gagnée par les air strafes ; une impulsion externe plus rapide est conservée |
-
-Relâcher le sprint, les touches de déplacement ou s'accroupir en l'air ne ramène pas la vitesse horizontale à celle de la marche. Les air strafes permettent de gagner de la vitesse en orientant les entrées ; des sauts manuels enchaînés peuvent la conserver. Aucune impulsion gratuite ni saut automatique n'est ajouté. Revenir au sol applique le freinage ; les collisions réduisent réellement la vitesse et aucun ancien vecteur ne la réinjecte après un choc.
-
-La transition marche/sprint utilise une courbe progressive : `SprintAccelerationTime=0.15`, `SprintDecelerationTime=0.35`, `SprintCurveStrength=0.75` dans le prefab. Une force de zéro donne une rampe linéaire ; des temps de zéro retrouvent la cible native immédiate. La stamina peut toujours refuser le sprint.
+La stamina peut toujours refuser le sprint via le point d'entrée natif `PreInput`. En dehors d'un slide ou d'un franchissement, aucune friction, gravité, accélération ou courbe de vitesse supplémentaire n'est appliquée. Le comportement aérien est celui de s&box.
 
 Sprinter vers l'avant, puis presser une fois `duck` déclenche un slide dès 200 unités/s, après 0.15 s de sprint. Relâcher la touche conserve le slide et sa posture. Le saut, la perte du sol, une vitesse insuffisante, un obstacle, la durée limite ou l'état du joueur le terminent. Une nouvelle pression et le cooldown sont nécessaires pour recommencer.
 
@@ -57,6 +48,7 @@ Un appui est mémorisé pendant 0.25 s, y compris entre deux ticks de physique. 
 | MaximumCatchFallSpeed | 600 | Refuse une chute plus rapide |
 | MaximumLandingAngle | 25° | Pente maximale de réception |
 | BodyTraceInset | 0.25 | Tolérance de contact des requêtes, plafonnée à 0.5 unité |
+| LandingSupportScale | 0.5 | Demi-étendue des quatre points d'appui, en fraction de BodyRadius ; 0.9 retrouve l'exigence précédente |
 | VaultForwardDistance / VaultMaximumDrop | 80 / 80 | Recherche de réception derrière l'obstacle |
 | EnableThinLedgeVault / LedgeVaultMaximumDrop | true / 128 | Franchissement d'un dessus impropre à la station debout, avec limite de chute à l'arrivée |
 | VaultDuration / ClimbDuration | 0.45 / 0.65 s | Durées des mouvements |
@@ -70,6 +62,10 @@ Avec JumpSpeed=300 et la gravité actuelle de 850, le saut natif monte d'environ
 La détection exige une face presque verticale, une approche frontale, un dessus praticable, un support sous les quatre coins et un trajet dégagé. Le mouvement suit trois segments (monter, passer au-dessus, descendre), avec des requêtes aux dimensions du capsule et des pieds natifs. Aucune collision n'est désactivée. Les chemins sont revérifiés pendant la physique ; un support retiré, désactivé, déplacé ou une obstruction nouvelle provoque le relâchement. Les structures mobiles ne sont pas prises en charge.
 
 Le rayon du dessus est placé à 0.5 unité derrière la face pour détecter les clôtures fines. La réception du corps reste plus loin derrière la face et exige le support sous ses quatre coins. Si cette place manque, une réception derrière est cherchée et tout le trajet est balayé avant l'accroche, puis à nouveau lors de la confirmation. La clôture et le support de réception sont surveillés pendant l'action. Un dessus large avec un trajet bloqué reste refusé. Les plafonds de hauteur et le verrou de combat s'appliquent aussi à ces franchissements.
+
+Les quatre points d'appui sont espacés de `BodyRadius × LandingSupportScale` autour de la réception. Avec BodyRadius=16 et une face alignée aux axes, la profondeur minimale théorique passe d'environ 34.4 à 28 unités ; un dessus de 32 peut donc accueillir une montée. Le volume du corps et le trajet restent vérifiés à leurs dimensions physiques. Le réglage est disponible dans Traversal → Detection, entre 0.25 et 1.
+
+Cet ajustement passe 16 scénarios dans le moteur : montée et réception stable sur des dessus de 28/32 unités, montée de 32 sans sol derrière, retour au vault avec l'ancienne marge de 0.9, vault des clôtures de 4/16 unités, et refus d'un dessus de 24 sans réception derrière. Les cas de plafond, obstruction nouvelle, support retiré, chute excessive et géométrie dynamique restent validés.
 
 Pendant Vaulting, Climbing, Catching et Hanging, `VBTraversalCombatWeapon` bloque les attaques primaires/secondaires et le rechargement des armes et des poings, y compris les appels directs. Un rechargement déjà commencé est annulé et la visée ADS est retirée. L'hôte refuse aussi les demandes de dégâts de tir lorsque son état de traversal répliqué est actif. Les actions redeviennent disponibles à la fin du traversal, selon les délais natifs de l'arme. Les nouvelles armes de combat doivent hériter de cette base commune.
 
@@ -94,13 +90,25 @@ Cela donne une pose de bras fonctionnelle, mais ne remplace pas une animation co
 
 ## Multijoueur, dégâts et debug
 
+Le prefab joueur contient `VBPlayerCamera` et ses réglages de FOV, priorité et plans de coupe. Seul le propriétaire local crée l'enfant `Player Camera` si `PlayerController.UseCameraControls` est actif. Aucun lien vers cette caméra n'est sérialisé dans le joueur : l'enfant est `NetworkMode.Never` et le composant caméra `NotNetworked`. Les proxies et serveurs dédiés n'en créent pas ; une caméra déjà créée est désactivée lors d'une perte de propriété ou des contrôles caméra.
+
+Le contrôleur s&box place cette caméra et conserve les effets existants : FOV, première/troisième personne, headbob, slide, véhicule, ragdoll et spectateur. La caméra est principale avec une priorité de -101, qui la fait sélectionner avant la caméra de map ordinaire dans la version installée du moteur. Une caméra de scène n'est donc plus une dépendance du joueur. Le spawn réseau exige toujours un prefab et un emplacement valides ; il est indépendant de l'activation de la caméra. Les scènes d'éditeur et les modèles de prefab hors de la scène active ne peuvent pas activer cette caméra.
+
+La régression caméra/spawn passe maintenant 20 contrôles dans le moteur dédié, dont absence de caméra sur serveur dédié, création locale unique, exclusion de la caméra et de sa référence du snapshot natif, désérialisation dans une scène distincte, conservation des réglages, placement natif en première/troisième personne, suivi et appel réel du spawn après suppression d'une référence nulle (`tmp/peer-camera-final-native.log`). Les confirmations graphiques hôte et client sont décrites ci-dessous.
+
+Le blocage de SoldierTestMap a ensuite été identifié dans la vraie session de l'éditeur : le prefab avait été chargé à 15:39:40 avant disponibilité de `VBPlayerCamera`, et son cache conservait un `MissingComponent` désactivé. Les nouveaux joueurs héritaient de ce composant manquant. Le rechargement du prefab après disponibilité du type a rétabli le composant, puis un nouveau Stop/Play a rétabli l'image et le contrôle, confirmés par l'utilisateur. Les traces avant/après sont dans `tmp/editor-spawn-diagnosis.log`. Les diagnostics temporaires ont été retirés. Pour ajouter un futur composant au prefab, laisser compiler son type avant d'enregistrer sa référence dans l'asset.
+
+La première version envoyait encore une référence `VBPlayerCamera.Camera` vers un composant exclu des snapshots. Le deuxième client signalait `Component ... CameraComponent was not found` et n'avait aucune vue. Cette référence et la caméra préfabriquée ont été retirées : chaque propriétaire crée sa présentation native localement, à partir des réglages transmis avec le joueur. Un clone n'active rien avant son attribution réseau. La reconnexion réelle d'un deuxième client a confirmé une caméra locale active et sélectionnée sur Smithers, aucune caméra du joueur distant Nelson sur ce client, et le maintien de la vue de l'hôte. L'utilisateur a confirmé le retour de l'image du joueur 2 (`tmp/two-peer-camera-validation.log`). Les diagnostics de cette vérification ont été retirés.
+
 Seul le propriétaire lit les entrées et simule déplacement, slide et stamina. `IsSliding`, l'état Traversal et son `Grip` sont répliqués. La prise est envoyée au début de l'action ; chaque client calcule ses mains localement. Les effets caméra restent locaux et les serveurs dédiés n'évaluent pas cette présentation.
 
 La santé reste contrôlée par l'hôte. Les impacts Rigidbody natifs sont calculés par le propriétaire, regroupés par source et instant de simulation, puis transmis via un RPC réservé au propriétaire. Plusieurs formes du corps ne facturent que le plus fort contact, avec seulement l'incrément si le suivant est plus fort. Sources distinctes et autres dégâts restent indépendants. Les impacts utilisent le type Blunt. Cette transmission suit l'autorité physique native du propriétaire ; elle n'est pas une validation physique serveur indépendante.
 
 Dans Traversal → **Debug**, `EnableTraversalDebug` active le feedback de test et les traces ; il est désactivé dans le prefab. `DebugDrawTraces`, `DebugIgnoreDepth`, `DebugTraceDuration` règlent le dessin des rayons, capsule et pieds réellement utilisés. Vert : requête passée ; rouge : refus ; cyan : portée testée. Le panneau indique la raison, le volume en collision, la fenêtre de hauteur, le buffer et la dernière transition. Un rebord détecté ne garantit pas une prise : réception, chemin, stamina et support doivent également passer.
 
-## Vérifications dans l'éditeur
+## Historique des vérifications dans l'éditeur
+
+Les résultats ci-dessous précèdent le retour au déplacement natif. Ils décrivent les versions antérieures et ne constituent pas une validation en jeu de cette révision. La compilation actuelle et la comparaison des propriétés du prefab au template natif passent ; rejouer marche/sprint, collision frontale avec un zombie, slide, saut et franchissement après redémarrage de Play.
 
 Validation avec le MCP s&box, moteur 26.10.02 : 16 scénarios de franchissement/relâchement, 13 scénarios d'entrée et buffer, 8 cas de contact/chute, 5 cas de regroupement des impacts et 10 cas de limites/IK passent. Les os des mains sont mesurés contre leurs cibles réelles. Le slide passe quatre déclenchements avec maintien de posture après un tap, saut, obstacle, désactivation des contrôles et retour du FOV à sa valeur initiale.
 

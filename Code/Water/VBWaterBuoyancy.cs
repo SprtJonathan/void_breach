@@ -53,6 +53,7 @@ public sealed class VBWaterBuoyancy : Component
 				(index & 2) == 0 ? -VolumeSize.y : VolumeSize.y, (index & 4) == 0 ? -VolumeSize.z : VolumeSize.z ) * 0.25f;
 			var point = WorldTransform.PointToWorld( local );
 			if ( !WaterSurface.Find( Scene, point, out var sample, halfHeight ) ) continue;
+			if ( sample.Surface.UsesNativeBuoyancy ) continue;
 			var submerged = sample.Submersion( point.z, halfHeight );
 			if ( submerged <= 0 ) continue;
 			SubmergedFraction += submerged / 8f;

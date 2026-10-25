@@ -32,9 +32,21 @@ Ajouter un enfant `Body` :
 2. `CitizenAnimationHelper`, dont Target référence le renderer.
 3. `ModelPhysics`, dont Model et Renderer référencent le Citizen, avec Ignore Root activé et Motion Enabled désactivé.
 
-Ajouter un enfant `Colliders` avec un `CapsuleCollider` adapté au Citizen. Le contrôleur de ragdoll trouve automatiquement les colliders descendants et les coupe pendant la simulation physique.
+Le prefab livré possède un enfant `Locomotion Collider` avec un `CapsuleCollider` de rayon 16, de Z=0 à Z=72, tagué `npc_body`. Il est frère de `Body`, pour ne pas hériter du tag `npc_ragdoll`. La matrice ignore `npc_body` par défaut et autorise explicitement `player` / `npc_body` : le joueur est bloqué, sans ajouter un obstacle physique aux véhicules ni remplacer les hitboxes pour les tirs. Le contrôleur de ragdoll trouve cette capsule, la coupe au renversement ou à la mort et la restaure au relevage. Le balayage de `VBNpcVehicleContacts` couvre aussi les joueurs pour empêcher la navigation de traverser un joueur immobile.
 
 Les composants visuels situés dans `Body` sont recherchés une fois dans les enfants. Seuls les composants moteur qui en ont intrinsèquement besoin, comme `CitizenAnimationHelper.Target`, conservent leur référence directe vers le renderer.
+
+Dans les scènes `basic_example` et `vehicle_test`, `NavMesh.ExcludedBodies` contient `player,player_ragdoll,zombie,npc_ragdoll,npc_body`. Le système natif `NavMeshGameSystem.FindPhysicsGroundZ` utilise ces exclusions pour son appui au sol. Sans elles, les formes animées et capsules keyframées peuvent être prises pour du terrain et relever momentanément le zombie au contact. Cette correction utilise le filtrage existant de la NavMesh ; aucun composant, trace de sol supplémentaire ou ajustement manuel de hauteur n'est ajouté.
+
+## Marche et mêlée lisible
+
+Le zombie se déplace à 105 unités/s et utilise `CitizenAnimationHelper.MoveStyles.Auto`. Comme le `PlayerController` natif, il laisse l'animgraph Human sélectionner l'allure et sa cadence. La vitesse réelle continue d'alimenter l'animation ; aucun mode « marche seule » ni multiplicateur de vitesse d'animation n'est imposé. Le renderer Human pilote le mesh zombie par bone merge.
+
+Une attaque engage sa cible et sa direction, arrête la navigation et suit trois phases répliquées : préparation de 0.20 s en posture `Punch`, déclenchement de `b_attack` sur le renderer ciblé par le helper, puis vérification de l'impact 0.18 s plus tard et récupération de 0.65 s. Le joueur dispose donc de 0.38 s avant l'impact, contre 0.73 s auparavant. Le délai minimum entre deux débuts d'attaque est 1.6 s. La portée est 64 unités, le demi-angle 55° et les dégâts 18. Les délais et la portée restent réglables dans le prefab.
+
+L'impact ne peut se produire qu'une fois par coup, sur la cible engagée, encore viable, visible, à portée et devant le zombie. Reculer, contourner ou se mettre à couvert pendant la préparation fait rater le coup. Le zombie termine sa récupération avant de reprendre sa poursuite. Mort, ragdoll et désactivation annulent l'attaque ; il n'y a plus de tâche différée pouvant appliquer des dégâts après une interruption. Phase, cible et chronomètre sont synchronisés depuis l'hôte.
+
+La compilation .NET contre les assemblies s&box installées passe. La vérification en jeu de ces nouveaux réglages reste à effectuer : blocage en marchant/sprintant contre un zombie, zombie arrêté par un joueur immobile, capsule retirée au ragdoll puis restaurée, coup réussi, recul/contournement/couverture avant impact, un seul dégât par coup et interruption par renversement ou mort. Vérifier aussi les poses et l'impact depuis un client connecté. La synchronisation visuelle reste basée sur des délais réglables, pas sur un événement d'animation.
 
 ## Ragdoll existant, pas corpse séparé
 

@@ -1,0 +1,250 @@
+{
+  "RootObject": {
+    "__guid": "be702666-b39b-4070-a271-6053059b22c7",
+    "__version": 2,
+    "Flags": 0,
+    "Name": "w_m4a1",
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
+    "Tags": "",
+    "Enabled": true,
+    "NetworkMode": 2,
+    "NetworkFlags": 0,
+    "NetworkOrphaned": 0,
+    "NetworkTransmit": true,
+    "OwnerTransfer": 1,
+    "Components": [
+      {
+        "__type": "Sandbox.SkinnedModelRenderer",
+        "__guid": "ce83609d-b0e7-47cc-b99c-5ee8e5eeaae0",
+        "__enabled": true,
+        "Flags": 0,
+        "AnimationGraph": null,
+        "BodyGroups": 11,
+        "BoneMergeTarget": null,
+        "CreateAttachments": false,
+        "CreateBoneObjects": false,
+        "DeformationMode": "Normal",
+        "LodOverride": null,
+        "MaterialGroup": null,
+        "MaterialOverride": null,
+        "Materials": null,
+        "Model": {
+          "Id": "845636c1-442f-48ce-90b9-5951dae46c77",
+          "Path": "models/weapons/sbox_assault_m4a1/w_m4a1.vmdl"
+        },
+        "Morphs": {},
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "Parameters": {},
+        "PlaybackRate": 1,
+        "RenderOptions": {
+          "GameLayer": true,
+          "OverlayLayer": false,
+          "BloomLayer": false,
+          "AfterUILayer": false
+        },
+        "RenderType": "On",
+        "Sequence": {
+          "Name": null,
+          "Looping": true,
+          "Blending": false
+        },
+        "Tint": "1,1,1,1",
+        "UseAnimGraph": false
+      },
+      {
+        "__type": "Sandbox.BaseWeaponModel",
+        "__guid": "ccef6e24-1061-4f8e-a317-1e0dee4616f8",
+        "__enabled": true,
+        "Flags": 0,
+        "DeploySound": null,
+        "EjectBrass": {
+          "_type": "gameobject",
+          "prefab": "prefabs/effects/default_brasseject.prefab"
+        },
+        "MuzzleEffect": {
+          "_type": "gameobject",
+          "prefab": "prefabs/effects/default_muzzleflash.prefab"
+        },
+        "MuzzleGameObject": {
+          "_type": "gameobject",
+          "go": "21eab354-af3c-4480-ac85-ed0cf8735093"
+        },
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "Renderer": {
+          "_type": "component",
+          "component_id": "ce83609d-b0e7-47cc-b99c-5ee8e5eeaae0",
+          "go": "be702666-b39b-4070-a271-6053059b22c7",
+          "component_type": "SkinnedModelRenderer"
+        },
+        "ShellEjectGameObject": {
+          "_type": "gameobject",
+          "go": "49ff9530-2700-452f-9b74-0d2c1d61ba0c"
+        },
+        "TracerEffect": {
+          "_type": "gameobject",
+          "prefab": "prefabs/effects/default_tracer.prefab"
+        }
+      }
+    ],
+    "Children": [
+      {
+        "__guid": "21eab354-af3c-4480-ac85-ed0cf8735093",
+        "__version": 2,
+        "Flags": 0,
+        "Name": "muzzle",
+        "Position": "19.4566498,0,7.44092989",
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkFlags": 0,
+        "NetworkOrphaned": 0,
+        "NetworkTransmit": true,
+        "OwnerTransfer": 1,
+        "Components": [],
+        "Children": []
+      },
+      {
+        "__guid": "49ff9530-2700-452f-9b74-0d2c1d61ba0c",
+        "__version": 2,
+        "Flags": 0,
+        "Name": "eject",
+        "Position": "2,-0.443800002,8.55760002",
+        "Rotation": "-0.212630004,-0.212630004,-0.674380004,0.674380004",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkFlags": 0,
+        "NetworkOrphaned": 0,
+        "NetworkTransmit": true,
+        "OwnerTransfer": 1,
+        "Components": [],
+        "Children": []
+      },
+      {
+        "__guid": "ec478489-8bfc-464c-8f26-395f689abb0a",
+        "__version": 2,
+        "Flags": 0,
+        "Name": "Optic - Holographic (Attachment)",
+        "Position": "1.02000034,0,8.58323288",
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkFlags": 0,
+        "NetworkOrphaned": 0,
+        "NetworkTransmit": true,
+        "OwnerTransfer": 1,
+        "Components": [
+          {
+            "__type": "Sandbox.ModelRenderer",
+            "__guid": "9d04882c-4c8a-4229-9651-152f3e0decfb",
+            "__enabled": true,
+            "Flags": 0,
+            "BodyGroups": 18446744073709551615,
+            "CreateAttachments": false,
+            "LodOverride": null,
+            "MaterialGroup": null,
+            "MaterialOverride": null,
+            "Materials": null,
+            "Model": {
+              "Id": "c3fe4259-eac3-4bf7-a094-598118d122ae",
+              "Path": "models/weapons/sbox_attachments/sight_holographic/sight_holographic.vmdl"
+            },
+            "OnComponentDestroy": null,
+            "OnComponentDisabled": null,
+            "OnComponentEnabled": null,
+            "OnComponentFixedUpdate": null,
+            "OnComponentStart": null,
+            "OnComponentUpdate": null,
+            "RenderOptions": {
+              "GameLayer": true,
+              "OverlayLayer": false,
+              "BloomLayer": false,
+              "AfterUILayer": false
+            },
+            "RenderType": "On",
+            "Tint": "1,1,1,1"
+          },
+          {
+            "__type": "VBWeaponAttachment",
+            "__guid": "543261fa-366a-436e-97ed-a4737566fca5",
+            "__enabled": true,
+            "Flags": 0,
+            "AttachmentRenderer": {
+              "_type": "component",
+              "component_id": "9d04882c-4c8a-4229-9651-152f3e0decfb",
+              "go": "ec478489-8bfc-464c-8f26-395f689abb0a",
+              "component_type": "ModelRenderer"
+            },
+            "BoneName": "",
+            "MountPosition": "1.02000034,0,8.58323288",
+            "MountRenderer": {
+              "_type": "component",
+              "component_id": "ce83609d-b0e7-47cc-b99c-5ee8e5eeaae0",
+              "go": "be702666-b39b-4070-a271-6053059b22c7",
+              "component_type": "SkinnedModelRenderer"
+            },
+            "MountRotation": "0,0,0",
+            "MountScale": 1,
+            "OnComponentDestroy": null,
+            "OnComponentDisabled": null,
+            "OnComponentEnabled": null,
+            "OnComponentFixedUpdate": null,
+            "OnComponentStart": null,
+            "OnComponentUpdate": null,
+            "WorldPickupOnly": false
+          }
+        ],
+        "Children": []
+      }
+    ],
+    "__properties": {
+      "NetworkInterpolation": true,
+      "PhysicsMode": "Physics3D",
+      "TimeScale": 1,
+      "WantsSystemScene": true,
+      "Metadata": {},
+      "NavMesh": {
+        "Enabled": false,
+        "IncludeStaticBodies": true,
+        "IncludeKeyframedBodies": true,
+        "EditorAutoUpdate": false,
+        "AgentHeight": 64,
+        "AgentRadius": 16,
+        "AgentStepSize": 18,
+        "AgentMaxSlope": 40,
+        "ExcludedBodies": "",
+        "IncludedBodies": "",
+        "DeferGeneration": false,
+        "CustomBounds": false
+      }
+    },
+    "__variables": []
+  },
+  "ResourceVersion": 2,
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "DontBreakAsTemplate": false,
+  "__references": [
+    "facepunch.sightholographic#427648",
+    "facepunch.w_m4a1#278949"
+  ],
+  "__version": 2
+}

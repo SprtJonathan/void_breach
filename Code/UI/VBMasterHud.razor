@@ -23,7 +23,15 @@
 	bool isDead = health?.IsDead ?? false;
 	bool isExhausted = stamina?.IsExhausted ?? false;
 	bool showStamina = stamina is not null && stamina.CurrentStamina < stamina.MaxStamina;
+    // Meme palette/limites que HEALTH, mais sur le pourcentage d'endurance restante.
+    string staminaState = isExhausted || staminaPercent <= 30f ? "danger"
+        : staminaPercent <= 65f ? "medium" : "healthy";
+	// Comportement initial : l'armure n'apparait que lorsqu'elle est presente.
 	bool showArmor = armor is not null && armor.CurrentArmor > 0f;
+	// La soft health (plafond souple, borne par la vie courante) pilote l'ECG et la couleur.
+	float softLife = MathF.Min( health?.CurrentHealth ?? 0f, health?.SoftMaxHealth ?? 0f );
+	float softLifeRatio = Percent( softLife, startingHealth ) / 100f;
+	string healthState = softLifeRatio <= 0.30f ? "danger" : softLifeRatio <= 0.65f ? "medium" : "healthy";
 	bool canSpectate = lifeState?.CanSpectate ?? false;
 	string spectatedPlayerName = lifeState?.SpectatedPlayerName;
 }
@@ -41,10 +49,10 @@
 	else
 	{
 		<div class="vitals-block">
-			<div class="stamina-slot">
+			<div class="stamina-slot @(showStamina ? "visible" : "")">
 				@if ( showStamina )
 				{
-					<div class="readout stamina-readout @(isExhausted ? "exhausted" : "")">
+					<div class="readout stamina-readout @staminaState @(isExhausted ? "exhausted" : "")">
 						<div class="readout-header">
 							<label class="readout-icon">»</label>
 							<label class="readout-title">#vb.hud.stamina</label>
@@ -62,11 +70,28 @@
 			</div>
 
 			<div class="bottom-row">
-				<div class="readout health-readout">
+				<div class="readout health-readout @healthState">
 					<div class="readout-header">
 						<label class="readout-icon">+</label>
-						<label class="readout-title">#vb.hud.health</label>
+						<label class="readout-title">HEALTH</label>
+					</div>
+					<div class="readout-main">
 						<label class="readout-value">@Whole( health.CurrentHealth )</label>
+						<div class="pulse-trace">
+							@if ( isDead )
+							{
+								<div class="ecg-flatline"></div>
+							}
+							else
+							{
+								@* Chaque segment relie DEUX mesures temporelles du signal.
+								   La trace n'est pas une image ni une animation CSS repetee. *@
+								@for ( int i = 0; i < EcgSampleCount - 1; i++ )
+								{
+									<div class="ecg-segment" style="@(EcgSegmentStyle( i ))"></div>
+								}
+							}
+						</div>
 					</div>
 					<div class="health-track">
 						<div class="hard-max" style="width: @(hardPercent)%;"></div>
@@ -79,9 +104,17 @@
 				{
 					<div class="readout armor-readout">
 						<div class="readout-header">
-							<label class="readout-icon">◇</label>
+							<label class="readout-icon">ϟ</label>
 							<label class="readout-title">#vb.hud.armor</label>
+						</div>
+						<div class="readout-main">
 							<label class="readout-value">@Whole( armor.CurrentArmor )</label>
+							<div class="armor-ticks">
+								@for ( int i = 0; i < 10; i++ )
+								{
+									<div class="scan-tick"></div>
+								}
+							</div>
 						</div>
 						<div class="resource-track">
 							<div class="armor-fill" style="width: @(armorPercent)%;"></div>
@@ -141,6 +174,7 @@
 		<VBWeaponSelectorHud Player=@(LocalPlayer) IsSuppressed=@(isDowned || isDead) />
 		<VBInteractionHud Player=@(LocalPlayer) IsSuppressed=@(isDowned || isDead) />
 		<VBTraversalHud Player=@(LocalPlayer) IsSuppressed=@(isDowned || isDead) />
+		<VBVehicleHud Player=@(LocalPlayer) />
 	}
 </root>
 
@@ -209,6 +243,127 @@
 		}
 	}
 
+	// Un segment par intervalle de 2px : 50 segments sur 100px.
+	// 25 mesures par seconde, pour eviter de reconstruire le HUD a chaque frame.
+	private const int EcgSampleCount = 51;
+	private const float EcgSampleInterval = 0.04f;
+	private const float EcgPointSpacing = 2f;
+	private readonly float[] _ecgSamples = new float[EcgSampleCount];
+	private float _ecgAccumulator;
+	private float _ecgPhase;
+	private float _ecgTime;
+	private int _ecgBeatIndex;
+	private int _ecgRevision;
+	private Guid _ecgPlayerId;
+
+	protected override void OnUpdate()
+	{
+		base.OnUpdate();
+		if ( !IsLocalHud )
+			return;
+
+		var health = Health;
+		if ( health is null || health.IsDead )
+			return;
+
+		// En cas de changement de personnage, ne pas afficher les battements precedents.
+		var playerId = LocalPlayer?.Id ?? Guid.Empty;
+		if ( playerId != _ecgPlayerId )
+		{
+			_ecgPlayerId = playerId;
+			Array.Clear( _ecgSamples, 0, _ecgSamples.Length );
+			_ecgAccumulator = 0f;
+			_ecgPhase = 0f;
+			_ecgBeatIndex = 0;
+		}
+
+		_ecgAccumulator += Math.Clamp( Time.Delta, 0f, 0.1f );
+		int generated = 0;
+		while ( _ecgAccumulator >= EcgSampleInterval && generated < 4 )
+		{
+			_ecgAccumulator -= EcgSampleInterval;
+			_ecgTime += EcgSampleInterval;
+
+			float initialHard = MathF.Max( 1f, health.StartingHardMaxHealth );
+			float hardRatio = Math.Clamp( health.HardMaxHealth / initialHard, 0f, 1f );
+			float softLife = MathF.Min( health.SoftMaxHealth, health.CurrentHealth );
+			float softRatio = Math.Clamp( softLife / initialHard, 0f, 1f );
+			float integrity = MathF.Min( softRatio, hardRatio );
+			float severity = 1f - integrity;
+
+			// Sur-echantillonner la periode de 40 ms, sinon le pic R
+			// (tres bref) peut etre manque entre deux rafraichissements.
+			// On retient le point de plus grande amplitude du sous-intervalle.
+			const int subSteps = 8;
+			float subDelta = EcgSampleInterval / subSteps;
+			float selectedSample = 0f;
+			for ( int sub = 0; sub < subSteps; sub++ )
+			{
+				// 64 BPM au maximum, jusqu'a ~166 BPM en etat critique.
+				// A bas HP, l'intervalle varie legerement a chaque beat.
+				float bpm = 64f + 102f * MathF.Pow( severity, 1.35f );
+				float variability = severity * 0.05f * MathF.Sin( _ecgBeatIndex * 1.83f );
+				_ecgPhase += subDelta * bpm * (1f + variability) / 60f;
+				if ( _ecgPhase >= 1f )
+				{
+					_ecgPhase -= MathF.Floor( _ecgPhase );
+					_ecgBeatIndex++;
+				}
+
+				float beatStrength = 1f - severity * 0.07f
+					+ severity * 0.04f * MathF.Sin( _ecgBeatIndex * 1.37f );
+				float candidate = EcgWave( _ecgPhase ) * beatStrength;
+				if ( MathF.Abs( candidate ) > MathF.Abs( selectedSample ) )
+					selectedSample = candidate;
+			}
+
+			// Derive de la ligne de base tres discrete.
+			float signal = selectedSample;
+			signal += 0.009f * MathF.Sin( _ecgTime * 7.1f );
+			signal += 0.008f * MathF.Sin( _ecgTime * 2.3f );
+
+			Array.Copy( _ecgSamples, 1, _ecgSamples, 0, EcgSampleCount - 1 );
+			_ecgSamples[EcgSampleCount - 1] = signal;
+			_ecgRevision++;
+			generated++;
+		}
+
+		// Apres une grosse chute de framerate on elimine le retard
+		// au lieu de faire des centaines de regenerations en rafale.
+		if ( _ecgAccumulator > EcgSampleInterval * 4f )
+			_ecgAccumulator = 0f;
+	}
+
+	private static float EcgWave( float phase )
+	{
+		// Complexe P–QRS–T parametrique. Les impulsions sont ECHANTILLONNEES
+		// en temps reel ; leur intervalle depend de la vie soft/hard.
+		return 0.13f * Peak( phase, 0.15f, 0.045f )  // P
+			- 0.16f * Peak( phase, 0.285f, 0.014f ) // Q
+			+ 1.00f * Peak( phase, 0.315f, 0.015f ) // R
+			- 0.27f * Peak( phase, 0.347f, 0.016f ) // S
+			+ 0.27f * Peak( phase, 0.565f, 0.078f );// T
+	}
+
+	private static float Peak( float phase, float center, float width )
+	{
+		float x = (phase - center) / width;
+		return MathF.Exp( -0.5f * x * x );
+	}
+
+	private string EcgSegmentStyle( int index )
+	{
+		float y0 = 24f - _ecgSamples[index] * 20f;
+		float y1 = 24f - _ecgSamples[index + 1] * 20f;
+		float dy = y1 - y0;
+		float angle = MathF.Atan2( dy, EcgPointSpacing ) * 180f / MathF.PI;
+		float length = MathF.Sqrt( EcgPointSpacing * EcgPointSpacing + dy * dy ) + 0.2f;
+		return $"left: {CssNumber( index * EcgPointSpacing )}px; top: {CssNumber( y0 )}px; width: {CssNumber( length )}px; transform: rotate({CssNumber( angle )}deg);";
+	}
+
+	private static string CssNumber( float value ) =>
+		value.ToString( "0.##", System.Globalization.CultureInfo.InvariantCulture );
+
 	private static float Percent( float value, float maximum )
 	{
 		if ( maximum <= 0f )
@@ -256,6 +411,8 @@
 		hash.Add( Player?.Id ?? Guid.Empty );
 		hash.Add( IsLocalHud );
 		hash.Add( health?.CurrentHealth ?? -1f );
+		hash.Add( _ecgRevision );
+		hash.Add( health?.StartingHardMaxHealth ?? -1f );
 		hash.Add( health?.SoftMaxHealth ?? -1f );
 		hash.Add( health?.HardMaxHealth ?? -1f );
 		hash.Add( health?.IsDowned ?? false );

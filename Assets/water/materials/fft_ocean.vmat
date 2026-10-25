@@ -1,0 +1,11 @@
+Layer0
+{
+	shader "water/shaders/vb_water.shader"
+	F_FFT_OCEAN 1
+	F_DO_NOT_CAST_SHADOWS 1
+	g_bFogEnabled "1"
+	TextureAmbientOcclusion "materials/water/water_01/water_01_ao.png"
+	TextureColor "materials/water/water_01/water_01_color.png"
+	TextureNormal "materials/water/water_01/water_01_normal.png"
+	TextureRoughness "materials/water/water_01/water_01_rough.png"
+}

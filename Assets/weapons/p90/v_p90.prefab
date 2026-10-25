@@ -31,7 +31,7 @@
         "MaterialOverride": null,
         "Materials": null,
         "Model": {
-          "Id": "1f470a99-5b58-4987-b392-223b28d098c5",
+          "Id": "86f67a84-dedd-4f9f-8390-ef6ee8b8efef",
           "Path": "models/weapons/sbox_smg_mp5/v_mp5.vmdl"
         },
         "Morphs": {},
@@ -118,7 +118,7 @@
         "MaterialOverride": null,
         "Materials": null,
         "Model": {
-          "Id": "ceceba05-f08c-4553-9927-fbf195b06912",
+          "Id": "72bb2c94-0ef7-42c7-b3cc-14aa5f23ff4d",
           "Path": "models/first_person/v_first_person_arms_human.vmdl"
         },
         "Morphs": {},
@@ -152,7 +152,7 @@
         "__version": 2,
         "Flags": 0,
         "Name": "P90 Mesh - Adjust Grip Here",
-        "Position": "6.27362204,1.33743632,-0.0928975344",
+        "Position": "6.27362204,1.35020733,1",
         "Rotation": "0.49999997,0.49999997,-0.49999997,0.49999997",
         "Scale": "1,1,1",
         "Tags": "",
@@ -175,7 +175,7 @@
             "MaterialOverride": null,
             "Materials": null,
             "Model": {
-              "Id": "efa5749a-e20b-48c6-baf9-1421e451e137",
+              "Id": "8b82c809-a857-40ef-b14d-1b96faba9182",
               "Path": "weapons/p90/mesh/p90.vmdl"
             },
             "OnComponentDestroy": null,
@@ -248,6 +248,55 @@
             "NetworkTransmit": true,
             "OwnerTransfer": 1,
             "Components": [],
+            "Children": []
+          },
+          {
+            "__guid": "abd1cbfe-9ee5-429a-878e-b31b18aaba9e",
+            "__version": 2,
+            "Flags": 0,
+            "Name": "Sphere",
+            "Position": "-5.01542425,1.96050751,1.39503539",
+            "Rotation": "0,0,0,1",
+            "Scale": "0.00100000005,0.00100000005,0.00100000005",
+            "Tags": "",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkFlags": 0,
+            "NetworkOrphaned": 0,
+            "NetworkTransmit": true,
+            "OwnerTransfer": 1,
+            "Components": [
+              {
+                "__type": "Sandbox.ModelRenderer",
+                "__guid": "71898b2f-28c9-46ca-a3b4-43a363731211",
+                "__enabled": true,
+                "Flags": 0,
+                "BodyGroups": 18446744073709551615,
+                "CreateAttachments": false,
+                "LodOverride": null,
+                "MaterialGroup": null,
+                "MaterialOverride": null,
+                "Materials": null,
+                "Model": {
+                  "Id": "00000000-0000-0000-f09f-a6f0fe7f0000",
+                  "Path": "models/dev/sphere.vmdl"
+                },
+                "OnComponentDestroy": null,
+                "OnComponentDisabled": null,
+                "OnComponentEnabled": null,
+                "OnComponentFixedUpdate": null,
+                "OnComponentStart": null,
+                "OnComponentUpdate": null,
+                "RenderOptions": {
+                  "GameLayer": true,
+                  "OverlayLayer": false,
+                  "BloomLayer": false,
+                  "AfterUILayer": false
+                },
+                "RenderType": "On",
+                "Tint": "1,0,0,1"
+              }
+            ],
             "Children": []
           }
         ]

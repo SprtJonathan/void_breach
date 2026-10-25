@@ -8,7 +8,7 @@ using Sandbox.Rendering;
 /// </summary>
 [Title( "Void Breach Combat Weapon" )]
 [Category( "Void Breach/Weapons" )]
-public sealed class VBCombatWeapon : VBTraversalCombatWeapon, IVBWeaponCarryItem, IVBFirstPersonHeldItem
+public sealed class VBCombatWeapon : VBTraversalCombatWeapon, IVBWeaponCarryItem, IVBFirstPersonHeldItem, Component.IPressable
 {
 	/// <summary>
 	/// Amount consumed from the shared five-point weapon carrying budget.
@@ -21,9 +21,89 @@ public sealed class VBCombatWeapon : VBTraversalCombatWeapon, IVBWeaponCarryItem
 
 	public bool IsWeaponSlotPlaceholder => false;
 
+	bool Component.IPressable.CanPress( Component.IPressable.Event e ) =>
+		e.Source.IsValid() && (e.Source.GetComponentInParent<VBWeaponInventoryComponent>( includeSelf: true )?.CanSwapWeapon( this ) ?? false);
+	bool Component.IPressable.Press( Component.IPressable.Event e )
+	{
+		if ( !((Component.IPressable)this).CanPress( e ) ) return false;
+		e.Source.GetComponentInParent<VBWeaponInventoryComponent>( includeSelf: true ).SwapWeapon( this );
+		return true;
+	}
+
+	protected override void OnAdded( BaseInventoryComponent inventory )
+	{
+		base.OnAdded( inventory );
+		// NPC inaccuracy belongs to the shooter, not a permanent modification of
+		// the physical weapon a player may recover afterwards.
+		if ( inventory.GetComponent<PlayerController>().IsValid() ) SpreadScale = 1f;
+	}
+
+	protected override bool OnDrop()
+	{
+		bool npcHeld = NpcHolder.IsValid();
+		var player = Inventory.IsValid() ? Inventory.GetComponent<PlayerController>() : null;
+		var eyes = player.IsValid() ? player.EyeTransform : new Transform( WorldPosition + Vector3.Up * 40f, WorldRotation );
+		var owner = Inventory.IsValid() ? Inventory.GameObject : GameObject;
+		var trace = Scene.Trace.Sphere( 6f, eyes.Position, eyes.Position + eyes.Rotation.Forward * 28f )
+			.IgnoreGameObjectHierarchy( owner ).Run();
+		if ( !base.OnDrop() ) return false;
+		if ( npcHeld ) SpreadScale = 1f;
+		WorldPosition = trace.StartedSolid ? eyes.Position : trace.EndPosition - eyes.Rotation.Forward * 3f;
+		WorldRotation = Rotation.FromYaw( eyes.Rotation.Yaw() );
+		var body = GetComponent<Rigidbody>( includeDisabled: true );
+		if ( body.IsValid() ) body.Velocity = eyes.Rotation.Forward * 150f + Vector3.Up * 50f;
+		return true;
+	}
+
 	/// <summary>Use the prefab muzzle when an animation donor has a different barrel.</summary>
 	[Property, Group( "Presentation" )]
 	public bool PreferMuzzleMarker { get; set; }
+
+	[Property, Group( "NPC Hold" )] public Vector3 NpcHoldPositionOffset { get; set; } = Vector3.Zero;
+	[Property, Group( "NPC Hold" )] public Angles NpcHoldRotationOffset { get; set; } = Angles.Zero;
+	[Property, Group( "NPC Hold" )] public bool NpcUseSupportHand { get; set; }
+	[Property, Group( "NPC Hold" )] public Vector3 NpcSupportHandPosition { get; set; }
+	[Property, Group( "NPC Hold" )] public Angles NpcSupportHandRotation { get; set; }
+	public GameObject NpcSupportHandTarget => _npcSupportHand.IsValid() && _npcSupportHand.Active ? _npcSupportHand : null;
+	private GameObject _npcSupportHand;
+
+	[ConCmd( "vb_soldier_grip_reload" )]
+	public static void ReloadNpcGrips()
+	{
+		if ( !Game.IsPlaying || !Networking.IsHost || Game.ActiveScene is null ) return;
+		foreach ( var path in new[] { "weapons/mp5/mp5.prefab", "weapons/p90/p90.prefab", "weapons/pistol/9mmpistol.prefab" } )
+		{
+			var prefab = GameObject.GetPrefab( path );
+			var profile = prefab.GetComponent<VBCombatWeapon>();
+			foreach ( var gun in Game.ActiveScene.GetAllComponents<VBCombatWeapon>() )
+			{
+				if ( !gun.NpcHolder.IsValid() || gun.GameObject.Name != prefab.Name ) continue;
+				gun.NpcHoldPositionOffset = profile.NpcHoldPositionOffset;
+				gun.NpcHoldRotationOffset = profile.NpcHoldRotationOffset;
+				gun.NpcUseSupportHand = profile.NpcUseSupportHand;
+				gun.NpcSupportHandPosition = profile.NpcSupportHandPosition;
+				gun.NpcSupportHandRotation = profile.NpcSupportHandRotation;
+				if ( gun.IsActive ) gun.CreateWorldModel();
+			}
+		}
+	}
+
+	[ConCmd( "vb_soldier_grip_debug" )]
+	public static void DumpNpcGrips()
+	{
+		if ( Game.ActiveScene is null ) return;
+		foreach ( var gun in Game.ActiveScene.GetAllComponents<VBCombatWeapon>() )
+		{
+			var npc = gun.NpcHolder;
+			if ( !npc.IsValid() || !gun.IsActive || !gun.WorldModel.IsValid() || !npc.BodyRenderer.IsValid() ) continue;
+			foreach ( var name in new[] { "hand_R", "hand_L", "hold_R" } )
+				if ( npc.BodyRenderer.TryGetBoneTransform( name, out var bone ) )
+				{
+					var local = gun.WorldModel.WorldTransform.ToLocal( bone );
+					Log.Info( $"NPC grip {npc.GameObject.Name}/{gun.GameObject.Name} {name}: position={local.Position} angles={local.Rotation.Angles()}" );
+				}
+		}
+	}
 
 	/// <summary>
 	/// Active ou désactive le zoom de caméra lorsque l'arme est utilisée en vue FPS.
@@ -84,7 +164,8 @@ public sealed class VBCombatWeapon : VBTraversalCombatWeapon, IVBWeaponCarryItem
 	public float AimRecoilMultiplier { get; set; } = 1f;
 
 	public override Vector2 CurrentSpread => base.CurrentSpread
-		* MathX.Lerp( 1f, AimSpreadMultiplier, _aimAmount );
+		* MathX.Lerp( 1f, AimSpreadMultiplier, _aimAmount )
+		* (NpcHolder.IsValid() ? NpcHolder.FiringStanceAccuracyMultiplier : 1f);
 
 	/// <summary>
 	/// Progression visuelle de l'ADS, de 0 (hanche) à 1 (visée).
@@ -97,6 +178,45 @@ public sealed class VBCombatWeapon : VBTraversalCombatWeapon, IVBWeaponCarryItem
 	/// Indique si l'arme est suffisamment épaulée pour être considérée en ADS.
 	/// </summary>
 	public bool IsAiming => _aimAmount >= 0.5f;
+
+	private VBSoldierController NpcHolder => Inventory.IsValid() ? Inventory.GetComponent<VBSoldierController>() : null;
+	protected override GameObject Attacker => NpcHolder.IsValid() ? NpcHolder.GameObject : base.Attacker;
+
+	private bool HasUnlimitedNpcReserve( BaseAmmoResource ammo )
+	{
+		var npc = NpcHolder;
+		return npc.IsValid() && npc.Sidearm == this && npc.SidearmReserveMagazines == -1
+			&& ammo is not null && ammo == PrimaryAmmoType;
+	}
+
+	// Only the NPC's reserve is unlimited. Native clip sizes, reloads and fire
+	// delays still apply, and dropping the gun restores ordinary player ammo rules.
+	protected override int GetReserveAmmo( BaseAmmoResource ammo ) => HasUnlimitedNpcReserve( ammo )
+		? int.MaxValue : base.GetReserveAmmo( ammo );
+
+	protected override int TakeReserveAmmo( BaseAmmoResource ammo, int amount ) => HasUnlimitedNpcReserve( ammo )
+		? Math.Max( 0, amount ) : base.TakeReserveAmmo( ammo, amount );
+
+	public override bool HasPrimaryAmmo()
+	{
+		// The native implementation assumes unlimited ammunition without a
+		// PlayerController holder. NPCs must inspect the same real clip/pool.
+		if ( !NpcHolder.IsValid() ) return base.HasPrimaryAmmo();
+		return !UsesAmmo || (UsesPrimaryClip ? Clip1 > 0 : Ammo1 > 0);
+	}
+
+	public override bool CanPrimaryAttack()
+	{
+		var npc = NpcHolder;
+		return (!npc.IsValid() || IsActive && npc.CanFight && !npc.IsDynamicallyTraversing) && base.CanPrimaryAttack();
+	}
+
+	protected override SceneTrace BulletTrace( Ray ray, float distance, float radius )
+	{
+		// NPC locomotion capsules provide physical blocking. Their animated model
+		// hitboxes must receive bullets so head/limb locations survive the trace.
+		return base.BulletTrace( ray, distance, radius ).WithoutTags( new[] { "npc_body" } );
+	}
 
 	/// <summary>
 	/// Son joué lorsque le chargeur franchit le seuil de munitions faibles.
@@ -150,12 +270,72 @@ public sealed class VBCombatWeapon : VBTraversalCombatWeapon, IVBWeaponCarryItem
 		}
 
 		base.OnUpdate();
+		var npc = NpcHolder;
+		if ( npc.IsValid() )
+		{
+			if ( !WorldModel.IsValid() && npc.BodyRenderer.IsValid() ) CreateWorldModel();
+			if ( WorldModel.IsValid() ) WorldModel.Enabled = npc.IsWeaponPoseActive;
+			if ( npc.BodyRenderer.IsValid() && npc.IsWeaponPoseActive ) UpdateBodyAnimations( npc.BodyRenderer );
+		}
 
 		// Le world model n'est pas un objet réseau : chaque pair doit posséder
 		// sa propre instance. Cette vérification couvre notamment l'arrivée
 		// tardive de l'ownership ou de l'ActiveItem au spawn.
 		if ( IsHeld && !WorldModel.IsValid() )
 			CreateWorldModel();
+	}
+
+	protected override void CreateWorldModel()
+	{
+		var npc = NpcHolder;
+		if ( !npc.IsValid() ) { base.CreateWorldModel(); return; }
+		DestroyWorldModel();
+		if ( Application.IsDedicatedServer || !WorldModelPrefab.IsValid() || !npc.BodyRenderer.IsValid() ) return;
+		var bone = npc.BodyRenderer.GetBoneObject( HoldBone );
+		if ( !bone.IsValid() ) return;
+		WorldModel = WorldModelPrefab.Clone( new CloneConfig { Parent = bone, StartEnabled = true, Transform = NpcHoldTransform } );
+		WorldModel.Flags |= GameObjectFlags.NotNetworked | GameObjectFlags.NotSaved;
+		if ( NpcUseSupportHand )
+		{
+			_npcSupportHand = new GameObject( true, "NPC support hand" );
+			_npcSupportHand.SetParent( WorldModel, keepWorldPosition: false );
+			_npcSupportHand.Flags |= GameObjectFlags.NotNetworked | GameObjectFlags.NotSaved;
+			_npcSupportHand.LocalTransform = new Transform( NpcSupportHandPosition, Rotation.From( NpcSupportHandRotation ) );
+		}
+	}
+
+	private Transform NpcHoldTransform
+	{
+		get
+		{
+			// The authored world prefab contains grip corrections (notably the USP
+			// translation and P90 roll). Transform.Zero discarded those corrections.
+			var authored = WorldModelPrefab.LocalTransform;
+			authored.Position += NpcHoldPositionOffset;
+			authored.Rotation *= Rotation.From( NpcHoldRotationOffset );
+			return authored;
+		}
+	}
+
+	protected override void OnPreRender()
+	{
+		base.OnPreRender();
+		var npc = NpcHolder;
+		if ( !npc.IsValid() || !IsActive || !WorldModel.IsValid() || !npc.BodyRenderer.IsValid() || !WorldModelPrefab.IsValid() ) return;
+		var bone = npc.BodyRenderer.GetBoneObject( HoldBone );
+		if ( !bone.IsValid() ) return;
+		// Dresser can rebuild the body/bones after the weapon deploys.
+		if ( WorldModel.Parent != bone ) WorldModel.SetParent( bone, keepWorldPosition: false );
+		WorldModel.LocalTransform = NpcHoldTransform;
+		if ( _npcSupportHand.IsValid() ) _npcSupportHand.LocalTransform = new Transform( NpcSupportHandPosition, Rotation.From( NpcSupportHandRotation ) );
+		npc.UpdateWeaponHands();
+	}
+
+	protected override void OnReloadStarted()
+	{
+		base.OnReloadStarted();
+		var npc = NpcHolder;
+		if ( npc.IsValid() ) npc.BodyRenderer?.Set( "b_reload", true );
 	}
 
 	/// <summary>
@@ -187,6 +367,12 @@ public sealed class VBCombatWeapon : VBTraversalCombatWeapon, IVBWeaponCarryItem
 	{
 		get
 		{
+			var npc = NpcHolder;
+			if ( npc.IsValid() )
+			{
+				var origin = GetMuzzleTransform().Position;
+				return new Ray( origin, (npc.AimPosition - origin).Normal );
+			}
 			var cameraRay = base.AimRay;
 
 			if ( !IsHeld || !TryGetMuzzleAttachment( out var muzzle ) )
@@ -208,6 +394,9 @@ public sealed class VBCombatWeapon : VBTraversalCombatWeapon, IVBWeaponCarryItem
 	/// </summary>
 	public override Transform GetMuzzleTransform()
 	{
+		var npc = NpcHolder;
+		if ( npc.IsValid() && (!WorldModel.IsValid() || Application.IsDedicatedServer) )
+			return new Transform( npc.FallbackMuzzlePosition, npc.WorldRotation );
 		if ( TryGetMuzzleAttachment( out var muzzle ) )
 			return muzzle;
 
@@ -286,6 +475,11 @@ public sealed class VBCombatWeapon : VBTraversalCombatWeapon, IVBWeaponCarryItem
 		SyncMuzzleMarkerToAttachment();
 
 		var previousClip = Clip1;
+		var npc = NpcHolder;
+		// Native PrimaryAttack only spends ammunition for PlayerController holders.
+		// NPC guns use the same clip/reserve API, with exactly one spend on the host.
+		if ( npc.IsValid() && !IsHeld
+			&& (!Networking.IsHost || !IsActive || !npc.CanFight || IsReloading || !TakePrimaryAmmo( 1 )) ) return;
 
 		base.PrimaryAttack();
 
@@ -315,6 +509,12 @@ public sealed class VBCombatWeapon : VBTraversalCombatWeapon, IVBWeaponCarryItem
 	/// </summary>
 	protected override void OnShootEffects( ShotEffect shot )
 	{
+		// Native hitscan leaves Origin null and supplies EndPosition even when nothing solid is hit.
+		// NoEvents suppresses shared muzzle/audio events, not individual pellet impacts.
+		if ( !Application.IsDedicatedServer && (shot.Hit || shot.HitPosition != default) )
+			VoidBreach.Water.FluidImpacts.Segment( Scene, shot.Origin ?? GetMuzzleTransform().Position, shot.HitPosition );
+		var npc = NpcHolder;
+		if ( !shot.NoEvents && npc.IsValid() ) npc.BodyRenderer?.Set( "b_attack", true );
 		if ( Application.IsDedicatedServer || shot.NoEvents
 			|| !IsHeld || !Owner.IsValid() || Owner.IsProxy )
 		{
@@ -439,9 +639,8 @@ public sealed class VBCombatWeapon : VBTraversalCombatWeapon, IVBWeaponCarryItem
 		if ( !renderer.IsValid() )
 			return;
 
-		// Les armes first-person Facepunch utilisent cet enum public pour
-		// passer de la pose à la hanche (0) à la mire métallique (1).
-		renderer.Set( "ironsights", _wantsToAim ? 1 : 0 );
+		// Resolve the native enum by option name; its values are not integer indices.
+		renderer.Set( "ironsights", _wantsToAim ? "enabled" : "not_in_ironsights" );
 	}
 
 	private bool IsOwnerSprinting()

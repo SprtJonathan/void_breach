@@ -1,189 +1,50 @@
+// Projected visor ammunition display – matching compact health / armor panels.
 VBAmmoHud {
-	position: absolute;
-	right: 44px;
-	bottom: 38px;
-	width: 310px;
-	font-family: Roboto Mono;
-	color: #f3a43b;
-	pointer-events: none;
-	opacity: 1;
-	transform: translateY( 0 );
-	transition: opacity 0.22s ease-out, transform 0.22s ease-out;
-
-	&.hidden {
-		display: none;
-	}
-
-	.ammo-readout {
-		position: relative;
-		width: 100%;
-		min-height: 88px;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		padding: 11px 14px;
-		background-color: rgba(10, 13, 12, 0.86);
-		border-right: 3px solid rgba(243, 164, 59, 0.9);
-		box-shadow: 0 0 18px rgba(0, 0, 0, 0.72);
-	}
-
-	.ammo-header {
-		width: 100%;
-		display: flex;
-		align-items: center;
-		gap: 10px;
-	}
-
-	.ammo-icon {
-		width: 22px;
-		font-size: 15px;
-		font-weight: 900;
-		text-align: center;
-		text-shadow: 0 0 8px rgba(243, 164, 59, 0.7);
-	}
-
-	.ammo-identity {
-		min-width: 0;
-		flex-grow: 1;
-		display: flex;
-		flex-direction: column;
-	}
-
-	.ammo-title {
-		font-size: 12px;
-		font-weight: 800;
-		letter-spacing: 2px;
-		opacity: 0.88;
-	}
-
-	.weapon-name {
-		margin-top: 1px;
-		max-width: 130px;
-		font-size: 9px;
-		font-weight: 700;
-		letter-spacing: 1px;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		opacity: 0.48;
-	}
-
-	.ammo-values {
-		display: flex;
-		align-items: baseline;
-		justify-content: flex-end;
-		min-width: 112px;
-	}
-
-	.loaded-ammo {
-		font-size: 32px;
-		font-weight: 900;
-		line-height: 32px;
-		text-shadow: 0 0 10px rgba(243, 164, 59, 0.48);
-	}
-
-	.ammo-separator {
-		margin: 0 6px;
-		font-size: 17px;
-		font-weight: 600;
-		opacity: 0.38;
-	}
-
-	.reserve-ammo {
-		min-width: 34px;
-		font-size: 18px;
-		font-weight: 800;
-		opacity: 0.72;
-	}
-
-	.ammo-track {
-		position: relative;
-		width: 100%;
-		height: 8px;
-		margin-top: 8px;
-		overflow: hidden;
-		background-color: rgba(0, 0, 0, 0.68);
-		border: 1px solid rgba(243, 164, 59, 0.28);
-	}
-
-	.ammo-fill {
-		position: absolute;
-		left: 0;
-		top: 0;
-		height: 100%;
-		background-color: #f3a43b;
-		box-shadow: 0 0 9px rgba(243, 164, 59, 0.7);
-		transition: width 0.12s ease-out, background-color 0.15s ease-out;
-	}
-
-	.ammo-status {
-		position: absolute;
-		right: 14px;
-		bottom: 0;
-		font-size: 9px;
-		font-weight: 900;
-		letter-spacing: 1px;
-		text-align: right;
-	}
-
-	&.low-ammo {
-		.ammo-readout {
-			border-right-color: #ff8748;
-		}
-
-		.ammo-fill {
-			background-color: #ff8748;
-		}
-
-		.ammo-status {
-			color: #ff8748;
-		}
-	}
-
-	&.empty {
-		.ammo-readout {
-			border-right-color: #ff553d;
-		}
-
-		.loaded-ammo,
-		.ammo-status {
-			color: #ff553d;
-		}
-
-		.ammo-fill {
-			background-color: #ff553d;
-		}
-	}
-
-	&.reloading {
-		.ammo-status {
-			color: #e7c77d;
-		}
-
-		.ammo-fill {
-			animation-name: ammo-pulse;
-			animation-duration: 0.7s;
-			animation-iteration-count: infinite;
-			animation-timing-function: ease-in-out;
-		}
-	}
-
-	&:intro {
-		opacity: 0;
-		transform: translateY( 8px );
-	}
+    position: absolute; right: 22px; bottom: 22px; width: 218px;
+    font-family: Roboto Mono; font-variant-numeric: tabular-nums;
+    color: #ffd280; pointer-events: none;
+    opacity: 1; transition: opacity 0.15s ease-out;
+    &.hidden { display: none; }
+    .ammo-readout {
+        position: relative; width: 100%; min-height: 82px;
+        flex-direction: column; justify-content: center;
+        padding: 9px 11px 8px; overflow: hidden;
+        border: 1px solid rgba(255, 193, 96, 0.18);
+        border-radius: 7px;
+        background-color: rgba(9, 12, 15, 0.39);
+        background-image: url("Ui/Hud/visor_grain.png");
+        background-repeat: repeat;
+        background-size: 128px 128px;
+        box-shadow: 0 0 10px rgba(255, 193, 96, 0.23);
+    }
+    // Legacy decoration panel nodes, intentionally not drawn.
+    .glass-rim, .visor-reflection { display: none; }
+    .ammo-header { width: 100%; min-height: 53px; display: flex; align-items: center; gap: 7px; }
+    .ammo-icon { width: 12px; flex-shrink: 0; font-size: 15px; font-weight: 800; color: #ffcb75; text-align: center; }
+    .ammo-identity { min-width: 0; flex-grow: 1; flex-direction: column; }
+    .ammo-title { font-size: 9px; font-weight: 900; letter-spacing: 1.3px; text-transform: uppercase; }
+    .weapon-name { max-width: 100px; margin-top: 4px; font-size: 8px; font-weight: 700; letter-spacing: 0.3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: 0.67; }
+    .ammo-values { display: flex; align-items: baseline; justify-content: flex-end; min-width: 80px; }
+    .loaded-ammo { font-size: 37px; font-weight: 900; line-height: 41px; text-shadow: 0 0 6px rgba(255, 193, 97, 0.28); }
+    .ammo-separator { margin: 0 2px; font-size: 13px; opacity: 0.53; }
+    .reserve-ammo { min-width: 15px; font-size: 13px; font-weight: 800; opacity: 0.74; }
+    .ammo-track { position: relative; width: 100%; height: 2px; margin-top: 4px; overflow: hidden; background-color: rgba(255, 193, 97, 0.15); }
+    .ammo-fill { position: absolute; left: 0; top: 0; height: 100%; background-color: #ffcd70; transition: width 0.12s ease-out; }
+    .ammo-status { position: absolute; right: 12px; bottom: 1px; font-size: 8px; font-weight: 900; letter-spacing: 0.7px; }
+    // Etats heredites du code original : jaune, puis orange et rouge.
+    &.low-ammo {
+        color: #ff9854;
+        .ammo-readout { border-color: rgba(255, 144, 72, 0.23); box-shadow: 0 0 11px rgba(255, 144, 72, 0.28); }
+        .ammo-icon, .ammo-title, .loaded-ammo, .ammo-status { color: #ff9854; }
+        .ammo-fill { background-color: #ff9854; }
+    }
+    &.empty {
+        color: #ff6048;
+        .ammo-readout { border-color: rgba(255, 90, 62, 0.25); box-shadow: 0 0 12px rgba(255, 90, 62, 0.32); }
+        .ammo-icon, .ammo-title, .loaded-ammo, .ammo-status { color: #ff6048; }
+        .ammo-fill { background-color: #ff6048; }
+    }
+    &.reloading { .ammo-status { color: #ffe19c; } .ammo-fill { animation-name: suit-ammo-pulse; animation-duration: 0.7s; animation-iteration-count: infinite; } }
+    &:intro { opacity: 0; }
 }
-
-@keyframes ammo-pulse {
-	0% {
-		opacity: 0.4;
-	}
-
-	50% {
-		opacity: 1;
-	}
-
-	100% {
-		opacity: 0.4;
-	}
-}
+@keyframes suit-ammo-pulse { 0% { opacity: 0.35; } 50% { opacity: 1; } 100% { opacity: 0.35; } }

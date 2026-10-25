@@ -26,7 +26,7 @@ public sealed class VBWeaponSelectionController : Component
 	public float SelectionHudDuration { get; set; } = 1.5f;
 
 	[Property, Group( "Drop" ), InputAction]
-	public string DropWeaponInputAction { get; set; } = "DropWeapon";
+	public string DropWeaponInputAction { get; set; } = "Drop";
 
 	[Property, Group( "Drop" ), Range( 0.25f, 3f ), Step( 0.05f )]
 	public float DropWeaponHoldDuration { get; set; } = 0.85f;
@@ -279,6 +279,13 @@ public sealed class VBWeaponSelectionController : Component
 		if ( Inventory.ActiveItem is not BaseInventoryItem active )
 			return;
 
+		// Held equipment also derives from BaseCombatWeapon for native presentation.
+		if ( active.Slot >= ThrowableSlot && active.Slot < InventorySlotCount )
+		{
+			SelectedSlot = active.Slot;
+			return;
+		}
+
 		if ( active is BaseCombatWeapon activeWeapon )
 		{
 			if ( VBWeaponInventoryComponent.IsPlaceholder( activeWeapon ) )
@@ -296,8 +303,6 @@ public sealed class VBWeaponSelectionController : Component
 			return;
 		}
 
-		if ( active.Slot >= ThrowableSlot && active.Slot < InventorySlotCount )
-			SelectedSlot = active.Slot;
 	}
 
 	private void SwitchTo( BaseInventoryItem item )

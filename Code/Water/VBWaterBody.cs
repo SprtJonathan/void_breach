@@ -4,7 +4,7 @@ namespace VoidBreach.Water;
 
 public enum WaterShape { Rectangle, Ellipse, River }
 public enum WaterMotion { Automatic, PondWater, RiverWater, OceanWater }
-public enum WaterDebugView { None, Normals, Foam, Reflection, Thickness }
+public enum WaterDebugView { None, Normals, Foam, Reflection, Thickness, SurfaceGeometry }
 
 /// <summary>One editable surface for ponds, bounded oceans and spline rivers.</summary>
 [Title( "VB Water Body" ), Category( "Void Breach/Water" ), Icon( "water" )]

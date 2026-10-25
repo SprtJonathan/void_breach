@@ -254,7 +254,7 @@
           "StepUpHeight": 18
         },
         {
-          "__type": "Sandbox.Movement.MoveModeSwim",
+          "__type": "VBMoveModeSwim",
           "__guid": "2ce2e733-19ea-4bcc-887d-e781608ea3d4",
           "__enabled": true,
           "Flags": 0,

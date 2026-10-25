@@ -1,0 +1,26 @@
+{
+  "guid": "f856b27b-5279-4a58-8fd2-d0f0d92712b8",
+  "publish": {
+    "Enabled": false,
+    "ProjectConfig": {
+      "Title": "Interior Testmap",
+      "Type": "map",
+      "Org": "local",
+      "Ident": "interior_testmap",
+      "Schema": 0,
+      "IncludeSourceFiles": false,
+      "Resources": null,
+      "PackageReferences": [],
+      "EditorReferences": [],
+      "Mounts": null,
+      "IsStandaloneOnly": false,
+      "AI": {
+        "EnableMcpCommunication": true
+      },
+      "Metadata": {
+        "SingleAssetSource": "maps/interior_testmap.vmap",
+        "ParentPackage": "spart.void_breach"
+      }
+    }
+  }
+}

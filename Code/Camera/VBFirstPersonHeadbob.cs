@@ -127,7 +127,7 @@ public sealed class VBFirstPersonHeadbob : Component, PlayerController.IEvents
 		if ( !Controller.IsValid() )
 			return;
 
-		if ( Controller.ThirdPerson )
+		if ( Controller.ThirdPerson || GetComponent<VBVehiclePlayerDriver>()?.IsSeated == true )
 		{
 			_movementStrength = 0f;
 			_runAmount = 0f;

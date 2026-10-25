@@ -6,6 +6,7 @@ HEADER
 FEATURES
 {
 	#include "common/features.hlsl"
+	Feature( F_FFT_OCEAN, 0..1, "FFT Ocean" );
 }
 MODES
 {
@@ -17,6 +18,7 @@ COMMON
 	#define BLEND_MODE_ALREADY_SET 1
 	#define DEPTH_STATE_ALREADY_SET 1
 	#include "common/shared.hlsl"
+	StaticCombo( S_FFT_OCEAN, F_FFT_OCEAN, Sys( ALL ) );
 	float WaterTime < Attribute("WaterTime"); Default(0); >;
 	float2 WaveDirection < Attribute("WaveDirection"); Default2(1,0); >;
 	float WaveAmplitude < Attribute("WaveAmplitude"); Default(2); >;
@@ -25,7 +27,10 @@ COMMON
 	float WaterInfinite < Attribute("WaterInfinite"); Default(0); >;
 	float3 WaterOrigin < Attribute("WaterOrigin"); Default3(0,0,0); >;
 	float WaterMotion < Attribute("WaterMotion"); Default(1); >;
-struct WaveField { float3 offset; float3 tx; float3 ty; };
+struct WaveField { float3 offset; float3 tx; float3 ty; float foam; };
+#if S_FFT_OCEAN
+ #include "water/shaders/fft/surface.hlsl"
+#else
  void AddWave(inout WaveField f,float2 p,float2 d,float a,float l,float phase,float chop,float rate,float filterSize)
  {
   a*=1-smoothstep(l*.15,l*.65,filterSize);
@@ -39,7 +44,7 @@ struct WaveField { float3 offset; float3 tx; float3 ty; };
  }
  WaveField Field(float2 p,float filterSize=0)
  {
-  WaveField f; f.offset=0; f.tx=float3(1,0,0); f.ty=float3(0,1,0);
+  WaveField f; f.offset=0; f.tx=float3(1,0,0); f.ty=float3(0,1,0); f.foam=0;
   float2 d=WaveDirection;
   if(WaterMotion<2.5)
   {
@@ -64,6 +69,7 @@ struct WaveField { float3 offset; float3 tx; float3 ty; };
   float3 n=cross(f.tx,f.ty);
   return float3(f.offset.z,-n.xy/max(n.z,.001));
  }
+#endif
 
 }
 struct VertexInput
@@ -81,13 +87,21 @@ VS
 	PixelInput MainVs(VertexInput i)
 	{
 		PixelInput o = ProcessVertex(i);
-        if(WaterInfinite>0.5) o.vPositionWs.xy=WaterOrigin.xy+i.vPositionOs.xy+floor((g_vCameraPositionWs.xy-WaterOrigin.xy)/128)*128;
+        float gridStep=128;
+#if S_FFT_OCEAN
+        gridStep=FftGridSpacing;
+#endif
+        if(WaterInfinite>0.5) o.vPositionWs.xy=WaterOrigin.xy+i.vPositionOs.xy+floor((g_vCameraPositionWs.xy-WaterOrigin.xy)/gridStep)*gridStep;
         float2 parameter=o.vPositionWs.xy;
         o.waterParameter=parameter;
-        WaveField field=Field(parameter);
+#if S_FFT_OCEAN
+        float3 offset=FieldOffset(parameter);
+#else
+        float3 offset=Field(parameter).offset;
+#endif
         // Only the outermost horizon skirt flattens. Interior lattice samples do not change with the view.
         float skirt=WaterInfinite>0.5 ? smoothstep(0,.025,min(min(i.vTexCoord.x,1-i.vTexCoord.x),min(i.vTexCoord.y,1-i.vTexCoord.y))) : 1;
-        o.vPositionWs+=field.offset*skirt;
+        o.vPositionWs+=offset*skirt;
 		o.vPositionPs = Position3WsToPs(o.vPositionWs);
 		return FinalizeVertex(o);
 	}
@@ -131,6 +145,7 @@ PS
 	float WaterMicroNormalStrength < Attribute("WaterMicroNormalStrength"); Default(0.22); >;
 	float WaterColorInfluence < Attribute("WaterColorInfluence"); Default(0.08); >;
 	float WaterFoam < Attribute("WaterFoam"); Default(0.4); >;
+	float FluidFoamStrength < Attribute("FluidFoamStrength"); Default(0.2); >;
 	float WaterShoreWidth < Attribute("WaterShoreWidth"); Default(18); >;
 	float2 WaterEdgeFadeUv < Attribute("WaterEdgeFadeUv"); Default2(0.01,0.01); >;
 	float WaterRefraction < Attribute("WaterRefraction"); Default(0.012); >;
@@ -176,10 +191,23 @@ PS
 		float3 value = g_tNormal.Sample(TextureFiltering,uv).xyz*2-1;
 		return clamp(value.xy/max(value.z,0.65),-0.8,0.8);
 	}
+	float2 NormalXYGrad(float2 uv,float2 dx,float2 dy)
+	{
+		float3 value=g_tNormal.SampleGrad(TextureFiltering,uv,dx,dy).xyz*2-1;
+		return clamp(value.xy/max(value.z,0.65),-0.8,0.8);
+	}
     #include "water/shaders/vb_caustics.hlsl"
     float Caustics(float2 worldPosition)
     {
-        return WaterCausticPattern(worldPosition/max(WaterCausticScale,1),WaterTime*WaterCausticSpeed);
+        float pattern=WaterCausticPattern(worldPosition/max(WaterCausticScale,1),WaterTime*WaterCausticSpeed);
+#if S_FFT_OCEAN
+        // Crest compression and physical disturbances modulate the projected focus pattern.
+        // This remains a depth-buffer approximation, rather than a photon simulation.
+        WaveField focusField=Field(worldPosition,max(WaterCausticScale*0.15,4));
+        float jacobian=focusField.tx.x*focusField.ty.y-focusField.tx.y*focusField.ty.x;
+        pattern*=clamp(0.75/max(abs(jacobian),0.3),0.5,2.5);
+#endif
+        return pattern;
     }
 	float FoamNoise(float2 p)
 	{
@@ -207,14 +235,32 @@ PS
 	{
 		if (WaterEllipse > 0.5) clip(1.0-dot(i.vTextureCoords.xy*2-1,i.vTextureCoords.xy*2-1));
 		float3 world = i.vPositionWithOffsetWs + g_vHighPrecisionLightingOffsetWs.xyz;
+		// Verification view: only rasterized triangle normals, with no heightfield
+		// shading normals, white foam, refraction, particles or decorative textures.
+		if (WaterDebug>4.5)
+		{
+			float3 geometricNormal=normalize(cross(ddx(world),ddy(world)));
+			if(geometricNormal.z<0) geometricNormal=-geometricNormal;
+			float light=0.15+0.85*saturate(dot(geometricNormal,normalize(float3(-0.5,-0.7,1))));
+			return float4(float3(0.32,0.48,0.56)*light,1);
+		}
 		// Screen derivatives jump across occluding crests. Bound the wave filter with a continuous footprint.
         float3 cameraDelta=world-g_vCameraPositionWs;
-        float pixelFootprint=length(cameraDelta)*g_vInvViewportSize.y/max(abs(normalize(cameraDelta).z),.025);
+        float surfaceDistance=length(cameraDelta);
+        float pixelFootprint=surfaceDistance*g_vInvViewportSize.y/max(abs(cameraDelta.z)/max(surfaceDistance,.001),.025);
         WaveField surface=Field(i.waterParameter,pixelFootprint);
         float3 macroNormal=cross(surface.tx,surface.ty);
+#if S_FFT_OCEAN
+        if(WaterMotion>1.5 && WaterMotion<2.5) macroNormal=normalize(macroNormal+i.vNormalWs-float3(0,0,1));
+#endif
         float3 wave=float3(surface.offset.z,-macroNormal.xy/max(macroNormal.z,.001));
 		float baseHeight = WaterMotion>1.5 && WaterMotion<2.5 ? world.z-wave.x : WaterOrigin.z;
+#if S_FFT_OCEAN
+		// The actual triangle side remains stable across crests, including a camera near sea level.
+		bool underwaterFace = !frontFace;
+#else
 		bool underwaterFace = g_vCameraPositionWs.z < baseHeight+Waves(g_vCameraPositionWs.xy).x;
+#endif
 		// Depth resolves overlapping waves; do not punch holes in back-facing crest triangles.
 		// UV2 is not populated by the standard vertex path. World coordinates also
 		// anchor the detail when an infinite ocean grid follows the camera.
@@ -232,9 +278,15 @@ PS
 		float2 uvC = RotateUv(uv*3.91,float2(0.5145,0.8575))+float2(-detailTime*0.019,detailTime*-0.033)+0.71;
 		float2 uvD = RotateUv(uv*6.27,float2(0.9138,-0.4061))+float2(detailTime*0.021,detailTime*0.044)+0.13;
 		float2 broad = RotateUv(NormalXY(uvA),float2(0.9701,-0.2425))*0.58+RotateUv(NormalXY(uvB),float2(0.7648,0.6442))*0.42;
-		float2 micro = RotateUv(NormalXY(uvC),float2(0.5145,-0.8575))*0.62+RotateUv(NormalXY(uvD),float2(0.9138,0.4061))*0.38;
 		float footprint = max(length(ddx(uv)),length(ddy(uv)));
-		micro *= 1-smoothstep(0.025,0.18,footprint);
+		float microFade=1-smoothstep(0.025,0.18,footprint);
+		// Explicit gradients stay valid across the spatial branch. Distant bands
+		// already faded to zero no longer issue two anisotropic texture samples.
+		float2 cx=ddx(uvC), cy=ddy(uvC), dx=ddx(uvD), dy=ddy(uvD);
+		float2 micro=0;
+		[branch] if(microFade>0 && WaterMicroNormalStrength>0)
+			micro=(RotateUv(NormalXYGrad(uvC,cx,cy),float2(0.5145,-0.8575))*0.62
+				+RotateUv(NormalXYGrad(uvD,dx,dy),float2(0.9138,0.4061))*0.38)*microFade;
 		float2 detail = broad*WaterNormalStrength+micro*WaterMicroNormalStrength;
 		if (pond) detail*=0.8;
         if (river) detail*=1.35;
@@ -247,11 +299,10 @@ PS
 			+RippleNormal(world.xy,Ripple2)+RippleNormal(world.xy,Ripple3)
 			+RippleNormal(world.xy,Ripple4)+RippleNormal(world.xy,Ripple5)
 			+RippleNormal(world.xy,Ripple6)+RippleNormal(world.xy,Ripple7);
-		float distanceFade = 1.0/(1.0+length(world-g_vCameraPositionWs)/4500.0);
+		float distanceFade = 1.0/(1.0+surfaceDistance/4500.0);
 		float3 n = normalize(float3(-wave.yz+wakes+detail*distanceFade,1));
 		float3 behind = Depth::GetWorldPosition(i.vPositionSs.xy);
 		bool hasBottom = Depth::GetNormalized(i.vPositionSs.xy)>0.000001;
-		float surfaceDistance = length(world-g_vCameraPositionWs);
 		float thickness = max(0,length(behind-g_vCameraPositionWs)-surfaceDistance);
 		if (!hasBottom) thickness=10000;
 		float2 screenUv = i.vPositionSs.xy * g_vInvViewportSize;
@@ -267,18 +318,22 @@ PS
 		}
 		else if (hasBottom) thickness=max(0,refractedDistance-surfaceDistance);
 		float3 background = WaterBackground.Sample(WaterClamp,refractUv).rgb;
-		float3 colorTexture = g_tColor.Sample(TextureFiltering,uvA).rgb;
-		float3 rma = g_tRma.Sample(TextureFiltering,uvA).rgb;
 		float depth01 = 1-exp(-min(thickness,10000.0)/max(WaterClarity,1));
 		float3 absorption = max(float3(0.12,0.12,0.12),1-WaterDeep*2.2)/max(WaterClarity,1);
 		float3 beer = exp(-min(thickness,10000.0)*absorption);
 		float transmittance = dot(beer,float3(0.2126,0.7152,0.0722));
 		float causticFade = exp(-thickness/max(WaterCausticDepth,1))*saturate(thickness/3);
-		float caustic = hasBottom ? Caustics(refractedWorld.xy)*WaterCausticStrength*causticFade : 0;
+		float caustic=0;
+		[branch] if(hasBottom && WaterCausticStrength>0.001 && thickness<WaterCausticDepth*6)
+			caustic=Caustics(refractedWorld.xy)*WaterCausticStrength*causticFade;
 		background *= 1+caustic*float3(0.95,1,0.78);
 		float shoreDepth=max(world.z-behind.z,0);
 		float shore = hasBottom ? (1-smoothstep(0,max(WaterShoreWidth,1),shoreDepth))*smoothstep(0,2,shoreDepth) : 0;
 		float crest = saturate((wave.x/max(WaveAmplitude,0.01)-0.55)*3) * saturate(WaveAmplitude/25);
+#if S_FFT_OCEAN
+		float jacobian=surface.tx.x*surface.ty.y-surface.tx.y*surface.ty.x;
+		crest=saturate((0.65-jacobian)*2.5);
+#endif
 		float2 foamUv=river ? uv*WaterTextureScale : world.xy;
 		float foamNoise = FoamNoise(foamUv*0.013+float2(detailTime*0.04,-detailTime*0.025));
 		float foamCells = FoamNoise(foamUv*0.085+float2(-detailTime*0.02,detailTime*0.03));
@@ -286,6 +341,10 @@ PS
 		foamCells=lerp(foamCells,0.5,smoothstep(3,18,foamFootprint));
 		float crestFoam=pond ? 0 : crest*(river ? RiverTurbulence*saturate(abs(CurrentSpeed)/80) : 1);
 		float foam = saturate((shore*1.3+crestFoam)*WaterFoam*(pond ? 0.15 : 1));
+#if S_FFT_OCEAN
+        float interactionFoam=surface.foam;
+        foam=saturate(foam+interactionFoam*FluidFoamStrength*WaterFoam);
+#endif
 		foam *= smoothstep(0.16,0.76,foamNoise)*smoothstep(0.1,0.85,foamCells)*2;
 		float3 view = normalize(g_vCameraPositionWs-world);
 		// Never face-forward a perturbed normal: at grazing angles this toggles
@@ -298,7 +357,8 @@ PS
 		Material m = Material::Init(i);
 		m.Normal = n;
 		float3 waterColor = lerp(WaterShallow,WaterDeep,depth01);
-		waterColor*=lerp(float3(1,1,1),colorTexture*2,WaterColorInfluence*0.2);
+		[branch] if(WaterColorInfluence>0)
+			waterColor*=lerp(float3(1,1,1),g_tColor.Sample(TextureFiltering,uvA).rgb*2,WaterColorInfluence*0.2);
 		m.Albedo = float3(0.72,0.78,0.72)*foam;
 		float normalVariance = dot(ddx(n),ddx(n))+dot(ddy(n),ddy(n));
 		m.Roughness = lerp(clamp(sqrt(WaterRoughness*WaterRoughness+min(normalVariance,0.004)),0.065,0.8),0.65,foam);
@@ -310,7 +370,9 @@ PS
 		lightingInput.vSpecularColor = lerp(float3(0.0204,0.0204,0.0204),float3(0.04,0.04,0.04),foam);
 		LightingTerms_t terms = InitLightingTerms();
 		ComputeDirectLighting(terms,lightingInput);
-		CalculateIndirectLighting(terms,lightingInput);
+		// Diffuse indirect light is only consumed by nonzero foam. Water reflection
+		// uses the native environment probe path below independently.
+		[branch] if(foam>0) CalculateIndirectLighting(terms,lightingInput);
 		// The opaque SSR buffer does not describe this refractive surface. Sample scene probes directly.
 		float3 environment = EnvMap::From(world,i.vPositionSs,n,m.Roughness.xx)
 			* CalcBRDFReflectionFactor(saturate(dot(n,view)),m.Roughness,lightingInput.vSpecularColor)

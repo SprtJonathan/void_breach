@@ -1,5 +1,7 @@
 # Eau modulaire — Void Breach
 
+**Socle actuel (18 octobre 2026) :** les trois prefabs FFT, la physique native, la nage, les caustiques et les interactions sont documentés dans [FFTOcean.md](FFTOcean.md). Cette page conserve les détails de l'ancien système pour les composants et scènes historiques. Les anciens prefabs cités ci-dessous ont été supprimés et ne sont plus les assets à utiliser.
+
 Base de rendu et de physique pour eau naturelle légèrement trouble, destinée à un budget PC milieu de gamme. Implémentation vérifiée dans s&box **26.09.22b**. Les anciens `GerstnerOcean`, `RiverWater` et `StagnantWater` restent indépendants ; cette version ne remplace pas automatiquement leurs instances.
 
 ## Essayer immédiatement
@@ -112,3 +114,5 @@ La réfraction utilise la copie de l’image visible et le depth buffer : elle n
 Références moteur : [Depth](https://sbox.game/dev/doc/rendering/shaders/classes/depth), [création de post-process](https://sbox.game/dev/doc/rendering/post-processing/creating-postprocesses), [volumes de post-process](https://sbox.game/dev/doc/rendering/post-processing/postprocessvolume), [réflexions dynamiques](https://sbox.game/dev/doc/rendering/shaders/classes/dynamic-reflections), [envmaps](https://sbox.game/dev/doc/rendering/shaders/classes/envmap) et [attributs des shaders](https://sbox.game/dev/doc/rendering/shaders/attributes-and-variables), ainsi que les signatures et shaders de l’installation locale de s&box 26.09.22b.
 
 Base mathématique : [Gerstner / GPU Gems](https://developer.nvidia.com/gpugems/gpugems/part-i-natural-effects/chapter-1-effective-water-simulation-physical-models).
+
+Un océan FFT visuel séparé est disponible via le prefab `water/prefabs/fft_ocean.prefab` et le composant **VB FFT Ocean**. Voir [FFTOcean.md](FFTOcean.md) pour les réglages, la scène de démonstration, les validations et les limites d'intégration physique.

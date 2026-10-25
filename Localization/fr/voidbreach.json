@@ -37,6 +37,8 @@
   "vb.hud.spectating": "OBSERVATION : {Name}",
   "vb.hud.no_spectate_targets": "AUCUN JOUEUR À OBSERVER",
   "vb.hud.return_to_menu": "REVENIR AU MENU",
+  "vb.weapon.m4a1": "M4A1",
+  "vb.weapon.mp5": "HK MP5",
   "vb.weapon.p90": "FN P90",
   "vb.weapon.fists": "POINGS",
   "vb.weapon.pistol_9mm": "PISTOLET 9 MM",
@@ -109,5 +111,18 @@
   "vb.traversal.debug.support_removed": "Prise interrompue : support supprimé",
   "vb.traversal.debug.climb_rearm": "Prise conservée : relâcher brièvement Saut avant de monter",
   "vb.traversal.debug.hold_reserve": "Endurance trop faible pour tenir après le coût d'accrochage",
-  "vb.traversal.debug.height_window": "Rebord hors de la plage de hauteur autorisée"
+  "vb.traversal.debug.height_window": "Rebord hors de la plage de hauteur autorisée",
+  "vb.vehicle.enter": "Conduire",
+  "vb.vehicle.name": "Humvee",
+  "vb.vehicle.gunner.enter": "Occuper la tourelle",
+  "vb.vehicle.turret.toggle": "Changer de place",
+  "vb.vehicle.driver.return": "Reprendre le volant",
+  "vb.vehicle.turret.fire": "Tirer",
+  "vb.vehicle.handbrake": "Frein à main",
+  "vb.vehicle.exit": "Descendre (à faible vitesse)",
+  "vb.vehicle.low_gear": "Rapport court automatique",
+  "vb.vehicle.turbo": "Turbo",
+  "vb.vehicle.recover": "Retourner le véhicule",
+  "vb.item.frag_grenade": "Grenade à fragmentation",
+  "vb.interaction.swap_weapon": "Échanger l'arme"
 }

@@ -20,13 +20,13 @@
         "__guid": "e8b735ae-13dc-48f1-b65c-f0bfa95c2165",
         "__enabled": true,
         "Flags": 0,
-        "Acceleration": 120,
+        "Acceleration": 500,
         "AllowDefaultArea": true,
         "AllowedAreas": [],
-        "AutoTraverseLinks": true,
+        "AutoTraverseLinks": false,
         "ForbiddenAreas": [],
-        "Height": 64,
-        "MaxSpeed": 120,
+        "Height": 72,
+        "MaxSpeed": 105,
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
         "OnComponentEnabled": null,
@@ -35,7 +35,7 @@
         "OnComponentUpdate": null,
         "Radius": 16,
         "Separation": 0.25,
-        "UpdatePosition": true,
+        "UpdatePosition": false,
         "UpdateRotation": false
       },
       {
@@ -56,8 +56,13 @@
         "OnComponentStart": null,
         "OnComponentUpdate": null,
         "SoftMaxRecoveryRate": 2,
-        "StartingHardMaxHealth": 100,
-        "WakePercent": 0.25
+        "StartingHardMaxHealth": 80,
+        "WakePercent": 0.25,
+        "UseLocalizedBulletDamage": true,
+        "HeadDamageMultiplier": 4,
+        "TorsoDamageMultiplier": 1,
+        "LimbDamageMultiplier": 0.7,
+        "GodMode": false
       },
       {
         "__type": "VBZombieController",
@@ -67,14 +72,16 @@
         "Acceleration": 500,
         "AlertSound": null,
         "AttackAnimationParameter": "b_attack",
-        "AttackCooldown": 1.35,
+        "AttackCooldown": 1.6,
         "AttackDamage": 18,
         "AttackHalfAngle": 55,
         "AttackHitSound": null,
+        "AttackImpactDelay": 0.18,
         "AttackMissSound": null,
-        "AttackRange": 78,
+        "AttackRange": 64,
+        "AttackRecovery": 0.65,
         "AttackSound": null,
-        "AttackWindup": 0.42,
+        "AttackWindup": 0.2,
         "LostTargetChaseTimeout": 10,
         "MoveSpeed": 105,
         "OnComponentDestroy": null,
@@ -178,9 +185,68 @@
         "OnComponentStart": null,
         "OnComponentUpdate": null,
         "TeamId": ""
+      },
+      {
+        "__type": "VBAnimatedBodyContacts",
+        "__guid": "fd628066-a590-47c6-919c-72346df43591",
+        "__enabled": true,
+        "Flags": 0
+      },
+      {
+        "__type": "VBNpcLocomotion",
+        "__guid": "da9df75b-b80c-4741-aba6-ad9b29caad36",
+        "__enabled": true,
+        "Flags": 0
+      },
+      {
+        "__type": "Sandbox.CharacterController",
+        "__guid": "ed373e45-4bb2-4f40-93b4-5c7514bd677f",
+        "__enabled": true,
+        "Flags": 0,
+        "Radius": 16,
+        "Height": 72,
+        "StepHeight": 18,
+        "GroundAngle": 40,
+        "Acceleration": 10,
+        "Bounciness": 0,
+        "UseCollisionRules": true,
+        "IgnoreLayers": ""
       }
     ],
     "Children": [
+      {
+        "__guid": "5a8a4bc1-e370-4ed0-bb8c-e40543be2c6c",
+        "__version": 2,
+        "Flags": 0,
+        "Name": "Locomotion Collider",
+        "Position": "0,0,0",
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Tags": "npc_body",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkFlags": 0,
+        "NetworkOrphaned": 0,
+        "NetworkTransmit": true,
+        "OwnerTransfer": 1,
+        "Components": [
+          {
+            "__type": "Sandbox.CapsuleCollider",
+            "__guid": "51e7a762-1779-4560-95cf-6ac25b20e758",
+            "__enabled": true,
+            "Flags": 0,
+            "ColliderFlags": 0,
+            "Start": "0,0,16",
+            "End": "0,0,56",
+            "Radius": 16,
+            "IsTrigger": false,
+            "Static": false,
+            "Friction": 0,
+            "Elasticity": 0
+          }
+        ],
+        "Children": []
+      },
       {
         "__guid": "9effae08-81f8-46dd-a92a-2d41d40a11b4",
         "__version": 2,

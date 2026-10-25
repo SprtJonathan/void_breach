@@ -25,11 +25,15 @@
         "BoneMergeTarget": null,
         "CreateAttachments": false,
         "CreateBoneObjects": false,
+        "DeformationMode": "Normal",
         "LodOverride": null,
         "MaterialGroup": null,
         "MaterialOverride": null,
         "Materials": null,
-        "Model": "models/weapons/sbox_pistol_usp/v_usp.vmdl",
+        "Model": {
+          "Id": "cd2ee249-e4f9-4155-820d-c78d59bb3723",
+          "Path": "models/weapons/sbox_pistol_usp/v_usp.vmdl"
+        },
         "Morphs": {},
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
@@ -37,13 +41,7 @@
         "OnComponentFixedUpdate": null,
         "OnComponentStart": null,
         "OnComponentUpdate": null,
-        "Parameters": {
-          "bools": {},
-          "ints": {},
-          "floats": {},
-          "vectors": {},
-          "rotations": {}
-        },
+        "Parameters": {},
         "PlaybackRate": 1,
         "RenderOptions": {
           "GameLayer": true,
@@ -114,11 +112,15 @@
         },
         "CreateAttachments": false,
         "CreateBoneObjects": false,
+        "DeformationMode": "Normal",
         "LodOverride": null,
         "MaterialGroup": "default",
         "MaterialOverride": null,
         "Materials": null,
-        "Model": "models/first_person/v_first_person_arms_human.vmdl",
+        "Model": {
+          "Id": "6d9ebfae-ff25-4957-b9cb-29c5202acedd",
+          "Path": "models/first_person/v_first_person_arms_human.vmdl"
+        },
         "Morphs": {},
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
@@ -126,13 +128,7 @@
         "OnComponentFixedUpdate": null,
         "OnComponentStart": null,
         "OnComponentUpdate": null,
-        "Parameters": {
-          "bools": {},
-          "ints": {},
-          "floats": {},
-          "vectors": {},
-          "rotations": {}
-        },
+        "Parameters": {},
         "PlaybackRate": 1,
         "RenderOptions": {
           "GameLayer": true,
@@ -190,6 +186,7 @@
     ],
     "__properties": {
       "NetworkInterpolation": true,
+      "PhysicsMode": "Physics3D",
       "TimeScale": 1,
       "WantsSystemScene": true,
       "Metadata": {},

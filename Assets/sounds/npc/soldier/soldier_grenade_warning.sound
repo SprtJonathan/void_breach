@@ -1,0 +1,58 @@
+{
+  "UI": false,
+  "Volume": "1",
+  "Pitch": "1",
+  "Decibels": 70,
+  "SelectionMode": "Random",
+  "Sounds": [
+    "sounds/npc/soldier/source/soldier_shouting_fir_#1-1792872101818.vsnd",
+    "sounds/npc/soldier/source/soldier_shouting_gre_#4-1792872093770.vsnd",
+    "sounds/npc/soldier/source/soldier_shouting_gre_#2-1792872047803.vsnd",
+    "sounds/npc/soldier/source/soldier_shouting_fir_#3-1792872131899.vsnd"
+  ],
+  "OcclusionEnabled": true,
+  "Occlusion": true,
+  "ReverbEnabled": true,
+  "Reflections": true,
+  "AirAbsorption": true,
+  "Transmission": true,
+  "OcclusionRadius": 64,
+  "DistanceAttenuation": true,
+  "Distance": 11444,
+  "Falloff": [
+    {
+      "x": 0,
+      "y": 1,
+      "in": 0,
+      "out": -1.8,
+      "mode": "Mirrored"
+    },
+    {
+      "x": 0.05,
+      "y": 0.22,
+      "in": 3.5,
+      "out": -3.5,
+      "mode": "Mirrored"
+    },
+    {
+      "x": 0.2,
+      "y": 0.04,
+      "in": 0.16,
+      "out": -0.16,
+      "mode": "Mirrored"
+    },
+    {
+      "x": 1,
+      "y": 0,
+      "in": 0,
+      "out": 0,
+      "mode": "Mirrored"
+    }
+  ],
+  "DefaultMixer": {
+    "Name": "game",
+    "Id": "d929f3b7-c8c7-42d6-9ef4-924b9172c561"
+  },
+  "__references": [],
+  "__version": 1
+}

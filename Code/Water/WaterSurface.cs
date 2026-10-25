@@ -8,6 +8,7 @@ public abstract class WaterSurface : Component
 	[Property, Group( "Physics" )] public int Priority { get; set; }
 	[Property, Group( "Physics" ), Range( 1, 15000 )] public float FluidDensity { get; set; } = 1000f;
 	public abstract bool TrySample( Vector3 position, out WaterSample sample );
+	public virtual bool UsesNativeBuoyancy => false;
 	public virtual void AddRipple( Vector3 position, float strength = 1f ) { }
 
 	/// <summary>Resolve overlaps once per point: priority first, then highest surface.</summary>
