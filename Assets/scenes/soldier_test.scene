@@ -5246,6 +5246,172 @@
         "c09cafde-0f4d-4c7a-b2aa-d3c1382447ed": "a17a2657-c161-45f7-8d8c-09a48c7d76d2",
         "960f95ae-33b4-4a7b-a7ea-cfb08d4f05c1": "ad566db7-d97a-4048-a583-326d1b01c9e5"
       }
+    },
+    {
+      "__guid": "f3467d55-e10a-4889-87b4-553b44c132e1",
+      "__version": 2,
+      "__Prefab": {
+        "Id": "f71ff5f8-2a93-4df1-bc5c-f055e925523b",
+        "Path": "environment/prefabs/volumetric_clouds.prefab"
+      },
+      "__PrefabInstancePatch": {
+        "AddedObjects": [
+          {
+            "Id": {
+              "Type": "Component",
+              "IdValue": "dacbe45a-38ab-46b5-ac6b-e678b2ef7884"
+            },
+            "Parent": {
+              "Type": "GameObject",
+              "IdValue": "33ec8d58-0c30-41f9-8274-ecb29c3240a8"
+            },
+            "PreviousElement": null,
+            "ContainerProperty": "Components",
+            "IsContainerArray": true,
+            "Data": {
+              "__type": "VoidBreach.Environment.VBCloudWeather",
+              "__guid": "dacbe45a-38ab-46b5-ac6b-e678b2ef7884",
+              "__enabled": true,
+              "Flags": 0,
+              "Altitude": 8403.293,
+              "AmbientColor": "0.3,0.4,0.58,1",
+              "AmbientStrength": 0.65,
+              "Coverage": 0.5229358,
+              "Density": 0.3027523,
+              "Erosion": 0.67345554,
+              "OnComponentDestroy": null,
+              "OnComponentDisabled": null,
+              "OnComponentEnabled": null,
+              "OnComponentFixedUpdate": null,
+              "OnComponentStart": null,
+              "OnComponentUpdate": null,
+              "PreviewTime": -1,
+              "Seed": 1241,
+              "ShapeScale": 21738.697,
+              "Sun": null,
+              "SunStrength": 1.2,
+              "Thickness": 9057.578,
+              "Wind": "110,50"
+            }
+          },
+          {
+            "Id": {
+              "Type": "Component",
+              "IdValue": "2236ce7d-7d7a-4555-a248-ba422e141d30"
+            },
+            "Parent": {
+              "Type": "GameObject",
+              "IdValue": "33ec8d58-0c30-41f9-8274-ecb29c3240a8"
+            },
+            "PreviousElement": {
+              "Type": "Component",
+              "IdValue": "dacbe45a-38ab-46b5-ac6b-e678b2ef7884"
+            },
+            "ContainerProperty": "Components",
+            "IsContainerArray": true,
+            "Data": {
+              "__type": "Sandbox.PostProcessVolume",
+              "__guid": "2236ce7d-7d7a-4555-a248-ba422e141d30",
+              "__enabled": true,
+              "Flags": 0,
+              "BlendDistance": 50,
+              "BlendWeight": 1,
+              "EditorPreview": true,
+              "OnComponentDestroy": null,
+              "OnComponentDisabled": null,
+              "OnComponentEnabled": null,
+              "OnComponentFixedUpdate": null,
+              "OnComponentStart": null,
+              "OnComponentUpdate": null,
+              "Priority": 0,
+              "SceneVolume": {
+                "Type": "Infinite",
+                "Sphere": {
+                  "Center": "0,0,0",
+                  "Radius": 10
+                },
+                "Box": {
+                  "Mins": "-50,-50,-50",
+                  "Maxs": "50,50,50"
+                },
+                "Capsule": {
+                  "CenterA": "0,0,10",
+                  "CenterB": "0,0,90",
+                  "Radius": 10
+                }
+              }
+            }
+          },
+          {
+            "Id": {
+              "Type": "Component",
+              "IdValue": "4fb8f779-e53d-479a-be67-5a904fe1db2d"
+            },
+            "Parent": {
+              "Type": "GameObject",
+              "IdValue": "33ec8d58-0c30-41f9-8274-ecb29c3240a8"
+            },
+            "PreviousElement": {
+              "Type": "Component",
+              "IdValue": "2236ce7d-7d7a-4555-a248-ba422e141d30"
+            },
+            "ContainerProperty": "Components",
+            "IsContainerArray": true,
+            "Data": {
+              "__type": "VoidBreach.Environment.VBVolumetricClouds",
+              "__guid": "4fb8f779-e53d-479a-be67-5a904fe1db2d",
+              "__enabled": true,
+              "Flags": 0,
+              "GroundShadows": true,
+              "MaximumDistance": 300000,
+              "OnComponentDestroy": null,
+              "OnComponentDisabled": null,
+              "OnComponentEnabled": null,
+              "OnComponentFixedUpdate": null,
+              "OnComponentStart": null,
+              "OnComponentUpdate": null,
+              "PreviewInEditor": true,
+              "Quality": "Medium",
+              "ShadowDistance": 36000,
+              "ShadowStrength": 0.45,
+              "Weather": {
+                "_type": "component",
+                "component_id": "dacbe45a-38ab-46b5-ac6b-e678b2ef7884",
+                "go": "33ec8d58-0c30-41f9-8274-ecb29c3240a8",
+                "component_type": "VBCloudWeather"
+              }
+            }
+          }
+        ],
+        "RemovedObjects": [
+          {
+            "Id": {
+              "Type": "Component",
+              "IdValue": "23ea09d0-fa49-4949-ab7c-d1b457130679"
+            }
+          },
+          {
+            "Id": {
+              "Type": "Component",
+              "IdValue": "adfb84e2-bdb5-43a5-ab63-95a71d916a37"
+            }
+          },
+          {
+            "Id": {
+              "Type": "Component",
+              "IdValue": "b49513fb-c45e-46a5-9bab-54c2dd146f9d"
+            }
+          }
+        ],
+        "PropertyOverrides": [],
+        "MovedObjects": []
+      },
+      "__PrefabIdToInstanceId": {
+        "33ec8d58-0c30-41f9-8274-ecb29c3240a8": "f3467d55-e10a-4889-87b4-553b44c132e1",
+        "23ea09d0-fa49-4949-ab7c-d1b457130679": "368d96b6-60c3-840f-9c45-874574cccf55",
+        "adfb84e2-bdb5-43a5-ab63-95a71d916a37": "606a0fdb-d42b-8ff1-b9ce-c58f6451e159",
+        "b49513fb-c45e-46a5-9bab-54c2dd146f9d": "b12026a4-0b5c-8371-bbd7-4e047084ee4e"
+      }
     }
   ],
   "SceneProperties": {
