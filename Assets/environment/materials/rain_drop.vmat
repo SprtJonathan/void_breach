@@ -1,0 +1,5 @@
+Layer0
+{
+ shader "environment/shaders/vb_rain_drop.shader"
+ F_RENDER_BACKFACES "1"
+}

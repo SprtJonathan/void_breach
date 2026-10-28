@@ -94,6 +94,12 @@ public sealed class VBWeaponAttachment : Component, Component.ExecuteInEditor
 		target.Flags.ViewModelLayer = source.Flags.ViewModelLayer;
 		target.Flags.ExcludeGameLayer = source.Flags.ExcludeGameLayer;
 		target.Flags.OverlayLayer = source.Flags.OverlayLayer;
+		// A translucent lens can opt this mixed-material model out of the early
+		// depth pass. Keep its opaque housing in depth/normals so native AO never
+		// projects the rail behind it onto its surface. Individual translucent
+		// materials still keep their own depth-write/prepass rules.
+		if ( target.Flags.IsOpaque && target.Flags.IsTranslucent )
+			target.Flags.WantsPrePass = true;
 	}
 
 	private void ApplySafeReticle()

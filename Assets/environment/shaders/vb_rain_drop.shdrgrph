@@ -1,0 +1,222 @@
+{
+  "IsSubgraph": false,
+  "Path": "environment/shaders/vb_rain_drop.shdrgrph",
+  "Model": null,
+  "Title": null,
+  "Description": "VB rain: transmitted scene light and local refraction",
+  "Category": null,
+  "Icon": null,
+  "AddToNodeLibrary": false,
+  "BlendMode": "Translucent",
+  "ShadingModel": "Unlit",
+  "Domain": "Surface",
+  "PreviewSettings": {
+    "RenderBackfaces": false,
+    "EnableShadows": true,
+    "ShowGround": false,
+    "ShowSkybox": true,
+    "BackgroundColor": "0,0,0,1",
+    "Tint": "1,1,1,1"
+  },
+  "Version": 1,
+  "nodes": [
+    {
+      "_class": "TextureCoord",
+      "UseSecondaryCoord": false,
+      "Tiling": "1,1",
+      "Identifier": "0",
+      "Position": "-900,0",
+      "HandleOffsets": {}
+    },
+    {
+      "_class": "Float2",
+      "Min": "0,0",
+      "Max": "1,1",
+      "Value": "0.5,0.5",
+      "Name": "",
+      "IsAttribute": false,
+      "UI": {
+        "Type": "Default",
+        "Step": 0,
+        "Priority": 0,
+        "PrimaryGroup": {
+          "Name": null,
+          "Priority": 0
+        },
+        "SecondaryGroup": {
+          "Name": null,
+          "Priority": 0
+        }
+      },
+      "Identifier": "1",
+      "Position": "-900,150",
+      "HandleOffsets": {}
+    },
+    {
+      "_class": "Subtract",
+      "DefaultA": 0,
+      "DefaultB": 1,
+      "Identifier": "2",
+      "Position": "-650,0",
+      "HandleOffsets": {},
+      "A": {
+        "Identifier": "0",
+        "Output": "Result"
+      },
+      "B": {
+        "Identifier": "1",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "Length",
+      "Identifier": "3",
+      "Position": "-450,0",
+      "HandleOffsets": {},
+      "Input": {
+        "Identifier": "2",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "Multiply",
+      "DefaultA": 0,
+      "DefaultB": 2,
+      "Identifier": "4",
+      "Position": "-250,0",
+      "HandleOffsets": {},
+      "A": {
+        "Identifier": "3",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "OneMinus",
+      "Identifier": "5",
+      "Position": "550,0",
+      "HandleOffsets": {},
+      "In": {
+        "Identifier": "4",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "Saturate",
+      "Identifier": "6",
+      "Position": "750,0",
+      "HandleOffsets": {},
+      "Input": {
+        "Identifier": "5",
+        "Output": "Out"
+      }
+    },
+    {
+      "_class": "VertexColor",
+      "Identifier": "7",
+      "Position": "750,200",
+      "HandleOffsets": {}
+    },
+    {
+      "_class": "Multiply",
+      "DefaultA": 0,
+      "DefaultB": 1,
+      "Identifier": "8",
+      "Position": "950,0",
+      "HandleOffsets": {},
+      "A": {
+        "Identifier": "6",
+        "Output": "Result"
+      },
+      "B": {
+        "Identifier": "7",
+        "Output": "Alpha"
+      }
+    },
+    {
+      "_class": "VBRainCloudMaskNode",
+      "Identifier": "9",
+      "Position": "950,200",
+      "HandleOffsets": {}
+    },
+    {
+      "_class": "Multiply",
+      "DefaultA": 0,
+      "DefaultB": 1,
+      "Identifier": "10",
+      "Position": "1150,0",
+      "HandleOffsets": {},
+      "A": {
+        "Identifier": "8",
+        "Output": "Result"
+      },
+      "B": {
+        "Identifier": "9",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "VBRainOpticsNode",
+      "SurfaceImpact": false,
+      "Identifier": "11",
+      "Position": "700,500",
+      "HandleOffsets": {}
+    },
+    {
+      "_class": "SceneColor",
+      "AddressU": "Clamp",
+      "AddressV": "Clamp",
+      "Identifier": "12",
+      "Position": "950,500",
+      "HandleOffsets": {},
+      "Coords": {
+        "Identifier": "11",
+        "Output": "Coordinates"
+      }
+    },
+    {
+      "_class": "VBRainOpticsNode",
+      "SurfaceImpact": false,
+      "Identifier": "13",
+      "Position": "1150,500",
+      "HandleOffsets": {},
+      "Background": {
+        "Identifier": "12",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "Multiply",
+      "DefaultA": 0,
+      "DefaultB": 1,
+      "Identifier": "14",
+      "Position": "1350,0",
+      "HandleOffsets": {},
+      "A": {
+        "Identifier": "10",
+        "Output": "Result"
+      },
+      "B": {
+        "Identifier": "13",
+        "Output": "Opacity"
+      }
+    },
+    {
+      "_class": "Result",
+      "DefaultOpacity": 1,
+      "DefaultRoughness": 1,
+      "DefaultMetalness": 0,
+      "DefaultAmbientOcclusion": 1,
+      "Identifier": "15",
+      "Position": "1600,0",
+      "HandleOffsets": {},
+      "Albedo": {
+        "Identifier": "13",
+        "Output": "Color"
+      },
+      "Opacity": {
+        "Identifier": "14",
+        "Output": "Result"
+      }
+    }
+  ]
+}

@@ -12,6 +12,11 @@ public sealed class VBPlayerCamera : Component, Component.INetworkSpawn
 	[Property] public int CameraPriority { get; set; } = -101;
 	[Property] public float NearClip { get; set; } = 5f;
 	[Property] public float FarClip { get; set; } = 10000f;
+	[Property, Group( "Contact Shading" ), Description( "Native ambient occlusion keeps bodies grounded even inside a building's shadow. Client graphics settings control its rendering budget." )]
+	public bool ContactShading { get; set; } = true;
+	[Property, Group( "Contact Shading" ), Range( 0, 2 )] public float ContactIntensity { get; set; } = 1.5f;
+	[Property, Group( "Contact Shading" ), Range( 16, 128 )] public int ContactRadius { get; set; } = 64;
+	private AmbientOcclusion _contactOcclusion;
 
 	protected override void OnStart() => RefreshOwnership();
 	protected override void OnUpdate() => RefreshOwnership();
@@ -27,7 +32,7 @@ public sealed class VBPlayerCamera : Component, Component.INetworkSpawn
 		// A clone is temporarily unowned before NetworkSpawn assigns the joining
 		// client. Do not create the host's camera during that intermediate state.
 		bool localOwner = !IsProxy && (!Networking.IsActive || (Network.Active && Network.Owner == Connection.Local));
-		bool enabled = !Application.IsDedicatedServer && !Scene.IsEditor && Scene == Game.ActiveScene && localOwner
+		bool enabled = !Application.IsDedicatedServer && !Application.IsHeadless && !Scene.IsEditor && Scene == Game.ActiveScene && localOwner
 			&& Controller.IsValid() && Controller.Enabled && Controller.UseCameraControls;
 		if ( !enabled )
 		{
@@ -35,7 +40,22 @@ public sealed class VBPlayerCamera : Component, Component.INetworkSpawn
 			return;
 		}
 		EnsureCamera();
+		UpdateContactShading();
 		if ( Camera.Enabled != enabled ) Camera.Enabled = enabled;
+	}
+
+	private void UpdateContactShading()
+	{
+		if ( !Camera.IsValid() ) return;
+		if ( !_contactOcclusion.IsValid() )
+		{
+			if ( !ContactShading ) return;
+			_contactOcclusion = Camera.GameObject.GetOrAddComponent<AmbientOcclusion>();
+			_contactOcclusion.Flags |= ComponentFlags.NotNetworked;
+		}
+		_contactOcclusion.Enabled = ContactShading;
+		_contactOcclusion.Intensity = float.IsFinite( ContactIntensity ) ? ContactIntensity.Clamp( 0, 2 ) : 1.5f;
+		_contactOcclusion.Radius = ContactRadius.Clamp( 16, 128 );
 	}
 
 	internal CameraComponent EnsureCamera()

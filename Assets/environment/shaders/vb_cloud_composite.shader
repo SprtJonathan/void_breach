@@ -26,7 +26,10 @@ PS
 {
 	#include "postprocess/common.hlsl"
 	RenderState(CullMode, NONE);
-	#include "common/classes/Depth.hlsl"
+	// The fullscreen triangle is at reverse-Z far depth. Native depth testing
+	// masks every opaque surface, including late draws and every MSAA sample.
+	RenderState(DepthEnable, true);
+	RenderState(DepthFunc, GREATER_EQUAL);
 	RenderState(BlendEnable, true);
 	RenderState(SrcBlend, ONE);
 	RenderState(DstBlend, SRC_ALPHA);
@@ -35,10 +38,6 @@ PS
 	Texture2D CloudLayerTexture < Attribute("CloudLayerTexture"); SrgbRead(false); >;
 	float4 MainPs(PixelInput i) : SV_Target0
 	{
-		// Full-resolution sky mask: low-resolution clouds never bleed over opaque
-		// silhouettes. This ground-view renderer deliberately leaves geometry alone.
-		float depth = Depth::GetNormalized(i.uv / g_vInvViewportSize);
-		if (depth > 0.00001) return float4(0, 0, 0, 1);
 		return CloudLayerTexture.SampleLevel(g_sBilinearClamp, i.uv, 0);
 	}
 }

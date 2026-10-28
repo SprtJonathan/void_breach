@@ -83,7 +83,7 @@ public sealed class VBVolumetricClouds : BasePostProcess<VBVolumetricClouds>
 		var budget = Budget( Quality );
 		if ( budget.Steps == 0 || Camera.Orthographic ) return;
 		var weather = Weather.IsValid() && Weather.Active ? Weather : Scene.GetAllComponents<VBCloudWeather>().FirstOrDefault( x => x.Active );
-		if ( !weather.IsValid() || weather.Coverage <= 0 || weather.Density <= 0 ) return;
+		if ( !weather.IsValid() || weather.CurrentCoverage <= 0 || weather.CurrentDensity <= 0 ) return;
 
 		// A new list owns each view's attribute snapshot and temporary targets. No
 		// persistent render targets, history textures or GPU readback on the game path.
@@ -93,6 +93,7 @@ public sealed class VBVolumetricClouds : BasePostProcess<VBVolumetricClouds>
 		commands.Attributes.Set( "CloudWeatherMap", Texture.Load( "environment/textures/cloud_weather.tga" ) );
 		commands.Attributes.Set( "CloudSteps", budget.Steps );
 		commands.Attributes.Set( "CloudLightSteps", budget.LightSteps );
+		commands.Attributes.Set( "CloudResolutionDivisor", budget.Divisor );
 		commands.Attributes.Set( "CloudMaximumDistance", VBCloudWeather.Finite( MaximumDistance, 160000, 10000, 300000 ) );
 		commands.Attributes.Set( "CloudShadowStrength", GroundShadows ? VBCloudWeather.Finite( ShadowStrength, 0.45f, 0, 1 ) : 0 );
 		commands.Attributes.Set( "CloudShadowDistance", VBCloudWeather.Finite( ShadowDistance, 36000, 1000, 100000 ) );

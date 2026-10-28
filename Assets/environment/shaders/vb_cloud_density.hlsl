@@ -7,6 +7,7 @@ Texture2D g_tCloudWeatherMap < Attribute("CloudWeatherMap"); SrgbRead(false); >;
 SamplerState CloudWeatherSampler < Filter(MIN_MAG_MIP_LINEAR); AddressU(WRAP); AddressV(WRAP); >;
 float4 CloudLayer < Attribute("CloudLayer"); >; // base, thickness, shape scale, density
 float4 CloudWeather < Attribute("CloudWeather"); >; // coverage, erosion, XY advection
+float CloudRainDeck < Attribute("CloudRainDeck"); Default(0); >;
 float3 CloudSeed < Attribute("CloudSeed"); >;
 float3 CloudSunDirection < Attribute("CloudSunDirection"); >;
 float3 CloudSunColor < Attribute("CloudSunColor"); >;
@@ -33,6 +34,7 @@ float CloudDensity(float3 world, bool detail)
 	float3 p = (world - float3(CloudWeather.zw, 0)) / CloudLayer.z + CloudSeed;
 	float4 weather = g_tCloudWeatherMap.SampleLevel(CloudWeatherSampler, p.xy * 0.125, 0);
 	float coverage = smoothstep(1 - CloudWeather.x - 0.18, 1 - CloudWeather.x + 0.18, weather.r);
+	coverage = max(coverage, CloudRainDeck);
 	if (coverage < 0.005) return 0;
 	float top = lerp(0.65, 1.0, weather.g);
 	if (height >= top) return 0;
@@ -52,7 +54,9 @@ float CloudDensity(float3 world, bool detail)
 		float erosionAmount = CloudWeather.y * 0.85 * lerp(wisps, 1 - wisps, saturate(height * 4));
 		density = saturate((density - erosionAmount) / max(1 - erosionAmount, 0.01));
 	}
-	return saturate(density * 2) * CloudLayer.w;
+	// A map-wide rain front needs an actual continuous cloud layer, including
+	// between billows. Dry weather and optional CloudBanks keep the original field.
+	return max(saturate(density * 2), CloudRainDeck * profile * 0.16) * CloudLayer.w;
 }
 float3 CloudViewRay(float2 uv)
 {

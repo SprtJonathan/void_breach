@@ -26,9 +26,30 @@ PS
 {
 	#include "postprocess/common.hlsl"
 	RenderState(CullMode, NONE);
+	#include "common/classes/Depth.hlsl"
 	#include "environment/shaders/vb_cloud_density.hlsl"
+	int CloudResolutionDivisor < Attribute("CloudResolutionDivisor"); Default(2); >;
 	int CloudSteps < Attribute("CloudSteps"); Default(48); >;
 	int CloudLightSteps < Attribute("CloudLightSteps"); Default(8); >;
+
+	bool CloudSceneOccluded(float2 uv)
+	{
+		uint width,height,levels;
+		g_tDepthChain.GetDimensions(0,width,height,levels);
+		// Minimum reverse-Z depth covers the entire tile, including small sky
+		// holes. A one-pixel guard protects silhouettes during bilinear upsampling.
+		uint mip=(uint)ceil(log2(CloudResolutionDivisor+2.0));
+		uint tileWidth,tileHeight;
+		g_tDepthChain.GetDimensions(mip,tileWidth,tileHeight,levels);
+		float2 pixel=uv*float2(width,height);
+		float span=CloudResolutionDivisor*0.5+1;
+		float tileSize=exp2((float)mip);
+		int2 a=clamp((int2)floor((pixel-span)/tileSize),0,int2(tileWidth,tileHeight)-1);
+		int2 b=clamp((int2)floor((pixel+span)/tileSize),0,int2(tileWidth,tileHeight)-1);
+		float depth=min(min(g_tDepthChain.Load(int3(a,mip)).r,g_tDepthChain.Load(int3(b.x,a.y,mip)).r),
+			min(g_tDepthChain.Load(int3(a.x,b.y,mip)).r,g_tDepthChain.Load(int3(b,mip)).r));
+		return Depth::Normalize(depth)>0;
+	}
 
 	float CloudLight(float3 world, float shadowJitter)
 	{
@@ -54,6 +75,7 @@ PS
 	}
 	float4 MainPs(PixelInput i) : SV_Target0
 	{
+		if (CloudSceneOccluded(i.uv)) return float4(0,0,0,1);
 		float3 ray = CloudViewRay(i.uv);
 		float entry, exit;
 		if (!CloudInterval(g_vCameraPositionWs, ray, entry, exit)) return float4(0, 0, 0, 1);
