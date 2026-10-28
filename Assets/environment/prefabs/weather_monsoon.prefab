@@ -1,1 +1,208 @@
-{"RootObject":{"__guid":"7d25d6ec-fb56-48ad-bdae-e4d0486e0010","__version":2,"Flags":0,"Name":"Tropical downpour","Position":"0,0,0","Rotation":"0,0,0,1","Scale":"1,1,1","Tags":"","Enabled":true,"NetworkMode":1,"NetworkFlags":0,"NetworkOrphaned":0,"NetworkTransmit":true,"OwnerTransfer":1,"Components":[{"__type":"VoidBreach.Environment.VBCloudWeather","__guid":"dae1349a-1c9b-4bde-ab9c-b5e870ce1dd1","__enabled":true,"Flags":0,"Altitude":16000,"AmbientColor":"0.3,0.4,0.58,1","AmbientStrength":0.65,"Coverage":0.95,"Density":1.5,"Erosion":0.4,"OnComponentDestroy":null,"OnComponentDisabled":null,"OnComponentEnabled":null,"OnComponentFixedUpdate":null,"OnComponentStart":null,"OnComponentUpdate":null,"PreviewTime":-1,"RainCloudCoverage":0.85,"RainCloudDensity":1.2,"RainDistribution":"Everywhere","RainIntensity":8,"Seed":1247,"ShapeScale":18000,"Sun":null,"SunStrength":1.2,"Thickness":9000,"Wind":"160,65"},{"__type":"Sandbox.PostProcessVolume","__guid":"ea07ef62-320a-430b-a6f0-295e1c9569e9","__enabled":true,"Flags":0,"BlendDistance":50,"BlendWeight":1,"EditorPreview":true,"OnComponentDestroy":null,"OnComponentDisabled":null,"OnComponentEnabled":null,"OnComponentFixedUpdate":null,"OnComponentStart":null,"OnComponentUpdate":null,"Priority":0,"SceneVolume":{"Type":"Infinite","Sphere":{"Center":"0,0,0","Radius":10},"Box":{"Mins":"-50,-50,-50","Maxs":"50,50,50"},"Capsule":{"CenterA":"0,0,10","CenterB":"0,0,90","Radius":10}}},{"__type":"VoidBreach.Environment.VBVolumetricClouds","__guid":"3b38bb09-674c-498b-a69d-7ea6da2cb538","__enabled":true,"Flags":0,"GroundShadows":true,"MaximumDistance":160000,"OnComponentDestroy":null,"OnComponentDisabled":null,"OnComponentEnabled":null,"OnComponentFixedUpdate":null,"OnComponentStart":null,"OnComponentUpdate":null,"PreviewInEditor":true,"Quality":"Medium","ShadowDistance":36000,"ShadowStrength":0.45,"Weather":{"_type":"component","component_id":"dae1349a-1c9b-4bde-ab9c-b5e870ce1dd1","go":"7d25d6ec-fb56-48ad-bdae-e4d0486e0010","component_type":"VBCloudWeather"}},{"__type":"VoidBreach.Environment.VBPrecipitation","__guid":"8c386224-fd4e-4fbd-82f6-812b8cb05eb1","__enabled":true,"Flags":0,"Depth":1000,"DistantDistance":24000,"DistantRain":true,"DistantVerticalRange":6000,"DropMaterial":null,"FallSpeed":1800,"Height":550,"IgnoreTags":["player","npc","debris","trigger","rain_passthrough"],"OnComponentDestroy":null,"OnComponentDisabled":null,"OnComponentEnabled":null,"OnComponentFixedUpdate":null,"OnComponentStart":null,"OnComponentUpdate":null,"PreviewInEditor":true,"Quality":"Medium","Radius":700,"ShelterRefreshSeconds":2,"SplashChance":0.35,"Splashes":true,"SplashMaterial":null,"SplashSize":4,"StreakLength":28,"StreakWidth":0.7,"Tint":"0.65,0.75,0.85,0.45","Weather":{"_type":"component","component_id":"dae1349a-1c9b-4bde-ab9c-b5e870ce1dd1","go":"7d25d6ec-fb56-48ad-bdae-e4d0486e0010","component_type":"VBCloudWeather"},"WindInfluence":1}],"Children":[]},"__references":[],"__version":1}
+{
+  "RootObject": {
+    "__guid": "7d25d6ec-fb56-48ad-bdae-e4d0486e0010",
+    "__version": 2,
+    "Flags": 0,
+    "Name": "weather_monsoon",
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
+    "Tags": "",
+    "Enabled": true,
+    "NetworkMode": 1,
+    "NetworkFlags": 0,
+    "NetworkOrphaned": 0,
+    "NetworkTransmit": true,
+    "OwnerTransfer": 1,
+    "Components": [
+      {
+        "__type": "VoidBreach.Environment.VBCloudWeather",
+        "__guid": "dae1349a-1c9b-4bde-ab9c-b5e870ce1dd1",
+        "__enabled": true,
+        "Flags": 0,
+        "Altitude": 16000,
+        "AmbientColor": "0.3,0.4,0.58,1",
+        "AmbientStrength": 0.65,
+        "Coverage": 0.95,
+        "Density": 1.5,
+        "Erosion": 0.4,
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "PreviewTime": -1,
+        "RainCloudCoverage": 0.85,
+        "RainCloudDensity": 1.2,
+        "RainDistribution": "Everywhere",
+        "RainIntensity": 8,
+        "Seed": 1247,
+        "ShapeScale": 18000,
+        "Sun": null,
+        "SunStrength": 1.2,
+        "Thickness": 9000,
+        "Wind": "160,65"
+      },
+      {
+        "__type": "Sandbox.PostProcessVolume",
+        "__guid": "ea07ef62-320a-430b-a6f0-295e1c9569e9",
+        "__enabled": true,
+        "Flags": 0,
+        "BlendDistance": 50,
+        "BlendWeight": 1,
+        "EditorPreview": true,
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "Priority": 0,
+        "SceneVolume": {
+          "Type": "Infinite",
+          "Sphere": {
+            "Center": "0,0,0",
+            "Radius": 10
+          },
+          "Box": {
+            "Mins": "-50,-50,-50",
+            "Maxs": "50,50,50"
+          },
+          "Capsule": {
+            "CenterA": "0,0,10",
+            "CenterB": "0,0,90",
+            "Radius": 10
+          }
+        }
+      },
+      {
+        "__type": "VoidBreach.Environment.VBVolumetricClouds",
+        "__guid": "3b38bb09-674c-498b-a69d-7ea6da2cb538",
+        "__enabled": true,
+        "Flags": 0,
+        "GroundShadows": true,
+        "MaximumDistance": 160000,
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "PreviewInEditor": true,
+        "Quality": "Medium",
+        "ShadowDistance": 36000,
+        "ShadowStrength": 0.45,
+        "Weather": {
+          "_type": "component",
+          "component_id": "dae1349a-1c9b-4bde-ab9c-b5e870ce1dd1",
+          "go": "7d25d6ec-fb56-48ad-bdae-e4d0486e0010",
+          "component_type": "VBCloudWeather"
+        }
+      },
+      {
+        "__type": "VoidBreach.Environment.VBPrecipitation",
+        "__guid": "8c386224-fd4e-4fbd-82f6-812b8cb05eb1",
+        "__enabled": true,
+        "Flags": 0,
+        "Depth": 1000,
+        "DistantDistance": 24000,
+        "DistantRain": true,
+        "DistantVerticalRange": 6000,
+        "DropMaterial": null,
+        "FallSpeed": 1800,
+        "Height": 550,
+        "IgnoreTags": [
+          "player",
+          "npc",
+          "debris",
+          "trigger",
+          "rain_passthrough"
+        ],
+        "LightScattering": 0.3,
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "OpticalOpacity": 0.8,
+        "PreviewInEditor": true,
+        "Quality": "Medium",
+        "Radius": 700,
+        "RefractionPixels": 1.25,
+        "ShelterRefreshSeconds": 2,
+        "SplashChance": 0.35,
+        "SplashDensity": 1,
+        "Splashes": true,
+        "SplashLifetime": 0.45,
+        "SplashMaterial": null,
+        "SplashSize": 4,
+        "StreakLength": 28,
+        "StreakWidth": 0.7,
+        "Tint": "0.65,0.75,0.85,0.45",
+        "Weather": {
+          "_type": "component",
+          "component_id": "dae1349a-1c9b-4bde-ab9c-b5e870ce1dd1",
+          "go": "7d25d6ec-fb56-48ad-bdae-e4d0486e0010",
+          "component_type": "VBCloudWeather"
+        },
+        "WindInfluence": 1
+      },
+      {
+        "__type": "VoidBreach.Environment.VBRainAudio",
+        "__guid": "8657fac7-d69f-4007-a6e2-c14b747cbc7c",
+        "__enabled": true,
+        "Flags": 0,
+        "HearingDistance": 1200,
+        "IgnoreTags": [
+          "player",
+          "npc",
+          "debris",
+          "trigger",
+          "rain_passthrough"
+        ],
+        "IndoorReverb": true,
+        "IndoorSpatialBlend": 0.35,
+        "Listener": null,
+        "MaximumThinRoofThickness": 32,
+        "Mixer": {
+          "Name": "unknown",
+          "Id": "00000000-0000-0000-0000-000000000000"
+        },
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "OutdoorSound": {
+          "Id": "27f6f0f8-2186-4d86-92c8-eeb9bc907543",
+          "Path": "sounds/ambience/rain/rain_outdoor_loop.sound"
+        },
+        "ProbeInterval": 0.125,
+        "ShelteredSound": {
+          "Id": "e05c1f2f-23d6-46d5-85ce-2ce38986bb30",
+          "Path": "sounds/ambience/rain/rain_indoor_loop.sound"
+        },
+        "ThinRoofVolume": 0.7,
+        "TransitionSeconds": 0.75,
+        "Volume": 1,
+        "Weather": {
+          "_type": "component",
+          "component_id": "dae1349a-1c9b-4bde-ab9c-b5e870ce1dd1",
+          "go": "7d25d6ec-fb56-48ad-bdae-e4d0486e0010",
+          "component_type": "VBCloudWeather"
+        }
+      }
+    ],
+    "Children": []
+  },
+  "ResourceVersion": 2,
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "DontBreakAsTemplate": false,
+  "__references": [],
+  "__version": 2
+}

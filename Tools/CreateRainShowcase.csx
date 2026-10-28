@@ -19,6 +19,9 @@ try
 	var weather = weatherObject.GetComponent<VoidBreach.Environment.VBCloudWeather>();
 	weather.Coverage = 0.65f; weather.RainIntensity = 0.85f; weather.Wind = new Vector2( 160, 65 );
 	var rain = weatherObject.AddComponent<VoidBreach.Environment.VBPrecipitation>(); rain.Weather = weather;
+	var audio = weatherObject.AddComponent<VoidBreach.Environment.VBRainAudio>(); audio.Weather = weather;
+	audio.OutdoorSound = ResourceLibrary.Get<SoundEvent>( "sounds/ambience/rain/rain_outdoor_loop.sound" );
+	audio.ShelteredSound = ResourceLibrary.Get<SoundEvent>( "sounds/ambience/rain/rain_indoor_loop.sound" );
 	void Box( string name, Vector3 position, Vector3 size, Color tint )
 	{
 		var go = new GameObject( scene, true, name ); go.WorldPosition = position;

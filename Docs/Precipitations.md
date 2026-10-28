@@ -98,6 +98,35 @@ La désactivation du composant, de la météo, de l'aperçu ou de la qualité li
 
 Cette version fournit les petits impacts demandés. Elle ne modifie pas la rugosité des matériaux du niveau et ne laisse pas de decal de sol trempé persistant.
 
+## Audio
+
+`VBRainAudio` est configuré sur `weather_rain.prefab`, `weather_monsoon.prefab` et la démonstration. Il utilise les deux événements `sounds/ambience/rain/rain_outdoor_loop.sound` et `rain_indoor_loop.sound`, qui référencent les WAV fournis. Leur import natif active le bouclage intégral et la normalisation de niveau ; les WAV d'origine restent inchangés. Les fichiers compilés sont préchargés pendant le chargement côté client. Le bouclage est réalisé par le moteur, sans relance toutes les deux secondes.
+
+Dehors, la boucle extérieure forme une ambiance stéréo 2D. Sous un abri, le composant recherche des zones de pluie exposées proches et un éventuel toit fin. La boucle intérieure est placée à cette source virtuelle, avec une spatialisation partielle, l'occlusion/transmission par les matériaux, l'absorption dans l'air et la réverbération natives. Une source derrière un mur reste disponible pour le moteur acoustique ; une vérification de visibilité supplémentaire ne coupe pas sa transmission ou sa diffraction. Les propriétés acoustiques des surfaces physiques et les options audio du client déterminent le résultat effectif. La découverte de sources reste un échantillonnage limité, pas une recherche exhaustive de portails acoustiques.
+
+L'intensité sonore suit `VBCloudWeather.Precipitation`. Le fondu à puissance constante sépare exposition directe et ambiance abritée ; l'audibilité intérieure diminue avec la distance à la pluie et l'épaisseur du toit. Un tunnel profond entouré de roche devient silencieux lorsque toute pluie exposée sort de portée. L'atténuation de distance native est désactivée pour ces deux événements : la sélection des sources applique déjà sa courbe de portée, ce qui évite une double atténuation. Les événements passent par le mixer **Game** ; `Mixer` permet un routage personnalisé, sans modifier les réglages globaux du joueur.
+
+| Réglage sur VB Rain Audio | Défaut | Rôle |
+| --- | ---: | --- |
+| Volume | 1 | Multiplicateur des volumes des événements |
+| Transition Seconds | 0,75 s | Lissage des changements d'abri et d'intensité |
+| Hearing Distance | 1200 unités | Portée de recherche de pluie extérieure |
+| Maximum Thin Roof Thickness | 32 unités | Épaisseur verticale maximale pour le son transmis par un toit proche |
+| Thin Roof Volume | 0,7 | Contribution de cette transmission |
+| Probe Interval | 0,125 s | Intervalle minimal entre sondes |
+| Indoor Spatial Blend | 0,35 | Direction de la source, en conservant une ambiance large |
+| Indoor Reverb | activé | Réverbération native sur la voix abritée |
+
+Le point d'écoute est la caméra de scène par défaut. `Listener` permet d'assigner un `AudioListener` particulier ; son option `UseCameraDirection` est respectée. Les tags ignorés doivent être cohérents avec ceux de la pluie visuelle. Les toits et parois ont besoin de colliders et de surfaces physiques adaptées, notamment pour distinguer bois, métal et béton.
+
+Le composant conserve au plus **deux voix locales**, met en pause les voix inaudibles et les arrête quand la pluie cesse ou que le composant est désactivé/détruit. Il fonctionne aussi lorsque la qualité visuelle de pluie est Off. Aucune lecture sonore ni sonde n'est lancée dans l'éditeur, en mode headless ou sur serveur dédié. L'audio n'ajoute aucune propriété synchronisée ni RPC.
+
+Une sonde extérieure utilise un rayon. Sous un abri, huit directions sont parcourues progressivement, avec au plus huit rayons par sonde : **8 sondes/s et 64 rayons/s au maximum au réglage par défaut**, indépendamment de la densité de pluie et du nombre de joueurs. La découverte complète peut prendre environ huit intervalles ; le moteur continue d'appliquer ses effets acoustiques entre les sondes. Ces limites excluent le coût propre de la simulation audio native et ne constituent pas une mesure de temps CPU. Le mode CloudBanks suit l'intensité météo globale pour l'audio ; il ne lit pas le masque nuageux GPU local.
+
+`Tools/SetupRainAudio.csx` configure l'import, les événements et les références des prefabs via les API natives, en conservant les identifiants de racine et de composants existants. C'est un outil explicite de configuration ; il réapplique les réglages des événements et ne doit pas être relancé après personnalisation de ces réglages pour un simple test. Il ne sauvegarde pas la scène active. La démonstration et le générateur `CreateRainShowcase.csx` incluent aussi le composant audio.
+
+Références : [lecture et SoundHandle](https://sbox.game/dev/doc/sound/playing-sounds), [simulation acoustique native](https://sbox.game/news/update-26-06-03/), [traitement audio à l'import](https://sbox.game/news/update-26-07-15).
+
 ## Validation
 
 La passe initiale a été vérifiée sur le moteur **26.10.13c**, la passe de réalisme sur **26.10.27b**. Les deux shaders de pluie sont régénérés et compilés nativement. `Tests/Environment/RainRegression.csx` conserve ses 30 contrôles de base. `RainCoverageRegression.csx` ajoute 15 contrôles : preset de déluge, champ à 24000 unités, trajectoires au-delà de 10000, déluge via API, augmentation réelle des deux densités, pixels de pluie distante sans gouttes proches, traversée de carte de 36000 unités, trajectoires ancrées au monde, budgets inchangés, toit couvrant les deux couches, vue libre éloignée de 35000 unités, retour optionnel aux bancs et nettoyage. `CloudRegression.csx` couvre les 25 contrôles historiques des nuages.
@@ -105,6 +134,8 @@ La passe initiale a été vérifiée sur le moteur **26.10.13c**, la passe de r�
 `RainRealismRegression.csx` contrôle aussi la continuité dans les quatre quadrants exposés au fil du temps, la densité des contacts au sol, les pixels d'impact isolés sur un sol texturé, l'effet de transmission/réfraction et les plafonds de dessin/copie. Les captures isolées servent à inspecter l'aspect, pas à annoncer un temps GPU ou un gain de FPS.
 
 Les contrôles de configuration et d'interpolation réseau ne remplacent pas une session à deux clients : arrivée tardive, migration d'hôte et coût réseau réel restent à mesurer. Aucun temps GPU ou gain de FPS n'est revendiqué à partir des captures isolées.
+
+`RainAudioRegression.csx` ajoute **30 contrôles silencieux** : exposition, toit fin/épais, source exposée derrière une paroi, entrée/profondeur de tunnel, budget de sondes, décodage et normalisation des deux boucles, références clonées, fondus et cycle de vie des voix. Les tests de runtime utilisent une scène privée et des événements temporaires de volume nul ; ils ne basculent pas le mode Play et ne remplacent pas une écoute de l'équilibrage et de l'acoustique en jeu. Les deux fichiers décodent en stéréo 48 kHz pendant deux secondes. Les identifiants des composants préexistants des deux prefabs ont été conservés après configuration.
 
 `Tools/CreateRainAssets.csx` régénère les deux graphes, shaders et matériaux via le compilateur natif. `Tools/CreateRainShowcase.csx` réécrit uniquement la nouvelle démonstration et le nouveau prefab ; il conserve les identifiants du prefab existant. Ne pas le relancer après personnalisation de ces assets pour un simple test : utiliser la régression.
 
