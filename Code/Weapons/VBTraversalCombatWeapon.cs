@@ -8,6 +8,12 @@ public abstract class VBTraversalCombatWeapon : BaseCombatWeapon
 
 	private bool _reloadCancelRequested;
 
+	protected override void CreateViewModel()
+	{
+		base.CreateViewModel();
+		VBFirstPersonHandsAppearance.Attach( ViewModel, Owner );
+	}
+
 	protected override bool WantsPrimaryAttack() => !IsTraversalBlockingActions && base.WantsPrimaryAttack();
 	protected override bool WantsSecondaryAttack() => !IsTraversalBlockingActions && base.WantsSecondaryAttack();
 	protected override bool WantsReload() => !IsTraversalBlockingActions && base.WantsReload();

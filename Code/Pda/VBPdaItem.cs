@@ -17,6 +17,12 @@ public sealed class VBPdaItem : BaseCombatWeapon, IVBFirstPersonHeldItem, IVBInv
 	public GameObject FirstPersonViewModel => ViewModel;
 	public float FirstPersonMotionAimAmount => 0f;
 
+	protected override void CreateViewModel()
+	{
+		base.CreateViewModel();
+		VBFirstPersonHandsAppearance.Attach( ViewModel, Owner );
+	}
+
 	public override bool CanPrimaryAttack() => false;
 	public override bool CanSecondaryAttack() => false;
 

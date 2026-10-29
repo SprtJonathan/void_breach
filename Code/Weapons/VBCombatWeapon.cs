@@ -59,11 +59,12 @@ public sealed class VBCombatWeapon : VBTraversalCombatWeapon, IVBWeaponCarryItem
 	[Property, Group( "Presentation" )]
 	public bool PreferMuzzleMarker { get; set; }
 
-	[Property, Group( "NPC Hold" )] public Vector3 NpcHoldPositionOffset { get; set; } = Vector3.Zero;
-	[Property, Group( "NPC Hold" )] public Angles NpcHoldRotationOffset { get; set; } = Angles.Zero;
-	[Property, Group( "NPC Hold" )] public bool NpcUseSupportHand { get; set; }
-	[Property, Group( "NPC Hold" )] public Vector3 NpcSupportHandPosition { get; set; }
-	[Property, Group( "NPC Hold" )] public Angles NpcSupportHandRotation { get; set; }
+	// Keep serialized property names so existing weapon profiles apply to both players and NPCs.
+	[Property, Group( "Third Person Hold" )] public Vector3 NpcHoldPositionOffset { get; set; } = Vector3.Zero;
+	[Property, Group( "Third Person Hold" )] public Angles NpcHoldRotationOffset { get; set; } = Angles.Zero;
+	[Property, Group( "Third Person Hold" )] public bool NpcUseSupportHand { get; set; }
+	[Property, Group( "Third Person Hold" )] public Vector3 NpcSupportHandPosition { get; set; }
+	[Property, Group( "Third Person Hold" )] public Angles NpcSupportHandRotation { get; set; }
 	public GameObject NpcSupportHandTarget => _npcSupportHand.IsValid() && _npcSupportHand.Active ? _npcSupportHand : null;
 	private GameObject _npcSupportHand;
 
@@ -288,23 +289,27 @@ public sealed class VBCombatWeapon : VBTraversalCombatWeapon, IVBWeaponCarryItem
 	protected override void CreateWorldModel()
 	{
 		var npc = NpcHolder;
-		if ( !npc.IsValid() ) { base.CreateWorldModel(); return; }
+		var renderer = npc.IsValid() ? npc.BodyRenderer : HolderRenderer;
 		DestroyWorldModel();
-		if ( Application.IsDedicatedServer || !WorldModelPrefab.IsValid() || !npc.BodyRenderer.IsValid() ) return;
-		var bone = npc.BodyRenderer.GetBoneObject( HoldBone );
+		if ( Application.IsDedicatedServer || !WorldModelPrefab.IsValid() || !renderer.IsValid() ) return;
+		var bone = renderer.GetBoneObject( HoldBone );
 		if ( !bone.IsValid() ) return;
-		WorldModel = WorldModelPrefab.Clone( new CloneConfig { Parent = bone, StartEnabled = true, Transform = NpcHoldTransform } );
+		WorldModel = WorldModelPrefab.Clone( new CloneConfig { Parent = bone, StartEnabled = true, Transform = ThirdPersonHoldTransform } );
+		WorldModel.LocalTransform = ThirdPersonHoldTransform;
 		WorldModel.Flags |= GameObjectFlags.NotNetworked | GameObjectFlags.NotSaved;
-		if ( NpcUseSupportHand )
+		// Human's weapon graph locks the player's support hand to the right
+		// hand in the same animation pass. A target on the gun would feed the
+		// preceding frame's pose back into that graph.
+		if ( npc.IsValid() && NpcUseSupportHand )
 		{
-			_npcSupportHand = new GameObject( true, "NPC support hand" );
+			_npcSupportHand = new GameObject( true, "Weapon support hand" );
 			_npcSupportHand.SetParent( WorldModel, keepWorldPosition: false );
 			_npcSupportHand.Flags |= GameObjectFlags.NotNetworked | GameObjectFlags.NotSaved;
 			_npcSupportHand.LocalTransform = new Transform( NpcSupportHandPosition, Rotation.From( NpcSupportHandRotation ) );
 		}
 	}
 
-	private Transform NpcHoldTransform
+	private Transform ThirdPersonHoldTransform
 	{
 		get
 		{
@@ -321,14 +326,21 @@ public sealed class VBCombatWeapon : VBTraversalCombatWeapon, IVBWeaponCarryItem
 	{
 		base.OnPreRender();
 		var npc = NpcHolder;
-		if ( !npc.IsValid() || !IsActive || !WorldModel.IsValid() || !npc.BodyRenderer.IsValid() || !WorldModelPrefab.IsValid() ) return;
-		var bone = npc.BodyRenderer.GetBoneObject( HoldBone );
+		var renderer = npc.IsValid() ? npc.BodyRenderer : HolderRenderer;
+		if ( !IsActive || !WorldModel.IsValid() || !renderer.IsValid() || !WorldModelPrefab.IsValid() ) return;
+		var bone = renderer.GetBoneObject( HoldBone );
 		if ( !bone.IsValid() ) return;
 		// Dresser can rebuild the body/bones after the weapon deploys.
 		if ( WorldModel.Parent != bone ) WorldModel.SetParent( bone, keepWorldPosition: false );
-		WorldModel.LocalTransform = NpcHoldTransform;
+		WorldModel.LocalTransform = ThirdPersonHoldTransform;
 		if ( _npcSupportHand.IsValid() ) _npcSupportHand.LocalTransform = new Transform( NpcSupportHandPosition, Rotation.From( NpcSupportHandRotation ) );
-		npc.UpdateWeaponHands();
+		if ( npc.IsValid() ) npc.UpdateWeaponHands();
+	}
+
+	protected override void DestroyWorldModel()
+	{
+		_npcSupportHand = null;
+		base.DestroyWorldModel();
 	}
 
 	protected override void OnReloadStarted()
