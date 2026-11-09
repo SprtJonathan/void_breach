@@ -172,6 +172,7 @@ public sealed class VBCombatWeapon : VBTraversalCombatWeapon, IVBWeaponCarryItem
 	/// Progression visuelle de l'ADS, de 0 (hanche) à 1 (visée).
 	/// </summary>
 	public float AimAmount => _aimAmount;
+	public bool SuppressHudCrosshair => _wantsToAim || _aimAmount > 0.01f;
 	public GameObject FirstPersonViewModel => ViewModel;
 	public float FirstPersonMotionAimAmount => _aimAmount;
 
@@ -456,29 +457,6 @@ public sealed class VBCombatWeapon : VBTraversalCombatWeapon, IVBWeaponCarryItem
 	}
 
 	/// <summary>
-	/// Dessine un réticule compact ambre inspiré de Half-Life.
-	/// </summary>
-	public override void DrawCrosshair( HudPainter hud, Vector2 center )
-	{
-		if ( _aimAmount >= 0.92f && Owner.IsValid() && !Owner.ThirdPerson )
-			return;
-
-		var spread = CurrentSpread.Length;
-		var gap = Math.Clamp( MathX.Lerp( 8f, 3f, _aimAmount ) + spread * 1.5f, 3f, 18f );
-		const float length = 6f;
-		var color = CanPrimaryAttack()
-			? new Color( 1f, 0.72f, 0.22f, 1f )
-			: new Color( 1f, 0.28f, 0.12f, 1f );
-		var shadow = Color.Black.WithAlpha( 0.82f );
-
-		hud.SetBlendMode( BlendMode.Normal );
-		DrawCrosshairTicks( hud, center, gap, length, 3.5f, shadow );
-		DrawCrosshairTicks( hud, center, gap, length, 1.5f, color );
-		hud.DrawCircle( center, new Vector2( 4f, 4f ), shadow );
-		hud.DrawCircle( center, new Vector2( 2f, 2f ), color );
-	}
-
-	/// <summary>
 	/// Tire puis évalue les munitions restantes sur le client qui contrôle l'arme.
 	/// </summary>
 	public override void PrimaryAttack()
@@ -680,17 +658,4 @@ public sealed class VBCombatWeapon : VBTraversalCombatWeapon, IVBWeaponCarryItem
 		return ViewModel.Components.Get<SkinnedModelRenderer>( FindMode.InSelf );
 	}
 
-	private static void DrawCrosshairTicks(
-		HudPainter hud,
-		Vector2 center,
-		float gap,
-		float length,
-		float width,
-		Color color )
-	{
-		hud.DrawLine( center + Vector2.Left * (gap + length), center + Vector2.Left * gap, width, color );
-		hud.DrawLine( center - Vector2.Left * (gap + length), center - Vector2.Left * gap, width, color );
-		hud.DrawLine( center + Vector2.Up * (gap + length), center + Vector2.Up * gap, width, color );
-		hud.DrawLine( center - Vector2.Up * (gap + length), center - Vector2.Up * gap, width, color );
-	}
 }

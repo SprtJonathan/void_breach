@@ -1,14 +1,9 @@
-// Native, transparent reticle without the cloud glass_scope shader's framebuffer reads.
+// Collimated reticle; its shader reads only this texture and the native render transforms.
 Layer0
 {
-	shader "shaders/complex.shader"
-	F_TRANSLUCENT "1"
-	F_SELF_ILLUM "1"
-	F_DO_NOT_CAST_SHADOWS "1"
-	F_RENDER_BACKFACES "1"
-	g_flSelfIllumBrightness "1"
-	TextureSelfIllumMask "materials/default/default_color.tga"
-	// The official RGB reticle has zero alpha. Compile its red channel as opacity.
-	TextureColor "materials/weapons/holographic_reticle.png"
-	TextureTranslucency "materials/weapons/holographic_reticle.png"
+	TextureReticle "materials/weapons/holographic_reticle.png"
+	g_vReticleColor "[1 0 0]"
+	g_flReticleBrightness "3.5"
+	g_flReticleAngularScale "8"
+	shader "shaders/vb_holographic_reticle.shader"
 }

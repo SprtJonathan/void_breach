@@ -51,7 +51,7 @@
         "EnableFirstPersonAimZoom": true,
         "EnableThirdPersonAimZoom": true,
         "FirstPersonAimFieldOfViewReduction": 8,
-        "FirstPersonAimPositionOffset": "0,0,0",
+        "FirstPersonAimPositionOffset": "0,0,-0.5",
         "FirstPersonAimRotationOffset": "0,0,0",
         "FirstShellReloadTime": 0,
         "GunshotAiRadius": 2200,
@@ -133,7 +133,7 @@
         "IsStatic": false,
         "MaterialGroup": null,
         "Model": {
-          "Id": "845636c1-442f-48ce-90b9-5951dae46c77",
+          "Id": "7b8d381f-e352-4155-8e9e-2cf65260be39",
           "Path": "models/weapons/sbox_assault_m4a1/w_m4a1.vmdl"
         },
         "OnComponentDestroy": null,
@@ -200,7 +200,7 @@
         "MaterialOverride": null,
         "Materials": null,
         "Model": {
-          "Id": "845636c1-442f-48ce-90b9-5951dae46c77",
+          "Id": "7b8d381f-e352-4155-8e9e-2cf65260be39",
           "Path": "models/weapons/sbox_assault_m4a1/w_m4a1.vmdl"
         },
         "OnComponentDestroy": null,
@@ -228,7 +228,7 @@
         "Friction": null,
         "IsTrigger": false,
         "Model": {
-          "Id": "845636c1-442f-48ce-90b9-5951dae46c77",
+          "Id": "7b8d381f-e352-4155-8e9e-2cf65260be39",
           "Path": "models/weapons/sbox_assault_m4a1/w_m4a1.vmdl"
         },
         "OnComponentDestroy": null,

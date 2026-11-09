@@ -1,0 +1,253 @@
+{
+  "RootObject": {
+    "__guid": "41904ebb-7d82-4b2a-bb4e-c66a64a66d7f",
+    "__version": 2,
+    "Flags": 0,
+    "Name": "v_arc_rifle",
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
+    "Tags": "",
+    "Enabled": true,
+    "NetworkMode": 2,
+    "NetworkFlags": 0,
+    "NetworkOrphaned": 0,
+    "NetworkTransmit": true,
+    "OwnerTransfer": 1,
+    "Components": [
+      {
+        "__type": "Sandbox.SkinnedModelRenderer",
+        "__guid": "7915659e-bf35-42c1-8739-c0312d5118b8",
+        "__enabled": true,
+        "Flags": 0,
+        "AnimationGraph": null,
+        "BodyGroups": 0,
+        "BoneMergeTarget": null,
+        "CreateAttachments": false,
+        "CreateBoneObjects": true,
+        "DeformationMode": "Normal",
+        "LodOverride": null,
+        "MaterialGroup": null,
+        "MaterialOverride": null,
+        "Materials": null,
+        "Model": {
+          "Id": "ee3304e6-f8e0-4771-852d-c41befd4da30",
+          "Path": "models/weapons/sbox_assault_m4a1/v_m4a1.vmdl"
+        },
+        "Morphs": {},
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "Parameters": {},
+        "PlaybackRate": 1,
+        "RenderOptions": {
+          "GameLayer": true,
+          "OverlayLayer": false,
+          "BloomLayer": false,
+          "AfterUILayer": false
+        },
+        "RenderType": "Off",
+        "Sequence": {
+          "Name": null,
+          "Looping": true,
+          "Blending": false
+        },
+        "Tint": "1,1,1,1",
+        "UseAnimGraph": true
+      },
+      {
+        "__type": "Sandbox.BaseWeaponModel",
+        "__guid": "f7fc1c66-8850-4d78-856a-754bc243761d",
+        "__enabled": true,
+        "Flags": 0,
+        "DeploySound": null,
+        "EjectBrass": null,
+        "MuzzleEffect": null,
+        "MuzzleGameObject": {
+          "_type": "gameobject",
+          "go": "41814177-3adf-47e4-817d-d486e5323a42"
+        },
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "Renderer": {
+          "_type": "component",
+          "component_id": "7915659e-bf35-42c1-8739-c0312d5118b8",
+          "go": "41904ebb-7d82-4b2a-bb4e-c66a64a66d7f",
+          "component_type": "SkinnedModelRenderer"
+        },
+        "ShellEjectGameObject": null,
+        "TracerEffect": {
+          "_type": "gameobject",
+          "prefab": "weapons/aarc/arc_plasma_tracer.prefab"
+        }
+      },
+      {
+        "__type": "Sandbox.SkinnedModelRenderer",
+        "__guid": "ac4cc015-5a89-4e28-a5be-0626a67dcbdf",
+        "__enabled": true,
+        "Flags": 0,
+        "AnimationGraph": null,
+        "BodyGroups": 21,
+        "BoneMergeTarget": {
+          "_type": "component",
+          "component_id": "7915659e-bf35-42c1-8739-c0312d5118b8",
+          "go": "41904ebb-7d82-4b2a-bb4e-c66a64a66d7f",
+          "component_type": "SkinnedModelRenderer"
+        },
+        "CreateAttachments": false,
+        "CreateBoneObjects": false,
+        "DeformationMode": "Normal",
+        "LodOverride": null,
+        "MaterialGroup": "default",
+        "MaterialOverride": null,
+        "Materials": null,
+        "Model": {
+          "Id": "fad7f341-b9e8-43eb-920e-7237b68a192a",
+          "Path": "models/first_person/v_first_person_arms_human.vmdl"
+        },
+        "Morphs": {},
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "Parameters": {},
+        "PlaybackRate": 1,
+        "RenderOptions": {
+          "GameLayer": true,
+          "OverlayLayer": false,
+          "BloomLayer": false,
+          "AfterUILayer": false
+        },
+        "RenderType": "Off",
+        "Sequence": {
+          "Name": null,
+          "Looping": true,
+          "Blending": false
+        },
+        "Tint": "1,1,1,1",
+        "UseAnimGraph": true
+      }
+    ],
+    "Children": [
+      {
+        "__guid": "26fdcceb-18c8-4357-a97e-5e18743b2183",
+        "__version": 2,
+        "Flags": 0,
+        "Name": "Arc Rifle Mesh",
+        "Position": "0.35,0,-10.15",
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkFlags": 0,
+        "NetworkOrphaned": 0,
+        "NetworkTransmit": true,
+        "OwnerTransfer": 1,
+        "Components": [
+          {
+            "__type": "Sandbox.ModelRenderer",
+            "__guid": "80b82e30-7a71-41ea-8600-b7cce45df3df",
+            "__enabled": true,
+            "Flags": 0,
+            "BodyGroups": 18446744073709551615,
+            "CreateAttachments": false,
+            "LodOverride": null,
+            "MaterialGroup": null,
+            "MaterialOverride": null,
+            "Materials": null,
+            "Model": "weapons/aarc/mesh/arc_rifle.vmdl",
+            "OnComponentDestroy": null,
+            "OnComponentDisabled": null,
+            "OnComponentEnabled": null,
+            "OnComponentFixedUpdate": null,
+            "OnComponentStart": null,
+            "OnComponentUpdate": null,
+            "RenderOptions": {
+              "GameLayer": true,
+              "OverlayLayer": false,
+              "BloomLayer": false,
+              "AfterUILayer": false
+            },
+            "RenderType": "Off",
+            "Tint": "1,1,1,1"
+          },
+          {
+            "__type": "VBWeaponMeshAttachment",
+            "__guid": "09bd58f7-ba9d-4c31-91a3-3a67d283b5a5",
+            "__enabled": true,
+            "Flags": 0,
+            "AnimationSource": {
+              "_type": "component",
+              "go": "41904ebb-7d82-4b2a-bb4e-c66a64a66d7f",
+              "component_id": "7915659e-bf35-42c1-8739-c0312d5118b8",
+              "component_type": "SkinnedModelRenderer"
+            },
+            "BoneName": "weapon_root"
+          }
+        ],
+        "Children": [
+          {
+            "__guid": "41814177-3adf-47e4-817d-d486e5323a42",
+            "__version": 2,
+            "Flags": 0,
+            "Name": "muzzle",
+            "Position": "18.15,0,10.15",
+            "Rotation": "0,0,0,1",
+            "Scale": "1,1,1",
+            "Tags": "",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkFlags": 0,
+            "NetworkOrphaned": 0,
+            "NetworkTransmit": true,
+            "OwnerTransfer": 1,
+            "Components": [],
+            "Children": []
+          }
+        ]
+      }
+    ],
+    "__properties": {
+      "NetworkInterpolation": true,
+      "PhysicsMode": "Physics3D",
+      "TimeScale": 1,
+      "WantsSystemScene": true,
+      "Metadata": {},
+      "NavMesh": {
+        "Enabled": false,
+        "IncludeStaticBodies": true,
+        "IncludeKeyframedBodies": true,
+        "EditorAutoUpdate": false,
+        "AgentHeight": 64,
+        "AgentRadius": 16,
+        "AgentStepSize": 18,
+        "AgentMaxSlope": 40,
+        "ExcludedBodies": "",
+        "IncludedBodies": "",
+        "DeferGeneration": false,
+        "CustomBounds": false
+      }
+    },
+    "__variables": []
+  },
+  "ResourceVersion": 2,
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "DontBreakAsTemplate": false,
+  "__references": [
+    "facepunch.v_first_person_arms_human#205798",
+    "facepunch.v_m4a1#278964"
+  ],
+  "__version": 2
+}

@@ -1,0 +1,100 @@
+@using System
+@using Sandbox
+@using Sandbox.UI
+@inherits Panel
+
+<root class="@ReticleClass">
+	<div class="reticle" @ref="Frame">
+		<div class="arm left"></div>
+		<div class="arm right"></div>
+		<div class="arm top"></div>
+		<div class="arm bottom"></div>
+		<div class="corner northwest"></div>
+		<div class="corner northeast"></div>
+		<div class="corner southwest"></div>
+		<div class="corner southeast"></div>
+	</div>
+	<div class="aim-point"></div>
+	<div class="barrel-point" @ref="BarrelPoint"></div>
+</root>
+
+@code
+{
+	public GameObject Player { get; set; }
+	public bool IsSuppressed { get; set; }
+	private Panel Frame { get; set; }
+	private Panel BarrelPoint { get; set; }
+	private string ReticleClass = "hidden";
+	private Component _source;
+	private float _radius = 10f;
+
+	public override void Tick()
+	{
+		base.Tick();
+		ReticleClass = "hidden";
+		if ( BarrelPoint is not null ) BarrelPoint.Style.Opacity = 0f;
+		if ( IsSuppressed || !Player.IsValid() || Player.IsProxy ) { _source = null; return; }
+		var health = Player.GetComponent<VBHealthComponent>();
+		if ( health is { IsDead: true } or { IsDowned: true } ) { _source = null; return; }
+		var controller = Player.GetComponent<PlayerController>();
+		if ( !controller.IsValid() ) return;
+		var bridge = Player.GetComponent<VBVehiclePlayerDriver>();
+		float targetRadius;
+		Component source;
+		if ( bridge is { IsSeated: true } )
+		{
+			var turret = bridge.ActiveSeat?.Vehicle?.GetComponent<VBVehicleTurret>();
+			if ( !bridge.IsTurretAiming || !turret.IsValid() || !turret.CanOperate( controller ) ) return;
+			source = turret;
+			float alignment = UpdateBarrelPoint( turret );
+			ReticleClass = alignment > 0.012f ? "vehicle tracking" : "vehicle";
+			targetRadius = 18f + Math.Clamp( alignment * 80f, 0f, 9f ) + ShotBloom( turret.HudShotAge ) * 4f;
+		}
+		else
+		{
+			var inventory = Player.GetComponent<BaseInventoryComponent>();
+			if ( inventory is not { Active: true } || inventory.ActiveItem is not VBTraversalCombatWeapon weapon
+				|| !weapon.IsActive || Player.GetComponent<VBMoveModeTraversal>() is { IsTraversing: true }
+				|| weapon is VBCombatWeapon { SuppressHudCrosshair: true } ) { _source = null; return; }
+			source = weapon;
+			// Cadence cooldown is intentionally absent: only empty/reload changes colour.
+			bool empty = weapon.UsesAmmo && !weapon.HasPrimaryAmmo();
+			bool compact = weapon is VBFistsWeapon or VBGrenadeWeapon;
+			ReticleClass = (compact ? "compact" : "infantry") + (weapon.IsReloading ? " reloading" : empty ? " empty" : "");
+			float movement = Math.Clamp( controller.Velocity.WithZ( 0f ).Length / MathF.Max( controller.RunSpeed, 1f ), 0f, 1f );
+			float spread = Math.Clamp( weapon.CurrentSpread.Length * 1.5f, 0f, 12f );
+			targetRadius = (compact ? 6f : 10f + spread + movement * 6f + (controller.IsOnGround ? 0f : 5f))
+				+ ShotBloom( weapon.HudShotAge ) * (compact ? 2f : 6f);
+		}
+
+		if ( _source != source ) { _source = source; _radius = targetRadius; }
+		float blend = 1f - MathF.Exp( -22f * Math.Clamp( Time.Delta, 0f, 0.1f ) );
+		_radius += (targetRadius - _radius) * blend;
+		if ( Frame is not null )
+		{
+			Frame.Style.Width = Length.Pixels( _radius * 2f );
+			Frame.Style.Height = Length.Pixels( _radius * 2f );
+		}
+	}
+
+	private float UpdateBarrelPoint( VBVehicleTurret turret )
+	{
+		var camera = Player.Scene?.Camera;
+		if ( !camera.IsValid() ) return 0f;
+		var trace = turret.TraceBarrel();
+		var view = camera.View;
+		if ( Vector3.Dot( trace.EndPosition - view.Position, view.Rotation.Forward ) <= 0f ) return 1f;
+		var point = camera.PointToScreenNormal( trace.EndPosition );
+		float error = (point - new Vector2( 0.5f, 0.5f )).Length;
+		if ( BarrelPoint is not null && point.x > 0.02f && point.x < 0.98f && point.y > 0.02f && point.y < 0.98f )
+		{
+			BarrelPoint.Style.Left = Length.Percent( point.x * 100f );
+			BarrelPoint.Style.Top = Length.Percent( point.y * 100f );
+			BarrelPoint.Style.Opacity = error > 0.006f ? 0.85f : 0f;
+		}
+		return error;
+	}
+
+	private static float ShotBloom( float age ) => MathF.Exp( -14f * MathF.Max( age, 0f ) );
+	protected override int BuildHash() => HashCode.Combine( Player, IsSuppressed, ReticleClass );
+}

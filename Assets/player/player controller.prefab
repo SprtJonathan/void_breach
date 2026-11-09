@@ -306,20 +306,14 @@
           },
           {
             "Clothing": {
-              "Id": "46b57b4f-4ce5-41a5-82a5-62b30b838e14",
-              "Path": "models/citizen_clothes/shirt/flannel_shirt/flannel_shirt.clothing"
+              "Id": "5352edba-d836-4e66-8ec6-00dc19c574ed",
+              "Path": "clothing/swat_gear/tactical_armour.clothing"
             }
           },
           {
             "Clothing": {
-              "Id": "da391d9c-d6fc-4635-95e0-f7c979dc5fe2",
-              "Path": "models/citizen_clothes/trousers/cargopants/brown_cargo_pants.clothing"
-            }
-          },
-          {
-            "Clothing": {
-              "Id": "ad245ae6-3e58-4fac-9775-c51704c46820",
-              "Path": "models/citizen_clothes/gloves/fingerless_gloves/fingerless_gloves.clothing"
+              "Id": "e44b9179-1266-4b55-ab9a-0a83528fc12a",
+              "Path": "clothing/tactical_gloves/tactical_gloves.clothing"
             }
           },
           {
@@ -330,14 +324,26 @@
           },
           {
             "Clothing": {
-              "Id": "b471d06a-bd21-4b58-aed8-776e9bd7c119",
-              "Path": "models/citizen_clothes/hat/flatcap/flatcap.clothing"
+              "Id": "74152d7e-1605-43a2-a642-c036cf9740ba",
+              "Path": "clothing/swat_gear/tactical_trousers.clothing"
             }
           },
           {
             "Clothing": {
-              "Id": "14dfeb4b-e877-40cd-bd72-f519e3e6e474",
-              "Path": "models/citizen_clothes/jacket/bomber_jacket/bomber_jacket.clothing"
+              "Id": "e0a1f52f-82fa-42cc-bd9c-8bb669c53388",
+              "Path": "models/citizen_clothes/hair/patchy_beard/patchy_beard.clothing"
+            }
+          },
+          {
+            "Clothing": {
+              "Id": "d4f5edd1-bcf6-4236-baa5-3eeae725454a",
+              "Path": "models/citizen_clothes/hair/hair_shortscruffy/hair_shortscruffy_brown.clothing"
+            }
+          },
+          {
+            "Clothing": {
+              "Id": "e7ccaf56-352c-472b-a928-ea3d672da5fe",
+              "Path": "models/citizen_clothes/hat/baseball_cap/baseball_cap_black.clothing"
             }
           }
         ],
@@ -623,11 +629,11 @@
         "__enabled": true,
         "Flags": 0,
         "CameraMotionResponse": 8,
-        "ChaseOffset": "-230,0,110",
-        "ChaseResponse": 8,
-        "ChaseRoll": 2,
-        "ChaseSpeedDistance": 36,
-        "ChaseSpeedFov": 8,
+        "ChaseOffset": "-270,0,50",
+        "ChaseResponse": 3.5,
+        "ChaseRoll": 0,
+        "ChaseSpeedDistance": 6,
+        "ChaseSpeedFov": 0,
         "EnableCameraMotion": true,
         "FirstPersonSpeedFov": 3,
         "HandbrakeAction": "Handbrake",
@@ -643,7 +649,9 @@
         "TurboAction": "vehicleturbo",
         "TurboCameraFov": 2,
         "TurretToggleAction": "vehicleweapon",
-        "UsePlayerInput": true
+        "UsePlayerInput": true,
+        "ChasePivotHeight": 64,
+        "ChaseAimPitch": 4
       },
       {
         "__type": "VBAnimatedBodyContacts",
@@ -2543,10 +2551,10 @@
             ]
           },
           {
-            "__guid": "a98d367e-9a3b-461f-91e6-187194657ee5",
+            "__guid": "7207e274-c8db-4b30-903c-5a25f91c0896",
             "__version": 2,
             "Flags": 0,
-            "Name": "Clothing - flannel_shirt",
+            "Name": "Clothing - tactical_armour",
             "Position": "0,0,0",
             "Rotation": "0,0,0,1",
             "Scale": "1,1,1",
@@ -2560,7 +2568,7 @@
             "Components": [
               {
                 "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "6a6d8163-80c2-4142-acc8-c07781f88882",
+                "__guid": "55bd02d3-2e2e-48a3-807a-b3733f6b2085",
                 "__enabled": true,
                 "Flags": 0,
                 "AnimationGraph": null,
@@ -2579,8 +2587,8 @@
                 "MaterialOverride": null,
                 "Materials": null,
                 "Model": {
-                  "Id": "6ea9790d-d58c-4141-b531-29c9af815137",
-                  "Path": "models/citizen_clothes/shirt/flannel_shirt/models/flannel_shirt_m_human.vmdl"
+                  "Id": "2e00e2fa-e0b1-482e-9076-3e74feeff7bc",
+                  "Path": "clothing/swat_gear/swat_gear_m_human.vmdl"
                 },
                 "Morphs": {},
                 "OnComponentDestroy": null,
@@ -2610,10 +2618,10 @@
             "Children": []
           },
           {
-            "__guid": "ea568547-2d02-4965-810f-2686478c3eeb",
+            "__guid": "f19d7a0f-1ef1-42f0-bbd6-fd1ba58eaf24",
             "__version": 2,
             "Flags": 0,
-            "Name": "Clothing - brown_cargo_pants",
+            "Name": "Clothing - tactical_gloves",
             "Position": "0,0,0",
             "Rotation": "0,0,0,1",
             "Scale": "1,1,1",
@@ -2627,7 +2635,7 @@
             "Components": [
               {
                 "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "6475774b-d26e-404b-8fb8-202925dc7ba0",
+                "__guid": "98b9323e-7de3-47b3-86be-4a12c577d19c",
                 "__enabled": true,
                 "Flags": 0,
                 "AnimationGraph": null,
@@ -2646,8 +2654,8 @@
                 "MaterialOverride": null,
                 "Materials": null,
                 "Model": {
-                  "Id": "f8845a77-4d41-4ded-b3ec-4c5a4ad59f02",
-                  "Path": "models/citizen_clothes/trousers/cargopants/models/brown_cargo_pants_m_human.vmdl"
+                  "Id": "c7abe0b3-03f5-44be-975f-9ddbddd039ca",
+                  "Path": "clothing/tactical_gloves/tactical_gloves_m_human.vmdl"
                 },
                 "Morphs": {},
                 "OnComponentDestroy": null,
@@ -2677,74 +2685,7 @@
             "Children": []
           },
           {
-            "__guid": "e6d6aecd-91bf-42df-8279-127d37d79837",
-            "__version": 2,
-            "Flags": 0,
-            "Name": "Clothing - fingerless_gloves",
-            "Position": "0,0,0",
-            "Rotation": "0,0,0,1",
-            "Scale": "1,1,1",
-            "Tags": "clothing",
-            "Enabled": true,
-            "NetworkMode": 2,
-            "NetworkFlags": 0,
-            "NetworkOrphaned": 0,
-            "NetworkTransmit": true,
-            "OwnerTransfer": 1,
-            "Components": [
-              {
-                "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "8dd8064a-1ad5-4706-a6b8-ec8b65adbcf9",
-                "__enabled": true,
-                "Flags": 0,
-                "AnimationGraph": null,
-                "BodyGroups": 18446744073709551615,
-                "BoneMergeTarget": {
-                  "_type": "component",
-                  "component_id": "256504cb-7033-4371-bf1f-1747c5b471b8",
-                  "go": "d01bf2bb-4495-4132-96b4-a5761fcdd441",
-                  "component_type": "SkinnedModelRenderer"
-                },
-                "CreateAttachments": false,
-                "CreateBoneObjects": false,
-                "DeformationMode": "Normal",
-                "LodOverride": null,
-                "MaterialGroup": null,
-                "MaterialOverride": null,
-                "Materials": null,
-                "Model": {
-                  "Id": "b314bceb-9449-42fe-a109-a2b15d9825dd",
-                  "Path": "models/citizen_clothes/gloves/fingerless_gloves/models/fingerless_gloves_m_human.vmdl"
-                },
-                "Morphs": {},
-                "OnComponentDestroy": null,
-                "OnComponentDisabled": null,
-                "OnComponentEnabled": null,
-                "OnComponentFixedUpdate": null,
-                "OnComponentStart": null,
-                "OnComponentUpdate": null,
-                "Parameters": {},
-                "PlaybackRate": 1,
-                "RenderOptions": {
-                  "GameLayer": true,
-                  "OverlayLayer": false,
-                  "BloomLayer": false,
-                  "AfterUILayer": false
-                },
-                "RenderType": "On",
-                "Sequence": {
-                  "Name": null,
-                  "Looping": true,
-                  "Blending": false
-                },
-                "Tint": "1,1,1,1",
-                "UseAnimGraph": true
-              }
-            ],
-            "Children": []
-          },
-          {
-            "__guid": "d60b84cd-101a-456b-b7bd-bbe18387caa8",
+            "__guid": "4bbcb0e7-4c73-48af-b778-8db3f1d86152",
             "__version": 2,
             "Flags": 0,
             "Name": "Clothing - black_boots",
@@ -2761,7 +2702,7 @@
             "Components": [
               {
                 "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "ac8eb89a-5d0a-425c-a56e-b9a80a6fea5e",
+                "__guid": "c41e476c-9004-47ab-ac73-fa4bb650b8b1",
                 "__enabled": true,
                 "Flags": 0,
                 "AnimationGraph": null,
@@ -2811,10 +2752,10 @@
             "Children": []
           },
           {
-            "__guid": "f1842604-2f2f-474c-8cff-7c9f4acaf94b",
+            "__guid": "f882c84e-9030-4f3b-90d8-5a224e525ee3",
             "__version": 2,
             "Flags": 0,
-            "Name": "Clothing - flatcap",
+            "Name": "Clothing - tactical_trousers",
             "Position": "0,0,0",
             "Rotation": "0,0,0,1",
             "Scale": "1,1,1",
@@ -2828,7 +2769,7 @@
             "Components": [
               {
                 "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "597887dd-57cb-4218-a7d6-1d2331e70325",
+                "__guid": "f0e7ef9b-3457-4b91-8619-7ca50d8393b2",
                 "__enabled": true,
                 "Flags": 0,
                 "AnimationGraph": null,
@@ -2847,8 +2788,8 @@
                 "MaterialOverride": null,
                 "Materials": null,
                 "Model": {
-                  "Id": "85f1c91d-cf2e-4dec-8fd1-7fef216634f7",
-                  "Path": "models/citizen_clothes/hat/flatcap/models/flatcap_m_human.vmdl"
+                  "Id": "bfa62413-83b0-43c2-beb9-d5fdae26d55f",
+                  "Path": "clothing/swat_gear/swat_trousers_m_human.vmdl"
                 },
                 "Morphs": {},
                 "OnComponentDestroy": null,
@@ -2878,10 +2819,10 @@
             "Children": []
           },
           {
-            "__guid": "5d1d6377-60ee-468d-bb4b-1b008173df99",
+            "__guid": "e41f2c96-6143-4482-aaf4-be684394b89b",
             "__version": 2,
             "Flags": 0,
-            "Name": "Clothing - bomber_jacket",
+            "Name": "Clothing - patchy_beard",
             "Position": "0,0,0",
             "Rotation": "0,0,0,1",
             "Scale": "1,1,1",
@@ -2895,7 +2836,7 @@
             "Components": [
               {
                 "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "d3f97fa9-c21c-4104-9e19-e233fbe5f59c",
+                "__guid": "ebbff83c-34af-4b70-9d90-59eee5a83606",
                 "__enabled": true,
                 "Flags": 0,
                 "AnimationGraph": null,
@@ -2914,8 +2855,75 @@
                 "MaterialOverride": null,
                 "Materials": null,
                 "Model": {
-                  "Id": "6f2a677e-3dc6-4051-99ae-780c08dd8433",
-                  "Path": "models/citizen_clothes/jacket/bomber_jacket/models/bomber_jacket_m_human.vmdl"
+                  "Id": "9d98e0b9-e9a8-41d6-93a7-85874548ecb2",
+                  "Path": "models/citizen_clothes/hair/patchy_beard/models/patchy_beard_m_human.vmdl"
+                },
+                "Morphs": {},
+                "OnComponentDestroy": null,
+                "OnComponentDisabled": null,
+                "OnComponentEnabled": null,
+                "OnComponentFixedUpdate": null,
+                "OnComponentStart": null,
+                "OnComponentUpdate": null,
+                "Parameters": {},
+                "PlaybackRate": 1,
+                "RenderOptions": {
+                  "GameLayer": true,
+                  "OverlayLayer": false,
+                  "BloomLayer": false,
+                  "AfterUILayer": false
+                },
+                "RenderType": "On",
+                "Sequence": {
+                  "Name": null,
+                  "Looping": true,
+                  "Blending": false
+                },
+                "Tint": "0.65661,0.50094,0.41942,1",
+                "UseAnimGraph": true
+              }
+            ],
+            "Children": []
+          },
+          {
+            "__guid": "41415ab0-b19d-4904-b667-2e925e7e91c4",
+            "__version": 2,
+            "Flags": 0,
+            "Name": "Clothing - baseball_cap_black",
+            "Position": "0,0,0",
+            "Rotation": "0,0,0,1",
+            "Scale": "1,1,1",
+            "Tags": "clothing",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkFlags": 0,
+            "NetworkOrphaned": 0,
+            "NetworkTransmit": true,
+            "OwnerTransfer": 1,
+            "Components": [
+              {
+                "__type": "Sandbox.SkinnedModelRenderer",
+                "__guid": "246b949b-fd48-4d18-b235-872c396635c5",
+                "__enabled": true,
+                "Flags": 0,
+                "AnimationGraph": null,
+                "BodyGroups": 18446744073709551615,
+                "BoneMergeTarget": {
+                  "_type": "component",
+                  "component_id": "256504cb-7033-4371-bf1f-1747c5b471b8",
+                  "go": "d01bf2bb-4495-4132-96b4-a5761fcdd441",
+                  "component_type": "SkinnedModelRenderer"
+                },
+                "CreateAttachments": false,
+                "CreateBoneObjects": false,
+                "DeformationMode": "Normal",
+                "LodOverride": null,
+                "MaterialGroup": null,
+                "MaterialOverride": null,
+                "Materials": null,
+                "Model": {
+                  "Id": "393ffd6d-f531-4f75-8547-239367048276",
+                  "Path": "models/citizen_clothes/hat/baseball_cap/model/baseball_cap_black_m_human.vmdl"
                 },
                 "Morphs": {},
                 "OnComponentDestroy": null,
@@ -3058,6 +3066,8 @@
             "__guid": "a26a47fd-bfa6-4f5b-87d0-933e4622e327",
             "__enabled": true,
             "Flags": 0,
+            "EnableHelmetMotion": true,
+            "HelmetMotionStrength": 0.65,
             "OnComponentDestroy": null,
             "OnComponentDisabled": null,
             "OnComponentEnabled": null,
@@ -3101,6 +3111,10 @@
   "MenuPath": null,
   "MenuIcon": null,
   "DontBreakAsTemplate": false,
-  "__references": [],
+  "__references": [
+    "facepunch.tactical_armour#338484",
+    "facepunch.tactical_gloves#338496",
+    "facepunch.tactical_trousers#338488"
+  ],
   "__version": 2
 }

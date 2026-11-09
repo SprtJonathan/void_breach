@@ -1,0 +1,7 @@
+Layer0
+{
+	shader "shaders/complex.shader"
+	TextureColor "weapons/aarc/mesh/arc_rifle_color.jpg"
+	g_flRoughnessScaleFactor "0.75"
+	g_flMetalness "0.2"
+}

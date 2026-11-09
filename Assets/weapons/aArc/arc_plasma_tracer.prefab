@@ -1,0 +1,177 @@
+{
+  "RootObject": {
+    "__guid": "b9614f47-847c-4477-a0f4-44247acc2a43",
+    "__version": 2,
+    "Flags": 0,
+    "Name": "arc_plasma_tracer",
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
+    "Tags": "",
+    "Enabled": true,
+    "NetworkMode": 0,
+    "NetworkFlags": 0,
+    "NetworkOrphaned": 0,
+    "NetworkTransmit": true,
+    "OwnerTransfer": 1,
+    "Components": [
+      {
+        "__type": "TemporaryEffect",
+        "__guid": "7b4fc0bf-10c3-4ea9-837a-ad0adb522f20",
+        "__enabled": true,
+        "Flags": 0,
+        "BecomeOrphan": false,
+        "DestroyAfterSeconds": 2,
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "WaitForChildEffects": true
+      },
+      {
+        "__type": "Sandbox.TracerEffect",
+        "__guid": "04d121e9-9469-4f0f-97fc-8502b10adc56",
+        "__enabled": true,
+        "Flags": 0,
+        "CastShadows": false,
+        "DistancePerSecond": 20000,
+        "EnableLight": true,
+        "EndCap": "Rounded",
+        "EndPoint": {
+          "LocalPosition": "0,0,0",
+          "LocalRotation": "0,0,0,0",
+          "Parent": null,
+          "IsAnchored": false,
+          "Position": "0,0,0"
+        },
+        "Length": 1250,
+        "LightColor": {
+          "blend": "Linear",
+          "color": [
+            {
+              "t": 0,
+              "c": "0.25,1.3,3,1"
+            },
+            {
+              "t": 1,
+              "c": "0.10,0.6,1.7,1"
+            }
+          ],
+          "alpha": null
+        },
+        "LightPosition": 0.15,
+        "LightRadius": {
+          "rangey": "0,112",
+          "frames": [
+            {
+              "x": 0,
+              "y": 1,
+              "in": 1,
+              "out": -1,
+              "mode": "Mirrored"
+            },
+            {
+              "x": 1,
+              "y": 0,
+              "in": 1,
+              "out": -1,
+              "mode": "Mirrored"
+            }
+          ]
+        },
+        "LineColor": {
+          "blend": "Linear",
+          "color": [
+            {
+              "t": 0,
+              "c": "7,8,10,1"
+            },
+            {
+              "t": 0.17,
+              "c": "2.4,5.7,10,1"
+            },
+            {
+              "t": 0.54,
+              "c": "0.30,1.75,6.5,0.8"
+            },
+            {
+              "t": 1,
+              "c": "0.05,0.28,3,0"
+            }
+          ],
+          "alpha": []
+        },
+        "LineWidth": [
+          {
+            "x": 0,
+            "y": 1.45,
+            "in": 0,
+            "out": 0,
+            "mode": "Linear"
+          },
+          {
+            "x": 0.18,
+            "y": 1.8,
+            "in": 0,
+            "out": 0,
+            "mode": "Linear"
+          },
+          {
+            "x": 1,
+            "y": 0,
+            "in": 0,
+            "out": 0,
+            "mode": "Linear"
+          }
+        ],
+        "Material": null,
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "Opaque": false,
+        "RenderOptions": {
+          "GameLayer": true,
+          "OverlayLayer": false,
+          "BloomLayer": false,
+          "AfterUILayer": false
+        },
+        "StartCap": "Rounded",
+        "StartDistance": 0
+      }
+    ],
+    "Children": [],
+    "__properties": {
+      "NetworkInterpolation": true,
+      "TimeScale": 1,
+      "WantsSystemScene": true,
+      "Metadata": {},
+      "NavMesh": {
+        "Enabled": false,
+        "IncludeStaticBodies": true,
+        "IncludeKeyframedBodies": true,
+        "EditorAutoUpdate": false,
+        "AgentHeight": 64,
+        "AgentRadius": 16,
+        "AgentStepSize": 18,
+        "AgentMaxSlope": 40,
+        "ExcludedBodies": "",
+        "IncludedBodies": "",
+        "DeferGeneration": false,
+        "CustomBounds": false
+      }
+    },
+    "__variables": []
+  },
+  "ResourceVersion": 2,
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "DontBreakAsTemplate": false,
+  "__references": [],
+  "__version": 2
+}

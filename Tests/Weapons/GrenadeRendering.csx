@@ -16,13 +16,13 @@ try
 {
 	var safe = Material.Load( "materials/weapons/holographic_reticle.vmat" );
 	var original = Model.Load( "models/weapons/sbox_attachments/sight_holographic/sight_holographic.vmdl" ).Materials[2];
-	Check( safe.IsValid && safe.ShaderName == "shaders/complex.shader" && safe.Flags.IsTranslucent,
-		"Local reticle uses a transparent native mesh shader" );
-	var pixels = safe.GetTexture( "g_tColor" ).GetPixels();
-	Check( pixels.Any( p => p.r > 50 && p.a > 50 ) && pixels.Any( p => p.a == 0 ),
-		"Reticle has visible red pixels and a transparent background" );
-	Check( safe.GetFeature( "F_SELF_ILLUM" ) == 1 && safe.GetTexture( "g_tSelfIllumMask" ).GetPixel( 0.5f, 0.5f ).r > 128,
-		"Reticle remains emissive in an unlit scene" );
+	Check( safe.IsValid && safe.ShaderName == "shaders/vb_holographic_reticle.shader" && safe.Flags.IsTranslucent,
+		"Local reticle uses the dedicated transparent shader" );
+	var pixels = safe.GetTexture( "g_tReticle" ).GetPixels();
+	Check( pixels.Any( p => p.r > 50 ) && pixels.Any( p => p.r == 0 ),
+		"Reticle texture contains a red mask and an empty background" );
+	Check( safe.GetVector4( "g_flReticleBrightness" ).x >= 2f,
+		"Reticle is configured for bright emission" );
 	Check( original.ShaderName == "shaders/glass_scope.shader", "Shared cloud material remains unchanged" );
 
 	foreach ( var path in new[] { "weapons/mp5/mp5.prefab", "weapons/mp5/w_mp5.prefab", "weapons/mp5/v_mp5.prefab",

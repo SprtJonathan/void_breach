@@ -15,9 +15,4 @@ VBVehicleHud {
         .turbo { font-size: 10px; margin-left: 6px; color: #79e9d3; }
         .seat-hints { flex-direction: column; align-items: flex-end; gap: 3px; font-size: 9px; }
     }
-    .turret-reticle { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 20px; height: 20px; border: 1px solid rgba(255, 208, 126, 0.28); border-radius: 2px; box-shadow: 0 0 7px rgba(255, 208, 126, 0.25);
-        .horizontal, .vertical { position: absolute; background-color: rgba(255, 224, 171, 0.8); }
-        .horizontal { left: -6px; top: 9px; width: 30px; height: 1px; }
-        .vertical { left: 9px; top: -6px; width: 1px; height: 30px; }
-    }
 }

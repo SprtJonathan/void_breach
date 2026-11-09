@@ -211,6 +211,61 @@ Après cette passe, les 24 contrôles de conduite, les 19 contrôles mur/turbo, 
 
 La régression d'entrée utilise désormais le prefab joueur complet, avec inventaire, animations et ragdoll. Le premier harness avec un joueur simplifié ne couvrait pas les collisions de ses os. Avant correction, le Humvee montait d'environ 121 unités en quatre secondes, avec un pic de vitesse de 460 unités/s. Après correction, il conserve ses quatre roues au sol, sans gain de hauteur, avec une vitesse résiduelle inférieure à 0,3 unité/s. Le test vérifie aussi la restauration des 16 états de collision des os et la survie du joueur factice sans god mode à l'entrée et à la sortie.
 
+## Caméra TPS et convergence du réticule (27 octobre 2026)
+
+La caméra de poursuite regardait son pivot sur le châssis : regard neutre,
+elle plongeait de 25,56° et la tourelle ciblait le sol à environ 172 unités
+devant le véhicule. Le centre de l'écran traversait la collision de la voiture.
+
+Le suivi TPP privilégie un cadrage proche et bas, inspiré d'une caméra de conduite
+type GTA IV. Le prefab joueur utilise `ChaseOffset = (-270,0,50)`, un pivot à 64
+unités et une inclinaison de 4°. La caméra reste au-dessus du toit sur sa ligne
+de visée neutre. Les branches FPS conducteur/tireur conservent leurs placements.
+
+L'orbite garde son orientation monde lorsque le châssis tourne ou prend du roulis.
+Les changements de regard sont appliqués directement. Après 1,25 s sans regard
+manuel ni tir, une voiture en mouvement ramène progressivement la caméra derrière
+elle ; à l'arrêt elle laisse le regard libre. La réponse de recentrage est de 3,5.
+
+La rotation horizontale TPP est continue sur 360°, y compris plusieurs tours
+successifs. `VBVehicleSeat` normalise le yaw avant les callbacks natifs de calcul
+des yeux et d'animation, afin que leurs limites de siège ne bloquent pas le regard
+à 120° ou 180°. Cela fonctionne aussi sans accès à la tourelle. L'ancienne limite
+verticale de cadrage (-30°/+35°) est retirée ; seule la protection des pôles à 89°
+est conservée pour éviter un retournement d'horizon. Les plages FPS du siège sont
+restaurées après l'animation et les limites mécaniques de la tourelle restent distinctes.
+
+Les translations horizontales suivent le châssis immédiatement et les petites
+secousses verticales sont filtrées (réponse 4). Le double amortissement de position
+est supprimé. Un balayage de sphère limite la longueur du bras à chaque frame :
+compression immédiate contre un obstacle, relâchement progressif lorsqu'il disparaît.
+La caméra ne peut donc pas être rattrapée par le véhicule en marche arrière.
+
+Le réglage de référence ne comporte ni roulis TPP, ni variation de FOV selon la
+vitesse ou le turbo. L'allongement maximal du bras à pleine vitesse passe de 36 à
+6 unités. Ces réglages sont dans **Chase Camera** ; les effets FPS restent distincts.
+
+Les commandes TPS sont envoyées depuis `ICameraModifier.PostCameraSetup` avec
+la vue finale de la frame, à la fréquence réseau existante. Le marqueur HUD et
+le tir utilisent tous deux `VBVehicleTurret.TraceBarrel`, qui exclut la hiérarchie
+de leur propre véhicule. Le test avant/arrière du marqueur lit `Camera.View`,
+car le transform de l'objet caméra reste attaché aux yeux du conducteur.
+Un obstacle situé derrière le pivot de tir ne retourne plus la tourelle.
+
+`Tests/Vehicles/VehicleChaseAim.csx`, lancé via `run_csharp` dans `basic_example`
+en Play hôte, a passé **33 contrôles natifs** : cadrage, centre hors du châssis,
+convergence canon/réticule dans quatre directions, exclusion du véhicule,
+utilisation de la vue finale dans la commande réseau, mur arrière, retour du
+bras, translation du châssis, obstacle derrière le canon et placements FPS
+conducteur/tireur, stabilité du FOV/horizon sous accélération, filtrage vertical,
+regard indépendant du roulis et du virage, conservation du regard à l'arrêt,
+recentrage progressif en mouvement, deux tours complets dans chaque sens via
+les callbacks réels du siège/animateur, regard vertical à ±70° et conservation
+des plages FPS. Le script restaure le joueur et attend sa sortie réseau avant
+de détruire son véhicule temporaire. Deux captures sont produites dans le dossier
+d'échange ; le résultat est conservé dans `tmp/vehicle-chase-aim.json`.
+Compilation .NET et native réussies. Aucun essai à deux clients dans cette passe.
+
 ## Références S&box consultées
 
 - [Rigidbody et forces aux points de contact](https://sbox.game/api/Sandbox.Rigidbody)

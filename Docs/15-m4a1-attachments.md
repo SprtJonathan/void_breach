@@ -79,12 +79,11 @@ matériau du réticule du viseur holographique ajouté aux MP5/M4A1.
 `VBWeaponAttachment` remplace ce seul matériau par
 `materials/weapons/holographic_reticle.vmat`, à l'édition et en jeu, y compris
 sur les anciennes instances de scène. Le boîtier et la vitre gardent leurs
-matériaux d'origine. Le nouveau matériau utilise le shader natif `complex`,
-avec transparence et émission, sans les lectures d'écran du shader cloud.
+matériaux d'origine. Le premier contournement utilisait le shader natif `complex`
+avec un réticule fixé à la surface. Il a été remplacé par le shader dédié décrit
+ci-dessous, qui rétablit la parallaxe sans les lectures d'écran du shader cloud.
 Le PNG local est extrait de la texture officielle `g_tRedDot` du modèle
 Facepunch : son canal rouge sert de masque, car son alpha d'origine est nul.
-Le réticule est désormais fixé à la surface ; l'effet de parallaxe du shader
-cloud est désactivé par ce contournement.
 
 `Tests/Weapons/GrenadeRendering.csx` s'exécute par `run_csharp` en Play hôte.
 Il vérifie les matériaux des cinq prefabs portant directement l'accessoire,
@@ -100,6 +99,50 @@ ni erreur console. Compilation native et matériau sans erreur. Les journaux
 sont `tmp/grenade-rendering-regression.json` et
 `tmp/grenade-player-rendering.json`. La session Play de test est arrêtée et
 la scène d'édition n'a pas été sauvegardée.
+
+### Réticule collimaté et visibilité
+
+`shaders/vb_holographic_reticle.shader` projette la texture selon la direction
+œil-lentille exprimée dans les axes du viseur (+X optique, +Z vertical).
+Le réticule reste orienté vers l'infini quand l'œil se décale : il glisse sur
+la vitre et disparaît lorsque l'œil sort de l'ouverture. Il n'est pas affiché
+depuis l'avant du viseur. Les matrices natives de rendu prennent en compte
+les déplacements tardifs du viewmodel, sans attributs calculés chaque frame en C#.
+
+Le pixel shader n'échantillonne que la texture du réticule. Il ne lit ni
+profondeur, ni copie d'écran, ni ressources de l'explosion. L'émission utilise
+un alpha prémultiplié : les traits rouges restent saturés sur un fond clair,
+et les pixels hors des traits laissent le fond intact. Le gain du masque
+renforce les traits fins après filtrage. Le shader n'écrit pas dans la profondeur.
+
+Le matériau `materials/weapons/holographic_reticle.vmat` expose :
+
+| Paramètre | Valeur | Effet |
+|---|---:|---|
+| `g_vReticleColor` | `1,0,0` | Rouge du réticule |
+| `g_flReticleBrightness` | `3.5` | Intensité émissive, indépendante de l'éclairage |
+| `g_flReticleAngularScale` | `8` | Une valeur plus faible agrandit le réticule |
+
+![MP5 avec le réticule collimaté](Images/holographic-parallax-mp5.png)
+
+![M4A1 avec le réticule collimaté](Images/holographic-parallax-m4a1.png)
+
+Validation du shader : **9 contrôles de rendu** dans
+`Tests/Weapons/HolographicReticle.csx` (luminosité, axe optique, déplacements
+latéraux réels de la caméra, montage tourné à grandes coordonnées, masquage
+hors lentille et depuis l'avant), puis **26 contrôles** dans
+`Tests/Weapons/GrenadeRendering.csx`, dont douze explosions.
+`Tests/Weapons/HolographicPlayerPresentation.csx` vérifie en plus le réticule
+visible en ADS sur le joueur réel avec le MP5 et la M4A1, puis trois explosions
+devant chaque arme. Ce test force temporairement la présentation ADS, restaure
+l'inventaire et les paramètres du joueur et n'injecte pas d'entrée globale.
+Laisser l'animation de visée se stabiliser avant la capture.
+
+Les trois scripts s'exécutent via `run_csharp` en Play hôte ; les essais
+d'explosion neutralisent les dégâts et la force. Les journaux sont
+`tmp/holographic-reticle-regression.json`, `tmp/grenade-rendering-parallax.json`
+et `tmp/holographic-player-regression.json`. Ils ne valident pas le multijoueur
+ni les dégâts radiaux. Aucun crash GPU n'a été observé pendant ces essais.
 
 Pour un accessoire M4A1, adapter également `top_rail` : la poignée de transport
 doit être retirée si une optique occupe son emplacement. Les masques de bodygroups

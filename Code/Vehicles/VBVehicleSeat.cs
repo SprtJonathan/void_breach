@@ -28,6 +28,11 @@ public abstract partial class VBVehicleSeat : BaseChair, Component.IPressable, I
 
 	public override Transform CalculateEyeTransform( PlayerController player )
 	{
+		if ( HasFreeChaseLook( player ) )
+		{
+			NormalizeChaseEyes( player );
+			return new Transform( GetEyeTransform().Position, Vehicle.WorldRotation * player.EyeAngles.ToRotation() );
+		}
 		if ( player.GetComponent<VBVehiclePlayerDriver>()?.IsTurretAiming == true )
 			return new Transform( GetEyeTransform().Position, Vehicle.WorldRotation * player.EyeAngles.ToRotation() );
 		return base.CalculateEyeTransform( player );
@@ -36,9 +41,36 @@ public abstract partial class VBVehicleSeat : BaseChair, Component.IPressable, I
 	public override void UpdatePlayerAnimator( PlayerController player, SkinnedModelRenderer renderer )
 	{
 		var yawRange = YawRange;
-		if ( player.GetComponent<VBVehiclePlayerDriver>()?.IsTurretAiming == true ) YawRange = new( -180f, 180f );
-		base.UpdatePlayerAnimator( player, renderer );
-		YawRange = yawRange;
+		var pitchRange = PitchRange;
+		bool freeLook = HasFreeChaseLook( player );
+		if ( freeLook )
+		{
+			NormalizeChaseEyes( player );
+			PitchRange = new( -89f, 89f );
+		}
+		if ( freeLook || player.GetComponent<VBVehiclePlayerDriver>()?.IsTurretAiming == true ) YawRange = new( -180f, 180f );
+		try
+		{
+			base.UpdatePlayerAnimator( player, renderer );
+		}
+		finally
+		{
+			YawRange = yawRange;
+			PitchRange = pitchRange;
+		}
+	}
+
+	private bool HasFreeChaseLook( PlayerController player ) => Vehicle.IsValid() && player.ThirdPerson
+		&& player.GetComponent<VBVehiclePlayerDriver>() is { IsDriving: true } bridge && bridge.ActiveSeat == this;
+
+	private static void NormalizeChaseEyes( PlayerController player )
+	{
+		var eyes = player.EyeAngles;
+		// Wrap yaw before the native chair animator clamps it. A wider range alone
+		// still stops continuous mouse input at its endpoints.
+		eyes.yaw = ((eyes.yaw + 180f) % 360f + 360f) % 360f - 180f;
+		eyes.pitch = Math.Clamp( eyes.pitch, -89f, 89f );
+		player.EyeAngles = eyes;
 	}
 	// A driver seat on the chassis must not mistake a gunner for its own occupant.
 	public new PlayerController GetOccupant() => SeatPosition.IsValid()

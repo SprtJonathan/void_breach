@@ -38,6 +38,8 @@ public sealed class VBVehicleTurret : Component
 	private Model _model;
 	private Vector3 _yawBindPivot, _pitchBindPivot;
 	private float _visualYaw, _visualPitch;
+	private TimeSince _timeSinceHudShot = 999f;
+	public float HudShotAge => _timeSinceHudShot;
 
 	public bool CanOperate( PlayerController player )
 	{
@@ -82,6 +84,12 @@ public sealed class VBVehicleTurret : Component
 		* (PitchPivot - YawPivot + Rotation.FromPitch( Pitch ) * (MuzzleOffset - PitchPivot)) );
 	public Vector3 CameraPosition => Vehicle.WorldTransform.PointToWorld( YawPivot + CameraOffset );
 
+	/// <summary>The same physical barrel ray is used for shots and the HUD impact marker.</summary>
+	public SceneTraceResult TraceBarrel() => Scene.Trace.Ray( MuzzlePosition,
+		MuzzlePosition + GunRotation.Forward * Math.Clamp( Range, 100f, 50000f ) )
+		.IgnoreGameObjectHierarchy( Vehicle.GameObject ).UseHitboxes( true )
+		.WithoutTags( new[] { "trigger", "water" } ).Run();
+
 	/// <summary>Resolve parallax from fixed pivots, without feeding the rotating muzzle back into the aim.</summary>
 	public Angles GetAimForView( Transform view )
 	{
@@ -89,6 +97,10 @@ public sealed class VBVehicleTurret : Component
 		var trace = Scene.Trace.Ray( view.Position, view.Position + view.Rotation.Forward * Range )
 			.IgnoreGameObjectHierarchy( Vehicle.GameObject ).UseHitboxes( true )
 			.WithoutTags( new[] { "trigger", "water" } ).Run();
+		// A compressed chase camera can see a wall behind the gun. Do not turn the
+		// barrel backwards to reach a point already behind its fixed aiming pivot.
+		var pivot = Vehicle.WorldTransform.PointToWorld( YawPivot );
+		if ( Vector3.Dot( trace.EndPosition - pivot, view.Rotation.Forward ) <= 0f ) return view.Rotation.Angles();
 		return GetAimForPoint( trace.EndPosition, view.Rotation.Angles() );
 	}
 
@@ -126,8 +138,7 @@ public sealed class VBVehicleTurret : Component
 		var muzzle = MuzzlePosition;
 		var clear = Scene.Trace.Ray( CameraPosition, muzzle ).IgnoreGameObjectHierarchy( Vehicle.GameObject ).Run();
 		if ( clear.Hit || clear.StartedSolid ) return;
-		var trace = Scene.Trace.Ray( muzzle, muzzle + GunRotation.Forward * Math.Clamp( Range, 100f, 50000f ) )
-			.IgnoreGameObjectHierarchy( Vehicle.GameObject ).UseHitboxes( true ).WithoutTags( new[] { "trigger", "water" } ).Run();
+		var trace = TraceBarrel();
 		if ( trace.Hit && trace.GameObject.IsValid() )
 		{
 			var health = trace.GameObject.GetComponentInParent<VBHealthComponent>( includeSelf: true );
@@ -146,6 +157,7 @@ public sealed class VBVehicleTurret : Component
 	[Rpc.Broadcast( NetFlags.HostOnly | NetFlags.Unreliable )]
 	private void ShowShot( Vector3 start, Vector3 end )
 	{
+		_timeSinceHudShot = 0f;
 		// This presentation RPC already runs once on each peer, just like handheld shot effects.
 		VoidBreach.Water.FluidImpacts.Segment( Scene, start, end, radius: 18, strength: 140 );
 		var effect = new GameObject( false, "Mounted gun tracer" ) { Flags = GameObjectFlags.NotSaved, NetworkMode = NetworkMode.Never };

@@ -1,0 +1,9 @@
+Layer0
+{
+	shader "shaders/complex.shader"
+	F_SELF_ILLUM "1"
+	TextureColor "[0.018 0.28 0.55 1]"
+	TextureSelfIllumMask "[1 1 1 1]"
+	g_vSelfIllumTint "[0.03 0.55 1]"
+	g_flSelfIllumScale "3"
+}

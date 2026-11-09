@@ -1,0 +1,51 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:modeldoc29:version{3cec427c-1b0e-4d48-a90a-0436f33a6041} -->
+{
+	rootNode =
+	{
+		_class = "RootNode"
+		children =
+		[
+			{
+				_class = "RenderMeshList"
+				children =
+				[
+					{
+						_class = "RenderMeshFile"
+						name = "arc_rifle"
+						filename = "weapons/aArc/mesh/Arc_Rifle.fbx"
+						import_translation = [ 0.0, 0.0, 0.0 ]
+						import_rotation = [ 0.0, 90.0, 0.0 ]
+						import_scale = 0.36
+						import_filter =
+						{
+							exclude_by_default = false
+							exception_list = []
+						}
+					},
+				]
+			},
+			{
+				_class = "MaterialGroupList"
+				children =
+				[
+					{
+						_class = "DefaultMaterialGroup"
+						remaps =
+						[
+							{
+								from = "tripo_node_4f74e11b-18ee-4abe-8134-99ce722cfa2d_material.vmat"
+								to = "weapons/aarc/mesh/arc_rifle_body.vmat"
+							},
+							{
+								from = "arcscreen.vmat"
+								to = "weapons/aarc/mesh/arc_rifle_screen.vmat"
+							},
+						]
+						use_global_default = false
+						global_default_material = ""
+					},
+				]
+			},
+		]
+	}
+}

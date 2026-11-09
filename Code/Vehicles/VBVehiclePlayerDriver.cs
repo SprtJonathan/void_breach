@@ -9,7 +9,7 @@ public sealed partial class VBVehiclePlayerDriver : Component, PlayerController.
 	[Property, InputAction] public string TurboAction { get; set; } = "vehicleturbo";
 	[Property, Group( "Input" )] public bool UsePlayerInput { get; set; } = true;
 	[Property, Range( 5f, 50f )] public float SendRate { get; set; } = 25f;
-	[Property] public Vector3 ChaseOffset { get; set; } = new( -230f, 0f, 110f );
+	[Property] public Vector3 ChaseOffset { get; set; } = new( -270f, 0f, 50f );
 	[Property, InputAction] public string TurretToggleAction { get; set; } = "vehicleweapon";
 	public VBVehicleDriverSeat Seat => ActiveSeat as VBVehicleDriverSeat;
 	public VBVehicleSeat ActiveSeat => ResolveAssignedSeat();
@@ -138,7 +138,7 @@ public sealed partial class VBVehiclePlayerDriver : Component, PlayerController.
 		var seat = ActiveSeat;
 		if ( seat != _lastSeat )
 		{
-			if ( seat.IsValid() ) _player.ThirdPerson = false;
+			if ( seat.IsValid() ) _player.ThirdPerson = seat is VBVehicleDriverSeat { StartInThirdPerson: true };
 			_lastSeat = seat;
 		}
 		UpdateVehicleCameraMotion();
@@ -150,11 +150,19 @@ public sealed partial class VBVehiclePlayerDriver : Component, PlayerController.
 			seat.RequestSeatChange( _player, AlternateSeat );
 			return;
 		}
+		if ( IsDriving && _player.ThirdPerson && _player.UseCameraControls && Scene.Camera.IsValid() ) return;
+		TransmitPlayerInput( turret );
+	}
+
+	private void TransmitPlayerInput( VBVehicleTurret turret, Transform? turretView = null )
+	{
 		if ( !UsePlayerInput || Time.Now < _nextSend ) return;
 		_nextSend = Time.Now + 1f / Math.Clamp( SendRate, 5f, 50f );
 		var movement = Input.AnalogMove;
+		var aim = IsTurretAiming && turret.IsValid() && turretView.HasValue
+			? turret.GetAimForView( turretView.Value ) : GetTurretAim( turret );
 		TransmitControls( new VBVehicleControls( movement.x, -movement.y, 0f, Input.Down( HandbrakeAction ), Input.Down( TurboAction ) ),
-			GetTurretAim( turret ), IsTurretAiming, IsTurretAiming && Input.Down( "attack1" ) );
+			aim, IsTurretAiming, IsTurretAiming && Input.Down( "attack1" ) );
 	}
 
 	private Angles GetTurretAim( VBVehicleTurret turret )

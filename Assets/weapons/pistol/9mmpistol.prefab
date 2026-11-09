@@ -29,7 +29,7 @@
         },
         "AutoReload": true,
         "Ballistics": {
-          "Damage": 12,
+          "Damage": 15,
           "Pellets": 1,
           "Range": 4096,
           "Radius": 1,
@@ -96,7 +96,7 @@
           "Path": "ammo/small.ammo"
         },
         "PrimaryAutomatic": false,
-        "PrimaryDelay": 0.25,
+        "PrimaryDelay": 0.1,
         "RecoilPitch": "0,0",
         "RecoilYaw": "0,0",
         "ReloadStartTime": 0,
@@ -133,7 +133,7 @@
         "IsStatic": false,
         "MaterialGroup": null,
         "Model": {
-          "Id": "f975090a-ab5a-4cfa-8386-526b9df0c101",
+          "Id": "948d6d09-2648-40a3-8f78-5fa3e8afbc6b",
           "Path": "models/weapons/sbox_pistol_usp/w_usp.vmdl"
         },
         "OnComponentDestroy": null,
@@ -160,7 +160,7 @@
         "MaterialOverride": null,
         "Materials": null,
         "Model": {
-          "Id": "f975090a-ab5a-4cfa-8386-526b9df0c101",
+          "Id": "948d6d09-2648-40a3-8f78-5fa3e8afbc6b",
           "Path": "models/weapons/sbox_pistol_usp/w_usp.vmdl"
         },
         "OnComponentDestroy": null,
@@ -188,7 +188,7 @@
         "Friction": null,
         "IsTrigger": false,
         "Model": {
-          "Id": "f975090a-ab5a-4cfa-8386-526b9df0c101",
+          "Id": "948d6d09-2648-40a3-8f78-5fa3e8afbc6b",
           "Path": "models/weapons/sbox_pistol_usp/w_usp.vmdl"
         },
         "OnComponentDestroy": null,

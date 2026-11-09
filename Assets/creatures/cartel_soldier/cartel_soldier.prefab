@@ -220,19 +220,27 @@
         "AimReactionTime": 0.65,
         "AimTrackingSpeed": 4,
         "AimYawDeadZone": 12,
+        "AlertObserveTime": 2,
         "AllySpacing": 120,
         "AvoidVisibleHazards": true,
         "BurstRestMax": 1.8,
         "BurstRestMin": 1,
         "BurstShotLimit": 3,
+        "CloseAwarenessFieldOfView": 270,
+        "CloseAwarenessRange": 180,
         "CombatAttentionTime": 18,
         "CombatBackpedalSpeedScale": 0.6,
         "CombatStrafeSpeedScale": 0.8,
+        "ContactRecoveryDelay": 6,
         "CoverHoldTime": 5,
         "CoverMemoryTime": 18,
         "CoverPeekTime": 3,
         "CoverRadius": 500,
         "CoverSamples": 24,
+        "CrouchedFireDecisionTime": 0.8,
+        "CrouchedFireMinRange": 180,
+        "CrouchedFireSettleTime": 0.65,
+        "CrouchedFireSpreadScale": 0.65,
         "CrouchHeight": 44,
         "EmergencyMoveSpeed": 170,
         "EngagedFieldOfView": 240,
@@ -255,6 +263,7 @@
           "_type": "gameobject",
           "prefab": "weapons/grenade/frag_grenade_projectile.prefab"
         },
+        "GrenadePressureDelay": 5,
         "GrenadeWarningSound": {
           "Id": "7903e5af-9c59-4308-8bbe-7d46ab2c206e",
           "Path": "sounds/npc/soldier/soldier_grenade_warning.sound"
@@ -262,7 +271,9 @@
         "GrenadeWindup": 0.8,
         "HazardReactionTime": 0.2,
         "InitialAssessmentTime": 1.2,
+        "InitialGrenadeDelay": 3,
         "LostContactHoldTime": 4,
+        "MaxCombatPathLength": 480,
         "MaximumClimbHeight": 112,
         "MaximumEscapeDrop": 320,
         "MaximumTurnRate": 110,
@@ -282,6 +293,7 @@
         "OnComponentUpdate": null,
         "PatrolRadius": 400,
         "PatrolSpeed": 65,
+        "PersonalSpaceRange": 100,
         "PositionHoldMax": 9,
         "PositionHoldMin": 5,
         "PreferredRange": 600,
@@ -298,19 +310,24 @@
           "prefab": "weapons/pistol/9mmpistol.prefab"
         },
         "SidearmReserveMagazines": -1,
+        "SquadAlertRange": 1400,
         "SupportCoverHoldMax": 10,
         "SupportCoverHoldMin": 6,
         "SupportMemoryTime": 18,
         "SupportPeekTime": 1.2,
         "SupportReloadThreshold": 0.65,
         "SupportRepositionRadius": 900,
+        "TacticalSightLossBudget": 3,
         "TurnSpeed": 4,
         "UseCover": true,
         "UseCrouchCover": true,
+        "UseCrouchedFire": true,
         "UseDynamicTraversal": true,
+        "UseSquadAlerts": true,
         "UseTacticalPositions": true,
         "UseWeaponBurstTiming": false,
         "VehicleLookAhead": 1.5,
+        "WatchOpenSectors": true,
         "WeaponPrefab": {
           "_type": "gameobject",
           "prefab": "weapons/m4a1/m4a1.prefab"
@@ -333,19 +350,19 @@
         "Clothing": [
           {
             "Clothing": {
-              "Id": "db2620be-4990-4759-895a-70deb8c66aa8",
+              "Id": "74152d7e-1605-43a2-a642-c036cf9740ba",
               "Path": "clothing/swat_gear/tactical_trousers.clothing"
             }
           },
           {
             "Clothing": {
-              "Id": "7dbbd016-e568-4f95-80c5-c5e693577069",
+              "Id": "e44b9179-1266-4b55-ab9a-0a83528fc12a",
               "Path": "clothing/tactical_gloves/tactical_gloves.clothing"
             }
           },
           {
             "Clothing": {
-              "Id": "da53161c-b866-4df8-846d-397c5290cb9e",
+              "Id": "5352edba-d836-4e66-8ec6-00dc19c574ed",
               "Path": "clothing/swat_gear/tactical_armour.clothing"
             }
           },
@@ -357,7 +374,7 @@
           },
           {
             "Clothing": {
-              "Id": "0bcac1eb-0bbb-477c-afc7-f70eb898a7e5",
+              "Id": "d0d57bf8-65f6-4d75-acc4-8c6eb8fba8ab",
               "Path": "clothing/swat_helmet/tactical_gasmask.clothing"
             }
           },
@@ -2378,7 +2395,7 @@
             ]
           },
           {
-            "__guid": "9a573d74-c2ab-4bcd-b587-fffeda113486",
+            "__guid": "6e188476-a228-4d60-b0e7-28239388bd84",
             "__version": 2,
             "Flags": 0,
             "Name": "Clothing - tactical_trousers",
@@ -2395,7 +2412,7 @@
             "Components": [
               {
                 "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "48d00a5c-625b-4d86-8e7f-e037948abcfc",
+                "__guid": "d5cb1941-55b8-4baa-98d7-51a003cfd91d",
                 "__enabled": true,
                 "Flags": 0,
                 "AnimationGraph": null,
@@ -2414,7 +2431,7 @@
                 "MaterialOverride": null,
                 "Materials": null,
                 "Model": {
-                  "Id": "6ab6d707-cc70-48c1-aebc-90596a8cf826",
+                  "Id": "bfa62413-83b0-43c2-beb9-d5fdae26d55f",
                   "Path": "clothing/swat_gear/swat_trousers_m_human.vmdl"
                 },
                 "Morphs": {},
@@ -2445,7 +2462,7 @@
             "Children": []
           },
           {
-            "__guid": "1566f5f6-4458-4532-b4cb-2e636d183384",
+            "__guid": "e4e629ac-bd98-4134-95f3-bbd43aa91206",
             "__version": 2,
             "Flags": 0,
             "Name": "Clothing - tactical_gloves",
@@ -2462,7 +2479,7 @@
             "Components": [
               {
                 "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "4579d807-1ee1-4bc2-ba70-f79e990c24c4",
+                "__guid": "c1a81de3-879b-4c8e-982d-634b5e3d7b8e",
                 "__enabled": true,
                 "Flags": 0,
                 "AnimationGraph": null,
@@ -2481,7 +2498,7 @@
                 "MaterialOverride": null,
                 "Materials": null,
                 "Model": {
-                  "Id": "51956a5e-2ad7-45bc-82a9-a42e6c973e4e",
+                  "Id": "c7abe0b3-03f5-44be-975f-9ddbddd039ca",
                   "Path": "clothing/tactical_gloves/tactical_gloves_m_human.vmdl"
                 },
                 "Morphs": {},
@@ -2512,7 +2529,7 @@
             "Children": []
           },
           {
-            "__guid": "cd936154-fee7-4579-a7a9-797e66462048",
+            "__guid": "12cea3a3-e04e-4ef1-9dcf-7dbce489701e",
             "__version": 2,
             "Flags": 0,
             "Name": "Clothing - tactical_armour",
@@ -2529,7 +2546,7 @@
             "Components": [
               {
                 "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "10c8623a-520d-4afa-a27c-ac653f99154e",
+                "__guid": "635b1bd9-dd8d-4f64-84c1-3c1cacd8078e",
                 "__enabled": true,
                 "Flags": 0,
                 "AnimationGraph": null,
@@ -2548,7 +2565,7 @@
                 "MaterialOverride": null,
                 "Materials": null,
                 "Model": {
-                  "Id": "031b321d-140b-4b4c-869c-2b437bf3fe05",
+                  "Id": "2e00e2fa-e0b1-482e-9076-3e74feeff7bc",
                   "Path": "clothing/swat_gear/swat_gear_m_human.vmdl"
                 },
                 "Morphs": {},
@@ -2579,7 +2596,7 @@
             "Children": []
           },
           {
-            "__guid": "aab2338c-a9c7-4caa-b0e2-024e005cc3fc",
+            "__guid": "7ce07d04-4964-4c16-abec-c1de4a1730fd",
             "__version": 2,
             "Flags": 0,
             "Name": "Clothing - black_boots",
@@ -2596,7 +2613,7 @@
             "Components": [
               {
                 "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "56fa88ed-211f-40df-983f-1e89840fa541",
+                "__guid": "5a4139a4-26bb-4fc3-9de3-6312d5959c91",
                 "__enabled": true,
                 "Flags": 0,
                 "AnimationGraph": null,
@@ -2646,7 +2663,7 @@
             "Children": []
           },
           {
-            "__guid": "03b88c33-92a2-49d2-b6a2-40cabde4a395",
+            "__guid": "7f32422d-ed78-4cb0-88d0-4d4bfe735be3",
             "__version": 2,
             "Flags": 0,
             "Name": "Clothing - tactical_gasmask",
@@ -2663,7 +2680,7 @@
             "Components": [
               {
                 "__type": "Sandbox.SkinnedModelRenderer",
-                "__guid": "fd1205c7-cf55-4738-a991-457476e03de4",
+                "__guid": "fa074b82-2601-4e59-84d4-5c27c2a640ae",
                 "__enabled": true,
                 "Flags": 0,
                 "AnimationGraph": null,
@@ -2682,7 +2699,7 @@
                 "MaterialOverride": null,
                 "Materials": null,
                 "Model": {
-                  "Id": "d229d5ff-a7e5-4bc3-b26b-579cc9117ccd",
+                  "Id": "f469d917-c568-4ac5-be15-f6ec4156a3a9",
                   "Path": "clothing/swat_helmet/swat_helmet_m_human.vmdl"
                 },
                 "Morphs": {},

@@ -10,6 +10,7 @@
       "Schema": 0,
       "IncludeSourceFiles": false,
       "Resources": null,
+      "PublishUsedAssetsOnly": false,
       "PackageReferences": [],
       "EditorReferences": [],
       "Mounts": null,

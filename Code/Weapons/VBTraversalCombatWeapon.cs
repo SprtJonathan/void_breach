@@ -1,8 +1,13 @@
 using Sandbox;
+using Sandbox.Rendering;
 
 /// <summary>Shared traversal lock for weapon input, direct actions and host shot validation.</summary>
 public abstract class VBTraversalCombatWeapon : BaseCombatWeapon
 {
+	// The visor owns the reticle for every held item, including fists and grenades.
+	public override void DrawCrosshair( HudPainter hud, Vector2 center ) { }
+	public float HudShotAge => TimeSinceShoot;
+
 	protected bool IsTraversalBlockingActions => Owner.IsValid()
 		&& Owner.Components.Get<VBMoveModeTraversal>() is { IsTraversing: true };
 

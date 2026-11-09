@@ -51,7 +51,7 @@
         "EnableFirstPersonAimZoom": true,
         "EnableThirdPersonAimZoom": true,
         "FirstPersonAimFieldOfViewReduction": 8,
-        "FirstPersonAimPositionOffset": "4,0,-1.70000005",
+        "FirstPersonAimPositionOffset": "4,0,-1.5",
         "FirstPersonAimRotationOffset": "0,0,0",
         "FirstShellReloadTime": 0,
         "GunshotAiRadius": 1800,
@@ -133,7 +133,7 @@
         "IsStatic": false,
         "MaterialGroup": null,
         "Model": {
-          "Id": "be298f76-c3f2-4660-928a-df7922d35a7c",
+          "Id": "9a54ffc8-9079-46d9-baf3-7fa8d132e71f",
           "Path": "models/weapons/sbox_smg_mp5/w_mp5.vmdl"
         },
         "OnComponentDestroy": null,
@@ -200,7 +200,7 @@
         "MaterialOverride": null,
         "Materials": null,
         "Model": {
-          "Id": "be298f76-c3f2-4660-928a-df7922d35a7c",
+          "Id": "9a54ffc8-9079-46d9-baf3-7fa8d132e71f",
           "Path": "models/weapons/sbox_smg_mp5/w_mp5.vmdl"
         },
         "OnComponentDestroy": null,
@@ -228,7 +228,7 @@
         "Friction": null,
         "IsTrigger": false,
         "Model": {
-          "Id": "be298f76-c3f2-4660-928a-df7922d35a7c",
+          "Id": "9a54ffc8-9079-46d9-baf3-7fa8d132e71f",
           "Path": "models/weapons/sbox_smg_mp5/w_mp5.vmdl"
         },
         "OnComponentDestroy": null,
@@ -310,9 +310,16 @@
             "LodOverride": null,
             "MaterialGroup": null,
             "MaterialOverride": null,
-            "Materials": null,
+            "Materials": {
+              "indexed": {
+                "2": {
+                  "Id": "ffa49f58-3343-41d4-a97f-c1ece4471bdf",
+                  "Path": "materials/weapons/holographic_reticle.vmat"
+                }
+              }
+            },
             "Model": {
-              "Id": "c3fe4259-eac3-4bf7-a094-598118d122ae",
+              "Id": "96345f90-54ff-4770-9e0f-aee301af937b",
               "Path": "models/weapons/sbox_attachments/sight_holographic/sight_holographic.vmdl"
             },
             "OnComponentDestroy": null,

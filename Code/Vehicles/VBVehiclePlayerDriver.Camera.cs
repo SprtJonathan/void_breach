@@ -9,14 +9,18 @@ public sealed partial class VBVehiclePlayerDriver : ICameraModifier
 	[Property, Group( "First Person Camera" ), Range( 0f, 3f )] public float InertiaDistance { get; set; } = 1f;
 	[Property, Group( "First Person Camera" ), Range( 0f, 5f )] public float InertiaRoll { get; set; } = 1.5f;
 	[Property, Group( "First Person Camera" ), Range( 0f, 8f )] public float FirstPersonSpeedFov { get; set; } = 3f;
-	[Property, Group( "Chase Camera" ), Range( 1f, 20f )] public float ChaseResponse { get; set; } = 8f;
-	[Property, Group( "Chase Camera" ), Range( 0f, 100f )] public float ChaseSpeedDistance { get; set; } = 36f;
-	[Property, Group( "Chase Camera" ), Range( 0f, 20f )] public float ChaseSpeedFov { get; set; } = 8f;
-	[Property, Group( "Chase Camera" ), Range( 0f, 8f )] public float ChaseRoll { get; set; } = 2f;
+	[Property, Group( "Chase Camera" ), Range( 1f, 20f )] public float ChaseResponse { get; set; } = 3.5f;
+	[Property, Group( "Chase Camera" ), Range( 0f, 100f )] public float ChaseSpeedDistance { get; set; } = 6f;
+	[Property, Group( "Chase Camera" ), Range( 0f, 20f )] public float ChaseSpeedFov { get; set; } = 0f;
+	[Property, Group( "Chase Camera" ), Range( 0f, 8f )] public float ChaseRoll { get; set; } = 0f;
+	[Property, Group( "Chase Camera" ), Range( 48f, 160f )] public float ChasePivotHeight { get; set; } = 64f;
+	[Property, Group( "Chase Camera" ), Range( 0f, 20f )] public float ChaseAimPitch { get; set; } = 4f;
+	[Property, Group( "Chase Camera" ), Range( 1f, 20f )] public float ChaseHeightResponse { get; set; } = 4f;
+	[Property, Group( "Chase Camera" ), Range( 0f, 4f )] public float ChaseRecenterDelay { get; set; } = 1.25f;
 	[Property, Group( "Vehicle Camera" ), Range( 0f, 8f )] public float TurboCameraFov { get; set; } = 2f;
 	private VBVehicleSeat _cameraMotionSeat;
-	private Vector3 _previousCameraVelocity, _cameraAcceleration, _cameraLocalOffset, _chasePosition;
-	private Rotation _chaseHeading;
+	private Vector3 _previousCameraVelocity, _cameraAcceleration, _cameraLocalOffset, _chasePosition, _chaseTarget;
+	private float _chaseYaw, _chaseEyeYaw, _chaseEyePitch, _chaseHeight, _chaseDistance, _chaseLastLook;
 	private float _cameraSpeedAmount, _cameraTurboAmount, _cameraRoll;
 	private bool _chaseInitialized;
 
@@ -25,6 +29,15 @@ public sealed partial class VBVehiclePlayerDriver : ICameraModifier
 	{
 		if ( !_player.IsValid() || !_player.UseCameraControls || Scene.Camera != camera ) return;
 		ApplyVehicleView( camera, ref view );
+	}
+
+	void ICameraModifier.PostCameraSetup( CameraComponent camera, in CameraView view )
+	{
+		// TPS input must converge from the final camera, including wall compression,
+		// rather than the previous frame's camera read during OnUpdate.
+		if ( IsProxy || !_player.IsValid() || !_player.UseCameraControls || Scene.Camera != camera
+			|| !_player.ThirdPerson || !IsDriving || IsIncapacitated ) return;
+		TransmitPlayerInput( ActiveSeat.Vehicle.GetComponent<VBVehicleTurret>(), new Transform( view.Position, view.Rotation ) );
 	}
 
 	private static float CameraBlend( float response, float dt ) => 1f - MathF.Exp( -MathF.Max( response, 0.1f ) * dt );
@@ -87,7 +100,8 @@ public sealed partial class VBVehiclePlayerDriver : ICameraModifier
 			return;
 		}
 		float fov = _player.ThirdPerson ? ChaseSpeedFov : FirstPersonSpeedFov;
-		view.FieldOfView = Math.Clamp( view.FieldOfView + _cameraSpeedAmount * fov + _cameraTurboAmount * TurboCameraFov, 1f, 170f );
+		float turboFov = _player.ThirdPerson ? 0f : _cameraTurboAmount * TurboCameraFov;
+		view.FieldOfView = Math.Clamp( view.FieldOfView + _cameraSpeedAmount * fov + turboFov, 1f, 170f );
 		if ( !_player.ThirdPerson )
 		{
 			var eyes = GetVehicleFirstPersonView( _player.EyeTransform );
@@ -95,23 +109,57 @@ public sealed partial class VBVehiclePlayerDriver : ICameraModifier
 			return;
 		}
 		float dt = Math.Clamp( Time.Delta, 0f, 0.1f );
-		float blend = EnableCameraMotion ? CameraBlend( ChaseResponse, dt ) : 1f;
-		var heading = Rotation.FromYaw( vehicle.WorldRotation.Yaw() );
-		if ( !_chaseInitialized ) _chaseHeading = heading;
-		_chaseHeading = Rotation.Slerp( _chaseHeading, heading, blend );
-		var look = _chaseHeading * Rotation.From( _player.EyeAngles );
-		var target = vehicle.WorldPosition + Vector3.Up * 48f;
-		var offset = ChaseOffset + Vector3.Backward * (_cameraSpeedAmount * ChaseSpeedDistance);
-		var desired = target + look * offset;
-		if ( !_chaseInitialized || (_chasePosition - desired).Length > 650f ) _chasePosition = desired;
-		_chaseInitialized = true;
-		var candidate = Vector3.Lerp( _chasePosition, desired, blend );
-		// Recheck after damping: smoothing an already-clipped camera can otherwise
-		// move it back through a wall when the vehicle or the view rotates.
-		var trace = Scene.Trace.Sphere( 8f, target, candidate ).IgnoreGameObjectHierarchy( vehicle.GameObject )
+		float heading = vehicle.WorldRotation.Yaw();
+		var orbitInput = _player.EyeAngles;
+		var rawTarget = vehicle.WorldPosition + Vector3.Up * ChasePivotHeight;
+		bool reset = !_chaseInitialized || (rawTarget - _chaseTarget).Length > 650f;
+		if ( reset )
+		{
+			_chaseYaw = heading + orbitInput.yaw;
+			_chaseEyeYaw = orbitInput.yaw;
+			_chaseEyePitch = orbitInput.pitch;
+			_chaseHeight = rawTarget.z;
+			_chaseLastLook = Time.Now;
+		}
+		float yawInput = WrapChaseAngle( orbitInput.yaw - _chaseEyeYaw );
+		float pitchInput = orbitInput.pitch - _chaseEyePitch;
+		_chaseEyeYaw = orbitInput.yaw;
+		_chaseEyePitch = orbitInput.pitch;
+		_chaseYaw = WrapChaseAngle( _chaseYaw + yawInput );
+		if ( MathF.Abs( yawInput ) > 0.01f || MathF.Abs( pitchInput ) > 0.01f
+			|| (UsePlayerInput && Input.Down( "attack1" )) ) _chaseLastLook = Time.Now;
+
+		// Free look is immediate and independent of steering. Only a moving car
+		// recentres the orbit, after the driver has stopped looking/using the gun.
+		var velocity = vehicle.IsProxy ? vehicle.LinearVelocity : vehicle.Body.Velocity;
+		if ( Time.Now - _chaseLastLook > ChaseRecenterDelay && velocity.WithZ( 0f ).Length > 35f )
+			_chaseYaw = WrapChaseAngle( _chaseYaw + WrapChaseAngle( heading - _chaseYaw ) * CameraBlend( ChaseResponse, dt ) );
+		var look = Rotation.From( Math.Clamp( orbitInput.pitch, -89f, 89f ), _chaseYaw, 0f );
+		_chaseHeight += (rawTarget.z - _chaseHeight) * (EnableCameraMotion ? CameraBlend( ChaseHeightResponse, dt ) : 1f);
+		var target = rawTarget.WithZ( _chaseHeight );
+		_chaseTarget = rawTarget;
+		var offset = ChaseOffset;
+		if ( ActiveSeat is VBVehicleDriverSeat { ChaseDistanceOverride: > 0f } driverSeat )
+			offset.x = -driverSeat.ChaseDistanceOverride;
+		offset += Vector3.Backward * (_cameraSpeedAmount * ChaseSpeedDistance);
+		var boom = look * offset;
+		var desired = target + boom;
+		var obstruction = Scene.Trace.Sphere( 8f, target, desired ).IgnoreGameObjectHierarchy( vehicle.GameObject )
 			.WithoutTags( new[] { "trigger", "water" } ).Run();
-		_chasePosition = trace.StartedSolid ? target : trace.EndPosition + (trace.Hit ? trace.Normal * 2f : Vector3.Zero);
+		float available = obstruction.StartedSolid ? 0f : MathF.Max( 0f,
+			(obstruction.EndPosition - target).Length - (obstruction.Hit ? 2f : 0f) );
+		// Obstructions push the camera in immediately; release alone is damped.
+		// There is no second world-position spring that can oscillate behind the car.
+		_chaseDistance = reset || available < _chaseDistance ? available
+			: MathX.Lerp( _chaseDistance, available, CameraBlend( 8f, dt ) );
+		_chaseInitialized = true;
+		_chasePosition = target + boom.Normal * _chaseDistance;
 		view.Position = _chasePosition;
-		view.Rotation = Rotation.LookAt( target - view.Position, Vector3.Up ) * Rotation.From( 0f, 0f, _cameraRoll * ChaseRoll );
+		// The pivot places the boom; it is not an aim target on the chassis.
+		// Keep the screen centre on the player's look direction even near a wall.
+		view.Rotation = Rotation.From( Math.Clamp( orbitInput.pitch + ChaseAimPitch, -89f, 89f ), _chaseYaw, 0f )
+			* Rotation.From( 0f, 0f, _cameraRoll * ChaseRoll );
 	}
+
+	private static float WrapChaseAngle( float angle ) => ((angle + 180f) % 360f + 360f) % 360f - 180f;
 }

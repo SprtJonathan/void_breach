@@ -1,0 +1,55 @@
+{
+  "UI": false,
+  "Volume": "1.5",
+  "Pitch": "0.959999979 1.03999996",
+  "Decibels": 75,
+  "SelectionMode": "Random",
+  "Sounds": [
+    "sounds/weapons/arc_rifle/arc_pulse_2.vsnd"
+  ],
+  "OcclusionEnabled": true,
+  "Occlusion": true,
+  "ReverbEnabled": true,
+  "Reflections": true,
+  "AirAbsorption": true,
+  "Transmission": true,
+  "OcclusionRadius": 64,
+  "DistanceAttenuation": true,
+  "Distance": 46017,
+  "Falloff": [
+    {
+      "x": 0,
+      "y": 1,
+      "in": 0,
+      "out": -1.8,
+      "mode": "Mirrored"
+    },
+    {
+      "x": 0.2,
+      "y": 0.03999996,
+      "in": 0.16,
+      "out": -0.16,
+      "mode": "Mirrored"
+    },
+    {
+      "x": 0.73125,
+      "y": 0.30611116,
+      "in": 3.5,
+      "out": -3.5,
+      "mode": "Mirrored"
+    },
+    {
+      "x": 1,
+      "y": 0,
+      "in": 0,
+      "out": 0,
+      "mode": "Mirrored"
+    }
+  ],
+  "DefaultMixer": {
+    "Name": "game",
+    "Id": "7128f37c-b540-4628-baf2-b45083ea9189"
+  },
+  "__references": [],
+  "__version": 1
+}

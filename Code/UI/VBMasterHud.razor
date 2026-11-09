@@ -36,7 +36,7 @@
 	string spectatedPlayerName = lifeState?.SpectatedPlayerName;
 }
 
-<root class="@RootClass">
+<root class="@RootClass palette">
 	@if ( !isLocalHud )
 	{
 	}
@@ -48,80 +48,87 @@
 	}
 	else
 	{
-		<div class="vitals-block">
-			<div class="stamina-slot @(showStamina ? "visible" : "")">
-				@if ( showStamina )
-				{
-					<div class="readout stamina-readout @staminaState @(isExhausted ? "exhausted" : "")">
-						<div class="readout-header">
-							<label class="readout-icon">»</label>
-							<label class="readout-title">#vb.hud.stamina</label>
-							<label class="readout-value">@Whole( stamina.CurrentStamina )</label>
-						</div>
-						<div class="resource-track">
-							<div class="stamina-fill" style="width: @(staminaPercent)%;"></div>
-						</div>
-						@if ( isExhausted )
-						{
-							<label class="resource-warning">#vb.hud.exhausted</label>
-						}
-					</div>
-				}
-			</div>
-
-			<div class="bottom-row">
-				<div class="readout health-readout @healthState">
-					<div class="readout-header">
-						<label class="readout-icon">+</label>
-						<label class="readout-title">HEALTH</label>
-					</div>
-					<div class="readout-main">
-						<label class="readout-value">@Whole( health.CurrentHealth )</label>
-						<div class="pulse-trace">
-							@if ( isDead )
+		<div class="helmet-layer" @ref="HelmetLayer">
+			<div class="vitals-block">
+				<div class="stamina-slot @(showStamina ? "visible" : "")">
+					@if ( showStamina )
+					{
+						<div class="readout stamina-readout @staminaState @(isExhausted ? "exhausted" : "")">
+							<div class="readout-header">
+								<label class="readout-icon">»</label>
+								<label class="readout-title">#vb.hud.stamina</label>
+								<label class="readout-value">@Whole( stamina.CurrentStamina )</label>
+							</div>
+							<div class="resource-track">
+								<div class="stamina-fill" style="width: @(staminaPercent)%;"></div>
+							</div>
+							@if ( isExhausted )
 							{
-								<div class="ecg-flatline"></div>
-							}
-							else
-							{
-								@* Chaque segment relie DEUX mesures temporelles du signal.
-								   La trace n'est pas une image ni une animation CSS repetee. *@
-								@for ( int i = 0; i < EcgSampleCount - 1; i++ )
-								{
-									<div class="ecg-segment" style="@(EcgSegmentStyle( i ))"></div>
-								}
+								<label class="resource-warning">#vb.hud.exhausted</label>
 							}
 						</div>
-					</div>
-					<div class="health-track">
-						<div class="hard-max" style="width: @(hardPercent)%;"></div>
-						<div class="soft-max" style="width: @(softPercent)%;"></div>
-						<div class="current-health" style="width: @(currentPercent)%;"></div>
-					</div>
+					}
 				</div>
 
-				@if ( showArmor )
-				{
-					<div class="readout armor-readout">
+				<div class="bottom-row">
+					<div class="readout health-readout @healthState">
 						<div class="readout-header">
-							<label class="readout-icon">ϟ</label>
-							<label class="readout-title">#vb.hud.armor</label>
+							<label class="readout-icon">+</label>
+							<label class="readout-title">HEALTH</label>
 						</div>
 						<div class="readout-main">
-							<label class="readout-value">@Whole( armor.CurrentArmor )</label>
-							<div class="armor-ticks">
-								@for ( int i = 0; i < 10; i++ )
+							<label class="readout-value">@Whole( health.CurrentHealth )</label>
+							<div class="pulse-trace">
+								@if ( isDead )
 								{
-									<div class="scan-tick"></div>
+									<div class="ecg-flatline"></div>
+								}
+								else
+								{
+									@* Chaque segment relie DEUX mesures temporelles du signal.
+									   La trace n'est pas une image ni une animation CSS repetee. *@
+									@for ( int i = 0; i < EcgSampleCount - 1; i++ )
+									{
+										<div class="ecg-segment" style="@(EcgSegmentStyle( i ))"></div>
+									}
 								}
 							</div>
 						</div>
-						<div class="resource-track">
-							<div class="armor-fill" style="width: @(armorPercent)%;"></div>
+						<div class="health-track">
+							<div class="hard-max" style="width: @(hardPercent)%;"></div>
+							<div class="soft-max" style="width: @(softPercent)%;"></div>
+							<div class="current-health" style="width: @(currentPercent)%;"></div>
 						</div>
 					</div>
-				}
+
+					@if ( showArmor )
+					{
+						<div class="readout armor-readout">
+							<div class="readout-header">
+								<label class="readout-icon">ϟ</label>
+								<label class="readout-title">#vb.hud.armor</label>
+							</div>
+							<div class="readout-main">
+								<label class="readout-value">@Whole( armor.CurrentArmor )</label>
+								<div class="armor-ticks">
+									@for ( int i = 0; i < 10; i++ )
+									{
+										<div class="scan-tick"></div>
+									}
+								</div>
+							</div>
+							<div class="resource-track">
+								<div class="armor-fill" style="width: @(armorPercent)%;"></div>
+							</div>
+						</div>
+					}
+				</div>
 			</div>
+
+			<VBAmmoHud Player=@(LocalPlayer) IsSuppressed=@(isDowned || isDead) />
+			<VBWeaponSelectorHud Player=@(LocalPlayer) IsSuppressed=@(isDowned || isDead) />
+			<VBTraversalHud Player=@(LocalPlayer) IsSuppressed=@(isDowned || isDead) />
+			<VBVehicleHud Player=@(LocalPlayer) />
 		</div>
 
 		@if ( isDowned )
@@ -170,16 +177,88 @@
 			</div>
 		}
 
-		<VBAmmoHud Player=@(LocalPlayer) IsSuppressed=@(isDowned || isDead) />
-		<VBWeaponSelectorHud Player=@(LocalPlayer) IsSuppressed=@(isDowned || isDead) />
 		<VBInteractionHud Player=@(LocalPlayer) IsSuppressed=@(isDowned || isDead) />
-		<VBTraversalHud Player=@(LocalPlayer) IsSuppressed=@(isDowned || isDead) />
-		<VBVehicleHud Player=@(LocalPlayer) />
+		<VBCrosshairHud Player=@(LocalPlayer) IsSuppressed=@(isDowned || isDead) />
 	}
 </root>
 
 @code
 {
+	[Property, Group( "Appearance" ), Title( "HUD Colors" ), InlineEditor]
+	public VBHudPalette Colors { get; set; } = new();
+	private readonly VBHudPaletteStyles _paletteStyles = new();
+
+	[Property, Group( "Visor Motion" )]
+	public bool EnableHelmetMotion { get; set; } = true;
+
+	[Property, Group( "Visor Motion" ), Range( 0f, 1f )]
+	public float HelmetMotionStrength { get; set; } = 0.65f;
+
+	private Panel HelmetLayer { get; set; }
+	private GameObject _helmetPlayer;
+	private VBVehicleSeat _helmetSeat;
+	private Rotation _helmetLook;
+	private Vector3 _helmetVelocity;
+	private Vector2 _helmetOffset;
+	private float _helmetRoll;
+	private bool _helmetInitialized;
+
+	private void UpdateHelmetMotion()
+	{
+		if ( HelmetLayer is null ) return;
+		var player = LocalPlayer;
+		var controller = player.IsValid() ? player.GetComponent<PlayerController>() : null;
+		var health = Health;
+		if ( !EnableHelmetMotion || !controller.IsValid() || controller.ThirdPerson
+			|| health is null || health.IsDead || health.IsDowned )
+		{
+			_helmetInitialized = false;
+			_helmetOffset = Vector2.Zero;
+			_helmetRoll = 0f;
+			HelmetLayer.Style.Set( "transform", "translate(0px, 0px) rotate(0deg)" );
+			return;
+		}
+
+		var seat = player.GetComponent<VBVehiclePlayerDriver>()?.ActiveSeat;
+		var vehicle = seat?.Vehicle;
+		var velocity = vehicle.IsValid() ? vehicle.LinearVelocity : controller.Velocity;
+		var look = controller.EyeTransform.Rotation;
+		float dt = Math.Clamp( Time.Delta, 0.001f, 0.1f );
+		if ( !_helmetInitialized || _helmetPlayer != player || _helmetSeat != seat || Time.Delta > 0.15f )
+		{
+			_helmetInitialized = true;
+			_helmetPlayer = player;
+			_helmetSeat = seat;
+			_helmetLook = look;
+			_helmetVelocity = velocity;
+			_helmetOffset = Vector2.Zero;
+			_helmetRoll = 0f;
+		}
+
+		_helmetLook = Rotation.Slerp( _helmetLook, look, 1f - MathF.Exp( -12f * dt ) );
+		var lag = Rotation.Difference( look, _helmetLook );
+		var acceleration = look.Inverse * ((velocity - _helmetVelocity) / dt).ClampLength( 600f );
+		_helmetVelocity = velocity;
+		var target = new Vector2( Math.Clamp( lag.Yaw() * 0.2f, -2.5f, 2.5f ),
+			Math.Clamp( -lag.Pitch() * 0.2f, -2f, 2f ) );
+		target += new Vector2( acceleration.y, acceleration.z ) * 0.0015f;
+		var bob = player.GetComponent<VBFirstPersonHeadbob>();
+		if ( !seat.IsValid() && bob.IsValid() )
+		{
+			float amount = bob.MovementStrength * (1f + bob.RunAmount * 0.4f);
+			target += new Vector2( MathF.Sin( bob.MovementPhase ) * 0.85f,
+				MathF.Cos( bob.MovementPhase * 2f ) * 0.55f ) * amount;
+		}
+		var weapon = player.GetComponent<BaseInventoryComponent>()?.ActiveItem as VBCombatWeapon;
+		float strength = Math.Clamp( HelmetMotionStrength, 0f, 1f ) * (1f - (weapon?.AimAmount ?? 0f) * 0.7f);
+		target *= strength;
+		float blend = 1f - MathF.Exp( -10f * dt );
+		_helmetOffset += (target - _helmetOffset) * blend;
+		_helmetRoll += (Math.Clamp( -target.x * 0.055f, -0.18f, 0.18f ) - _helmetRoll) * blend;
+		// Only the visor layer moves. World markers, aim and death controls keep their coordinates.
+		HelmetLayer.Style.Set( "transform", $"translate({CssNumber( _helmetOffset.x )}px, {CssNumber( _helmetOffset.y )}px) rotate({CssNumber( _helmetRoll )}deg)" );
+	}
+
 	[Property]
 	public GameObject Player { get; set; }
 
@@ -259,8 +338,10 @@
 	protected override void OnUpdate()
 	{
 		base.OnUpdate();
+		UpdateHelmetMotion();
 		if ( !IsLocalHud )
 			return;
+		_paletteStyles.Apply( Panel, Colors, Id );
 
 		var health = Health;
 		if ( health is null || health.IsDead )
