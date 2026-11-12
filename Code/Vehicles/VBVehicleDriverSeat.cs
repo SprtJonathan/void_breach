@@ -8,6 +8,10 @@ public sealed class VBVehicleDriverSeat : VBVehicleSeat, IVBVehicleControlSource
 	[Property, Group( "Camera" )] public bool StartInThirdPerson { get; set; }
 	[Property, Group( "Camera" ), Range( 0f, 800f ), Description( "Chase camera setback in inches. Zero uses the player's camera offset." )]
 	public float ChaseDistanceOverride { get; set; }
+	[Property] public VBVehicleCabin Cabin { get; set; }
+
+	public override bool CanEnter( PlayerController player ) =>
+		base.CanEnter( player ) && (!Cabin.IsValid() || Cabin.CanReachSeat( player ));
 
 	public PlayerController Driver => Occupant;
 	private PlayerController _commandDriver;

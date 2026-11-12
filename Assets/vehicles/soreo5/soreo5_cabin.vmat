@@ -1,0 +1,7 @@
+Layer0
+{
+	shader "shaders/complex.shader"
+	TextureColor "vehicles/soreo5/soreo5_cabin_color.png"
+	TextureRoughness "vehicles/soreo5/soreo5_cabin_rough.png"
+	TextureMetalness "vehicles/soreo5/soreo5_cabin_metal.png"
+}

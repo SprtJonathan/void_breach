@@ -1,0 +1,7 @@
+Layer0
+{
+	shader "shaders/complex.shader"
+	TextureColor "vehicles/soreo5/generated_materials/soreo5_mat_0c22657d9368.png"
+	g_flRoughnessScaleFactor "0.3199999928474426"
+	g_flMetalness "0.800000011920929"
+}

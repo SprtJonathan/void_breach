@@ -9,9 +9,10 @@ public abstract partial class VBVehicleSeat
 	{
 		// Prefer authored doors and ground when available. Deep water and airborne
 		// vehicles need only clearance, never a ground hit or a speed threshold.
+		bool cabinExit = this is VBVehicleDriverSeat driver && driver.Cabin.IsValid();
 		if ( ExitPoints is not null )
 			foreach ( var exit in ExitPoints )
-				if ( exit.IsValid() && TryExitCandidate( player, exit.WorldPosition, out var position ) ) return position;
+				if ( exit.IsValid() && TryExitCandidate( player, exit.WorldPosition, out var position, cabinExit ) ) return position;
 
 		var hull = Vehicle.Body.IsValid() ? Vehicle.Body.GetWorldBounds() : new BBox( WorldPosition - 64, WorldPosition + 64 );
 		var margin = MathF.Max( player.BodyRadius, 1f ) + 8f;
@@ -34,29 +35,39 @@ public abstract partial class VBVehicleSeat
 		return center.WithZ( hull.Maxs.z + 8f );
 	}
 
-	private bool TryExitCandidate( PlayerController player, Vector3 candidate, out Vector3 result )
+	private bool TryExitCandidate( PlayerController player, Vector3 candidate, out Vector3 result, bool cabinExit = false )
 	{
 		result = candidate;
-		var ground = Scene.Trace.Ray( candidate + Vector3.Up * 32f, candidate + Vector3.Down * 96f )
-			.IgnoreGameObjectHierarchy( Vehicle.GameObject ).IgnoreGameObjectHierarchy( player.GameObject )
-			.WithoutTags( ExitIgnoredTags ).Run();
+		var groundTrace = Scene.Trace.Ray( candidate + Vector3.Up * 32f, candidate + Vector3.Down * 96f )
+			.IgnoreGameObjectHierarchy( player.GameObject ).WithoutTags( ExitIgnoredTags );
+		if ( !cabinExit ) groundTrace = groundTrace.IgnoreGameObjectHierarchy( Vehicle.GameObject );
+		var ground = groundTrace.Run();
 		if ( ground.Hit && !ground.StartedSolid && ground.Normal.z >= 0.65f )
 		{
 			var grounded = ground.EndPosition + Vector3.Up * 2f;
-			if ( HasExitClearance( player, grounded ) ) { result = grounded; return true; }
+			if ( HasExitClearance( player, grounded, cabinExit ) ) { result = grounded; return true; }
 		}
-		return HasExitClearance( player, candidate );
+		return HasExitClearance( player, candidate, cabinExit );
 	}
 
-	private bool HasExitClearance( PlayerController player, Vector3 position )
+	private bool HasExitClearance( PlayerController player, Vector3 position, bool cabinExit = false )
 	{
 		var radius = MathF.Max( player.BodyRadius, 1f );
 		var height = MathF.Max( player.BodyHeight, radius * 2f );
-		var bounds = new BBox( new Vector3( -radius, -radius, 0 ), new Vector3( radius, radius, height ) );
-		// The destination must also be outside the chassis, even for a rolled car.
-		var clearance = Scene.Trace.Box( bounds, position, position ).IgnoreGameObjectHierarchy( player.GameObject )
-			.WithoutTags( ExitIgnoredTags ).Run();
-		if ( clearance.Hit || clearance.StartedSolid ) return false;
+		if ( cabinExit )
+		{
+			// Match the native capsule and lower box. A full-width world-aligned
+			// box rejects a narrow aisle when the bus is parked diagonally.
+			var geometry = new VBTraversalGeometry( player.GameObject, radius, height );
+			if ( !geometry.PathClear( position, position ) ) return false;
+		}
+		else
+		{
+			var bounds = new BBox( new Vector3( -radius, -radius, 0 ), new Vector3( radius, radius, height ) );
+			var clearance = Scene.Trace.Box( bounds, position, position ).IgnoreGameObjectHierarchy( player.GameObject )
+				.WithoutTags( ExitIgnoredTags ).Run();
+			if ( clearance.Hit || clearance.StartedSolid ) return false;
+		}
 		var offset = Vector3.Up * (height * 0.5f);
 		var route = Scene.Trace.Sphere( radius, player.WorldPosition + offset, position + offset )
 			.IgnoreGameObjectHierarchy( Vehicle.GameObject ).IgnoreGameObjectHierarchy( player.GameObject )

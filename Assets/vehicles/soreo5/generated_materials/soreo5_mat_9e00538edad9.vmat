@@ -1,0 +1,11 @@
+Layer0
+{
+	shader "shaders/glass.shader"
+	TextureColor "vehicles/soreo5/generated_materials/soreo5_mat_9e00538edad9.png"
+	F_GLASS_QUALITY "1"
+	F_RENDER_BACKFACES "1"
+	g_flBlurAmount "0"
+	TextureTranslucency "vehicles/soreo5/generated_materials/soreo5_mat_9e00538edad9_trans.png"
+	g_flRoughnessScaleFactor "0.07999999821186066"
+	g_flMetalness "0.0"
+}

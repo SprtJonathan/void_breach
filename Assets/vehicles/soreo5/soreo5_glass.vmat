@@ -1,0 +1,9 @@
+Layer0
+{
+	shader "shaders/glass.shader"
+	F_GLASS_QUALITY "1"
+	F_RENDER_BACKFACES "1"
+	TextureColor "vehicles/soreo5/soreo5_cabin_color.png"
+	TextureTranslucency "vehicles/soreo5/soreo5_cabin_trans.png"
+	TextureRoughness "vehicles/soreo5/soreo5_cabin_rough.png"
+}

@@ -104,6 +104,8 @@ public sealed partial class VBVehiclePlayerDriver : Component, PlayerController.
 		var hit = Scene.Trace.Body( _player.Body.PhysicsBody, _player.WorldPosition + velocity * Scene.FixedDelta + velocity.Normal * 4f )
 			.WithTag( "vehicle" ).IgnoreGameObjectHierarchy( _player.GameObject ).Run();
 		if ( !hit.Hit || hit.Normal.z > 0.65f || !hit.GameObject.IsValid() ) return;
+		// Preserve the approach velocity the native movement mode needs to climb a sill.
+		if ( hit.Collider.IsValid() && hit.Collider.GameObject.Tags.Has( "vehicle_step" ) ) return;
 		var car = hit.GameObject.GetComponentInParent<VBVehicleController>( includeSelf: true );
 		if ( !car.IsValid() || !car.IsConfigured || car.GroundedWheels < 2 || car.Body.Mass < _player.BodyMass * 4f
 			|| car.Body.Velocity.Length > VBVehicleController.KmhToUnits( 8f ) ) return;
@@ -149,6 +151,11 @@ public sealed partial class VBVehiclePlayerDriver : Component, PlayerController.
 		{
 			seat.RequestSeatChange( _player, AlternateSeat );
 			return;
+		}
+		if ( UsePlayerInput && seat is VBVehicleDriverSeat driver && driver.Cabin.IsValid() )
+		{
+			if ( Input.Pressed( "attack1" ) ) driver.Cabin.RequestDriverDoor( _player, SeatingRevision, middle: false );
+			if ( Input.Pressed( "attack2" ) ) driver.Cabin.RequestDriverDoor( _player, SeatingRevision, middle: true );
 		}
 		if ( IsDriving && _player.ThirdPerson && _player.UseCameraControls && Scene.Camera.IsValid() ) return;
 		TransmitPlayerInput( turret );
